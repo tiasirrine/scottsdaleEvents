@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 module.exports = {
   // create new user
-  create: function(req, res) {
+  create: function(newUser) {
     // before attempting to create the user, call hashPassword to hash the password.
     // if the password hashed was a success,
     // then attempt to create the user
@@ -11,14 +11,15 @@ module.exports = {
     // mongoose requires each username to be unique
     // if the username is not unique, the user will not create, and throw err
     // if password hashed successfully,
-    // then create a new user
-    this.hashPassword(req.body)
-      .then(newUser => {
-        User.create(newUser)
-          .then(result => console.log(result))
-          .catch(err => console.log(err));
-      })
-      .catch(err => console.log(err));
+    // then create a new user.
+    // req.body = {
+    //   user: 'trevor',
+    //   password: 'johnson'
+    // }
+    console.log('BODY:', newUser);
+    User.create(newUser)
+      .then(result => 'User Saved')
+      .catch(err => console.log('ERR:', err));
   },
 
   // find user at login
@@ -42,11 +43,18 @@ module.exports = {
   },
 
   // hashes a user password after successful creation
-  hashPassword: function(potentialUser) {
+  hashPassword: function(newUser) {
+    const that = this;
     // Store hash as the password, as opposed to the plain text password.
     // if password hash was a success,
     // then return user with updated encrypted password
     // else, return err
+    bcrypt.genSalt(10, function(err, salt) {
+      bcrypt.hash(newUser.password, salt, function(err, hash) {
+        newUser.password = hash;
+        that.create(newUser);
+      });
+    });
   },
 
   checkPassword: function(potentialPassword, hashedPassword) {
