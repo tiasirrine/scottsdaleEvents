@@ -10,4 +10,8 @@ export default {
   // delete one product
   // create new event
   // stripe payment api function
+
+  getMoney: function() {
+    return axios.post('/charge');
+  }
 };

@@ -1,17 +1,12 @@
 import React, { Fragment } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-// import Banner from './components/Banner';
-// import Nav from './components/Nav';
-// import Footer from './components/Footer';
+// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { StripeProvider } from 'react-stripe-elements';
+import Checkout from './components/Checkout';
 
 const App = () => (
-  <Router>
-    <Fragment>
-      {/*render global components like navbar*/}
-      <Switch>{/* use react router to render components */}</Switch>
-      {/*render global components like footer*/}
-    </Fragment>
-  </Router>
+  <StripeProvider apiKey="pk_test_63B6U6fyy3YHlyn9mo2XR2lA">
+    <Checkout />
+  </StripeProvider>
 );
 
 export default App;

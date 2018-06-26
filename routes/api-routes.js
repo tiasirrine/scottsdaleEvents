@@ -1,8 +1,11 @@
-// const controllers = require('../controllers');
-// const passport = require('passport');
-// const LocalStrategy = require('passport-local').Strategy;
-// const upload = require('../util/multer');
-// const router = require('express').Router();
+const controllers = require('../controllers');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const upload = require('../util/multer');
+const router = require('express').Router();
+
+const users = controllers.userController;
+const product = controllers.productController;
 
 // post route to create a user
 // delete route to delete a user
@@ -25,4 +28,27 @@
 
 // post route to stripe api for transactions
 
-// module.exports = router;
+// user selects item to add to cart
+// selected item gets added to state
+// when user goes to /checkout, load product info
+
+router.route('/charge').post((req, res) => {
+  const amount = req.body.amount;
+
+  stripe.customers
+    .create({
+      email: req.body.stripeEmail,
+      source: req.body.stripeToken
+    })
+    .then(customer => {
+      stripe.charges.create({
+        amount,
+        description: req.body.description,
+        customer: customer.id
+      });
+    })
+    .then(charge => res.send('success'))
+    .catch(err => res.send(err));
+});
+
+module.exports = router;
