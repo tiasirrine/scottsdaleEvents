@@ -4,21 +4,8 @@ const bcrypt = require('bcryptjs');
 module.exports = {
   // create new user
   create: function(newUser) {
-    // before attempting to create the user, call hashPassword to hash the password.
-    // if the password hashed was a success,
-    // then attempt to create the user
-    // if hashed pass failed, throw err
-    // mongoose requires each username to be unique
-    // if the username is not unique, the user will not create, and throw err
-    // if password hashed successfully,
-    // then create a new user.
-    // req.body = {
-    //   user: 'trevor',
-    //   password: 'johnson'
-    // }
-    console.log('BODY:', newUser);
-    User.create(newUser)
-      .then(result => 'User Saved')
+    return User.create(newUser)
+      .then(result => result)
       .catch(err => console.log('ERR:', err));
   },
 
@@ -45,12 +32,10 @@ module.exports = {
   // hashes a user password after successful creation
   hashPassword: function(newUser) {
     const that = this;
-    // Store hash as the password, as opposed to the plain text password.
-    // if password hash was a success,
-    // then return user with updated encrypted password
-    // else, return err
     bcrypt.genSalt(10, function(err, salt) {
+      if (err) throw err;
       bcrypt.hash(newUser.password, salt, function(err, hash) {
+        if (err) throw err;
         newUser.password = hash;
         that.create(newUser);
       });

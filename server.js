@@ -1,8 +1,6 @@
 const bodyParser = require('body-parser');
-const cors = require('cors');
 // const cookieParser = require('cookie-parser');
 const express = require('express');
-// const expressValidator = require('express-validator');
 // const flash = require('connect-flash');
 const mongoose = require('mongoose');
 // const passport = require('passport');
@@ -16,17 +14,11 @@ const PORT = process.env.PORT || 3001;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-const corsOptions = {
-  origin: 'http://localhost:3001',
-  optionsSuccessStatus: 200
-};
-
-app.use(cors(corsOptions));
-
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 }
+
 // Add routes, both API and view
 app.use(routes);
 

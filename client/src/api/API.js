@@ -11,7 +11,7 @@ export default {
   // create new event
   // stripe payment api function
 
-  getMoney: function() {
-    return axios.post('/charge');
+  getMoney: function(contactInfo) {
+    return axios.post('/charge', contactInfo);
   }
 };
