@@ -1,9 +1,10 @@
+require('dotenv').config();
 const controllers = require('../controllers');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const upload = require('../util/multer');
 const router = require('express').Router();
-const stripe = require('stripe')('sk_test_d0ryGUOtIMSB6jBYIUmWjybE');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const users = controllers.userController;
 const products = controllers.productController;
@@ -34,7 +35,8 @@ const products = controllers.productController;
 // when user goes to /checkout, load product info
 
 router.route('/charge').post((req, res) => {
-  const newCharge = ({ customer } = req.body);
+  console.log(req.body);
+  const newCharge = ({ body } = req.body);
   stripe.customers
     .create({ email: newCharge.email, source: newCharge.token })
     .then(customer => {
@@ -45,8 +47,8 @@ router.route('/charge').post((req, res) => {
         customer: customer.id
       });
     })
-    .then(charge => console.log('SUCCESS:', charge))
-    .catch(err => console.log('ERR:', err));
+    .then(() => console.log('PAYMENT SUCCESS'))
+    .catch(err => console.log(err));
 });
 
 module.exports = router;
