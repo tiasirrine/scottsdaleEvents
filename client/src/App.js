@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 // import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { StripeProvider } from 'react-stripe-elements';
 import Checkout from './components/Checkout';
