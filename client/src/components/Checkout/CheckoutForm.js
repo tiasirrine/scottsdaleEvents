@@ -7,7 +7,7 @@ import API from '../../api/API';
 class CheckoutForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { total: '$25.00', errors: null };
+    this.state = { total: '$25.00', errors: {}, loading: false };
   }
 
   // gets user input for each key pressed to an input field
@@ -16,13 +16,24 @@ class CheckoutForm extends React.Component {
     this.setState({ [name]: value.trim() });
   };
 
-  handleSubmit = (event, customer) => {
+  // used to check if a card has been filled out or not
+  onCardChange = element => {
+    console.log(element.complete);
+    // sets the state as true or false based on if the card is filled out
+    // if the card is not filled out, then the form wont submit,
+    // and a message displays to the user
+    this.setState({ incompleteCard: element.complete });
+  };
+
+  // form submission
+  handleSubmit = event => {
     event.preventDefault();
-    console.log('SUBMIT:', customer);
+    const customer = this.state;
     const errors = {};
     const phoneCheck = /^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})$/;
     const emailCheck = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i;
 
+    // form validation and custom messages based on error
     if (!this.state.firstName) {
       errors.firstName = 'Please provide your first name.';
     }
@@ -41,25 +52,49 @@ class CheckoutForm extends React.Component {
     if (!phoneCheck.test(this.state.phone)) {
       errors.phone = 'Please provide a valid US phone number.';
     }
+    // this.onCardChange checks if a card is completed or not, and updates state
+    if (!this.state.incompleteCard) {
+      errors.card = 'Your card number is incomplete.';
+    }
 
-    // Within the context of `Elements`, this call to createToken knows which Element to
-    // tokenize, since there's only one in this group.
-
+    // only attempts to charge the card if the form is properly filled out
+    // does this by checking if any errors are on the error object
     if (!Object.values(errors).length) {
+      // if the form submits, then an attempt to charge the card occurs
+      // the attempt to charge the card takes an unknown amount of time to complete
+      // if set to true, the dom renders a loading circle while waiting for the result
+      this.setState({ loading: true });
+
+      // Within the context of `Elements`, this call to createToken knows which Element to
+      // tokenize, since there's only one in this group.
+      // the token is used to complete the payment. generated based on the public stripe key
+      // authenticated against the private stripe key on the server
       this.props.stripe
         .createToken({ name: `${customer.firstName} ${customer.lastName}` })
         .then(({ token }) => {
-          console.log('Received Stripe token:', token);
+          // console.log('Received Stripe token:', token);
           if (token) {
-            this.setState({ errors: null });
             customer.token = token.id;
-            API.getMoney(customer);
+            // sends the token to the server to make a payment
+            // handle success and errors when making payments
+            API.getMoney(customer)
+              .then(success =>
+                this.setState({
+                  success: success.data,
+                  loading: false,
+                  errors: {}
+                })
+              )
+              .catch(paymentErr =>
+                this.setState({ paymentErr: paymentErr.data })
+              );
           } else {
-            errors.card = 'Your card number is incomplete.';
-            this.setState({ errors });
+            this.setState({ paymentErr: 'An error occured.' });
           }
-        });
+        })
+        .catch(err => console.log(err));
     }
+    // updates state with any validation errors that may have occured when submitting the form
     this.setState({ errors });
   };
 
@@ -71,7 +106,7 @@ class CheckoutForm extends React.Component {
         className="Checkout"
         autoComplete="off"
         onChange={this.onChange}
-        onSubmit={event => this.handleSubmit(event, state)}
+        onSubmit={this.handleSubmit}
       >
         <fieldset>
           <CustomerInfo name="firstName" type="text" label="First Name" />
@@ -85,7 +120,7 @@ class CheckoutForm extends React.Component {
           />
         </fieldset>
         <fieldset>
-          <CardSection />
+          <CardSection onChange={this.onCardChange} />
         </fieldset>
         <button className="payment-btn">Pay {this.state.total} </button>
         {state.errors
@@ -95,6 +130,12 @@ class CheckoutForm extends React.Component {
               </p>
             ))
           : null}
+        {state.success ? (
+          <p className="text-success text-center my-1">{state.success}</p>
+        ) : null || state.paymentErr ? (
+          <p className="text-danger text-center my-1">{state.paymentErr}</p>
+        ) : null}
+        {state.loading ? <div className="loader" /> : null}
       </form>
     );
   }

@@ -1,9 +1,18 @@
 import React from 'react';
 import { CardElement } from 'react-stripe-elements';
 
-const CardSection = () => (
+const CardSection = props => (
   <div className="input-wrapper">
-    <CardElement />
+    <CardElement
+      onChange={props.onChange}
+      style={{
+        base: {
+          fontWeight: 500,
+          fontSize: '16px',
+          fontSmoothing: 'antialiased'
+        }
+      }}
+    />
   </div>
 );
 

@@ -28,15 +28,14 @@ const products = controllers.productController;
 // post route to create report about a new event
 // post route for sending new event report to owner
 
-// post route to stripe api for transactions
-
 // user selects item to add to cart
 // selected item gets added to state
 // when user goes to /checkout, load product info
 
+// receives the stripe token, and other form input
 router.route('/charge').post((req, res) => {
-  console.log(req.body);
   const newCharge = ({ body } = req.body);
+  // creates a new customer to send to stripe
   stripe.customers
     .create({ email: newCharge.email, source: newCharge.token })
     .then(customer => {
@@ -47,8 +46,11 @@ router.route('/charge').post((req, res) => {
         customer: customer.id
       });
     })
-    .then(() => console.log('PAYMENT SUCCESS'))
-    .catch(err => console.log(err));
+    .then(() => res.send('PAYMENT SUCCESS'))
+    .catch(err => {
+      console.log('ERR: api-routes.js', err);
+      res.send(err.message);
+    });
 });
 
 module.exports = router;
