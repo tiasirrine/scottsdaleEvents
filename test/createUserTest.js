@@ -1,4 +1,4 @@
-// const expect = require('chai').expect;
+const expect = require('chai').expect;
 const assert = require('assert');
 const User = require('../models/User');
 const users = require('../controllers/userController');
@@ -14,47 +14,34 @@ describe('Creating users', () => {
 
   it('Should fail with no username', done => {
     const noName = { username: '', password: 'Johnson' };
-    User.create(noName).catch(result => {
-      const msg = result.errors.username.message;
-      assert.equal(msg, 'Username is required');
+    users.createNewUser(noName).catch(result => {
+      const msg = result.username.message;
+      assert.equal(result.username.message, 'Username is required');
       done();
     });
   });
 
   it('Should fail with no password', done => {
     const noPass = { username: 'Trevor', password: '' };
-    User.create(noPass).catch(result => {
-      const msg = result.errors.password.message;
-      assert.equal(msg, 'Password is required');
-      done();
-    });
-  });
-
-  it('Should fail with no username and no password', done => {
-    const empty = { username: '', password: '' };
-    User.create(empty).catch(result => {
-      const noUser = result.errors.username.message;
-      const noPass = result.errors.password.message;
-      assert.equal(noUser, 'Username is required');
-      assert.equal(noPass, 'Password is required');
+    users.createNewUser(noPass).catch(err => {
+      assert.equal(err, 'Password is required');
       done();
     });
   });
 
   it('Should fail with too few characters for username', done => {
-    const tia = { username: 'Tia', password: 'Sirrine' };
-    User.create(tia).catch(result => {
-      const msg = result.errors.username.message;
-      assert.equal(msg, 'Username must be longer than 4 characters');
+    const bad = { username: 'a', password: 'abcd' };
+    users.createNewUser(bad).catch(result => {
+      const msg = result.username.message;
+      assert.equal(msg, 'Username must be longer than 2 characters');
       done();
     });
   });
 
   it('Should fail with too few characters for password', done => {
-    const tia = { username: 'Sirrine', password: 'Tia' };
-    User.create(tia).catch(result => {
-      const msg = result.errors.password.message;
-      assert.equal(msg, 'Password must be longer than 4 characters');
+    const bad = { username: 'abcd', password: 'a' };
+    users.createNewUser(bad).catch(result => {
+      assert(result, 'Password must be longer than 4 characters');
       done();
     });
   });

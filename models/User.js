@@ -7,8 +7,8 @@ const UserSchema = new Schema({
     trim: true,
     required: [true, 'Username is required'],
     validate: {
-      validator: username => username.length > 4,
-      message: 'Username must be longer than 4 characters'
+      validator: username => username.length > 2,
+      message: 'Username must be longer than 2 characters'
     },
     unique: [true, 'Username taken']
   },
