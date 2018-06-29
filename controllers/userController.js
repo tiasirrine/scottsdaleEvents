@@ -7,8 +7,9 @@ module.exports = {
   save: function(newUser) {
     return User.create(newUser)
       .then(() => 'User created')
-      .catch(() => {
-        throw 'User failed to create';
+      .catch(err => {
+        // console.log('ERROR', err);
+        throw err.errors;
       });
   },
 
@@ -25,16 +26,15 @@ module.exports = {
   },
 
   // delete user
-  delete: function(req, res) {
-    User.deleteOne({ username: req.body.username })
+  delete: function(username) {
+    User.deleteOne({ username })
       .then(result => console.log(result))
       .catch(err => console.log(err));
   },
 
   // hashes a user password after successful creation
   hashPassword: function(newUser) {
-    const that = this;
-
+    // const that = this;
     // bcrypt.genSalt(10, function(err, salt) {
     //   if (err) throw err;
     //   bcrypt.hash(newUser.password, salt, function(err, hash) {
@@ -58,6 +58,9 @@ module.exports = {
   // generate salt for hashing password
   genSalt: function(password) {
     return new Promise((resolve, reject) => {
+      if (!password) reject('Password is required');
+      if (password.length < 4)
+        reject('Password must be longer than 4 characters');
       bcrypt.genSalt(10, function(err, salt) {
         if (err) reject(err);
         else resolve({ salt, password });
@@ -67,14 +70,16 @@ module.exports = {
 
   createNewUser: function(user) {
     return new Promise((resolve, reject) => {
-      this.genSalt(user.password).then(result =>
-        this.genHash(result.salt, result.password).then(hashRes => {
-          user.password = hashRes.hash;
-          this.save(user)
-            .then(res => resolve(res))
-            .catch(err => reject(err));
-        })
-      );
+      this.genSalt(user.password)
+        .then(result =>
+          this.genHash(result.salt, result.password).then(hashRes => {
+            user.password = hashRes.hash;
+            this.save(user)
+              .then(res => resolve(res))
+              .catch(err => reject(err));
+          })
+        )
+        .catch(error => reject(error));
     });
   },
 
