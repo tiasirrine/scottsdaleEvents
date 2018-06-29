@@ -58,4 +58,13 @@ describe('Creating users', () => {
       done();
     });
   });
+
+  it('Should pass with a matching password', done => {
+    const josh = { username: 'Joshua', password: 'Hinton' };
+    //create a new user
+    //make a search to db for user (josh)
+    users.createNewUser(josh).then(() => {
+      users.findOne(josh.username, 'Hinton');
+    });
+  });
 });
