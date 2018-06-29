@@ -33,7 +33,7 @@ const products = controllers.productController;
 // when user goes to /checkout, load product info
 
 // receives the stripe token, and other form input
-router.route('/charge').post((req, res) => {
+router.post('/charge', (req, res) => {
   const newCharge = ({ body } = req.body);
   // creates a new customer to send to stripe
   stripe.customers
@@ -51,6 +51,50 @@ router.route('/charge').post((req, res) => {
       console.log('ERR: api-routes.js', err);
       res.send(err.message);
     });
+});
+
+router.post('/createInvoice', (req, res) => {
+  const body = req.body;
+  stripe.customers
+    .create({
+      account_balance: body.amount,
+      email: body.email,
+      description: body.description,
+      metadata: {
+        first_name: body.first_name,
+        last_name: body.last_name,
+        phone: body.phone,
+        event_location: body.event_location,
+        event_guests: body.event_guests
+      }
+    })
+    .then(customer => {
+      stripe.invoiceItems.create({
+        amount: customer.account_balance,
+        currency: customer.currency
+      });
+    });
+
+  res.json(req.body);
+  // .then(customer => {
+  //   stripe.invoiceItems
+  //     .create({
+  //       amount: customer.account_balance,
+  //       currency: 'usd',
+  //       customer: customer.id,
+  //       description: body.description
+  //     })
+  //     .then(() => {
+  //       stripe.invoices
+  //         .create({
+  //           customer: customer.id,
+  //           billing: 'send_invoice',
+  //           days_until_due: 30
+  //         })
+  //         .then(invoice => console.log(invoice));
+  //     });
+
+  // });
 });
 
 module.exports = router;

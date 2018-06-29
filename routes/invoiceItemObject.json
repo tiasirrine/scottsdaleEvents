@@ -1,0 +1,22 @@
+{
+  "id": "ii_1Ci4ScAKBhyXPaDOMggaJ5JN",
+  "object": "invoiceitem",
+  "amount": 0,
+  "currency": "usd",
+  "customer": "cus_D874Simd1KHJeC",
+  "date": 1530208994,
+  "description": "test invoice",
+  "discountable": true,
+  "invoice": "in_1Ci4ScAKBhyXPaDOlhGCgngG",
+  "livemode": false,
+  "metadata": {},
+  "period": {
+    "start": 1530208994,
+    "end": 1530208994
+  },
+  "plan": null,
+  "proration": false,
+  "quantity": 1,
+  "subscription": null,
+  "unit_amount": 2000
+}
