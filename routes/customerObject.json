@@ -1,0 +1,56 @@
+{
+  "id": "cus_D874Simd1KHJeC",
+  "object": "customer",
+  "account_balance": 0,
+  "created": 1530156631,
+  "currency": "usd",
+  "default_source": "card_1Chqq2AKBhyXPaDOVNzXaILY",
+  "delinquent": false,
+  "description": null,
+  "discount": null,
+  "email": "johnsontrevor55@gmail.com",
+  "invoice_prefix": "8389466",
+  "livemode": false,
+  "metadata": {},
+  "shipping": null,
+  "sources": {
+    "object": "list",
+    "data": [
+      {
+        "id": "card_1Chqq2AKBhyXPaDOVNzXaILY",
+        "object": "card",
+        "address_city": null,
+        "address_country": null,
+        "address_line1": null,
+        "address_line1_check": null,
+        "address_line2": null,
+        "address_state": null,
+        "address_zip": "55555",
+        "address_zip_check": "pass",
+        "brand": "Visa",
+        "country": "US",
+        "customer": "cus_D874Simd1KHJeC",
+        "cvc_check": "pass",
+        "dynamic_last4": null,
+        "exp_month": 5,
+        "exp_year": 2055,
+        "fingerprint": "DCSjZv3HkOG5RbNd",
+        "funding": "credit",
+        "last4": "4242",
+        "metadata": {},
+        "name": "Trevor Johnson",
+        "tokenization_method": null
+      }
+    ],
+    "has_more": false,
+    "total_count": 1,
+    "url": "/v1/customers/cus_D874Simd1KHJeC/sources"
+  },
+  "subscriptions": {
+    "object": "list",
+    "data": [],
+    "has_more": false,
+    "total_count": 0,
+    "url": "/v1/customers/cus_D874Simd1KHJeC/subscriptions"
+  }
+}
