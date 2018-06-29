@@ -1,6 +1,6 @@
 import React from "react";
 import "./Home.css";
 
-const Home = props => <div />;
+const Home = props => <div>This is the homepage component</div>;
 
-export default home;
+export default Home;
