@@ -8,21 +8,37 @@ module.exports = {
     return User.create(newUser)
       .then(() => 'User created')
       .catch(err => {
-        // console.log('ERROR', err);
-        throw err.errors;
+        // console.log('CREATE-USER-FAIL:', err.message);
+        throw new Error(err.message);
       });
   },
 
   // find user at login
-  findOne: function(user, password) {
-    User.findOne({ username: user })
-      .then(returnedUser => {
-        console.log(returnedUser);
-        this.checkPassword('Hinton', returnedUser.password)
-          .then(res => console.log('RESULT:', res))
-          .catch(err => console.log('ERROR:', err));
-      })
-      .catch(err => console.log(err));
+  findOne: function(user) {
+    return new Promise((resolve, reject) => {
+      User.findOne({ username: user.username })
+        .then(returnedUser => {
+          if (!returnedUser) reject('No user found');
+          this.checkPassword(user.password, returnedUser.password)
+            .then(res => {
+              resolve(res);
+            })
+            .catch(err => reject(err));
+        })
+        .catch(err => reject(err));
+    });
+  },
+
+  findOneTest: function(user) {
+    return new Promise((resolve, reject) => {
+      User.findOne({ username: user })
+        .then(returnedUser => {
+          this.checkPassword('Hinton', returnedUser.password)
+            .then(res => resolve(res))
+            .catch(err => reject(err));
+        })
+        .catch(err => console.log(err));
+    });
   },
 
   // delete user
@@ -30,19 +46,6 @@ module.exports = {
     User.deleteOne({ username })
       .then(result => console.log(result))
       .catch(err => console.log(err));
-  },
-
-  // hashes a user password after successful creation
-  hashPassword: function(newUser) {
-    // const that = this;
-    // bcrypt.genSalt(10, function(err, salt) {
-    //   if (err) throw err;
-    //   bcrypt.hash(newUser.password, salt, function(err, hash) {
-    //     if (err) throw err;
-    //     newUser.password = hash;
-    //     that.create(newUser);
-    //   });
-    // });
   },
 
   // generate hash based on salt
@@ -71,14 +74,14 @@ module.exports = {
   createNewUser: function(user) {
     return new Promise((resolve, reject) => {
       this.genSalt(user.password)
-        .then(result =>
+        .then(result => {
           this.genHash(result.salt, result.password).then(hashRes => {
             user.password = hashRes.hash;
             this.save(user)
               .then(res => resolve(res))
               .catch(err => reject(err));
-          })
-        )
+          });
+        })
         .catch(error => reject(error));
     });
   },
@@ -87,11 +90,10 @@ module.exports = {
     return new Promise((resolve, reject) => {
       bcrypt.compare(potentialPassword, hashedPassword, function(err, res) {
         if (err) throw err;
-        console.log(res);
         if (res === true) {
           resolve(res);
         } else {
-          reject('passwords do not match');
+          reject('Passwords do not match');
         }
       });
     });

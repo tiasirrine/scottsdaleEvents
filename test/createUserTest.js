@@ -15,8 +15,11 @@ describe('Creating users', () => {
   it('Should fail with no username', done => {
     const noName = { username: '', password: 'Johnson' };
     users.createNewUser(noName).catch(result => {
-      const msg = result.username.message;
-      assert.equal(result.username.message, 'Username is required');
+      // const msg = result.username.message;
+      assert.equal(
+        result,
+        'Error: User validation failed: username: Username is required'
+      );
       done();
     });
   });
@@ -32,8 +35,11 @@ describe('Creating users', () => {
   it('Should fail with too few characters for username', done => {
     const bad = { username: 'a', password: 'abcd' };
     users.createNewUser(bad).catch(result => {
-      const msg = result.username.message;
-      assert.equal(msg, 'Username must be longer than 2 characters');
+      // const msg = result.username.message;
+      assert.equal(
+        result,
+        'Error: User validation failed: username: Username must be longer than 2 characters'
+      );
       done();
     });
   });
@@ -51,7 +57,22 @@ describe('Creating users', () => {
     //create a new user
     //make a search to db for user (josh)
     users.createNewUser(josh).then(() => {
-      users.findOne(josh.username, 'Hinton');
+      users.findOneTest(josh.username).then(result => {
+        assert(result === true);
+        done();
+      });
     });
   });
+
+  it('Should fail if no user is found', done => {
+    const trev = { username: 'Trevor', password: 'Johnson' };
+    users.findOne(trev).catch(err => {
+      assert.equal(err, 'No user found');
+      done();
+    });
+  });
+
+  // it('Should fail if the passwords do not match', done => {
+  //   //
+  // });
 });

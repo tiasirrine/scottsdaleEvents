@@ -4,12 +4,12 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const upload = require('../util/multer');
 const router = require('express').Router();
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const API = require('../util');
 
 const users = controllers.userController;
 const products = controllers.productController;
 
-// post route to create a user
 // delete route to delete a user
 
 // get route to login/authenticate a user
@@ -28,73 +28,26 @@ const products = controllers.productController;
 // post route to create report about a new event
 // post route for sending new event report to owner
 
-// user selects item to add to cart
-// selected item gets added to state
-// when user goes to /checkout, load product info
+// post route to create a user
+router.post('/creatUser', (req, res) => {
+  users
+    .createNewUser(req.body)
+    .then(res => console.log('CREATE USER RESULT:', res))
+    .catch(err => console.log('CREATE USER ERROR:', err));
+});
+
+router.post('/login', (req, res) => {
+  users
+    .findOne(req.body)
+    .then(resolve => console.log('USER FOUND:', resolve))
+    .catch(err => console.log('USER NOT FOUND:', err));
+});
 
 // receives the stripe token, and other form input
 router.post('/charge', (req, res) => {
-  const newCharge = ({ body } = req.body);
-  // creates a new customer to send to stripe
-  stripe.customers
-    .create({ email: newCharge.email, source: newCharge.token })
-    .then(customer => {
-      stripe.charges.create({
-        amount: newCharge.total.replace(/\D/g, ''),
-        description: 'Test charge',
-        currency: 'usd',
-        customer: customer.id
-      });
-    })
-    .then(() => res.send('PAYMENT SUCCESS'))
-    .catch(err => {
-      console.log('ERR: api-routes.js', err);
-      res.send(err.message);
-    });
-});
-
-router.post('/createInvoice', (req, res) => {
-  const body = req.body;
-  stripe.customers
-    .create({
-      account_balance: body.amount,
-      email: body.email,
-      description: body.description,
-      metadata: {
-        first_name: body.first_name,
-        last_name: body.last_name,
-        phone: body.phone,
-        event_location: body.event_location,
-        event_guests: body.event_guests
-      }
-    })
-    .then(customer => {
-      stripe.invoiceItems.create({
-        amount: customer.account_balance,
-        currency: customer.currency
-      });
-    });
-
-  res.json(req.body);
-  // .then(customer => {
-  //   stripe.invoiceItems
-  //     .create({
-  //       amount: customer.account_balance,
-  //       currency: 'usd',
-  //       customer: customer.id,
-  //       description: body.description
-  //     })
-  //     .then(() => {
-  //       stripe.invoices
-  //         .create({
-  //           customer: customer.id,
-  //           billing: 'send_invoice',
-  //           days_until_due: 30
-  //         })
-  //         .then(invoice => console.log(invoice));
-  //     });
-
-  // });
+  API.charge(req.body)
+    .then(result => res.send(result))
+    .catch(error => console.log('CHARGE-ERROR:', error));
 });
 
 module.exports = router;
