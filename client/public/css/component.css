@@ -1,0 +1,142 @@
+
+.cbp-fwslider ul {
+	margin: 0;
+	padding: 0;
+	white-space: nowrap;
+	list-style-type: none;
+}
+.cbp-fwslider ul li {
+	-webkit-transform: translateZ(0);
+	-moz-transform: translateZ(0);
+	transform: translateZ(0);
+	float: left;
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+.cbp-fwslider ul li > a,
+.cbp-fwslider ul li > div {
+	display: block;
+	text-align: center;
+	outline: none;
+}
+.cbp-fwslider ul li > a img {
+	border: none;
+	display: block;
+	margin: 0 auto;
+	width: 100%;
+}
+.cbp-fwslider nav span {
+	position: absolute;
+	top: 50%;
+	width: 50px;
+	height: 100px;
+	background: #47a3da;
+	color: #fff;
+	font-size: 50px;
+	text-align: center;
+	margin-top: -50px;
+	line-height: 100px;
+	cursor: pointer;
+	font-weight: normal;
+	z-index: 8;
+}
+.cbp-fwslider nav span:hover {
+	background: #378fc3;
+}
+.cbp-fwslider nav span.cbp-fwnext {
+	right: 0px;
+	display:none;
+	z-index: -10;
+}
+.cbp-fwslider nav span.cbp-fwprev {
+	left: 0px;
+	display:none;
+	z-index: -10;
+}
+.cbp-fwdots {
+	position: absolute;
+	bottom: 60px;
+	text-align: center;
+	width: 100%;
+	z-index:8;
+}
+.cbp-fwdots span {
+	display: inline-block;
+	width: 13px;
+    height: 13px;
+    cursor: pointer;
+    background: transparent;
+	border:1px solid #fff;
+	outline: none;
+	margin: 5px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.cbp-fwdots span:hover {
+	display: inline-block;
+	width: 13px;
+    height: 13px;
+    cursor: pointer;
+    background: transparent;
+	border:1px solid #f3f3f3;
+	outline: none;
+	margin: 5px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.cbp-fwdots span.cbp-fwcurrent{
+	display: inline-block;
+	width: 13px;
+    height: 13px;
+    cursor: pointer;
+	border:1px solid #ff724c;
+	background:#ff724c;
+	outline: none;
+	margin: 5px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+#cbp-fwslider2 .cbp-fwdots {
+	position: absolute;
+	bottom: 160px;
+	text-align: center;
+	width: 100%;
+	z-index:8;
+}
+#cbp-fwslider2 .cbp-fwdots span {
+	display: inline-block;
+	width: 13px;
+    height: 13px;
+    cursor: pointer;
+    background: transparent;
+	border:1px solid #fff;
+	outline: none;
+	margin: 5px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+#cbp-fwslider2 .cbp-fwdots span:hover {
+	display: inline-block;
+	width: 13px;
+    height: 13px;
+    cursor: pointer;
+    background: transparent;
+	border:1px solid #f3f3f3;
+	outline: none;
+	margin: 5px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+#cbp-fwslider2 .cbp-fwdots span.cbp-fwcurrent{
+	display: inline-block;
+	width: 13px;
+    height: 13px;
+    cursor: pointer;
+	border:1px solid #ff724c;
+	background:#ff724c;
+	outline: none;
+	margin: 5px;
+	border-radius: 50%;
+	cursor: pointer;
+}
