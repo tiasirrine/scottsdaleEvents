@@ -1,0 +1,119 @@
+.header {
+  background-color: #f3f3f3;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 0 10px #222;
+}
+
+.navbar {
+  padding: 0px 0px 2px 0px;
+  margin: 0px !important;
+}
+.navbar-brand {
+  display: inline-block;
+  padding-top: 0rem;
+  margin-right: 1rem;
+  font-size: 1.25rem;
+  line-height: inherit;
+  white-space: nowrap;
+}
+.navbar-toggler {
+  border-color: transparent !important;
+  outline: none !important;
+  padding: 0rem !important;
+  margin: 0px !important;
+}
+#navbarNav {
+  padding: 10px 0px 0px 0px !important;
+}
+.nav-link {
+  padding: 0.5rem 1rem;
+  display: inline-block;
+}
+.bg-light {
+  background-color: #ff724c !important;
+}
+.navbar-light .navbar-nav .nav-link {
+  color: #818181;
+}
+nav.navbar ul.navbar-nav li a:active {
+  color: #3b3b3b;
+}
+.active > .nav-link,
+.navbar-light .navbar-nav .nav-link.active,
+.navbar-light .navbar-nav .nav-link.show,
+.navbar-light .navbar-nav .show > .nav-link {
+  color: #818181;
+}
+.navbar .navbar-nav .nav-link {
+  padding-right: 0;
+  padding-left: 0;
+}
+nav.navbar ul {
+  margin-left: 140px;
+}
+nav.navbar ul.navbar-nav li {
+  padding: 0px 18px;
+}
+nav.navbar ul.navbar-nav li a {
+  text-transform: capitalize;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  color: #818181;
+  position: relative;
+}
+nav.navbar ul.navbar-nav li a:before {
+  border: 1px solid #ff724c;
+  bottom: -10px;
+  left: 0%;
+  content: "";
+  position: absolute;
+  width: 0%;
+  transition: 0.3s ease-in-out;
+  -webkit-transition: 0.3s ease-in-out;
+  visibility: hidden;
+}
+nav .navbar ul .navbar-nav li a:hover {
+  color: #313335;
+}
+nav.navbar ul.navbar-nav li a:hover::before,
+nav.navbar ul.navbar-nav li a:focus::before,
+nav.navbar ul.navbar-nav li a:active::before {
+  border: 1px solid #ff724c;
+  bottom: -10px;
+  margin: 0px auto;
+  content: "";
+  position: absolute;
+  width: 100%;
+  color: #313335;
+  -webkit-transition: 0.3s ease;
+  transition: 0.3s ease;
+  visibility: visible;
+}
+.navbar-nav li.active a {
+  color: #313335 !important;
+}
+.navbar-light .navbar-nav .nav-link.active {
+  color: #313335;
+}
+.navbar-light .navbar-nav .nav-link.active:before {
+  border: 1px solid #ff724c;
+  bottom: -10px;
+  margin: 0px auto;
+  content: "";
+  position: absolute;
+  width: 100%;
+  color: #313335;
+  -webkit-transition: 0.3s ease;
+  transition: 0.3s ease;
+  visibility: visible;
+}
+nav.navbar ul.navbar-nav li a:focus,
+nav.navbar ul.navbar-nav li a:hover {
+  text-decoration: none;
+  color: #313335 !important;
+}
