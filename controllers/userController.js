@@ -21,7 +21,7 @@ module.exports = {
           if (!returnedUser) reject('No user found');
           this.checkPassword(user.password, returnedUser.password)
             .then(res => {
-              resolve(res);
+              resolve(returnedUser);
             })
             .catch(err => reject(err));
         })
@@ -98,4 +98,8 @@ module.exports = {
       });
     });
   }
+
+  // getUserById: function(id, callback) {
+  //   User.findById(id, callback);
+  // }
 };
