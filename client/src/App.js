@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { StripeProvider } from 'react-stripe-elements';
 import Checkout from './components/Checkout';
 import Home from './components/Pages/Home/Home';
+import Services from "./components/Pages/Services/Services";
 // import Nav from './components/Nav/Nav';
 import Login from './components/Pages/Login';
 // import Admin from './components/Pages/Admin';
@@ -27,6 +28,7 @@ class App extends React.Component {
         <React.Fragment>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/Services" component={Services} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/checkout">
               <StripeProvider apiKey="pk_test_0I6cwW4VHLLkWbRqP53QRu8A">
@@ -45,5 +47,6 @@ class App extends React.Component {
     );
   }
 }
+
 
 export default App;
