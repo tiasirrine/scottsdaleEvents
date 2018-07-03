@@ -29,18 +29,17 @@ const products = controllers.productController;
 // post route for sending new event report to owner
 
 // post route to create a user
-router.post('/creatUser', (req, res) => {
+router.post('/createUser', (req, res) => {
   users
     .createNewUser(req.body)
     .then(res => console.log('CREATE USER RESULT:', res))
     .catch(err => console.log('CREATE USER ERROR:', err));
 });
 
-router.post((req, res) => {
-  users
-    .findOne(req.body)
-    .then(resolve => console.log('USER FOUND:', resolve))
-    .catch(err => console.log('USER NOT FOUND:', err));
+router.post('/login', passport.authenticate('local'), (req, res) => {
+  delete req.user.password;
+  console.log('REQ.USER:', req.user);
+  res.send(req.user);
 });
 
 // receives the stripe token, and other form input
@@ -49,6 +48,33 @@ router.post('/charge', (req, res) => {
     .charge(req.body)
     .then(result => res.send(result))
     .catch(error => console.log('CHARGE-ERROR:', error));
+});
+
+passport.use(
+  new LocalStrategy((username, password, done) => {
+    const user = { username, password };
+    users
+      .findOne(user)
+      .then(foundUser => {
+        return done(null, foundUser);
+      })
+      .catch(error => {
+        console.log('NO USER FOUND:', error);
+        return done(null, false);
+      });
+  })
+);
+
+// saves the users session in a cookie based on the userID
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+// checks the cookie
+passport.deserializeUser((id, done) => {
+  users.getUserById(id, (err, user) => {
+    done(err, user);
+  });
 });
 
 module.exports = router;

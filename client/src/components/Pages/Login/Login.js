@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Input, TextArea, FormBtn } from '../../Form';
+import API from '../../../api/API';
 
 class Login extends Component {
+  state = {};
+
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
@@ -10,10 +13,9 @@ class Login extends Component {
   };
 
   handleFormSubmit = event => {
-    event
-      .preventDefault()
-
-      .then(res => console.log(res))
+    event.preventDefault();
+    API.checkUser(this.state)
+      .then(res => console.log(res.data))
       .catch(err => console.log(err));
   };
 
@@ -26,7 +28,6 @@ class Login extends Component {
           placeholder="Username (required)"
         />
         <Input // value={}
-          input
           type="password"
           onChange={this.handleInputChange}
           name="password"

@@ -97,9 +97,9 @@ module.exports = {
         }
       });
     });
-  }
+  },
 
-  // getUserById: function(id, callback) {
-  //   User.findById(id, callback);
-  // }
+  getUserById: function(id, callback) {
+    User.findById(id, callback);
+  }
 };
