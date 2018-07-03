@@ -55,3 +55,5 @@ const About = props => (
     </div>
   </section>
 );
+
+export default About;
