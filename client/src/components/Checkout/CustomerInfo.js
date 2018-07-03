@@ -1,5 +1,4 @@
 import React from 'react';
-import { PostalCodeElement } from 'react-stripe-elements';
 
 const CustomerInfo = props => (
   <div

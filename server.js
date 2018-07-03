@@ -1,11 +1,11 @@
 const bodyParser = require('body-parser');
-// const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const express = require('express');
 // const flash = require('connect-flash');
 const mongoose = require('mongoose');
-// const passport = require('passport');
 const routes = require('./routes/api-routes');
-// const session = require('express-session');
+const session = require('express-session');
+const passport = require('passport');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -13,6 +13,20 @@ const PORT = process.env.PORT || 3001;
 // Define middleware here
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+// saves the users session
+app.use(cookieParser());
+app.use(
+  session({
+    secret: 'secret',
+    saveUninitialized: false,
+    resave: false
+  })
+);
+
+// passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === 'production') {

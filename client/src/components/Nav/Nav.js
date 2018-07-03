@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import './Nav.css';
 
 const Nav = props => (
@@ -25,12 +26,25 @@ const Nav = props => (
                 <span className="navbar-toggler-icon" />
               </button>
               <a className="navbar-brand" href="#" img src="images/logo.png" alt="" />
+              <Link
+                to="/"
+                className="navbar-brand"
+                href="#"
+                img
+                src="images/logo.png"
+                alt=""
+              />
               <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item">
-                    <a className="nav-link active" data-scroll href="#intro">
+                    <Link
+                      to="/"
+                      className="nav-link active"
+                      data-scroll
+                      href="#intro"
+                    >
                       Home
-                    </a>
+                    </Link>
                   </li>
                   <li className="nav-item">
                     <a className="nav-link" data-scroll href="#service">
@@ -56,7 +70,7 @@ const Nav = props => (
               </div>
               <div className="social-icon">
                 <ul className="social-icon">
-                  <li>
+                  {/*<li>
                     <a className="twitter" href="#">
                       <i className="fab fa-dribbble" />
                     </a>
@@ -65,7 +79,7 @@ const Nav = props => (
                     <a className="google" href="#">
                       <i className="fab fa-behance" />
                     </a>
-                  </li>
+                  </li>*/}
                   <li>
                     <a className="linkedin" href="#">
                       <i className="fab fa-linkedin-in" />
