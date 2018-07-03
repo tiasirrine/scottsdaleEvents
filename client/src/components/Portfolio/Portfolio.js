@@ -155,3 +155,5 @@ const Portfolio = props => (
     </div>
   </section>
 );
+
+export default Portfolio;
