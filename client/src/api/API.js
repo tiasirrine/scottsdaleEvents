@@ -13,5 +13,9 @@ export default {
 
   getMoney: function(contactInfo) {
     return axios.post('/charge', contactInfo);
+  },
+
+  checkUser: function(userInfo) {
+    return axios.post('/login', userInfo);
   }
 };
