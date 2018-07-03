@@ -1,12 +1,12 @@
-import React from "react";
-import "./Nav.css";
+import React from 'react';
+import './Nav.css';
 
 const Nav = props => (
   <div>
     <div id="loader-wrapper">
       <div id="loader" />
-      <div class="loader-section section-left" />
-      <div class="loader-section section-right" />
+      <div className="loader-section section-left" />
+      <div className="loader-section section-right" />
     </div>
     <header className="header">
       <div className="container">
@@ -24,13 +24,7 @@ const Nav = props => (
               >
                 <span className="navbar-toggler-icon" />
               </button>
-              <a
-                className="navbar-brand"
-                href="#"
-                img
-                src="images/logo.png"
-                alt=""
-              />
+              <a className="navbar-brand" href="#" img src="images/logo.png" alt="" />
               <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item">
