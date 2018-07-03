@@ -5,8 +5,8 @@ const Portfolio = props => (
     <div className="container">
       <div className="row">
         <div className="col-md-12">
-          <h5>portfolio</h5>
-          <h2>My Featured Work</h2>
+          <h5>Services</h5>
+          <h2>Featured Packages</h2>
         </div>
       </div>
       <div className="row">
@@ -14,19 +14,19 @@ const Portfolio = props => (
           <div className="filter-buttons">
             <div className="button-group filters-button-group">
               <button className="button is-checked" data-filter="*">
-                All
+                Package 1
               </button>
               <button className="button" data-filter=".ct1">
-                Web Design
+                Package 2
               </button>
               <button className="button" data-filter=".ct2">
-                Motion Graphic
+                Package 3
               </button>
               <button className="button" data-filter=".ct3">
-                llustration
+                Package 4
               </button>
               <button className="button" data-filter=".ct4">
-                Photography
+                Package 5
               </button>
             </div>
           </div>
