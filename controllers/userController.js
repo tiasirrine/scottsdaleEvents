@@ -62,8 +62,7 @@ module.exports = {
   genSalt: function(password) {
     return new Promise((resolve, reject) => {
       if (!password) reject('Password is required');
-      if (password.length < 4)
-        reject('Password must be longer than 4 characters');
+      if (password.length < 4) reject('Password must be longer than 4 characters');
       bcrypt.genSalt(10, function(err, salt) {
         if (err) reject(err);
         else resolve({ salt, password });
@@ -97,9 +96,9 @@ module.exports = {
         }
       });
     });
-  }
+  },
 
-  // getUserById: function(id, callback) {
-  //   User.findById(id, callback);
-  // }
+  getUserById: function(id, callback) {
+    User.findById(id, callback);
+  }
 };

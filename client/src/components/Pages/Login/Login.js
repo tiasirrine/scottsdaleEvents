@@ -19,22 +19,24 @@ class Login extends Component {
 
   render() {
     return (
-      <form>
-        <Input // value={}
-          onChange={this.handleInputChange}
-          name="username"
-          placeholder="Username (required)"
-        />
-        <Input // value={}
-          input
-          type="password"
-          onChange={this.handleInputChange}
-          name="password"
-          placeholder="Password (required)"
-        />
+      <div className="admin-form">
+        <form>
+          <Input // value={}
+            onChange={this.handleInputChange}
+            name="username"
+            placeholder="Username (required)"
+          />
+          <Input // value={}
+            input
+            type="password"
+            onChange={this.handleInputChange}
+            name="password"
+            placeholder="Password (required)"
+          />
 
-        <FormBtn onClick={this.handleFormSubmit}>Login</FormBtn>
-      </form>
+          <FormBtn onClick={this.handleFormSubmit}>Login</FormBtn>
+        </form>
+      </div>
     );
   }
 }

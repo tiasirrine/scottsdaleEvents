@@ -29,18 +29,16 @@ const products = controllers.productController;
 // post route for sending new event report to owner
 
 // post route to create a user
-router.post('/creatUser', (req, res) => {
+router.post('/createUser', (req, res) => {
   users
     .createNewUser(req.body)
     .then(res => console.log('CREATE USER RESULT:', res))
     .catch(err => console.log('CREATE USER ERROR:', err));
 });
 
-router.post((req, res) => {
-  users
-    .findOne(req.body)
-    .then(resolve => console.log('USER FOUND:', resolve))
-    .catch(err => console.log('USER NOT FOUND:', err));
+router.post('/login', passport.authenticate('local'), (req, res) => {
+  console.log('req.user:', req.user);
+  res.send(req.user);
 });
 
 // receives the stripe token, and other form input
@@ -49,6 +47,25 @@ router.post('/charge', (req, res) => {
     .charge(req.body)
     .then(result => res.send(result))
     .catch(error => console.log('CHARGE-ERROR:', error));
+});
+
+passport.use(
+  new LocalStrategy(function(username, password, done) {
+    users
+      .findOne({ username, password })
+      .then(user => done(null, user))
+      .catch(err => done(null, false));
+  })
+);
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  users.getUserById(id, function(err, user) {
+    done(err, user);
+  });
 });
 
 module.exports = router;

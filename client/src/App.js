@@ -9,7 +9,7 @@ import Login from './components/Pages/Login';
 const App = () => (
   <Router>
     <React.Fragment>
-      <Nav />
+      {/* <Nav /> */}
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/login" component={Login} />
