@@ -1,6 +1,11 @@
 import React from "react";
 import "./Home.css";
+import Slider from "../../Slider/Slider";
 
-const Home = props => <div>This is the homepage component</div>;
+const Home = props => (
+  <div>
+    <Slider />
+  </div>
+);
 
 export default Home;
