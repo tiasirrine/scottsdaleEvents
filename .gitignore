@@ -4,7 +4,7 @@
 /node_modules
 /client/node_modules
 
-/test.js
+test.js
 
 # testing
 /coverage

@@ -5,7 +5,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const upload = require('../util/multer');
 const router = require('express').Router();
 // const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const API = require('../util');
+const helpers = require('../util');
 
 const users = controllers.userController;
 const products = controllers.productController;
@@ -36,7 +36,7 @@ router.post('/creatUser', (req, res) => {
     .catch(err => console.log('CREATE USER ERROR:', err));
 });
 
-router.post('/login', (req, res) => {
+router.post((req, res) => {
   users
     .findOne(req.body)
     .then(resolve => console.log('USER FOUND:', resolve))
@@ -45,7 +45,8 @@ router.post('/login', (req, res) => {
 
 // receives the stripe token, and other form input
 router.post('/charge', (req, res) => {
-  API.charge(req.body)
+  helpers
+    .charge(req.body)
     .then(result => res.send(result))
     .catch(error => console.log('CHARGE-ERROR:', error));
 });
