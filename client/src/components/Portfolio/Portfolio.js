@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const Portfolio = props => (
   <section id="portfolio">
@@ -155,3 +155,5 @@ const Portfolio = props => (
     </div>
   </section>
 );
+
+export default Portfolio;
