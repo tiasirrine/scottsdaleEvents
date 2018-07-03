@@ -13,7 +13,9 @@ const App = () => (
       <Nav />
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route exact path="/Services" component={Services} />
+
+        <Route exact path="/services" component={Services} />
+
         <Route exact path="/adminlogin" component={Login} />
         <Route exact path="/checkout">
           <StripeProvider apiKey="pk_test_0I6cwW4VHLLkWbRqP53QRu8A">

@@ -16,6 +16,7 @@ const Home = props => (
     <Service />
     <Portfolio />
     <Testimonial />
+
   </div>
 );
 
