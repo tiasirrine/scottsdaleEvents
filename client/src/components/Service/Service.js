@@ -54,3 +54,5 @@ const Service = props => (
     </div>
   </section>
 );
+
+export default Service;

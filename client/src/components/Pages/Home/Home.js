@@ -5,7 +5,7 @@ import Banner from '../../Banner/Banner';
 import About from '../../About/About';
 import Service from '../../Service/Service';
 import Portfolio from '../../Portfolio/Portfolio';
-import Testimonial from '../../Testimonials/Testimonial';
+import Testimonial from '../../Testimonial/Testimonial';
 
 const Home = props => (
   <div>
