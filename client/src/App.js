@@ -4,7 +4,7 @@ import { StripeProvider } from 'react-stripe-elements';
 import Checkout from './components/Checkout';
 import Home from './components/Pages/Home/Home';
 import Nav from './components/Nav/Nav';
-import Login from './components/Pages/Login';
+import Login from './components/Pages/Login/Login';
 
 const App = () => (
   <Router>

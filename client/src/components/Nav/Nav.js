@@ -25,6 +25,7 @@ const Nav = props => (
               >
                 <span className="navbar-toggler-icon" />
               </button>
+              <a className="navbar-brand" href="#" img src="images/logo.png" alt="" />
               <Link
                 to="/"
                 className="navbar-brand"
