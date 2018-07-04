@@ -25,7 +25,13 @@ const Nav = props => (
               >
                 <span className="navbar-toggler-icon" />
               </button>
-              <a className="navbar-brand" href="#" img src="images/logo.png" alt="" />
+              <a
+                className="navbar-brand"
+                href="#"
+                img
+                src="images/logo.png"
+                alt=""
+              />
               <Link
                 to="/"
                 className="navbar-brand"
@@ -37,14 +43,9 @@ const Nav = props => (
               <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item">
-                    <Link
-                      to="/"
-                      className="nav-link active"
-                      data-scroll
-                      href="#intro"
-                    >
+                    <a className="nav-link active" data-scroll href="#intro2">
                       Home
-                    </Link>
+                    </a>
                   </li>
                   <li className="nav-item">
                     <a className="nav-link" data-scroll href="#service">

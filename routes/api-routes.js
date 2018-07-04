@@ -39,7 +39,7 @@ router.post('/createUser', (req, res) => {
 router.post('/login', passport.authenticate('local'), (req, res) => {
   delete req.user.password;
   console.log('REQ.USER:', req.user);
-  res.send(req.user);
+  res.send(true);
 });
 
 // receives the stripe token, and other form input

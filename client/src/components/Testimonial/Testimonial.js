@@ -55,8 +55,9 @@ const Testimonial = props => (
                 <div className="quote">
                   <i className="fas fa-quote-left" />
                   <span>
-                    Expenses as material breeding insisted building to in. Continual so distrusts
-                    pronounce by unwilling listening. <br />Thing do taste on we manor.
+                    Expenses as material breeding insisted building to in.
+                    Continual so distrusts pronounce by unwilling listening.{' '}
+                    <br />Thing do taste on we manor.
                   </span>
                 </div>
               </div>
@@ -74,8 +75,9 @@ const Testimonial = props => (
                 <div className="quote">
                   <i className="fas fa-quote-left" />
                   <span>
-                    Expenses as material breeding insisted building to in. Continual so distrusts
-                    pronounce by unwilling listening. <br />Thing do taste on we manor.
+                    Expenses as material breeding insisted building to in.
+                    Continual so distrusts pronounce by unwilling listening.{' '}
+                    <br />Thing do taste on we manor.
                   </span>
                 </div>
               </div>
@@ -93,8 +95,9 @@ const Testimonial = props => (
                 <div className="quote">
                   <i className="fas fa-quote-left" />
                   <span>
-                    Expenses as material breeding insisted building to in. Continual so distrusts
-                    pronounce by unwilling listening. <br />Thing do taste on we manor.
+                    Expenses as material breeding insisted building to in.
+                    Continual so distrusts pronounce by unwilling listening.{' '}
+                    <br />Thing do taste on we manor.
                   </span>
                 </div>
               </div>
@@ -107,8 +110,9 @@ const Testimonial = props => (
                 <div className="quote">
                   <i className="fas fa-quote-left" />
                   <span>
-                    Expenses as material breeding insisted building to in.Continual so distrusts
-                    pronounce by unwilling listening. <br />Thing do taste on we manor.
+                    Expenses as material breeding insisted building to
+                    in.Continual so distrusts pronounce by unwilling listening.{' '}
+                    <br />Thing do taste on we manor.
                   </span>
                 </div>
               </div>
@@ -126,8 +130,9 @@ const Testimonial = props => (
                 <div className="quote">
                   <i className="fas fa-quote-left" />
                   <span>
-                    Expenses as material breeding insisted building to in. Continual so distrusts
-                    pronounce by unwilling listening. <br />Thing do taste on we manor.
+                    Expenses as material breeding insisted building to in.
+                    Continual so distrusts pronounce by unwilling listening.{' '}
+                    <br />Thing do taste on we manor.
                   </span>
                 </div>
               </div>
@@ -145,8 +150,9 @@ const Testimonial = props => (
                 <div className="quote">
                   <i className="fas fa-quote-left" />
                   <span>
-                    Expenses as material breeding insisted building to in. Continual so distrusts
-                    pronounce by unwilling listening. <br />Thing do taste on we manor.
+                    Expenses as material breeding insisted building to in.
+                    Continual so distrusts pronounce by unwilling listening.{' '}
+                    <br />Thing do taste on we manor.
                   </span>
                 </div>
               </div>
