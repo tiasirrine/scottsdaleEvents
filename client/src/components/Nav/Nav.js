@@ -25,12 +25,30 @@ const Nav = props => (
               >
                 <span className="navbar-toggler-icon" />
               </button>
-              <a className="navbar-brand" href="#" img src="images/logo.png" alt="" />
-              <Link to="/" className="navbar-brand" href="#" img src="images/logo.png" alt="" />
+              <a
+                className="navbar-brand"
+                href=""
+                img
+                src="images/logo.png"
+                alt=""
+              />
+              <Link
+                to="/"
+                className="navbar-brand"
+                href=""
+                img
+                src="images/logo.png"
+                alt=""
+              />
               <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item">
-                    <Link to="/" className="nav-link active" data-scroll href="#intro">
+                    <Link
+                      to="/"
+                      className="nav-link active"
+                      data-scroll
+                      href="#intro"
+                    >
                       Home
                     </Link>
                   </li>
@@ -58,23 +76,13 @@ const Nav = props => (
               </div>
               <div className="social-icon">
                 <ul className="social-icon">
-                  {/*<li>
-                    <a className="twitter" href="#">
-                      <i className="fab fa-dribbble" />
-                    </a>
-                  </li>
                   <li>
-                    <a className="google" href="#">
-                      <i className="fab fa-behance" />
-                    </a>
-                  </li>*/}
-                  <li>
-                    <a className="linkedin" href="#">
+                    <a className="linkedin" href="">
                       <i className="fab fa-linkedin-in" />
                     </a>
                   </li>
                   <li>
-                    <a className="youtube" href="#">
+                    <a className="youtube" href="">
                       <i className="fab fa-google-plus-g" />
                     </a>
                   </li>
