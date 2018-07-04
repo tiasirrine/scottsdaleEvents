@@ -1,44 +1,48 @@
 import React, { Component } from 'react';
-import { Input, TextArea, FormBtn } from '../../Form';
-import './Login.css';
+import { Redirect } from 'react-router-dom';
+import { Input, FormBtn } from '../../Form';
+// import API from '../../../api/API';
 
 class Login extends Component {
-  handleInputChange = event => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    });
-  };
+  state = {};
 
-  handleFormSubmit = event => {
-    event
-      .preventDefault()
+  // handleInputChange = event => {
+  //   const { name, value } = event.target;
+  //   this.setState({
+  //     [name]: value
+  //   });
+  // };
 
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
-  };
+  // handleFormSubmit = event => {
+  //   event.preventDefault();
+  //   API.checkUser(this.state)
+  //     .then(res => console.log(res.data))
+  //     .catch(err => console.log(err));
+  // };
 
   render() {
-    return (
-      <div className="admin-form">
+    console.log('LOGIN:', this.props.isAuthed);
+    if (this.props.isAuthed === true) {
+      return <Redirect to="/admin" />;
+    } else {
+      return (
         <form>
-          <Input // value={}
-            onChange={this.handleInputChange}
+          <Input
+            onChange={this.props.inputChange}
             name="username"
             placeholder="Username (required)"
           />
-          <Input // value={}
-            input
+          <Input
             type="password"
-            onChange={this.handleInputChange}
+            onChange={this.props.inputChange}
             name="password"
             placeholder="Password (required)"
           />
 
-          <FormBtn onClick={this.handleFormSubmit}>Login</FormBtn>
+          <FormBtn onClick={this.props.checkAuth}>Login</FormBtn>
         </form>
-      </div>
-    );
+      );
+    }
   }
 }
 
