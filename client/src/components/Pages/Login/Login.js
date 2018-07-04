@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Input, TextArea, FormBtn } from '../../Form';
-import API from '../../../api/API';
+import './Login.css';
 
 class Login extends Component {
-  state = {};
-
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
@@ -13,29 +11,33 @@ class Login extends Component {
   };
 
   handleFormSubmit = event => {
-    event.preventDefault();
-    API.checkUser(this.state)
-      .then(res => console.log(res.data))
+    event
+      .preventDefault()
+
+      .then(res => console.log(res))
       .catch(err => console.log(err));
   };
 
   render() {
     return (
-      <form>
-        <Input // value={}
-          onChange={this.handleInputChange}
-          name="username"
-          placeholder="Username (required)"
-        />
-        <Input // value={}
-          type="password"
-          onChange={this.handleInputChange}
-          name="password"
-          placeholder="Password (required)"
-        />
+      <div className="admin-form">
+        <form>
+          <Input // value={}
+            onChange={this.handleInputChange}
+            name="username"
+            placeholder="Username (required)"
+          />
+          <Input // value={}
+            input
+            type="password"
+            onChange={this.handleInputChange}
+            name="password"
+            placeholder="Password (required)"
+          />
 
-        <FormBtn onClick={this.handleFormSubmit}>Login</FormBtn>
-      </form>
+          <FormBtn onClick={this.handleFormSubmit}>Login</FormBtn>
+        </form>
+      </div>
     );
   }
 }
