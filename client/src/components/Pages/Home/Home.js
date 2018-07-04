@@ -3,9 +3,9 @@ import './Home.css';
 import Slider from '../../Slider/Slider';
 import Banner from '../../Banner/Banner';
 import About from '../../About/About';
-import Service from '../../Service/Service';
-import Portfolio from '../../Portfolio/Portfolio';
+import Gallery from '../../Gallery/Gallery';
 import Testimonial from '../../Testimonial/Testimonial';
+import Footer from '../../Footer/Footer';
 
 const Home = props => (
   <div>
@@ -13,9 +13,9 @@ const Home = props => (
       <Banner />
     </Slider>
     <About />
-    <Service />
-    <Portfolio />
+    <Gallery />
     <Testimonial />
+    <Footer />
   </div>
 );
 

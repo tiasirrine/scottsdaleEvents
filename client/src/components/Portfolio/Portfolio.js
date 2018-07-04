@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const Portfolio = props => (
   <section id="portfolio">
