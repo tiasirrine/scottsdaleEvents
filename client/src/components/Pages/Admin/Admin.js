@@ -1,5 +1,5 @@
 import React from 'react';
 
-const Protected = () => <h3>You are logged in</h3>;
+const Admin = () => <h3>Welcome, {sessionStorage.userName}</h3>;
 
-export default Protected;
+export default Admin;
