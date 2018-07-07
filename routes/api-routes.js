@@ -1,5 +1,5 @@
 require('dotenv').config();
-const controllers = require('../controllers');
+// const controllers = require('../controllers');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const upload = require('../util/multer');
@@ -7,8 +7,8 @@ const router = require('express').Router();
 // const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const helpers = require('../util');
 
-const users = controllers.userController;
-const products = controllers.productController;
+// const users = controllers.userController;
+// const products = controllers.productController;
 
 // delete route to delete a user
 
@@ -39,14 +39,6 @@ router.post('/createUser', (req, res) => {
 router.post('/login', passport.authenticate('local'), (req, res) => {
   console.log('REQ.USER:', req.user);
   res.send(true);
-});
-
-// receives the stripe token, and other form input
-router.post('/charge', (req, res) => {
-  helpers
-    .charge(req.body)
-    .then(result => res.send(result))
-    .catch(error => console.log('CHARGE-ERROR:', error));
 });
 
 passport.use(
