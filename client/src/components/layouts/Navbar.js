@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppBar, Tab, Tabs, Typography, Toolbar } from '@material-ui/core';
 
+
 class Navbar extends React.Component {
   state = {
     value: 0
@@ -27,5 +28,6 @@ class Navbar extends React.Component {
     );
   }
 }
+
 
 export default Navbar;
