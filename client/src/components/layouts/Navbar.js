@@ -5,7 +5,7 @@ const Navbar = props => (
   <AppBar position="static">
     <Toolbar>
       <Typography variant="headline" color="inherit">
-        Exercise Database
+        Scottsdale Events
       </Typography>
     </Toolbar>
   </AppBar>
