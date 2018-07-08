@@ -1,15 +1,6 @@
 a {
   color: black;
 }
-.sub-category li {
-  padding-left: 20px;
-  padding-bottom: 8px;
-}
-
-.sidebar {
-  width: 200px;
-}
-
-.dropdown-toggle::after {
-  right: 20px;
+.inventory-nav {
+  padding-top: 0px !important;
 }

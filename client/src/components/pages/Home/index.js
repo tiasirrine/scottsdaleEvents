@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import Sidebar from './Sidebar';
+import InventoryNav from './InventoryNav';
+import './Home.css';
 
 class Home extends Component {
   render() {
-    return <Sidebar />;
+    return <InventoryNav />;
   }
 }
 

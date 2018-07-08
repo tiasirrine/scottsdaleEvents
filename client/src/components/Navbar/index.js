@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './navbar.css';
 
 const Nav = () => (
-  <nav className="navbar navbar-expand-lg navbar-light bg-light">
-    <div className="container">
+  <nav className="navbar navbar-expand navbar-light bg-light top-nav">
+    <div className="container flex-column flex-md-row">
       <Link to="/" className="navbar-brand">
         Scottsdale Events
       </Link>
