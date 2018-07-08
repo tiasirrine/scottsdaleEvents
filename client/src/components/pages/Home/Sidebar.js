@@ -1,53 +1,35 @@
-import React, { Component, Fragment } from 'react';
-import './Home.css';
+import React, { Component } from 'react';
+import SidebarButton from './SidebarButton';
 // import { Link, NavLink } from 'react-router-dom';
+import './Home.css';
 
 class Sidebar extends Component {
+  state = {
+    categories: ['Furniture', 'Bars', 'Lighting'],
+    subCategories: [
+      { Furniture: ['Tables', 'Chairs', 'Sofas'] },
+      { Bars: ['bar1', 'bar2', 'bar3'] },
+      { Lighting: ['lights1', 'lights2', 'lights3'] }
+    ]
+  };
+
+  //TODO: api call to get categories
+  //TODO: api call to get sub categories of each category
+
   render() {
+    console.log(this.state);
+    const { state } = this;
+    const { categories, subCategories } = state;
     return (
-      <div>
+      <div className="sidebar">
         <ul className="nav flex-column">
-          <li className="nav-item">
-            <a
-              className="nav-link active dropdown-toggle"
-              data-toggle="collapse"
-              aria-expanded="false"
-              href="#furniture-sub-menu"
-            >
-              Furniture
-            </a>
-            <ul
-              class="collapse list-unstyled sub-category"
-              id="furniture-sub-menu"
-            >
-              <li>
-                <a>Sub Category</a>
-              </li>
-              <li>
-                <a>Sub Category</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <ul className="nav flex-column">
-          <li className="nav-item">
-            <a
-              className="nav-link active dropdown-toggle"
-              data-toggle="collapse"
-              aria-expanded="false"
-              href="#bars-sub-menu"
-            >
-              Bars
-            </a>
-            <ul class="collapse list-unstyled sub-category" id="bars-sub-menu">
-              <li>
-                <a>Sub Category</a>
-              </li>
-              <li>
-                <a>Sub Category</a>
-              </li>
-            </ul>
-          </li>
+          {categories.map((category, index, categories) => (
+            <SidebarButton
+              key={category}
+              category={category}
+              subCategories={subCategories[index][category]}
+            />
+          ))}
         </ul>
       </div>
     );
