@@ -1,12 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import InventoryNav from './InventoryNav';
+import InventoryNav from '../../InventoryNav';
 // import { UncontrolledCarousel } from 'reactstrap';
 import './Home.css';
-import API from '../../../api/API';
 
 class Home extends Component {
-  state = { categories: '' };
-
   items = [
     {
       src: 'http://via.placeholder.com/1000x400',
@@ -28,23 +25,8 @@ class Home extends Component {
     }
   ];
 
-  loadCategories = () => {
-    return API.getInventoryCategories()
-      .then(result => {
-        const arr = result.data.map(index => index['CATEGORY']);
-        return this.setState({ categories: arr });
-      })
-      .catch(error => error);
-  };
-
-  componentWillMount() {
-    return this.loadCategories();
-  }
-
   render() {
-    // const { categories } = this.state;
-    console.log('STATE:', this.state);
-    const { categories } = this.state;
+    const { categories } = this.props;
     return (
       <Fragment>
         <InventoryNav categories={categories} />

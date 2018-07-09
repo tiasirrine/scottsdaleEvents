@@ -9,7 +9,7 @@ class InventoryNavButton extends Component {
 
     return (
       <li className="nav-item">
-        <Link to={`/invenory/${category}`} className="nav-link " role="button">
+        <Link to={`/inventory/${category}`} className="nav-link " role="button">
           {category}
         </Link>
       </li>

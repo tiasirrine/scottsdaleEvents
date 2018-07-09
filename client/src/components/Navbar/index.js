@@ -27,6 +27,11 @@ const Nav = () => (
             </Link>
           </li>
           <li>
+            <Link to="/inventory" className="nav-link">
+              Inventory
+            </Link>
+          </li>
+          <li>
             <Link to="/saved" className="nav-link">
               Gallery
             </Link>
