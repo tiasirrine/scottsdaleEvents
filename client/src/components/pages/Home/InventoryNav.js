@@ -3,22 +3,11 @@ import React, { Component } from 'react';
 import InventoryNavButton from './InventoryNavButton';
 
 class InventoryNav extends Component {
-  state = {
-    categories: ['Furniture', 'Bars', 'Lighting'],
-    subCategories: [
-      { Furniture: ['Tables', 'Chairs', 'Sofas'] },
-      { Bars: ['bar1', 'bar2', 'bar3'] },
-      { Lighting: ['lights1', 'lights2', 'lights3'] }
-    ]
-  };
-
-  //TODO: api call to get categories
   //TODO: api call to get sub categories of each category
 
   render() {
-    console.log(this.state);
-    const { state } = this;
-    const { categories, subCategories } = state;
+    const { categories } = this.props;
+
     return (
       <nav className="navbar navbar-expand-md navbar-light bg-light inventory-nav">
         <div className="container ">
@@ -35,13 +24,11 @@ class InventoryNav extends Component {
           </button>
           <div className="collapse navbar-collapse" id="inventory-nav">
             <ul className="navbar-nav m-auto">
-              {categories.map((category, index, categories) => (
-                <InventoryNavButton
-                  key={category}
-                  category={category}
-                  subCategories={subCategories[index][category]}
-                />
-              ))}
+              {categories.length
+                ? categories.map((category, index, categories) => (
+                    <InventoryNavButton key={category} category={category} />
+                  ))
+                : null}
             </ul>
           </div>
         </div>
@@ -51,3 +38,5 @@ class InventoryNav extends Component {
 }
 
 export default InventoryNav;
+
+// { subCategories = { subCategories[index][category] } }

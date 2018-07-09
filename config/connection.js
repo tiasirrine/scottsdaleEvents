@@ -1,16 +1,12 @@
 const mysql = require('mysql');
 let connection;
 
-// connects to heroku or to a local db
-if (process.env.NODE_ENV === 'development') {
-  connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '343$&bxxYM^9m',
-    database: 'scottsdaleEvents'
-  });
-} else {
-}
+connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '343$&bxxYM^9m',
+  database: 'scottsdaleEvents'
+});
 
 connection.connect(function(err) {
   if (err) {
@@ -18,7 +14,7 @@ connection.connect(function(err) {
     return;
   }
 
-  console.log('connected as id ' + connection.threadId);
+  console.log('Connected to MySQL, ID: ' + connection.threadId);
 });
 
 module.exports = connection;

@@ -1,17 +1,23 @@
 require('dotenv').config();
-const controllers = require('../models');
+// const controllers = require('../controllers');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-// const upload = require('../util/multer');
+const upload = require('../util/multer');
 const router = require('express').Router();
-// const helpers = require('../util');
-const inventory = controllers.inventory;
+// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const helpers = require('../util');
 
 // post route to create a user
-router.get('/get-inventory-category', (req, res) => {
-  inventory.selectAllAndGroupBy(result => {
-    res.send(result);
-  });
+router.post('/createUser', (req, res) => {
+  users
+    .createNewUser(req.body)
+    .then(res => console.log('CREATE USER RESULT:', res))
+    .catch(err => console.log('CREATE USER ERROR:', err));
+});
+
+router.post('/login', passport.authenticate('local'), (req, res) => {
+  console.log('REQ.USER:', req.user);
+  res.send(true);
 });
 
 passport.use(
