@@ -5,6 +5,8 @@ const express = require('express');
 const routes = require('./routes/api-routes');
 const session = require('express-session');
 const passport = require('passport');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;

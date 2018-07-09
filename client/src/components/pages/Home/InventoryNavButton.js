@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class InventoryNavButton extends Component {
   state = {};
@@ -8,16 +9,17 @@ class InventoryNavButton extends Component {
 
     return (
       <li className="nav-item">
-        <a className="nav-link " href="" role="button">
+        <Link to={`/invenory/${category}`} className="nav-link " role="button">
           {category}
-        </a>
-        <div className="dropdown-menu" aria-labelledby="navbarDropdown" />
+        </Link>
       </li>
     );
   }
 }
 
 export default InventoryNavButton;
+
+// <div className="dropdown-menu" aria-labelledby="navbarDropdown" />
 
 // <li className="nav-item dropdown">
 //   <a

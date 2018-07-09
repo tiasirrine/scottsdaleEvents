@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './Navbar';
 import Home from './pages/Home';
+import Inventory from './pages/Inventory';
 
 class App extends Component {
   render() {
@@ -9,7 +10,11 @@ class App extends Component {
       <Router>
         <Fragment>
           <Navbar />
-          <Home />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/inventory" component={Inventory} />
+            <Route component={Home} />
+          </Switch>
         </Fragment>
       </Router>
     );
@@ -17,3 +22,5 @@ class App extends Component {
 }
 
 export default App;
+
+// <Route path='/inventory' component={inventory}/>

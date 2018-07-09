@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import InventoryNav from './InventoryNav';
-import { UncontrolledCarousel } from 'reactstrap';
+// import { UncontrolledCarousel } from 'reactstrap';
 import './Home.css';
 import API from '../../../api/API';
 
