@@ -10,7 +10,6 @@ class InventoryPage extends Component {
       <Fragment>
         <InventoryNav categories={categories} />
         <h2>This is the inventory page!</h2>
-
         <Route path="/inventory/:category" component={CategoryProduct} />
       </Fragment>
     );
