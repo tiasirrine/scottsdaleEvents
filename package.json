@@ -23,6 +23,7 @@
     "nodemon": "^1.11.0"
   },
   "dependencies": {
+    "availity-reactstrap-validation": "^2.0.2",
     "axios": "^0.16.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",

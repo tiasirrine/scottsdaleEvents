@@ -5,6 +5,8 @@ import Home from './pages/Home';
 import InventoryPage from './pages/Inventory';
 import API from '../api/API';
 import Gallery from './pages/Gallery';
+import Form from './pages/Contact/Form/index';
+import ContactUs from './pages/Contact/Form/index';
 
 class App extends Component {
   constructor(props) {
@@ -55,6 +57,7 @@ class App extends Component {
               )}
             />
             <Route path="/gallery" component={Gallery} />
+            <Route path="/contact" component={ContactUs} />
           </Switch>
         </Fragment>
       </Router>

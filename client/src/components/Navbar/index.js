@@ -46,6 +46,11 @@ const Nav = () => (
               Login
             </Link>
           </li>
+          <li>
+            <Link to="/contact" className="nav-link">
+              Contact Us
+            </Link>
+          </li>
         </ul>
       </div>
     </div>
