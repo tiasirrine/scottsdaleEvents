@@ -4,7 +4,7 @@ import Navbar from './Navbar';
 import Home from './pages/Home';
 import InventoryPage from './pages/Inventory';
 import API from '../api/API';
-
+import Gallery from './pages/Gallery';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -28,16 +28,14 @@ class App extends Component {
         <Fragment>
           <Navbar />
           <Switch>
-            <Route
-              exact
-              path="/"
-              render={props => <Home {...props} categories={categories} />}
-            />
+            <Route exact path="/" render={props => <Home {...props} categories={categories} />} />
             <Route
               path="/inventory"
-              render={props => (
-                <InventoryPage {...props} categories={categories} />
-              )}
+              render={props => <InventoryPage {...props} categories={categories} />}
+            />
+            <Route
+              path="/gallery"
+              render={props => <Gallery {...props} categories={categories} />}
             />
           </Switch>
         </Fragment>
