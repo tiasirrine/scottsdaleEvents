@@ -8,7 +8,8 @@ import API from '../api/API';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { categories: this.loadCategories() };
+    this.categories = this.loadCategories();
+    this.state = { categories: this.categories };
   }
 
   loadCategories = () => {

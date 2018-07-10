@@ -8,5 +8,16 @@ module.exports = {
       if (err) throw err.stack;
       callback(result);
     });
+  },
+  selectAllByColumnValue: function(table, column, value, callback) {
+    const query = 'SELECT * FROM ?? WHERE ??=?;';
+
+    connection.query(query, [[table], [column], [value]], function(
+      err,
+      result
+    ) {
+      if (err) throw err.stack;
+      callback(result);
+    });
   }
 };

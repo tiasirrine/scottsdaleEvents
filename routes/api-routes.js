@@ -14,6 +14,18 @@ router.get('/get-inventory-category', (req, res) => {
   });
 });
 
+router.get('/get-category-products', (req, res) => {
+  const { category } = req.query;
+  inventory.selectAllCategoryProducts(
+    'inventory',
+    'CATEGORY',
+    category,
+    result => {
+      res.send(result);
+    }
+  );
+});
+
 passport.use(
   new LocalStrategy((username, password, done) => {
     const user = { username, password };

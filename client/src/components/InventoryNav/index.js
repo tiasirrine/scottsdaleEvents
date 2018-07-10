@@ -1,25 +1,8 @@
 import React, { Component } from 'react';
 // import { Link } from 'react-router-dom';
 import InventoryNavButton from './InventoryNavButton';
-import API from '../../api/API';
 
 class InventoryNav extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = { categories: this.loadCategories() };
-  // }
-
-  // loadCategories = () => {
-  //   return API.getInventoryCategories()
-  //     .then(result => {
-  //       const arr = result.data.map(index => index['CATEGORY']);
-  //       return this.setState({ categories: arr });
-  //     })
-  //     .catch(error => error);
-  // };
-
-  //TODO: api call to get sub categories of each category
-
   render() {
     const { categories } = this.props;
 
