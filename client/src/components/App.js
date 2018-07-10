@@ -32,7 +32,11 @@ class App extends Component {
   };
 
   render() {
+
     this.loadInventoryItems();
+
+    console.log(this.state);
+
     const { categories } = this.state;
     return (
       <Router>
@@ -50,10 +54,7 @@ class App extends Component {
                 <InventoryPage {...props} categories={categories} />
               )}
             />
-            <Route
-              path="/gallery"
-              render={props => <Gallery {...props} categories={categories} />}
-            />
+            <Route path="/gallery" component={Gallery} />
           </Switch>
         </Fragment>
       </Router>
