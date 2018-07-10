@@ -12,5 +12,11 @@ module.exports = {
     orm.selectAllByColumnValue(table, column, value, function(res) {
       callback(res);
     });
+  },
+
+  selectAllInventoryItems: function(table, callback) {
+    orm.selectAll(table, function(res) {
+      callback(res);
+    });
   }
 };

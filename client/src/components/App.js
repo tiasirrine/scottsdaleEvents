@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import InventoryPage from './pages/Inventory';
 import API from '../api/API';
 import Gallery from './pages/Gallery';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -21,17 +22,33 @@ class App extends Component {
       .catch(error => error);
   };
 
+  loadInventoryItems = () => {
+    API.getInventoryItems()
+      .then(result => {
+        const { data } = result;
+        console.log(data);
+      })
+      .catch(error => console.log(error));
+  };
+
   render() {
+    this.loadInventoryItems();
     const { categories } = this.state;
     return (
       <Router>
         <Fragment>
           <Navbar />
           <Switch>
-            <Route exact path="/" render={props => <Home {...props} categories={categories} />} />
+            <Route
+              exact
+              path="/"
+              render={props => <Home {...props} categories={categories} />}
+            />
             <Route
               path="/inventory"
-              render={props => <InventoryPage {...props} categories={categories} />}
+              render={props => (
+                <InventoryPage {...props} categories={categories} />
+              )}
             />
             <Route
               path="/gallery"
