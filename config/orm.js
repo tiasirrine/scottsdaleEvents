@@ -9,6 +9,7 @@ module.exports = {
       callback(result);
     });
   },
+
   selectAllByColumnValue: function(table, column, value, callback) {
     const query = 'SELECT * FROM ?? WHERE ??=?;';
 
@@ -16,6 +17,15 @@ module.exports = {
       err,
       result
     ) {
+      if (err) throw err.stack;
+      callback(result);
+    });
+  },
+
+  selectAll: function(table, callback) {
+    const query = 'SELECT * FROM ??;';
+
+    connection.query(query, [table], function(err, result) {
       if (err) throw err.stack;
       callback(result);
     });

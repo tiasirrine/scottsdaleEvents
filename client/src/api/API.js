@@ -7,6 +7,10 @@ export default {
 
   getCategoryProducts: function(category) {
     return axios.get('/get-category-products', { params: { category } });
+  },
+
+  getInventoryItems: function() {
+    return axios.get('/get-inventory-items');
   }
 
   // checkUser: function(userInfo) {
