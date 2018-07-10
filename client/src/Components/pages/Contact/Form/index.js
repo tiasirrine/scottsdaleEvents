@@ -1,106 +1,53 @@
 import React from 'react';
+import { AvForm, AvField } from 'availity-reactstrap-validation';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-const Form = () => (
-  <form>
-    <div className="form-row">
-      <div className="col-md-4 mb-3">
-        <label for="validationServer01">First name</label>
-        <input
-          type="text"
-          className="form-control is-valid"
-          id="validationServer01"
-          placeholder="First name"
-          value="Mark"
-          required
-        />
-        <div className="valid-feedback">Looks good!</div>
-      </div>
-      <div className="col-md-4 mb-3">
-        <label for="validationServer02">Last name</label>
-        <input
-          type="text"
-          className="form-control is-valid"
-          id="validationServer02"
-          placeholder="Last name"
-          value="Otto"
-          required
-        />
-        <div className="valid-feedback">Looks good!</div>
-      </div>
-      <div className="col-md-4 mb-3">
-        <label for="validationServerUsername">Username</label>
-        <div className="input-group">
-          <div className="input-group-prepend">
-            <span className="input-group-text" id="inputGroupPrepend3">
-              @
-            </span>
-          </div>
-          <input
-            type="text"
-            className="form-control is-invalid"
-            id="validationServerUsername"
-            placeholder="Username"
-            aria-describedby="inputGroupPrepend3"
-            required
-          />
-          <div className="invalid-feedback">Please choose a username.</div>
-        </div>
-      </div>
-    </div>
-    <div className="form-row">
-      <div className="col-md-6 mb-3">
-        <label for="validationServer03">City</label>
-        <input
-          type="text"
-          className="form-control is-invalid"
-          id="validationServer03"
-          placeholder="City"
-          required
-        />
-        <div className="invalid-feedback">Please provide a valid city.</div>
-      </div>
-      <div className="col-md-3 mb-3">
-        <label for="validationServer04">State</label>
-        <input
-          type="text"
-          className="form-control is-invalid"
-          id="validationServer04"
-          placeholder="State"
-          required
-        />
-        <div className="invalid-feedback">Please provide a valid state.</div>
-      </div>
-      <div className="col-md-3 mb-3">
-        <label for="validationServer05">Zip</label>
-        <input
-          type="text"
-          className="form-control is-invalid"
-          id="validationServer05"
-          placeholder="Zip"
-          required
-        />
-        <div className="invalid-feedback">Please provide a valid zip.</div>
-      </div>
-    </div>
-    <div className="form-group">
-      <div className="form-check">
-        <input
-          className="form-check-input is-invalid"
-          type="checkbox"
-          value=""
-          id="invalidCheck3"
-          required
-        />
-        <label className="form-check-label" for="invalidCheck3">
-          Agree to terms and conditions
-        </label>
-        <div className="invalid-feedback">You must agree before submitting.</div>
-      </div>
-    </div>
-    <button className="btn btn-primary" type="submit">
-      Submit form
-    </button>
-  </form>
-);
+export default class ContactUs extends React.Component {
+  render() {
+    const modalError = this.state.error ? 'not' : ''; // This is just for the modal
+    return (
+      <div>
+        <AvForm onValidSubmit={this.handleValidSubmit} onInvalidSubmit={this.handleInvalidSubmit}>
+          <AvField name="email" label="Email Address" type="email" required />
+          <Button color="primary">Submit</Button>
+        </AvForm>
 
-export default Form;
+        {/* below this is just for show, it's not needed unless you want a modal upon form submission */}
+        <Modal isOpen={this.state.email !== false} toggle={this.closeModal}>
+          <ModalHeader toggle={this.closeModal}>Form is {modalError} valid!</ModalHeader>
+          <ModalBody>
+            You have {modalError} successfully filled out the form and submitted it. Your email ({
+              this.state.email
+            }) is {modalError} valid!
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this.closeModal}>
+              Ok, got it!
+            </Button>
+          </ModalFooter>
+        </Modal>
+      </div>
+    );
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.handleValidSubmit = this.handleValidSubmit.bind(this);
+    this.handleInvalidSubmit = this.handleInvalidSubmit.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.state = { email: false };
+  }
+
+  handleValidSubmit(event, values) {
+    this.setState({ email: values.email });
+  }
+
+  handleInvalidSubmit(event, errors, values) {
+    this.setState({ email: values.email, error: true });
+  }
+
+  closeModal() {
+    this.setState({ email: false, error: false });
+  }
+}
