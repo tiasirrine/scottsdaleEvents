@@ -23,20 +23,36 @@ class CategoryProduct extends Component {
 
   componentWillMount() {
     this.setState({
-      categoryItems: this.loadCategoryProducts(this.state.route)
+      route: this.props.match.params.category,
+      categoryItems: this.loadCategoryProducts(this.props.match.params.category)
     });
   }
 
   componentDidUpdate(prevProps) {
-    console.log(prevProps);
+    // console.log(
+    //   'thisProps',
+    //   this.props.match.params.category,
+    //   'prevProps:',
+    //   prevProps.match.params.category
+    // );
+    // Typical usage (don't forget to compare props):
+    if (this.props.match.params.category !== prevProps.match.params.category) {
+      this.setState({
+        route: this.props.match.params.category,
+        categoryItems: this.loadCategoryProducts(
+          this.props.match.params.category
+        )
+      });
+    }
   }
 
   render() {
-    const { route, categoryItems } = this.state;
-    console.log('CategoryProduct STATE:', route);
+    console.log('STATE:', this.state);
+    const { categoryItems } = this.state;
+    // console.log('CategoryProduct STATE:', this.state);
     return (
       <Fragment>
-        <div>Inventory Items for {route}</div>
+        <div>Inventory Items for {this.props.match.params.category}</div>
         {categoryItems ? categoryItems.map(a => <p key={a}>{a}</p>) : null}
       </Fragment>
     );

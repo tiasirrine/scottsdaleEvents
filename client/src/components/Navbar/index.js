@@ -32,7 +32,7 @@ const Nav = () => (
             </Link>
           </li>
           <li>
-            <Link to="/saved" className="nav-link">
+            <Link to="/gallery" className="nav-link">
               Gallery
             </Link>
           </li>
