@@ -1,4 +1,4 @@
 module.exports = {
   inventory: require('./inventory'),
-  customers: require('./users')
+  users: require('./users')
 };
