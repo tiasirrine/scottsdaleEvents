@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import API from '../../../api/API';
+import InventoryCard from '../../../Components/InventoryCard';
 
 class CategoryProduct extends Component {
   constructor(props) {
@@ -39,9 +40,7 @@ class CategoryProduct extends Component {
     if (this.props.match.params.category !== prevProps.match.params.category) {
       this.setState({
         route: this.props.match.params.category,
-        categoryItems: this.loadCategoryProducts(
-          this.props.match.params.category
-        )
+        categoryItems: this.loadCategoryProducts(this.props.match.params.category)
       });
     }
   }
@@ -52,8 +51,9 @@ class CategoryProduct extends Component {
     // console.log('CategoryProduct STATE:', this.state);
     return (
       <Fragment>
-        <div>Inventory Items for {this.props.match.params.category}</div>
-        {categoryItems ? categoryItems.map(a => <p key={a}>{a}</p>) : null}
+        <InventoryCard item={this.props.match.params.category} indItem={'map into here'} />
+        {/* <div>Inventory Items for {this.props.match.params.category}</div> */}
+        {/* {categoryItems ? categoryItems.map(a => <p key={a}>{a}</p>) : null} */}
       </Fragment>
     );
   }
