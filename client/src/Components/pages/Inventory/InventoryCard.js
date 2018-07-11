@@ -1,16 +1,3 @@
-// get card component used for inventory item
-// click on image, could expand card
-// click on a catrgory and go to a new route for that cat
-// create a new page folder call inventory
-// witihn inventory, need, inventory card
-// when somebody clicks on bar, it takes them to inventory / bars
-// create an aray with fake data, get data from database, (we dont have this)
-// button on card to add quanitity and item to cart(+ or -)
-
-//turn into a class, statefull
-//keep track of state, quantity
-//update state when click - or +
-// whaen user hits submit, save the value of the state (track it)
 import React, { Component, Fragment } from 'react';
 import {
   Card,
@@ -23,7 +10,12 @@ import {
   Container,
   Button,
   Row,
-  Col
+  Col,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  FormText
 } from 'reactstrap';
 import images from './Images';
 import './InventoryPage.css';
@@ -31,26 +23,49 @@ import './InventoryPage.css';
 class InventoryCard extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      quantity: 0
+    };
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
+
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+    console.log(this.state.quantity);
+  };
+
   render() {
     return (
       <Card className="item-card-class">
         <CardImg top width="50px" src="http://via.placeholder.com/100x100" alt="Card image cap" />
         <CardBody>
           <CardTitle>{this.props.cardTitle}</CardTitle>
-          <CardSubtitle>a subtitle</CardSubtitle>
-          <CardText>Here is some text for a detailed description...or not</CardText>
-          <Button>Button</Button>
+          <CardSubtitle>
+            {' '}
+            <FormGroup>
+              <Label for="item-quantity">Quantity</Label>
+              <Input
+                value={this.state.quantity}
+                onChange={this.handleInputChange}
+                type="number"
+                name="quantity"
+                id="item-quantity"
+                max="1000"
+                maxLength="4"
+                placeholder={'Quantity Needed'}
+              />
+            </FormGroup>
+          </CardSubtitle>
+          {/* <CardText>Here is some text for a detailed description...or not</CardText> */}
+          <Button>Add To Cart</Button>
         </CardBody>
       </Card>
     );
   }
 }
-
-// const InventoryCard = props => {
-//   return (
-
-//   );
-// };
 
 export default InventoryCard;
