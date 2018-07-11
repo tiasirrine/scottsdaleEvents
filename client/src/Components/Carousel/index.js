@@ -8,21 +8,28 @@ import {
 } from 'reactstrap';
 import images from './Images';
 
+const sStyle = {
+  width: 1200,
+  display: 'block',
+  height: 'auto',
+  margin: 'auto'
+};
+
 const items = [
   {
-    src: images,
+    src: images[0],
     id: 1,
     altText: 'Slide 1',
     caption: 'Slide 1'
   },
   {
-    src: '',
+    src: images[1],
     id: 2,
     altText: 'Slide 2',
     caption: 'Slide 2'
   },
   {
-    src: '',
+    src: images[2],
     id: 3,
     altText: 'Slide 3',
     caption: 'Slide 3'
@@ -77,7 +84,7 @@ class Carouseler extends Component {
           onExiting={this.onExiting}
           onExited={this.onExited}
         >
-          <img src={item.src} alt={item.altText} />
+          <img style={sStyle} src={item.src} alt={item.altText} />
           <CarouselCaption
             className="text-danger"
             captionText={item.caption}
