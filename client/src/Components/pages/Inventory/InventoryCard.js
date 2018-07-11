@@ -39,8 +39,14 @@ class InventoryCard extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    this.setState({ value: this.state.quantity });
-    console.log(this.state.quantity);
+    const copyofReturned = this.state.quantity.slice();
+    const articleToSave = copyofReturned[event.target.getAttribute('data-id')];
+    const objectToSave = {};
+    objectToSave.quantity = articleToSave.quantity;
+
+    this.setState({ quantity: this.state.quantity });
+    console.log(objectToSave);
+    //code to save to db or save the state for cart goes here
   };
 
   render() {
@@ -57,7 +63,7 @@ class InventoryCard extends Component {
               <Input
                 value={this.state.quantity}
                 onChange={this.handleInputChange}
-                data-id={this.props.key}
+                data-id={this.props.id}
                 type="number"
                 name="quantity"
                 id="item-quantity"
@@ -68,7 +74,12 @@ class InventoryCard extends Component {
             </FormGroup>
           </CardSubtitle>
           {/* <CardText>Here is some text for a detailed description...or not</CardText> */}
-          <Button type="submit" onClick={this.state.handleFormSubmit} data-id={this.props.key}>
+          <Button
+            type="submit"
+            value="Submit"
+            onClick={this.state.handleFormSubmit}
+            data-id={this.props.id}
+          >
             Add To Cart
           </Button>
         </CardBody>
