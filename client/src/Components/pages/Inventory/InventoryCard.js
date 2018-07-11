@@ -37,6 +37,12 @@ class InventoryCard extends Component {
     });
   };
 
+  handleFormSubmit = event => {
+    event.preventDefault();
+    this.setState({ value: this.state.quantity });
+    console.log(this.state.quantity);
+  };
+
   render() {
     console.log(this.state);
     return (
@@ -51,6 +57,7 @@ class InventoryCard extends Component {
               <Input
                 value={this.state.quantity}
                 onChange={this.handleInputChange}
+                data-id={this.props.key}
                 type="number"
                 name="quantity"
                 id="item-quantity"
@@ -61,7 +68,7 @@ class InventoryCard extends Component {
             </FormGroup>
           </CardSubtitle>
           {/* <CardText>Here is some text for a detailed description...or not</CardText> */}
-          <Button type="submit" onClick={this.state.onClick}>
+          <Button type="submit" onClick={this.state.handleFormSubmit} data-id={this.props.key}>
             Add To Cart
           </Button>
         </CardBody>
