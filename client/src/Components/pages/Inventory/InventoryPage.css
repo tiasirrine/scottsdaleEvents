@@ -1,2 +1,29 @@
+.card-title {
+  font-size: 10px;
+}
+
 .item-card-class {
+  margin: 5px;
+  max-width: 12rem;
+  max-height: 18rem;
+}
+input[type='number'] {
+  max-height: 24px;
+  padding: 5px;
+  border: 2px solid orange;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+input[type='submit'] {
+  padding: 5px 15px;
+  background: #ccc;
+  border: 0 none;
+  cursor: pointer;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+input[type='number']::placeholder {
+  font-size: 10px;
 }
