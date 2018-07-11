@@ -5,8 +5,8 @@ import Home from './pages/Home';
 import InventoryPage from './pages/Inventory';
 import API from '../api/API';
 import Gallery from './pages/Gallery';
-import Form from './pages/Contact/Form/index';
 import ContactUs from './pages/Contact/Form/index';
+import CustomerLogin from './pages/CustomerLogin';
 
 class App extends Component {
   constructor(props) {
@@ -15,31 +15,28 @@ class App extends Component {
     this.state = { categories: this.categories };
   }
 
+  // loads the inventory categories for the nav bar
   loadCategories = () => {
-    return API.getInventoryCategories()
+    return API.getDistinctCategories()
       .then(result => {
         const arr = result.data.map(index => index['CATEGORY']);
         return this.setState({ categories: arr });
       })
-      .catch(error => error);
-  };
-
-  loadInventoryItems = () => {
-    API.getInventoryItems()
-      .then(result => {
-        const { data } = result;
-        console.log(data);
-      })
-      .catch(error => console.log(error));
+      .catch(error => {
+        console.error(error);
+        this.setState({ error: '500 (Internal Server Error)' });
+      });
   };
 
   render() {
-
-    this.loadInventoryItems();
-
     console.log(this.state);
 
-    const { categories } = this.state;
+    const { categories, error } = this.state;
+
+    if (error) {
+      return <h3>{error}</h3>;
+    }
+
     return (
       <Router>
         <Fragment>
@@ -57,6 +54,7 @@ class App extends Component {
               )}
             />
             <Route path="/gallery" component={Gallery} />
+            <Route path="/login" component={CustomerLogin} />
             <Route path="/contact" component={ContactUs} />
           </Switch>
         </Fragment>
@@ -66,5 +64,3 @@ class App extends Component {
 }
 
 export default App;
-
-// <Route path='/inventory' component={inventory}/>
