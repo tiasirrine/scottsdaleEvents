@@ -6,6 +6,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const router = require('express').Router();
 // const helpers = require('../util');
 const inventory = controllers.inventory;
+const users = controllers.users;
 
 // post route to create a user
 router.get('/get-distinct-category', (req, res) => {
@@ -33,9 +34,16 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
   res.send(true);
 });
 
-router.post('/create-user', (req, res) => {
-  console.log('create user:', req.body);
-});
+// router.post('/create-user', (req, res) => {
+//   users.createCustomer('customers', req.body, (err, result) => {
+//     if (err) res.status(500);
+//     res.status(200).send('OK');
+//   });
+// });
+
+// router.get('/get-user', (req, res) => {
+//   console.log('create user:', req.body);
+// });
 
 passport.use(
   new LocalStrategy((username, password, done) => {

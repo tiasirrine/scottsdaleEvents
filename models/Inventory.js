@@ -2,13 +2,13 @@ const orm = require('../config/orm');
 
 module.exports = {
   selectDistinctCategory: function(table, callback) {
-    orm.selectDistinct(table, function(err, result) {
+    orm.selectDistinct(table, (err, result) => {
       callback(err, result);
     });
   },
 
   selectAllCategoryProducts: function(table, column, value, callback) {
-    orm.selectAllByColumnValue(table, column, value, function(err, result) {
+    orm.selectAll(table, column, value, (err, result) => {
       callback(err, result);
     });
   }

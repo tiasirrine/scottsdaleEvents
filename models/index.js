@@ -1,4 +1,4 @@
 module.exports = {
-  // users: require('./user'),
-  inventory: require('./inventory')
+  inventory: require('./inventory'),
+  customers: require('./users')
 };
