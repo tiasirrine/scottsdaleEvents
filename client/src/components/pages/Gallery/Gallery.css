@@ -1,0 +1,11 @@
+.gallery-image {
+  height: 400px;
+  width: 400px;
+  -webkit-transition: width 2s, height 4s; /* Safari */
+  transition: width 2s, height 4s;
+}
+
+.gallery-image:hover {
+  height: 800px;
+  width: 800px;
+}
