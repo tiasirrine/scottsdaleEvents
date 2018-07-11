@@ -8,7 +8,7 @@ module.exports = {
   },
 
   selectAllCategoryProducts: function(table, column, value, callback) {
-    orm.selectAll(table, column, value, (err, result) => {
+    orm.selectAllByColumn(table, column, value, (err, result) => {
       callback(err, result);
     });
   }
