@@ -25,7 +25,7 @@ class InventoryCard extends Component {
     super(props);
 
     this.state = {
-      quantity: 0
+      quantity: ''
     };
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -35,19 +35,19 @@ class InventoryCard extends Component {
     this.setState({
       [name]: value
     });
-    console.log(this.state.quantity);
   };
 
   render() {
+    console.log(this.state);
     return (
-      <Card className="item-card-class">
+      <Card className="item-card-class text-white bg-primary text-center">
         <CardImg top width="50px" src="http://via.placeholder.com/100x100" alt="Card image cap" />
         <CardBody>
           <CardTitle>{this.props.cardTitle}</CardTitle>
           <CardSubtitle>
             {' '}
             <FormGroup>
-              <Label for="item-quantity">Quantity</Label>
+              <Label for="item-quantity" />
               <Input
                 value={this.state.quantity}
                 onChange={this.handleInputChange}
@@ -56,12 +56,14 @@ class InventoryCard extends Component {
                 id="item-quantity"
                 max="1000"
                 maxLength="4"
-                placeholder={'Quantity Needed'}
+                placeholder={'Quantity'}
               />
             </FormGroup>
           </CardSubtitle>
           {/* <CardText>Here is some text for a detailed description...or not</CardText> */}
-          <Button>Add To Cart</Button>
+          <Button type="submit" onClick={this.state.onClick}>
+            Add To Cart
+          </Button>
         </CardBody>
       </Card>
     );

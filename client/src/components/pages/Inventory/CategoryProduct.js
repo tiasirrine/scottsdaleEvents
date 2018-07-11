@@ -59,7 +59,7 @@ class CategoryProduct extends Component {
     let indInventoryCards = categoryItems
       ? categoryItems.map(a => {
           return (
-            <Col sm="4" key={a}>
+            <Col sm="2.4" key={a}>
               <InventoryCard cardTitle={a} key={a} />
               {error ? <h3 className="text-center">{error}</h3> : null}
             </Col>
