@@ -56,10 +56,11 @@ class CategoryProduct extends Component {
 
   render() {
     const { categoryItems, error } = this.state;
+    console.log('Cat items: ', categoryItems);
     let indInventoryCards = categoryItems
       ? categoryItems.map(a => {
           return (
-            <Col sm="4" key={a}>
+            <Col key={a} sm="4">
               <InventoryCard cardTitle={a} key={a} />
               {error ? <h3 className="text-center">{error}</h3> : null}
             </Col>

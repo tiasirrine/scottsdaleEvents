@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from "react";
-import images from "./Images";
-import "./Gallery.css";
+import React, { Component, Fragment } from 'react';
+import images from './Images';
+import './Gallery.css';
 
 class Gallery extends Component {
   render() {
