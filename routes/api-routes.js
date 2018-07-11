@@ -8,8 +8,9 @@ const router = require('express').Router();
 const inventory = controllers.inventory;
 
 // post route to create a user
-router.get('/get-inventory-category', (req, res) => {
-  inventory.selectAllAndGroupBy(result => {
+router.get('/get-distinct-category', (req, res) => {
+  inventory.selectDistinctCategory('inventory', (err, result) => {
+    if (err) res.status(500);
     res.send(result);
   });
 });
@@ -20,14 +21,20 @@ router.get('/get-category-products', (req, res) => {
     'inventory',
     'CATEGORY',
     category,
-    result => {
+    (err, result) => {
+      if (err) res.status(500);
       res.send(result);
     }
   );
 });
 
-router.get('/get-inventory-items', (req, res) => {
-  inventory.selectAllInventoryItems('inventory', result => res.send(result));
+router.post('/login', passport.authenticate('local'), (req, res) => {
+  console.log('REQ.USER:', req.user);
+  res.send(true);
+});
+
+router.post('/create-user', (req, res) => {
+  console.log('create user:', req.body);
 });
 
 passport.use(

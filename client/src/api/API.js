@@ -1,16 +1,14 @@
 import axios from 'axios';
 
 export default {
-  getInventoryCategories: function() {
-    return axios.get('/get-inventory-category');
+  // called in App.js
+  getDistinctCategories: function() {
+    return axios.get('/get-distinct-category');
   },
 
+  // called in CategoryProduct
   getCategoryProducts: function(category) {
     return axios.get('/get-category-products', { params: { category } });
-  },
-
-  getInventoryItems: function() {
-    return axios.get('/get-inventory-items');
   }
 
   // checkUser: function(userInfo) {

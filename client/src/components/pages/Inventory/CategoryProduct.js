@@ -12,14 +12,17 @@ class CategoryProduct extends Component {
     };
   }
 
+  // loads the inventory items based on the category.
   loadCategoryProducts = category => {
     API.getCategoryProducts(category)
       .then(result => {
         const arr = result.data.map(index => index['NAME']);
-        console.log(arr);
         return this.setState({ categoryItems: arr });
       })
-      .catch(error => console.log('ERROR:', error));
+      .catch(error => {
+        console.error(error);
+        this.setState({ error: '500 (Internal Server Error)' });
+      });
   };
 
   componentWillMount() {
@@ -30,13 +33,6 @@ class CategoryProduct extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    // console.log(
-    //   'thisProps',
-    //   this.props.match.params.category,
-    //   'prevProps:',
-    //   prevProps.match.params.category
-    // );
-    // Typical usage (don't forget to compare props):
     if (this.props.match.params.category !== prevProps.match.params.category) {
       this.setState({
         route: this.props.match.params.category,
@@ -46,14 +42,14 @@ class CategoryProduct extends Component {
   }
 
   render() {
-    console.log('STATE:', this.state);
-    const { categoryItems } = this.state;
-    // console.log('CategoryProduct STATE:', this.state);
+    const { categoryItems, error } = this.state;
     return (
       <Fragment>
-        <InventoryCard item={this.props.match.params.category} indItem={'map into here'} />
-        {/* <div>Inventory Items for {this.props.match.params.category}</div> */}
-        {/* {categoryItems ? categoryItems.map(a => <p key={a}>{a}</p>) : null} */}
+
+        <div>Inventory Items for {this.props.match.params.category}</div>
+        {categoryItems ? categoryItems.map(a => <p key={a}>{a}</p>) : null}
+        {error ? <h3 className="text-center">{error}</h3> : null}
+
       </Fragment>
     );
   }
