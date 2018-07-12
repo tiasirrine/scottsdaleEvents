@@ -31,7 +31,7 @@ module.exports = {
   },
 
   deleteOneRow: function(table, value, callback) {
-    const query = 'DELETE FROM ?? WHERE ?; ';
+    const query = 'DELETE FROM ?? WHERE ?;';
     connection.query(query, [[table], value], (err, result) => {
       callback(err, result);
     });
