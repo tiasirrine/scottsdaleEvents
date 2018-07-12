@@ -41,8 +41,7 @@ router.post('/create-customer', (req, res) => {
 });
 
 router.post('/get-customer', (req, res) => {
-  const { username } = req.body;
-  users.selectCustomerByUsername('username', username, (err, result) => {
+  users.selectOneCustomer(req.body, (err, result) => {
     if (err) res.status(500).send(err);
     res.status(200).send(result);
   });

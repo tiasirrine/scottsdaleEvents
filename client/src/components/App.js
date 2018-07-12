@@ -33,10 +33,6 @@ class App extends Component {
 
     const { categories, error } = this.state;
 
-    if (error) {
-      return <h3>{error}</h3>;
-    }
-
     return (
       <Router>
         <Fragment>
