@@ -55,22 +55,26 @@ module.exports = {
       // sends an error if there is one
       if (err) callback(err);
 
-      // gets the hashed password on a result
-      const hash = result[0].password;
+      if (result.length) {
+        // gets the hashed password on a result
+        const hash = result[0].password;
 
-      // compares the 2 passwords
-      bcrypt.compare(password, hash, function(err, res) {
-        // if res is false, then send an error
-        if (!res) {
-          callback('Passwords do not match');
-        } else {
-          // removes the hashed password before sending to the client
-          delete result[0].password;
+        // compares the 2 passwords
+        bcrypt.compare(password, hash, function(err, res) {
+          // if res is false, then send an error
+          if (!res) {
+            callback('Passwords do not match');
+          } else {
+            // removes the hashed password before sending to the client
+            delete result[0].password;
 
-          // else send the result
-          callback(err, result);
-        }
-      });
+            // else send the result
+            callback(err, result);
+          }
+        });
+      } else {
+        callback('User not found');
+      }
     });
   },
 
@@ -82,5 +86,11 @@ module.exports = {
         callback(err, result);
       }
     );
+  },
+
+  getUserById: function(id, callback) {
+    orm.selectAllByColumn('customers', 'id', id, (err, result) => {
+      callback(err, result);
+    });
   }
 };
