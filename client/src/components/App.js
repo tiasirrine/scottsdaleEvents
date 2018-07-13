@@ -12,14 +12,14 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.categories = this.loadCategories();
-    this.state = { categories: this.categories };
+    this.state = { categories: [] };
   }
 
   // loads the inventory categories for the nav bar
   loadCategories = () => {
     return API.getDistinctCategories()
       .then(result => {
-        const arr = result.data.map(index => index['CATEGORY']);
+        const arr = result.data.map(index => index['category']);
         return this.setState({ categories: arr });
       })
       .catch(error => {

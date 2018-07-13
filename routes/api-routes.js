@@ -1,111 +1,93 @@
 require('dotenv').config();
-const controllers = require('../models');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+const {
+  Admins,
+  Cart_products,
+  Customers,
+  Products,
+  User_carts
+} = require('../models');
+// const passport = require('passport');
+// const LocalStrategy = require('passport-local').Strategy;
 const router = require('express').Router();
-const inventory = controllers.inventory;
-const users = controllers.users;
 
 // loads the categories for the InventoryNav
 router.get('/get-distinct-category', (req, res) => {
-  inventory.selectDistinctCategory('inventory', (err, result) => {
-    if (err) res.status(500).send(err);
-    res.send(result);
-  });
+  Products.findAll({ attributes: ['category'], group: 'category' })
+    .then(result => res.send(result))
+    .catch(error => res.status(500).send(error));
 });
 
 // loads the individual category products
+// TODO: this needs to be a get route
 router.get('/get-category-products', (req, res) => {
   const { category } = req.query;
-  inventory.selectAllCategoryProducts(
-    'inventory',
-    'CATEGORY',
-    category,
-    (err, result) => {
-      if (err) res.status(500).send(err);
-      res.send(result);
-    }
-  );
+  Products.findAll({ where: { category: category } })
+    .then(result => res.send(result))
+    .catch(error => res.status(500).send(error));
 });
 
-// creates a new customer
-router.post('/create-customer', (req, res) => {
-  users.createCustomer(req.body, (err, result) => {
-    if (err) res.status(500).send(err);
-    res.status(200).send(result);
-  });
-});
+// // creates a new customer
+// router.post('/create-customer', (req, res) => {
+//   //
+// });
 
-// gets a new customer
-router.post('/get-customer', (req, res) => {
-  users.selectOneCustomer(req.body, (err, result) => {
-    if (err) res.status(500).send(err);
-    res.status(200).send(result);
-  });
-});
+// // gets a new customer
+// router.post('/get-customer', (req, res) => {
+//   //
+// });
 
-// deletes a customer
-router.post('/delete-customer', (req, res) => {
-  users.deleteCustomer(req.body, (err, result) => {
-    if (err) res.status(500).send(err);
-    res.status(200).send(result);
-  });
-});
+// // deletes a customer
+// router.post('/delete-customer', (req, res) => {
+//   //
+// });
 
-// freezes a customer (locks a customers account)
-router.post('/freeze-customer', (req, res) => {
-  const { frozen, id } = req.body;
-  users.updateFreeze({ frozen }, { id }, (err, result) => {
-    if (err) res.status(500).send(err);
-    res.status(200).send(result);
-  });
-});
+// // freezes a customer (locks a customers account)
+// router.post('/freeze-customer', (req, res) => {
+//   //
+// });
 
-// unfreezes a customer (unlocks a customers account)
-router.post('/unfreeze-customer', (req, res) => {
-  const { frozen, id } = req.body;
-  users.updateFreeze({ frozen }, { id }, (err, result) => {
-    if (err) res.status(500).send(err);
-    res.status(200).send(result);
-  });
-});
+// // unfreezes a customer (unlocks a customers account)
+// router.post('/unfreeze-customer', (req, res) => {
+//   //
+// });
 
-// loads all customers
-router.get('/all-customers', (req, res) => {
-  users.selectAllCustomers((err, result) => {
-    if (err) res.status(500).send(err);
-    res.status(200).send(result);
-  });
-});
+// // loads all customers
+// router.get('/all-customers', (req, res) => {
+//   //
+// });
 
-router.post('/login', passport.authenticate('local'), (req, res) => {
-  console.log('REQ.USER:', req.session.passport.user);
-  res.send(true);
-});
+// router.post('save-product', (req, res) => {
+//   //
+// });
 
-passport.use(
-  new LocalStrategy((username, password, done) => {
-    const user = { username, password };
-    users.selectOneCustomer(user, (err, result) => {
-      if (err) {
-        return done(null, false);
-      } else {
-        return done(null, result);
-      }
-    });
-  })
-);
+// router.post('/login', passport.authenticate('local'), (req, res) => {
+//   console.log('REQ.USER:', req.session.passport.user);
+//   res.send(true);
+// });
 
-// saves the users session in a cookie based on the userID
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
+// passport.use(
+//   new LocalStrategy((username, password, done) => {
+//     const user = { username, password };
+//     users.selectOneCustomer(user, (err, result) => {
+//       if (err) {
+//         return done(null, false);
+//       } else {
+//         return done(null, result);
+//       }
+//     });
+//   })
+// );
 
-// checks the cookie
-passport.deserializeUser((id, done) => {
-  users.getUserById(id, (err, user) => {
-    done(err, user);
-  });
-});
+// // saves the users session in a cookie based on the userID
+// passport.serializeUser((user, done) => {
+//   done(null, user);
+// });
+
+// // checks the cookie
+// passport.deserializeUser((id, done) => {
+//   users.getUserById(id, (err, user) => {
+//     done(err, user);
+//   });
+// });
 
 module.exports = router;
