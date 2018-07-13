@@ -1,6 +1,6 @@
-import light from '../../Images/bulbstring.jpg';
-import light2 from '../../Images/lightstring.jpg';
-import bar from '../../Images/bar.jpg';
+import light from '../../images/bulbstring.jpg';
+import light2 from '../../images/lightstring.jpg';
+import bar from '../../images/bar.jpg';
 
 const images = [light, light2, bar];
 
