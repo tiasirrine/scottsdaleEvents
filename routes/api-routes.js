@@ -1,35 +1,38 @@
 require('dotenv').config();
-const {
-  Admins,
-  Cart_products,
-  Customers,
-  Products,
-  User_carts
-} = require('../models');
+const { products, users } = require('../controllers');
+// const {
+//   Admins,
+//   Cart_products,
+//   Customers,
+//   Products,
+//   User_carts
+// } = require('../models');
 // const passport = require('passport');
 // const LocalStrategy = require('passport-local').Strategy;
 const router = require('express').Router();
 
 // loads the categories for the InventoryNav
 router.get('/get-distinct-category', (req, res) => {
-  Products.findAll({ attributes: ['category'], group: 'category' })
+  products
+    .selectAllCategories()
     .then(result => res.send(result))
-    .catch(error => res.status(500).send(error));
+    .catch(err => res.status(500).send(err));
 });
 
 // loads the individual category products
 // TODO: this needs to be a get route
 router.get('/get-category-products', (req, res) => {
   const { category } = req.query;
-  Products.findAll({ where: { category: category } })
+  products
+    .selectAllProductsByCategory(category)
     .then(result => res.send(result))
-    .catch(error => res.status(500).send(error));
+    .catch(err => console.log(err));
 });
 
 // // creates a new customer
-// router.post('/create-customer', (req, res) => {
-//   //
-// });
+router.post('/create-customer', (req, res) => {
+  //
+});
 
 // // gets a new customer
 // router.post('/get-customer', (req, res) => {

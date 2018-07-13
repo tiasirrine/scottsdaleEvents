@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/connection.js');
 
-const User_carts = sequelize.define(
+const Customer_carts = sequelize.define(
   'user_cart',
   {
     user_id: {
@@ -14,6 +14,6 @@ const User_carts = sequelize.define(
   }
 );
 
-User_carts.sync();
+Customer_carts.sync();
 
-module.exports = User_carts;
+module.exports = Customer_carts;
