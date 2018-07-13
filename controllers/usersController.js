@@ -29,18 +29,6 @@ module.exports = {
     });
   },
 
-  findOneTest: function(user) {
-    return new Promise((resolve, reject) => {
-      User.findOne({ username: user })
-        .then(returnedUser => {
-          this.checkPassword('Hinton', returnedUser.password)
-            .then(res => resolve(res))
-            .catch(err => reject(err));
-        })
-        .catch(err => console.log(err));
-    });
-  },
-
   // delete user
   delete: function(username) {
     User.deleteOne({ username })

@@ -1,37 +1,105 @@
 require('dotenv').config();
-// const controllers = require('../controllers');
+const controllers = require('../models');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const upload = require('../util/multer');
 const router = require('express').Router();
-// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const helpers = require('../util');
+const inventory = controllers.inventory;
+const users = controllers.users;
 
-// post route to create a user
-router.post('/createUser', (req, res) => {
-  users
-    .createNewUser(req.body)
-    .then(res => console.log('CREATE USER RESULT:', res))
-    .catch(err => console.log('CREATE USER ERROR:', err));
+// loads the categories for the InventoryNav
+router.get('/get-distinct-category', (req, res) => {
+  inventory.selectDistinctCategory('inventory', (err, result) => {
+    if (err) res.status(500).send(err);
+    res.send(result);
+  });
+});
+
+// loads the individual category products
+router.get('/get-category-products', (req, res) => {
+  const { category } = req.query;
+  inventory.selectAllCategoryProducts(
+    'inventory',
+    'CATEGORY',
+    category,
+    (err, result) => {
+      if (err) res.status(500).send(err);
+      res.send(result);
+    }
+  );
+});
+
+// creates a new customer
+router.post('/create-customer', (req, res) => {
+  users.createCustomer(req.body, (err, result) => {
+    if (err) res.status(500).send(err);
+    res.status(200).send(result);
+  });
+});
+
+// gets a new customer
+router.post('/get-customer', (req, res) => {
+  users.selectOneCustomer(req.body, (err, result) => {
+    if (err) res.status(500).send(err);
+    res.status(200).send(result);
+  });
+});
+
+// deletes a customer
+router.post('/delete-customer', (req, res) => {
+  users.deleteCustomer(req.body, (err, result) => {
+    if (err) res.status(500).send(err);
+    res.status(200).send(result);
+  });
+});
+
+// freezes a customer (locks a customers account)
+router.post('/freeze-customer', (req, res) => {
+  const { frozen, id } = req.body;
+  users.updateFreeze({ frozen }, { id }, (err, result) => {
+    if (err) res.status(500).send(err);
+    res.status(200).send(result);
+  });
+});
+
+// unfreezes a customer (unlocks a customers account)
+router.post('/unfreeze-customer', (req, res) => {
+  const { frozen, id } = req.body;
+  users.updateFreeze({ frozen }, { id }, (err, result) => {
+    if (err) res.status(500).send(err);
+    res.status(200).send(result);
+  });
+});
+
+// loads all customers
+router.get('/all-customers', (req, res) => {
+  users.selectAllCustomers((err, result) => {
+    if (err) res.status(500).send(err);
+    res.status(200).send(result);
+  });
+});
+
+router.post('save-product', (req, res) => {
+  cart_product.saveProduct((err, result) => {
+    if (err) res.status(500).send(err);
+    res.status(200).send(result);
+  });
 });
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
-  console.log('REQ.USER:', req.user);
+  console.log('REQ.USER:', req.session.passport.user);
   res.send(true);
 });
 
 passport.use(
   new LocalStrategy((username, password, done) => {
     const user = { username, password };
-    users
-      .findOne(user)
-      .then(foundUser => {
-        return done(null, foundUser);
-      })
-      .catch(error => {
-        console.log('NO USER FOUND:', error);
+    users.selectOneCustomer(user, (err, result) => {
+      if (err) {
         return done(null, false);
-      });
+      } else {
+        return done(null, result);
+      }
+    });
   })
 );
 
