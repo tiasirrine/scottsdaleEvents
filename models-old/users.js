@@ -88,6 +88,7 @@ module.exports = {
     );
   },
 
+  // used to de-serialize a user by passport
   getUserById: function(id, callback) {
     orm.selectAllByColumn('customers', 'id', id, (err, result) => {
       callback(err, result);

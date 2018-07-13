@@ -1,4 +1,7 @@
 module.exports = {
-  inventory: require('./inventory'),
-  users: require('./users')
+  Admins: require('./Admins'),
+  Cart_products: require('./Cart_products'),
+  Customers: require('./Customers'),
+  Products: require('./Products'),
+  User_carts: require('./User_carts')
 };
