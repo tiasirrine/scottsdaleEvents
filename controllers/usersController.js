@@ -1,4 +1,5 @@
-const User = require('../models/User');
+const Customer = require('../models/Customers');
+const Admin = require('../models/Admins');
 const bcrypt = require('bcryptjs');
 
 module.exports = {
