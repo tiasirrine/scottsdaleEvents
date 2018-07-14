@@ -1,0 +1,35 @@
+id,category,subcategory,key,name,description,price,categoryID
+2,Bars,Bar Front,,Sonoma Reclaimed Wood Bar Front,"SONOMA RECLAIM WOOD BAR FRONT 33"" X 73"" X 50"". It does not include bar backs",320,1
+3,Bars,Bar Front,,Mahogany Wooden Bar Front,"As shown: 16’ W, 120” L & 45’ H. It does not include bar backs",225,1
+4,Bars,Bar Back,,Sonoma Ladder Bar Back ,"Great to display glassware, spirits or other accent pieces. Includes a pair of ladders, 4 shelves, and the red ""BAR"" lettering ",320,1
+5,Bars,Bar Back,,Six Barrel Bar Back ,"6 wine barrels at 2 rows of three with the ""BAR"" lettering back ground",80,1
+6,Bars,Bar Back,,Marquee Rusted Letters,Decor lettering that complements the bar ,80,1
+7,Bars,Bar Back,,Marquee Red Letters,Decor lettering that complements the bar ,80,1
+8,Tables,,,Double Barrel Descansa Pub,Descansa finish top on 2 barrels. 3' x 6' x 38'',115,2
+9,Tables,,,Double Barrel Descansa Pub,Descansa finish top on 2 barrels. 4' x 8' x 38'',115,2
+10,Tables,,,Descansa Table,Descansa finish top. 3' x 6' x 30'',105,2
+11,Tables,,,Descansa Table,Descansa finish top. 4' x 8' x 30'',125,2
+12,Tables,,,Descansa Highboy Table,Descansa finish top. 3' x 6' x 42'',105,2
+13,Tables,,,Descansa Highboy Table,Descansa finish top. 4' x 8' x 42'',125,2
+14,Tables,,,Single Barrel Highboy Round,"Wooden hard top. 44""W x 44""L x 38"" H",75,2
+15,Tables,,,Carmel Highboy Table,"Faux distressed wood top. 2' x 4' x 42""",75,2
+16,Tables,,,Carmel Highboy Table,"Faux distressed wood top. 2' x 6' x 42""",95,2
+17,Seating,,,Firepit Bench,Descansa Finish. 2' x 4'x16'',35,3
+18,Seating,,,Descansa Bench Short,7' (short),30,3
+19,Seating,,,Descansa Bench Long,9' (long),30,3
+20,Seating,,,Padded Natural-Wood Bar Stool,30'' tall,10,3
+21,Seating,,,Distressed Gunmetal Bar Stool,30'' tall,14,3
+22,Seating,,,Silver Bistro Chair,Silver metallic chair,10,3
+23,Lighting & Staging,Lighting,,Uplight wireless LED light (packages available),Programmable in a variety of colors.,50,4
+24,Lighting & Staging,Lighting,,Lighting Tree ,Great simple solution to illuminate performers.,175,4
+25,Lighting & Staging,Lighting ,,Moon Balloon,Available in programmable colors.,625,4
+26,Lighting & Staging,Rope lit cacti,,12' Saguaro ,Ropel lit cactus large sahuaro 12',175,4
+27,Lighting & Staging,Rope lit cacti,,8' Saguaro,Ropel lit cactus small sahuaro 8',125,4
+28,Lighting & Staging,Rope lit cacti,,6' Prickley Pear,Rope lit cactus prickley pear 6',125,4
+29,Lighting & Staging,Rope lit cacti,,8' Ocotillo,Rope lit cactus ocotillo 8',125,4
+30,Miscellaneous,,,Wine Barrels,They're barrels,50,5
+31,Miscellaneous,,,Roy & Trigger,A great entrance piece or bar back for a western themed event! 12' x 7' x 4',775,5
+32,Miscellaneous,,,Manzanita Tree (Gold),Includes hanging votives,125,5
+33,Miscellaneous,,,Movie Marquee Poster Frame,Measures 5” Deep x 36” Wide x 48” Tall. Insert area for poster measures 27”x40”,175,5
+34,Miscellaneous,,,Ticket Booth,Measures 48” x 48” x 96 “Tall,450,5
+35,Miscellaneous,,,Small silver trees,small silver trees,2,5

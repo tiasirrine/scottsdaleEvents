@@ -10,7 +10,6 @@ import {
   Label,
   Input
 } from 'reactstrap';
-import images from './Images';
 import './InventoryPage.css';
 
 class InventoryCard extends Component {
@@ -46,7 +45,12 @@ class InventoryCard extends Component {
     console.log(this.state);
     return (
       <Card className="item-card-class text-white bg-primary text-center">
-        <CardImg top width="50px" src="http://via.placeholder.com/100x100" alt="Card image cap" />
+        <CardImg
+          top
+          width="50px"
+          src="http://via.placeholder.com/100x100"
+          alt="Card image cap"
+        />
         <CardBody>
           <CardTitle>{this.props.cardTitle}</CardTitle>
           <FormGroup>
