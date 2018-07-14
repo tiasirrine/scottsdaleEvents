@@ -1,19 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import API from '../../../api/API';
-import InventoryCard from './InventoryCard';
-import {
-  Card,
-  CardDeck,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-  Container,
-  Button,
-  Row,
-  Col
-} from 'reactstrap';
+import SubMedia from './SubMedia';
+import { Container, Row, Col } from 'reactstrap';
 
 class CategoryProduct extends Component {
   constructor(props) {
@@ -21,7 +9,7 @@ class CategoryProduct extends Component {
 
     this.state = {
       route: this.props.match.params.category,
-      categoryItems: null
+      subcategory: null
     };
   }
 
@@ -29,8 +17,14 @@ class CategoryProduct extends Component {
   loadCategoryProducts = category => {
     API.getCategoryProducts(category)
       .then(result => {
-        const arr = result.data.map(index => index['NAME']);
-        return this.setState({ categoryItems: arr });
+        console.log('result:', result);
+        const newArray = [];
+        result.data.forEach(element => {
+          if (!newArray.includes(element.subcategory)) {
+            newArray.push(element.subcategory);
+          }
+        });
+        return this.setState({ subcategories: newArray });
       })
       .catch(error => {
         console.error(error);
@@ -55,12 +49,13 @@ class CategoryProduct extends Component {
   }
 
   render() {
-    const { categoryItems, error } = this.state;
-    let indInventoryCards = categoryItems
-      ? categoryItems.map((a, index) => {
+    console.log(this.state);
+    const { subcategory, error } = this.state;
+    let indInventoryCards = subcategory
+      ? subcategory.map((a, index) => {
           return (
-            <Col sm="2.4" key={a}>
-              <InventoryCard cardTitle={a} key={a} id={index} />
+            <Col sm="2.4" key={index}>
+              <SubMedia cardTitle={a} id={index} />
               {error ? <h3 className="text-center">{error}</h3> : null}
             </Col>
           );

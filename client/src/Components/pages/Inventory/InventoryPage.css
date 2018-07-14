@@ -1,11 +1,23 @@
 .card-title {
   font-size: 10px;
 }
+.card-subtitle {
+  font-size: 10px;
+}
+
+.card-img-top {
+  max-height: 100px;
+  min-height: 100px;
+}
 
 .item-card-class {
   margin: 5px;
   max-width: 12rem;
-  max-height: 18rem;
+}
+.card-body {
+  margin: 5px;
+  max-width: 12rem;
+  max-height: 10rem;
 }
 input[type='number'] {
   max-height: 24px;

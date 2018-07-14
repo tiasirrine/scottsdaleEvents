@@ -1,27 +1,16 @@
 import React, { Component, Fragment } from 'react';
 import API from '../../../api/API';
 import InventoryCard from './InventoryCard';
-import {
-  Card,
-  CardDeck,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-  Container,
-  Button,
-  Row,
-  Col
-} from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 
-class CategoryProduct extends Component {
+class SubCategoryProduct extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      route: this.props.match.params.category,
-      categoryItems: null
+      route: this.props.match.params.subcategory,
+      categoryItems: null,
+      descriptionItems: null
     };
   }
 
@@ -29,8 +18,10 @@ class CategoryProduct extends Component {
   loadCategoryProducts = category => {
     API.getCategoryProducts(category)
       .then(result => {
-        const arr = result.data.map(index => index['NAME']);
-        return this.setState({ categoryItems: arr });
+        console.log('result:', result);
+        // const arr = result.data.map(index => index['name']);
+        // const arr2 = result.data.map(index => index['description']);
+        return this.setState({ categoryItems: result.data });
       })
       .catch(error => {
         console.error(error);
@@ -55,13 +46,13 @@ class CategoryProduct extends Component {
   }
 
   render() {
+    console.log('result:', this.state);
     const { categoryItems, error } = this.state;
-    console.log('Cat items: ', categoryItems);
     let indInventoryCards = categoryItems
-      ? categoryItems.map(a => {
+      ? categoryItems.map((a, index) => {
           return (
-            <Col key={a} sm="4">
-              <InventoryCard cardTitle={a} key={a} />
+            <Col sm="2.4" key={index}>
+              <InventoryCard cardTitle={a.name} cardDesc={a.description} id={index} />
               {error ? <h3 className="text-center">{error}</h3> : null}
             </Col>
           );
@@ -79,4 +70,4 @@ class CategoryProduct extends Component {
   }
 }
 
-export default CategoryProduct;
+export default SubCategoryProduct;
