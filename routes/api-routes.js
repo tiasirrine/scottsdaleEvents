@@ -1,14 +1,7 @@
 require('dotenv').config();
 const { products, users } = require('../controllers');
-// const {
-//   Admins,
-//   Cart_products,
-//   Customers,
-//   Products,
-//   User_carts
-// } = require('../models');
-// const passport = require('passport');
-// const LocalStrategy = require('passport-local').Strategy;
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 const router = require('express').Router();
 
 // loads the categories for the InventoryNav
@@ -20,7 +13,6 @@ router.get('/get-distinct-category', (req, res) => {
 });
 
 // loads the individual category products
-// TODO: this needs to be a get route
 router.get('/get-category-products', (req, res) => {
   const { category } = req.query;
   products
@@ -29,68 +21,84 @@ router.get('/get-category-products', (req, res) => {
     .catch(err => console.log(err));
 });
 
-// // creates a new customer
+// creates a new customer
 router.post('/create-customer', (req, res) => {
-  //
+  users
+    .createCustomer(req.body)
+    .then(result => {
+      delete result.dataValues.password;
+      res.json(result);
+    })
+    .catch(err => res.send(err));
 });
 
-// // gets a new customer
-// router.post('/get-customer', (req, res) => {
-//   //
-// });
+// gets a new customer
+//FIXME: This should get a user by id
+router.get('/get-customer', (req, res) => {
+  const { username, password } = req.query;
+  users
+    .getCustomer(username, password)
+    .then(result => res.send(result))
+    .catch(err => res.send(err));
+});
 
-// // deletes a customer
-// router.post('/delete-customer', (req, res) => {
-//   //
-// });
+// deletes a customer
+router.post('/delete-customer', (req, res) => {
+  const { id } = req.body;
+  users
+    .deleteCustomer(id)
+    .then(result => res.send(result))
+    .catch(err => res.send(err));
+});
 
-// // freezes a customer (locks a customers account)
-// router.post('/freeze-customer', (req, res) => {
-//   //
-// });
-
-// // unfreezes a customer (unlocks a customers account)
-// router.post('/unfreeze-customer', (req, res) => {
-//   //
-// });
+// updates any customer freeze
+router.post('/update-freeze', (req, res) => {
+  const { bool, id } = req.body;
+  const convertedBool = bool === 'true' ? true : false;
+  users
+    .updateFreeze(convertedBool, id)
+    .then(result => res.send(result))
+    .catch(err => res.send(err));
+});
 
 // // loads all customers
-// router.get('/all-customers', (req, res) => {
-//   //
-// });
+router.get('/all-customers', (req, res) => {
+  users
+    .getAllCustomers()
+    .then(result => res.send(result))
+    .catch(err => res.send(err));
+});
 
 // router.post('save-product', (req, res) => {
 //   //
 // });
 
-// router.post('/login', passport.authenticate('local'), (req, res) => {
-//   console.log('REQ.USER:', req.session.passport.user);
-//   res.send(true);
-// });
+router.get('/login', passport.authenticate('local'), (req, res) => {
+  console.log('REQ.USER:', req.session.passport.user);
+  res.send(true);
+});
 
-// passport.use(
-//   new LocalStrategy((username, password, done) => {
-//     const user = { username, password };
-//     users.selectOneCustomer(user, (err, result) => {
-//       if (err) {
-//         return done(null, false);
-//       } else {
-//         return done(null, result);
-//       }
-//     });
-//   })
-// );
+//FIXME: This needs to be usable for users and admins
+passport.use(
+  new LocalStrategy((username, password, done) => {
+    const user = { username, password };
+    users
+      .getCustomer(user)
+      .then(result => done(null, result))
+      .catch(err => done(null, false));
+  })
+);
 
-// // saves the users session in a cookie based on the userID
-// passport.serializeUser((user, done) => {
-//   done(null, user);
-// });
+// saves the users session in a cookie based on the userID
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
 
-// // checks the cookie
-// passport.deserializeUser((id, done) => {
-//   users.getUserById(id, (err, user) => {
-//     done(err, user);
-//   });
-// });
+// checks the cookie
+passport.deserializeUser((id, done) => {
+  users.getUserById(id, (err, user) => {
+    done(err, user);
+  });
+});
 
 module.exports = router;
