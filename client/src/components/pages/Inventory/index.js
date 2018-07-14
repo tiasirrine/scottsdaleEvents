@@ -8,13 +8,12 @@ import './InventoryCard';
 class InventoryPage extends Component {
   render() {
     const { categories } = this.props;
-    console.log('IP T.P', this.props);
     return (
       <Fragment>
         <InventoryNav categories={categories} />
         {/* <Route path="/inventory/:category" component={CategoryProduct} /> */}
 
-        <Route path="/inventory/:category" component={CategoryProduct} />
+        <Route path="/inventory/:category" component={SubCategoryProduct} />
       </Fragment>
     );
   }
