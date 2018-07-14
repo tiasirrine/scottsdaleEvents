@@ -1,12 +1,13 @@
-import React, { Component, Fragment } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Navbar from './Navbar';
-import Home from './pages/Home';
-import InventoryPage from './pages/Inventory';
-import API from '../api/API';
-import Gallery from './pages/Gallery';
-import ContactUs from './pages/Contact/Form/index';
-import CustomerLogin from './pages/CustomerLogin';
+import React, { Component, Fragment } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Navbar from "./Navbar";
+import Home from "./pages/Home";
+import InventoryPage from "./pages/Inventory";
+import API from "../api/API";
+import Gallery from "./pages/Gallery";
+import ContactUs from "./pages/Contact/Form/index";
+import CustomerLogin from "./pages/CustomerLogin";
+import ShoppingCart from "./pages/ShoppingCart";
 
 class App extends Component {
   constructor(props) {
@@ -19,12 +20,12 @@ class App extends Component {
   loadCategories = () => {
     return API.getDistinctCategories()
       .then(result => {
-        const arr = result.data.map(index => index['category']);
+        const arr = result.data.map(index => index["category"]);
         return this.setState({ categories: arr });
       })
       .catch(error => {
         console.error(error);
-        this.setState({ error: '500 (Internal Server Error)' });
+        this.setState({ error: "500 (Internal Server Error)" });
       });
   };
 
@@ -52,6 +53,7 @@ class App extends Component {
             <Route path="/gallery" component={Gallery} />
             <Route path="/login" component={CustomerLogin} />
             <Route path="/contact" component={ContactUs} />
+            <Route path="/cart" component={ShoppingCart} />
           </Switch>
         </Fragment>
       </Router>

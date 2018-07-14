@@ -47,7 +47,7 @@ CREATE TABLE cart_products(
 );
 
 LOAD DATA LOCAL INFILE 
-'C:\\Users\\Trevor\\Desktop\\coding\\bootcamp\\scottsdaleEvents\\inventory.csv'
+'C:\\Users\\wwong\\Desktop\\Project3\\scottsdaleEvents\\inventory.csv'
 IGNORE
 INTO TABLE products
 FIELDS TERMINATED BY ','
