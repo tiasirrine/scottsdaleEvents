@@ -1,53 +1,64 @@
 import React from 'react';
-import { AvForm, AvField } from 'availity-reactstrap-validation';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-export default class ContactUs extends React.Component {
+export default class Form extends React.Component {
+  state = {
+    name: '',
+    companyName: '',
+    Email: '',
+    Number: '',
+    Message: ''
+  };
+
   render() {
-    const modalError = this.state.error ? 'not' : ''; // This is just for the modal
     return (
-      <div>
-        <AvForm onValidSubmit={this.handleValidSubmit} onInvalidSubmit={this.handleInvalidSubmit}>
-          <AvField name="email" label="Email Address" type="email" required />
-          <Button color="primary">Submit</Button>
-        </AvForm>
+      <form>
+        <div className="container">
+          <div className="form-group">
+            <label for="exampleFormControlInput1">Name</label>
+            <input
+              type="Name"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="Name"
+            />
+          </div>
+          <div className="form-group">
+            <label for="exampleFormControlInput1">Company Name</label>
+            <input
+              type="companyName"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="Your Comapny"
+            />
+          </div>
+          <div className="form-group">
+            <label for="exampleFormControlInput1">Email address</label>
+            <input
+              type="email"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="name@example.com"
+            />
+          </div>
+          <div className="form-group">
+            <label for="exampleFormControlInput1">Phone Number</label>
+            <input
+              type="Number"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="888-888-8888"
+            />
+          </div>
 
-        {/* below this is just for show, it's not needed unless you want a modal upon form submission */}
-        <Modal isOpen={this.state.email !== false} toggle={this.closeModal}>
-          <ModalHeader toggle={this.closeModal}>Form is {modalError} valid!</ModalHeader>
-          <ModalBody>
-            You have {modalError} successfully filled out the form and submitted it. Your email ({
-              this.state.email
-            }) is {modalError} valid!
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.closeModal}>
-              Ok, got it!
-            </Button>
-          </ModalFooter>
-        </Modal>
-      </div>
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">Message For Scottsdale Events Decor</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" />
+          </div>
+          <button type="submit" className="btn btn-light">
+            Submit
+          </button>
+        </div>
+      </form>
     );
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.handleValidSubmit = this.handleValidSubmit.bind(this);
-    this.handleInvalidSubmit = this.handleInvalidSubmit.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.state = { email: false };
-  }
-
-  handleValidSubmit(event, values) {
-    this.setState({ email: values.email });
-  }
-
-  handleInvalidSubmit(event, errors, values) {
-    this.setState({ email: values.email, error: true });
-  }
-
-  closeModal() {
-    this.setState({ email: false, error: false });
   }
 }
