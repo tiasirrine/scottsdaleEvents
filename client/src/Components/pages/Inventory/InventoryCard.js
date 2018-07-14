@@ -53,23 +53,20 @@ class InventoryCard extends Component {
         />
         <CardBody>
           <CardTitle>{this.props.cardTitle}</CardTitle>
-          <CardSubtitle>
-            {this.props.cardDesc}
-            <FormGroup>
-              <Label for="item-quantity" />
-              <Input
-                value={this.state.quantity}
-                onChange={this.handleInputChange}
-                data-id={this.props.id}
-                type="number"
-                name="quantity"
-                id="item-quantity"
-                max="1000"
-                maxLength="4"
-                placeholder={'Quantity'}
-              />
-            </FormGroup>
-          </CardSubtitle>
+          <FormGroup>
+            <Label for="item-quantity" />
+            <Input
+              value={this.state.quantity}
+              onChange={this.handleInputChange}
+              data-id={this.props.id}
+              type="number"
+              name="quantity"
+              id="item-quantity"
+              max="1000"
+              maxLength="4"
+              placeholder={'Quantity'}
+            />
+          </FormGroup>
           {/* <CardText>Here is some text for a detailed description...or not</CardText> */}
           <Button
             type="submit"
@@ -79,6 +76,7 @@ class InventoryCard extends Component {
           >
             Add To Cart
           </Button>
+          <CardSubtitle>{this.props.cardDesc}</CardSubtitle>
         </CardBody>
       </Card>
     );
