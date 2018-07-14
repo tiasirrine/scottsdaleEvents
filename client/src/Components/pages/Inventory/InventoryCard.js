@@ -1,21 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import {
   Card,
-  CardDeck,
   CardImg,
-  CardText,
   CardBody,
   CardTitle,
   CardSubtitle,
-  Container,
   Button,
-  Row,
-  Col,
-  Form,
   FormGroup,
   Label,
-  Input,
-  FormText
+  Input
 } from 'reactstrap';
 import images from './Images';
 import './InventoryPage.css';
@@ -57,7 +50,7 @@ class InventoryCard extends Component {
         <CardBody>
           <CardTitle>{this.props.cardTitle}</CardTitle>
           <CardSubtitle>
-            {' '}
+            {this.props.cardDesc}
             <FormGroup>
               <Label for="item-quantity" />
               <Input

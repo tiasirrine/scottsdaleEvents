@@ -39,16 +39,10 @@ class App extends Component {
         <Fragment>
           <Navbar />
           <Switch>
-            <Route
-              exact
-              path="/"
-              render={props => <Home {...props} categories={categories} />}
-            />
+            <Route exact path="/" render={props => <Home {...props} categories={categories} />} />
             <Route
               path="/inventory"
-              render={props => (
-                <InventoryPage {...props} categories={categories} />
-              )}
+              render={props => <InventoryPage {...props} categories={categories} />}
             />
             <Route path="/gallery" component={Gallery} />
             <Route path="/login" component={CustomerLogin} />
