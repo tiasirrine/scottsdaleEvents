@@ -9,15 +9,19 @@ export default class Form extends React.Component {
     message: ''
   };
 
+  onSubmit = () => {
+    console.log(this.state);
+  };
+
   render() {
     return (
       <form>
         <div className="container">
           <div className="form-group">
-            <label for="exampleFormControlInput1">Name</label>
+            <label forhtml="exampleFormControlInput1">Name</label>
             <input
               type="Name"
-              class="form-control"
+              className="form-control"
               id="exampleFormControlInput1"
               placeholder="Name"
               value={this.state.name}
@@ -25,10 +29,10 @@ export default class Form extends React.Component {
             />
           </div>
           <div className="form-group">
-            <label for="exampleFormControlInput1">Company Name</label>
+            <label forhtml="exampleFormControlInput1">Company Name</label>
             <input
               type="companyName"
-              class="form-control"
+              className="form-control"
               id="exampleFormControlInput1"
               placeholder="Your Comapny"
               value={this.state.companyName}
@@ -36,10 +40,10 @@ export default class Form extends React.Component {
             />
           </div>
           <div className="form-group">
-            <label for="exampleFormControlInput1">Email address</label>
+            <label forhtml="exampleFormControlInput1">Email Address</label>
             <input
               type="email"
-              class="form-control"
+              className="form-control"
               id="exampleFormControlInput1"
               placeholder="name@example.com"
               value={this.state.email}
@@ -47,10 +51,9 @@ export default class Form extends React.Component {
             />
           </div>
           <div className="form-group">
-            <label for="exampleFormControlInput1">Phone Number</label>
+            <label forhtml="exampleFormControlInput1">Phone Number</label>
             <input
-              type="Number"
-              class="form-control"
+              className="form-control"
               id="exampleFormControlInput1"
               placeholder="888-888-8888"
               value={this.state.number}
@@ -58,17 +61,17 @@ export default class Form extends React.Component {
             />
           </div>
 
-          <div class="form-group">
-            <label for="exampleFormControlTextarea1">Message For Scottsdale Events Decor</label>
+          <div className="form-group">
+            <label forhtml="exampleFormControlTextarea1">Message For Scottsdale Events Decor</label>
             <textarea
-              class="form-control"
+              className="form-control"
               id="exampleFormControlTextarea1"
               rows="3"
               value={this.state.message}
               onChange={e => this.setState({ message: e.target.value })}
             />
           </div>
-          <button type="submit" className="btn btn-light" onClick>
+          <button type="submit" className="btn btn-light" onClick={() => this.onSubmit()}>
             Submit
           </button>
         </div>
