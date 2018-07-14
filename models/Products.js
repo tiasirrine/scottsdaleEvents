@@ -10,6 +10,9 @@ const Products = sequelize.define(
     subcategory: {
       type: Sequelize.STRING
     },
+    key: {
+      type: Sequelize.INTEGER
+    },
     name: {
       type: Sequelize.STRING
     },
