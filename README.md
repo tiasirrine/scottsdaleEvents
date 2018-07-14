@@ -2,14 +2,14 @@
 Modern website for an event company that is built on React. Website features a home page, gallery page, about page, and a services page. 
 
 ## Deployment
-Visit the application @
+Visit the application @ {}
 
 
 ![](client/src/images/Photos/event2.jpg)
 
 ## Usages
 
-A website being utilized by ScottsdaleEventsDecor.com to better asssit in client relationships and building buisness by streamining data and important scheduling information. 
+A website being utilized by ScottsdaleEventsDecor.com to better asssit in client relationships and building buisness by streamlining data and important scheduling information. 
 
 
 ## Meta
