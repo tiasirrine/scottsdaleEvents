@@ -1,22 +1,35 @@
+.inventory-type {
+  text-align: center;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 32px;
+  color: tomato;
+}
+.row {
+  text-align: center;
+}
 .card-title {
-  font-size: 10px;
+  font-size: 12px;
 }
 .card-subtitle {
   font-size: 10px;
 }
 
-.card-img-top {
-  max-height: 100px;
-  min-height: 100px;
+.card-image {
+  max-height: 120px;
+  min-height: 120px;
+  max-width: 198px;
+  min-width: 198px;
 }
 
 .item-card-class {
   margin: 5px;
-  max-width: 12rem;
+  max-width: 200px;
+  min-width: 200px;
+  max-height: 300px;
+  min-height: 300px;
 }
 .card-body {
   margin: 5px;
-  max-width: 12rem;
   max-height: 10rem;
 }
 
@@ -44,4 +57,24 @@ input[type='submit'] {
 
 input[type='number']::placeholder {
   font-size: 10px;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: 0.5s ease;
+  background-color: #007bff;
+}
+
+.card-text:hover .overlay {
+  opacity: 1;
+}
+
+.container {
 }

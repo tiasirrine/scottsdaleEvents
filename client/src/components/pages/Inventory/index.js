@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Route } from 'react-router-dom';
-// import CategoryProduct from './CategoryProduct';
+import SubCategoryProduct from './SubCategoryProduct.old';
 import SubCategories from './SubCategories';
 import InventoryNav from '../../InventoryNav';
 import './InventoryCard';
@@ -11,9 +11,8 @@ class InventoryPage extends Component {
     return (
       <Fragment>
         <InventoryNav categories={categories} />
-        {/* <Route path="/inventory/:category" component={CategoryProduct} /> */}
 
-
+        {/* <Route path="/inventory/:category" component={SubCategoryProduct} /> */}
         <Route path="/inventory/:category" component={SubCategories} />
       </Fragment>
     );
