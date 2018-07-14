@@ -95,6 +95,14 @@ module.exports = {
         .then(result => resolve(result))
         .catch(err => reject(err));
     });
+  },
+
+  getUserById: function(id) {
+    return new Promise((resolve, reject) => {
+      Customer.findAll({ where: { id: id } })
+        .then(result => resolve(result))
+        .catch(err => reject(err));
+    });
   }
 
   // save: function(newUser) {
