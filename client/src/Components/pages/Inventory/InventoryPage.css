@@ -19,6 +19,12 @@
   max-width: 12rem;
   max-height: 10rem;
 }
+
+.image {
+  width: 300px;
+  height: 300px;
+}
+
 input[type='number'] {
   max-height: 24px;
   padding: 5px;

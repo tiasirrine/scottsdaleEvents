@@ -8,7 +8,11 @@ const router = require('express').Router();
 router.get('/get-distinct-category', (req, res) => {
   products
     .selectAllCategories()
-    .then(result => res.send(result))
+    .then(result => {
+      const categories = result.map(a => a.category);
+      // const subcategories = result.map()
+      res.send(result);
+    })
     .catch(err => res.status(500).send(err));
 });
 
