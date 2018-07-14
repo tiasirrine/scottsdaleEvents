@@ -74,16 +74,14 @@ router.get('/all-customers', (req, res) => {
 // });
 
 router.get('/login', passport.authenticate('local'), (req, res) => {
-  console.log('REQ.USER:', req.session.passport.user);
-  res.send(true);
+  res.send(req.session.passport.user);
 });
 
 //FIXME: This needs to be usable for users and admins
 passport.use(
   new LocalStrategy((username, password, done) => {
-    const user = { username, password };
     users
-      .getCustomer(user)
+      .getCustomer(username, password)
       .then(result => done(null, result))
       .catch(err => done(null, false));
   })
