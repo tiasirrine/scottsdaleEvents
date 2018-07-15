@@ -15,5 +15,12 @@ module.exports = {
       .catch(error => {
         throw error;
       });
+  },
+  selectAll: function() {
+    return Products.findAll({})
+      .then(result => result)
+      .catch(error => {
+        throw error;
+      });
   }
 };
