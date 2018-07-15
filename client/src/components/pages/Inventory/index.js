@@ -79,42 +79,45 @@ class InventoryPage extends Component {
     return (
       <Fragment>
         <InventoryNav categories={categories} />
-        <Sidebar subCategories={subCategories} />
-        <Switch>
-          <Route
-            exact
-            path={this.props.match.path}
-            render={props => (
-              <CategoryComponentWrapper
-                {...props}
-                categories={categories}
-                image={image}
-              />
-            )}
-          />
-          <Route
-            exact
-            path={`${this.props.match.path}/:category`}
-            render={props => (
-              <SubCategoryComponentWrapper
-                {...props}
-                inventory={inventoryObj}
-                image={image}
-              />
-            )}
-          />
-          <Route
-            exact
-            path={`${this.props.match.path}/:category/:subcategory`}
-            render={props => (
-              <InventoryComponentWrapper
-                {...props}
-                inventory={inventoryObj}
-                image={image}
-              />
-            )}
-          />
-        </Switch>
+        <div className="d-flex align-items-stretch">
+          <Sidebar subCategories={subCategories} />
+
+          <Switch>
+            <Route
+              exact
+              path={this.props.match.path}
+              render={props => (
+                <CategoryComponentWrapper
+                  {...props}
+                  categories={categories}
+                  image={image}
+                />
+              )}
+            />
+            <Route
+              exact
+              path={`${this.props.match.path}/:category`}
+              render={props => (
+                <SubCategoryComponentWrapper
+                  {...props}
+                  inventory={inventoryObj}
+                  image={image}
+                />
+              )}
+            />
+            <Route
+              exact
+              path={`${this.props.match.path}/:category/:subcategory`}
+              render={props => (
+                <InventoryComponentWrapper
+                  {...props}
+                  inventory={inventoryObj}
+                  image={image}
+                />
+              )}
+            />
+          </Switch>
+        </div>
       </Fragment>
     );
   }

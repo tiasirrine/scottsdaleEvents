@@ -7,7 +7,7 @@ import API from '../api/API';
 import Gallery from './pages/Gallery';
 import ContactUs from './pages/Contact/Form/index';
 import CustomerLogin from './pages/CustomerLogin';
-import AboutPage from './pages/About';
+// import AboutPage from './pages/About';
 import ShoppingCart from './pages/ShoppingCart';
 
 class App extends Component {
