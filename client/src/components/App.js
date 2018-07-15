@@ -31,25 +31,28 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.state);
-
-    const { categories, error } = this.state;
+    const { categories } = this.state;
 
     return (
       <Router>
         <Fragment>
           <Navbar />
           <Switch>
-            <Route exact path="/" render={props => <Home {...props} categories={categories} />} />
+            <Route
+              exact
+              path="/"
+              render={props => <Home {...props} categories={categories} />}
+            />
             <Route
               path="/inventory"
-              render={props => <InventoryPage {...props} categories={categories} />}
+              render={props => (
+                <InventoryPage {...props} categories={categories} />
+              )}
             />
-            <Route path="/about" component={AboutPage} />
-            <Route path="/gallery" component={Gallery} />
-            <Route path="/login" component={CustomerLogin} />
-            <Route path="/contact" component={ContactUs} />
-            <Route path="/cart" component={ShoppingCart} />
+            <Route exact path="/gallery" component={Gallery} />
+            <Route exact path="/login" component={CustomerLogin} />
+            <Route exact path="/contact" component={ContactUs} />
+            <Route exact path="/cart" component={ShoppingCart} />
           </Switch>
         </Fragment>
       </Router>
