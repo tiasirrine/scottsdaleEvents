@@ -17,10 +17,17 @@ router.get('/get-distinct-category', (req, res) => {
 });
 
 // loads the individual category products
+// router.get('/get-category-products', (req, res) => {
+//   const { category } = req.query;
+//   products
+//     .selectAllProductsByCategory(category)
+//     .then(result => res.send(result))
+//     .catch(err => console.log(err));
+// });
 router.get('/get-category-products', (req, res) => {
   const { category } = req.query;
   products
-    .selectAllProductsByCategory(category)
+    .selectAll()
     .then(result => res.send(result))
     .catch(err => console.log(err));
 });
