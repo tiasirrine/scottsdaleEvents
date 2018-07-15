@@ -1,53 +1,81 @@
 import React from 'react';
-import { AvForm, AvField } from 'availity-reactstrap-validation';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-export default class ContactUs extends React.Component {
+export default class Form extends React.Component {
+  state = {
+    name: '',
+    companyName: '',
+    email: '',
+    number: '',
+    message: ''
+  };
+
+  onSubmit = () => {
+    console.log(this.state);
+  };
+
   render() {
-    const modalError = this.state.error ? 'not' : ''; // This is just for the modal
     return (
-      <div>
-        <AvForm onValidSubmit={this.handleValidSubmit} onInvalidSubmit={this.handleInvalidSubmit}>
-          <AvField name="email" label="Email Address" type="email" required />
-          <Button color="primary">Submit</Button>
-        </AvForm>
+      <form>
+        <div className="container">
+          <div className="form-group">
+            <label forhtml="exampleFormControlInput1">Name</label>
+            <input
+              type="Name"
+              className="form-control"
+              id="exampleFormControlInput1"
+              placeholder="Name"
+              value={this.state.name}
+              onChange={e => this.setState({ name: e.target.value })}
+            />
+          </div>
+          <div className="form-group">
+            <label forhtml="exampleFormControlInput1">Company Name</label>
+            <input
+              type="companyName"
+              className="form-control"
+              id="exampleFormControlInput1"
+              placeholder="Your Comapny"
+              value={this.state.companyName}
+              onChange={e => this.setState({ companyName: e.target.value })}
+            />
+          </div>
+          <div className="form-group">
+            <label forhtml="exampleFormControlInput1">Email Address</label>
+            <input
+              type="email"
+              className="form-control"
+              id="exampleFormControlInput1"
+              placeholder="name@example.com"
+              value={this.state.email}
+              onChange={e => this.setState({ email: e.target.value })}
+            />
+          </div>
+          <div className="form-group">
+            <label forhtml="exampleFormControlInput1">Phone Number</label>
+            <input
+              className="form-control"
+              id="exampleFormControlInput1"
+              placeholder="888-888-8888"
+              value={this.state.number}
+              onChange={e => this.setState({ number: e.target.value })}
+            />
+          </div>
 
-        {/* below this is just for show, it's not needed unless you want a modal upon form submission */}
-        <Modal isOpen={this.state.email !== false} toggle={this.closeModal}>
-          <ModalHeader toggle={this.closeModal}>Form is {modalError} valid!</ModalHeader>
-          <ModalBody>
-            You have {modalError} successfully filled out the form and submitted it. Your email ({
-              this.state.email
-            }) is {modalError} valid!
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.closeModal}>
-              Ok, got it!
-            </Button>
-          </ModalFooter>
-        </Modal>
-      </div>
+          <div className="form-group">
+            <label forhtml="exampleFormControlTextarea1">Message For Scottsdale Events Decor</label>
+            <textarea
+              className="form-control"
+              id="exampleFormControlTextarea1"
+              rows="3"
+              value={this.state.message}
+              onChange={e => this.setState({ message: e.target.value })}
+            />
+          </div>
+          <button type="submit" className="btn btn-light" onClick={() => this.onSubmit()}>
+            Submit
+          </button>
+        </div>
+      </form>
     );
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.handleValidSubmit = this.handleValidSubmit.bind(this);
-    this.handleInvalidSubmit = this.handleInvalidSubmit.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.state = { email: false };
-  }
-
-  handleValidSubmit(event, values) {
-    this.setState({ email: values.email });
-  }
-
-  handleInvalidSubmit(event, errors, values) {
-    this.setState({ email: values.email, error: true });
-  }
-
-  closeModal() {
-    this.setState({ email: false, error: false });
   }
 }

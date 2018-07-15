@@ -1,6 +1,8 @@
 import './InventoryPage.css';
 import React, { Component, Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import SubCategoryProduct from './SubCategoryProduct.old';
+import SubCategories from './SubCategories';
 import InventoryNav from '../../InventoryNav';
 import API from '../../../api/API';
 import image from '../../../images/Photos/Bars/bar10.jpg';
@@ -107,19 +109,3 @@ class InventoryPage extends Component {
 }
 
 export default InventoryPage;
-//under navbar, display image and cateoggry name, 1 for each cat
-//click 1, go to /inventory/:sub
-
-// <Route
-//   exact
-//   path={`${this.props.match.path}/:category`}
-//   render={props => (
-//     <Wrapper
-//       {...props}
-//       categories={categories}
-//       inventory={this.state.inventoryObj}
-//       image={image}
-//       Item={Item}
-//     />
-//   )}
-//  />
