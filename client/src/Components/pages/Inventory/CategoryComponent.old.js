@@ -10,5 +10,3 @@ const CategoryComponent = props => (
     </Link>
   </Col>
 );
-
-export default CategoryComponent;
