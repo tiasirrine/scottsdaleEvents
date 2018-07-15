@@ -7,11 +7,12 @@ import image from '../../../images/Photos/Bars/bar10.jpg';
 import CategoryComponentWrapper from './CategoryComponentWrapper';
 import SubCategoryComponentWrapper from './SubCategoryComponentWrapper';
 import InventoryComponentWrapper from './InventoryComponentWrapper';
+import Sidebar from './Sidebar';
 
 class InventoryPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { inventoryObj: null };
+    this.state = { inventoryObj: null, subCategories: null };
   }
 
   componentDidMount() {
@@ -51,7 +52,20 @@ class InventoryPage extends Component {
             inventoryObj[value['category']].push(rest);
           }
         });
-        return this.setState({ inventoryObj });
+
+        // will hold the unique sub categories for each category
+        const subCategories = {};
+
+        // gets the keys (categories) from inventoryObj
+        // creates a key on subCategories for each category
+        // each value is an array of sub categories.
+        Object.keys(inventoryObj).forEach(a => {
+          subCategories[a] = [
+            ...new Set(inventoryObj[a].map(b => b.subcategory))
+          ];
+        });
+
+        return this.setState({ inventoryObj, subCategories });
       })
       .catch(error => {
         console.error(error);
@@ -61,10 +75,11 @@ class InventoryPage extends Component {
   render() {
     console.log('STATE:', this.state);
     const { categories } = this.props;
-    const { inventoryObj } = this.state;
+    const { inventoryObj, subCategories } = this.state;
     return (
       <Fragment>
         <InventoryNav categories={categories} />
+        <Sidebar subCategories={subCategories} />
         <Switch>
           <Route
             exact
@@ -73,7 +88,6 @@ class InventoryPage extends Component {
               <CategoryComponentWrapper
                 {...props}
                 categories={categories}
-                inventory={inventoryObj}
                 image={image}
               />
             )}

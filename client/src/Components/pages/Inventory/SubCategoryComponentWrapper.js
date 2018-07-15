@@ -11,7 +11,7 @@ const SubCategoryComponentWrapper = props => {
   // will contain the subcategories, if there are any
   const subCategories = [];
 
-  // grabs the sub categories
+  // grabs the sub categories. Even though this "isn't being used", its needed for getInvItems
   const getSubCategories = inventory
     ? inventory[param].map(a => {
         if (!subCategories.includes(a.subcategory)) {
