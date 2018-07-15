@@ -76,5 +76,18 @@ input[type='number']::placeholder {
   opacity: 1;
 }
 
-.container {
+a {
+  color: black;
+}
+.sub-category li {
+  padding-left: 20px;
+  padding-bottom: 8px;
+}
+
+.sidebar {
+  width: 200px;
+}
+
+.dropdown-toggle::after {
+  right: 20px;
 }
