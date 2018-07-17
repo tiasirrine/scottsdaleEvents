@@ -7,19 +7,18 @@ class SidebarButton extends Component {
     const { props } = this;
     const { category, subCategories } = props;
 
-    console.log('hello', props);
     return (
-      <li className="nav-item">
+      <li className="nav-item mb-3">
         {!subCategories.includes('') ? (
           <Fragment>
             <a
-              className="nav-link d-flex justify-content-between"
+              className="nav-link d-flex justify-content-between waves-effect"
               data-toggle="collapse"
               aria-expanded="false"
               href={`#${category.split(' ')[0]}-sub-menu`}
             >
               {category}
-              <i className="fa fa-caret-down" />
+              <i className="fa fa-angle-down rotate-icon" />
             </a>
             <ul
               className="collapse list-unstyled sub-category"
@@ -27,8 +26,8 @@ class SidebarButton extends Component {
             >
               {subCategories
                 ? subCategories.map((a, i) => (
-                    <Link to={`/inventory/${category}/${a}`}>
-                      <li key={i}>{a}</li>
+                    <Link key={i} to={`/inventory/${category}/${a}`}>
+                      <li className="waves-effect">{a}</li>
                     </Link>
                   ))
                 : null}
@@ -37,7 +36,7 @@ class SidebarButton extends Component {
         ) : (
           <Link
             to={`/inventory/${category}`}
-            className="nav-link d-flex justify-content-between"
+            className="nav-link d-flex justify-content-between waves-effect"
           >
             {category}
           </Link>

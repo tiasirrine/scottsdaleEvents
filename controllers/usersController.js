@@ -54,16 +54,20 @@ module.exports = {
 
     // hashes password
     return new Promise((resolve, reject) => {
-      this.hashPassword(password)
-        .then(hashedPassword => {
-          userObj.password = hashedPassword;
-          // creates a new customer with the hashed password
-          Customer.create(userObj)
-            // sends result back to client
-            .then(result => resolve(result))
-            .catch(err => reject(err));
-        })
-        .catch(err => reject(err));
+      if (password.length < 3) {
+        reject('Password must be at least 3 characters');
+      } else {
+        this.hashPassword(password)
+          .then(hashedPassword => {
+            userObj.password = hashedPassword;
+            // creates a new customer with the hashed password
+            Customer.create(userObj)
+              // sends result back to client
+              .then(result => resolve(result))
+              .catch(err => reject(err));
+          })
+          .catch(err => reject(err));
+      }
     });
   },
 

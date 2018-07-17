@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
+
 import InventoryNav from '../../InventoryNav';
+
 import './Home.css';
 import CarouselPage from './Carousel/index';
 import EcommercePage from './Ecommerce/Ecommerce';
