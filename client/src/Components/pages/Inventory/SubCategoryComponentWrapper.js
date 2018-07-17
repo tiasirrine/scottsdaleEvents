@@ -1,5 +1,4 @@
 import React from 'react';
-import { Col, Container, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 const SubCategoryComponentWrapper = props => {
@@ -29,30 +28,30 @@ const SubCategoryComponentWrapper = props => {
   const itemsToRender = subCategories.length ? subCategories : null;
 
   return (
-    <Container fluid>
-      <Row>
+    <div className="container-fluid">
+      <div className="row">
         {itemsToRender && !getInvItems
           ? itemsToRender.map(a => (
-              <Col key={a}>
+              <div key={a}>
                 <Link to={`${props.match.url}/${a}`}>
                   <img className="image" src={image} />
                   <p>{a}</p>
                 </Link>
-              </Col>
+              </div>
             ))
           : null}
         {getInvItems
           ? getInvItems.map((a, i) => (
-              <Col key={i}>
+              <div key={i}>
                 <Link to={`${props.match.url}/${a}`}>
                   <img className="image" src={image} />
                   <p>{a}</p>
                 </Link>
-              </Col>
+              </div>
             ))
           : null}
-      </Row>
-    </Container>
+      </div>
+    </div>
   );
 };
 
