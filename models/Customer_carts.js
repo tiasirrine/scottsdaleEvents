@@ -5,9 +5,11 @@ const Customer_carts = sequelize.define(
   'user_cart',
   {
     user_id: {
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
+      allowNull: false
     },
-    did_check_out: Sequelize.BOOLEAN
+    did_check_out: Sequelize.BOOLEAN,
+    allowNull: false
   },
   {
     timestamps: true

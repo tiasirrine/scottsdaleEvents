@@ -81,7 +81,6 @@ class InventoryPage extends Component {
         <InventoryNav categories={categories} />
         <div className="d-flex align-items-stretch">
           <Sidebar subCategories={subCategories} />
-
           <Switch>
             <Route
               exact
