@@ -1,7 +1,11 @@
 import React, { Component, Fragment } from 'react';
-//import { UncontrolledCarousel } from 'reactstrap';
+
+import InventoryNav from '../../InventoryNav';
+
 import './Home.css';
-import Carouseler from '../../Carousel';
+import CarouselPage from './Carousel/index';
+import EcommercePage from './Ecommerce/Ecommerce';
+import FeaturesPage from './AboutSection/AboutSection';
 
 class Home extends Component {
   items = [
@@ -29,7 +33,10 @@ class Home extends Component {
     const { categories } = this.props;
     return (
       <Fragment>
-        <Carouseler />
+        <InventoryNav categories={categories} />
+        <CarouselPage />
+        <EcommercePage />
+        <FeaturesPage />
       </Fragment>
     );
   }
