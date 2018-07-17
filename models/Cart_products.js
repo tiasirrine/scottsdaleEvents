@@ -5,13 +5,16 @@ const Cart_products = sequelize.define(
   'cart_product',
   {
     user_cart_id: {
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
+      allowNull: false
     },
     inventory_id: {
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
+      allowNull: false
     },
     qty: {
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
+      allowNull: false
     }
   },
   {

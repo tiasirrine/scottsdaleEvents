@@ -15,12 +15,6 @@ class Sidebar extends Component {
     }
   }
 
-  // getCategories = () => {
-  //   return this.props.subCategories
-  //     ? Object.entries(this.props.subCategories)
-  //     : null;
-  // };
-
   render() {
     const { subCategories } = this.state;
     return (
