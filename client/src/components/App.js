@@ -7,8 +7,8 @@ import API from '../api/API';
 import Gallery from './pages/Gallery';
 import ContactUs from './pages/Contact/Form/index';
 import CustomerLogin from './pages/CustomerLogin';
-// import AboutPage from './pages/About';
 import ShoppingCart from './pages/ShoppingCart';
+import Footer from './Footer/Footer';
 
 class App extends Component {
   constructor(props) {
@@ -97,6 +97,7 @@ class App extends Component {
         <Fragment>
           <Navbar />
           <Switch>
+
             <Route exact path="/" component={Home} />
             <Route
               path="/inventory"
@@ -108,12 +109,14 @@ class App extends Component {
                   inventoryObj={inventoryObj}
                 />
               )}
+
             />
             <Route exact path="/gallery" component={Gallery} />
             <Route exact path="/login" component={CustomerLogin} />
             <Route exact path="/contact" component={ContactUs} />
             <Route exact path="/cart" component={ShoppingCart} />
           </Switch>
+          <Footer />
         </Fragment>
       </Router>
     );
