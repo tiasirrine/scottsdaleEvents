@@ -1,60 +1,118 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './navbar.css';
 
-const Nav = () => (
-  <nav className="navbar navbar-expand navbar-light bg-light top-nav">
-    <div className="container flex-column flex-md-row">
-      <Link to="/" className="navbar-brand">
-        Scottsdale Events
-      </Link>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon" />
-      </button>
-      <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="navbar-nav ml-auto">
-          <li>
-            <Link to="/" className="nav-link">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link to="/inventory" className="nav-link">
-              Inventory
-            </Link>
-          </li>
-          <li>
-            <Link to="/gallery" className="nav-link">
-              Gallery
-            </Link>
-          </li>
-          <li>
-            <Link to="/about" className="nav-link">
-              About Us
-            </Link>
-          </li>
-          <li>
-            <Link to="/login" className="nav-link">
-              Login
-            </Link>
-          </li>
-          <li>
-            <Link to="/contact" className="nav-link">
-              Contact Us
-            </Link>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-);
+class Nav extends Component {
+  state = { active: window.location.pathname };
+
+  onClick = e => {
+    this.setState({ active: e.target.name });
+  };
+
+  render() {
+    console.log(window.location.pathname);
+    return (
+      <nav className="navbar navbar-expand-md navbar-dark stylish-color top-nav">
+        <div className="container">
+          <Link to="/" className="navbar-brand">
+            Scottsdale Events
+          </Link>
+          <button
+            className="navbar-toggler ml-auto"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon" />
+          </button>
+          <div className="collapse navbar-collapse mr-auto" id="navbarNav">
+            <ul className="navbar-nav ml-auto">
+              <li>
+                <Link
+                  name="/home"
+                  to="/"
+                  className={`nav-link waves-effect waves-light ${this.state
+                    .active === '/home' && 'active'}`}
+                  onClick={this.onClick}
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  name="/inventory"
+                  to="/inventory"
+                  className={`nav-link waves-effect waves-light ${this.state
+                    .active === '/inventory' && 'active'}`}
+                  onClick={this.onClick}
+                >
+                  Inventory
+                </Link>
+              </li>
+              <li>
+                <Link
+                  name="/gallery"
+                  to="/gallery"
+                  className={`nav-link waves-effect waves-light ${this.state
+                    .active === '/gallery' && 'active'}`}
+                  onClick={this.onClick}
+                >
+                  Gallery
+                </Link>
+              </li>
+              <li>
+                <Link
+                  name="/about"
+                  to="/about"
+                  className={`nav-link waves-effect waves-light ${this.state
+                    .active === '/about' && 'active'}`}
+                  onClick={this.onClick}
+                >
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  name="/login"
+                  to="/login"
+                  className={`nav-link waves-effect waves-light ${this.state
+                    .active === '/login' && 'active'}`}
+                  onClick={this.onClick}
+                >
+                  Login
+                </Link>
+              </li>
+              <li>
+                <Link
+                  name="/contact"
+                  to="/contact"
+                  className={`nav-link waves-effect waves-light ${this.state
+                    .active === '/contact' && 'active'}`}
+                  onClick={this.onClick}
+                >
+                  Contact Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  name="/cart"
+                  to="/cart"
+                  className={`nav-link waves-effect waves-light ${this.state
+                    .active === '/cart' && 'active'}`}
+                  onClick={this.onClick}
+                >
+                  <i class="fa fa-shopping-cart" />
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    );
+  }
+}
 
 export default Nav;

@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Table } from "reactstrap";
+import React, { Component } from 'react';
+import { Table } from 'reactstrap';
 
 class ShoppingCart extends Component {
   render() {
@@ -7,10 +7,10 @@ class ShoppingCart extends Component {
       <Table>
         <thead>
           <tr>
-            <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
           </tr>
         </thead>
         <tbody>

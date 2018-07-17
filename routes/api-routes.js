@@ -9,21 +9,11 @@ router.get('/get-distinct-category', (req, res) => {
   products
     .selectAllCategories()
     .then(result => {
-      const categories = result.map(a => a.category);
-      // const subcategories = result.map()
       res.send(result);
     })
     .catch(err => res.status(500).send(err));
 });
 
-// loads the individual category products
-// router.get('/get-category-products', (req, res) => {
-//   const { category } = req.query;
-//   products
-//     .selectAllProductsByCategory(category)
-//     .then(result => res.send(result))
-//     .catch(err => console.log(err));
-// });
 router.get('/get-category-products', (req, res) => {
   const { category } = req.query;
   products

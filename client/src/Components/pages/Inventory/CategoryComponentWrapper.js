@@ -1,25 +1,24 @@
 import React from 'react';
-import { Col, Container, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 const CategoryComponentWrapper = props => {
   const { categories, image } = props;
 
   return (
-    <Container fluid>
-      <Row>
+    <div className="container-fluid">
+      <div className="row">
         {categories
           ? categories.map(a => (
-              <Col key={a}>
+              <div key={a}>
                 <Link to={`/inventory/${a}`}>
                   <img className="image" src={image} />
                   <p>{a}</p>
                 </Link>
-              </Col>
+              </div>
             ))
           : null}
-      </Row>
-    </Container>
+      </div>
+    </div>
   );
 };
 

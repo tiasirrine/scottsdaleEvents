@@ -13,35 +13,103 @@ import Footer from './Footer/Footer';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.categories = this.loadCategories();
-    this.state = { categories: [] };
+    this.state = { inventoryObj: null, subCategories: null };
   }
 
-  // loads the inventory categories for the nav bar
-  loadCategories = () => {
-    return API.getDistinctCategories()
+  componentDidMount() {
+    this.setState({
+      inventoryObj: this.loadCategoryProducts()
+    });
+  }
+
+  loadCategoryProducts = category => {
+    API.getCategoryProducts(category)
       .then(result => {
-        const arr = result.data.map(index => index['category']);
-        return this.setState({ categories: arr });
+        const { data } = result;
+        // will hold filtered data
+        const inventoryObj = {};
+
+        // loops through each inventory item
+        // creates a unique key on the inventoryObj object based on the inventory category
+        // each value is an array of objects
+        // each index in the array is the unique inventory item
+        data.forEach(value => {
+          // declare the variables
+          let category, rest;
+
+          // destructure so that category and the rest of the values are split apart
+          ({ category, ...rest } = value);
+
+          // checks if the category has been created, if not, creates the key
+          if (!inventoryObj[value['category']]) {
+            // creates an object to hold the first value
+            const obj = {};
+
+            // each key value is an array of objects. puts the first object inside the array
+            inventoryObj[value['category']] = [(obj[category] = rest)];
+          } else {
+            // runs when a category already exists.
+            // adds the inventory item to the array for its unique category
+            inventoryObj[value['category']].push(rest);
+          }
+        });
+
+        // will hold the unique sub categories for each category
+        const subCategories = {};
+
+        // gets the keys (categories) from inventoryObj
+        // creates a key on subCategories for each category
+        // each value is an array of sub categories.
+
+        const categories = Object.keys(inventoryObj);
+
+        categories.forEach(a => {
+          subCategories[a] = [
+            ...new Set(inventoryObj[a].map(b => b.subcategory))
+          ];
+        });
+
+        return this.setState({ inventoryObj, subCategories, categories });
       })
       .catch(error => {
         console.error(error);
-        this.setState({ error: '500 (Internal Server Error)' });
       });
   };
 
+  // loads the inventory categories for the nav bar
+  // loadCategories = () => {
+  //   return API.getDistinctCategories()
+  //     .then(result => {
+  //       const arr = result.data.map(index => index['category']);
+  //       return this.setState({ categories: arr });
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //       this.setState({ error: '500 (Internal Server Error)' });
+  //     });
+  // };
+
   render() {
-    const { categories } = this.state;
+    const { categories, subCategories, inventoryObj } = this.state;
 
     return (
       <Router>
         <Fragment>
           <Navbar />
           <Switch>
-            <Route exact path="/" render={props => <Home {...props} categories={categories} />} />
+
+            <Route exact path="/" component={Home} />
             <Route
               path="/inventory"
-              render={props => <InventoryPage {...props} categories={categories} />}
+              render={props => (
+                <InventoryPage
+                  {...props}
+                  categories={categories}
+                  subCategories={subCategories}
+                  inventoryObj={inventoryObj}
+                />
+              )}
+
             />
             <Route exact path="/gallery" component={Gallery} />
             <Route exact path="/login" component={CustomerLogin} />
