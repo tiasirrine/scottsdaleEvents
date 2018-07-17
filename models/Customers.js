@@ -4,14 +4,25 @@ const sequelize = require('../config/connection.js');
 const Customers = sequelize.define(
   'customer',
   {
-    username: {
-      type: Sequelize.STRING
+    email: {
+      type: Sequelize.STRING,
+      primaryKey: true,
+      validate: {
+        isEmail: {
+          args: true,
+          msg: 'Please enter a valid email address'
+        }
+      }
     },
     password: {
-      type: Sequelize.STRING
-    },
-    email: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      allowNull: false,
+      validate: {
+        len: {
+          args: [3],
+          msg: 'Password must be at least 3 characters'
+        }
+      }
     },
     frozen: {
       type: Sequelize.BOOLEAN
