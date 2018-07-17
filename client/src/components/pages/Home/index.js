@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import InventoryNav from '../../InventoryNav';
-//import { UncontrolledCarousel } from 'reactstrap';
 import './Home.css';
-import Carouseler from '../../Carousel';
+import CarouselPage from './Carousel/index';
+import EcommercePage from './Ecommerce/Ecommerce';
+import FeaturesPage from './AboutSection/AboutSection';
 
 class Home extends Component {
   items = [
@@ -31,7 +32,9 @@ class Home extends Component {
     return (
       <Fragment>
         <InventoryNav categories={categories} />
-        <Carouseler />
+        <CarouselPage />
+        <EcommercePage />
+        <FeaturesPage />
       </Fragment>
     );
   }
