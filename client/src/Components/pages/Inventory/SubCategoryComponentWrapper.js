@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Button, Card, CardBody, CardGroup, CardImage, CardTitle, CardText, Row } from 'mdbreact';
 
 const SubCategoryComponentWrapper = props => {
   const { inventory, image } = props;
@@ -20,9 +21,7 @@ const SubCategoryComponentWrapper = props => {
     : null;
 
   // checks if there are no sub categories. if not, gets the inventory items.
-  const getInvItems = subCategories.includes('')
-    ? inventory[param].map(a => a.name)
-    : null;
+  const getInvItems = subCategories.includes('') ? inventory[param].map(a => a.name) : null;
 
   // contains individual inventory items if there are no sub categories
   const itemsToRender = subCategories.length ? subCategories : null;
