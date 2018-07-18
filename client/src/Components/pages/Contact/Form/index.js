@@ -1,81 +1,74 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Container, Row, Col, Card, CardBody, Fa, Button, Input } from 'mdbreact';
 
-export default class Form extends React.Component {
-  state = {
-    name: '',
-    companyName: '',
-    email: '',
-    number: '',
-    message: ''
-  };
-
-  onSubmit = () => {
-    console.log(this.state);
-  };
-
+class ContactPage extends Component {
   render() {
     return (
-      <form>
-        <div className="container">
-          <div className="form-group">
-            <label forhtml="exampleFormControlInput1">Name</label>
-            <input
-              type="Name"
-              className="form-control"
-              id="exampleFormControlInput1"
-              placeholder="Name"
-              value={this.state.name}
-              onChange={e => this.setState({ name: e.target.value })}
-            />
-          </div>
-          <div className="form-group">
-            <label forhtml="exampleFormControlInput1">Company Name</label>
-            <input
-              type="companyName"
-              className="form-control"
-              id="exampleFormControlInput1"
-              placeholder="Your Comapny"
-              value={this.state.companyName}
-              onChange={e => this.setState({ companyName: e.target.value })}
-            />
-          </div>
-          <div className="form-group">
-            <label forhtml="exampleFormControlInput1">Email Address</label>
-            <input
-              type="email"
-              className="form-control"
-              id="exampleFormControlInput1"
-              placeholder="name@example.com"
-              value={this.state.email}
-              onChange={e => this.setState({ email: e.target.value })}
-            />
-          </div>
-          <div className="form-group">
-            <label forhtml="exampleFormControlInput1">Phone Number</label>
-            <input
-              className="form-control"
-              id="exampleFormControlInput1"
-              placeholder="888-888-8888"
-              value={this.state.number}
-              onChange={e => this.setState({ number: e.target.value })}
-            />
-          </div>
-
-          <div className="form-group">
-            <label forhtml="exampleFormControlTextarea1">Message For Scottsdale Events Decor</label>
-            <textarea
-              className="form-control"
-              id="exampleFormControlTextarea1"
-              rows="3"
-              value={this.state.message}
-              onChange={e => this.setState({ message: e.target.value })}
-            />
-          </div>
-          <button type="submit" className="btn btn-light" onClick={() => this.onSubmit()}>
-            Submit
-          </button>
-        </div>
-      </form>
+      <Container>
+        <section className="my-5">
+          <h2 className="h1-responsive font-weight-bold text-center my-5">Contact us</h2>
+          <p className="text-center w-responsive mx-auto pb-5">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit, error amet numquam iure
+            provident voluptate esse quasi, veritatis totam voluptas nostrum quisquam eum porro a
+            pariatur veniam.
+          </p>
+          <Row>
+            <Col md="9" className="md-0 mb-5">
+              <form>
+                <Row>
+                  <Col md="6">
+                    <div className="md-form mb-0">
+                      <Input type="text" id="contact-name" label="Your name" />
+                    </div>
+                  </Col>
+                  <Col md="6">
+                    <div className="md-form mb-0">
+                      <Input type="text" id="contact-email" label="Your email" />
+                    </div>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md="12">
+                    <div className="md-form mb-0">
+                      <Input type="text" id="contact-subject" label="Subject" />
+                    </div>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md="12">
+                    <div className="md-form mb-0">
+                      <Input type="textarea" id="contact-message" label="Your message" />
+                    </div>
+                  </Col>
+                </Row>
+              </form>
+              <div className="text-center text-md-left">
+                <Button color="primary" size="md">
+                  Send
+                </Button>
+              </div>
+            </Col>
+            <Col md="3" className="text-center">
+              <ul className="list-unstyled mb-0">
+                <li>
+                  <Fa icon="map-marker" size="2x" className="blue-text" />
+                  <p>San Francisco, CA 94126, USA</p>
+                </li>
+                <li>
+                  <Fa icon="phone" size="2x" className="blue-text mt-4" />
+                  <p>+ 01 234 567 89</p>
+                </li>
+                <li>
+                  <Fa icon="envelope" size="2x" className="blue-text mt-4" />
+                  <p>contact@example.com</p>
+                </li>
+              </ul>
+            </Col>
+          </Row>
+        </section>
+      </Container>
     );
   }
 }
+
+export default ContactPage;
