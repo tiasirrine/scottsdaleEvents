@@ -9,9 +9,17 @@ class Nav extends Component {
     this.setState({ active: e.target.name });
   };
 
+  componentDidUpdate() {
+    if (this.state.active !== window.location.pathname) {
+      this.setState({
+        active: window.location.pathname
+      });
+    }
+  }
+
   render() {
     return (
-      <nav className="navbar navbar-expand-md navbar-dark stylish-color top-nav">
+      <nav className="navbar navbar-expand-md navbar-dark top-nav">
         <div className="container">
           <Link to="/" className="navbar-brand">
             Scottsdale Events
