@@ -8,38 +8,42 @@ import {
   CardImage,
   CardTitle,
   CardText,
+  Col,
+  Container,
   Fa,
   Row
 } from 'mdbreact';
 
 const CategoryComponentWrapper = props => {
   const { categories, image } = props;
-
-  return (
-    <div className="container-fluid">
-      <Row>
-        {categories
-          ? categories.map(a => (
-              <Card
-                className="card-image"
-                style={{ backgroundImage: 'url(' + { image } + ')' }}
-                key={a}
-              >
-                <div className="text-white text-center d-flex align-items-center rgba-indigo-strong py-5 px-4">
-                  <CardTitle>{a}</CardTitle>
-                  <Link to={`/inventory/${a}`}>
-                    {/* <CardImage className="image" src={image} /> */}
-
-                    <Button color="deep-orange">
-                      <Fa icon="clone left" /> View project
-                    </Button>
+  let indCards = categories
+    ? categories.map(a => {
+        return (
+          <Col md="4" key={a}>
+            {' '}
+            <Card className="card-image" style={{ backgroundImage: `url(${image})` }} key={a}>
+              <div className=" card-text text-white text-bottom  rgba-black-light py-5 px-4">
+                <div>
+                  <CardTitle tag="h3" className="pt-2 card-title-text">
+                    {a}
+                  </CardTitle>
+                  <Link to={`/inventory/${a}`} className="white-text d-flex justify-content-end">
+                    <h5>
+                      See more <Fa icon="angle-double-right" />
+                    </h5>
                   </Link>
                 </div>
-              </Card>
-            ))
-          : null}
-      </Row>
-    </div>
+              </div>
+            </Card>
+          </Col>
+        );
+      })
+    : null;
+
+  return (
+    <Container fluid>
+      <Row>{indCards}</Row>
+    </Container>
   );
 };
 

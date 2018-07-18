@@ -8,13 +8,55 @@
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
 
   <title>ScottsdaleEvents </title>
+  <style>
+    .loader {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 1;
+      width: 150px;
+      height: 150px;
+      margin: -75px 0 0 -75px;
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #3498db;
+      width: 120px;
+      height: 120px;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+      0% {
+        -webkit-transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
 </head>
 
 <body>
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
-  <div id="root"></div>
+  <div id="root">
+
+    <div class="preload-title" style="text-align: center;margin: 100px">
+      Gathering Inventory Items
+    </div>
+    <div class="loader" style="text-align: center"></div>
+  </div>
   <script src="/js/jquery.min.js"></script>
   <script src="./js/popper.min.js"></script>
   <script src="/js/bootstrap.bundle.min.js"></script>
