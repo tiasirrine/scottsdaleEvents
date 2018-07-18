@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
-import InventoryNav from '../../InventoryNav';
+//import InventoryNav from '../../InventoryNav';
 
 import './Home.css';
 import CarouselPage from './Carousel/index';
@@ -33,7 +33,6 @@ class Home extends Component {
     const { categories } = this.props;
     return (
       <Fragment>
-        <InventoryNav categories={categories} />
         <CarouselPage />
         <EcommercePage />
         <FeaturesPage />
