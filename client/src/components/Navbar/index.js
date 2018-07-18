@@ -10,7 +10,6 @@ class Nav extends Component {
   };
 
   render() {
-    console.log(window.location.pathname);
     return (
       <nav className="navbar navbar-expand-md navbar-dark stylish-color top-nav">
         <div className="container">
@@ -32,10 +31,10 @@ class Nav extends Component {
             <ul className="navbar-nav ml-auto">
               <li>
                 <Link
-                  name="/home"
+                  name="/"
                   to="/"
                   className={`nav-link waves-effect waves-light ${this.state
-                    .active === '/home' && 'active'}`}
+                    .active === '/' && 'active'}`}
                   onClick={this.onClick}
                 >
                   Home
@@ -104,7 +103,7 @@ class Nav extends Component {
                     .active === '/cart' && 'active'}`}
                   onClick={this.onClick}
                 >
-                  <i class="fa fa-shopping-cart" />
+                  <i className="fa fa-shopping-cart" />
                 </Link>
               </li>
             </ul>

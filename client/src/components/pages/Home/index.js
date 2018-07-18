@@ -1,8 +1,5 @@
-import React, { Component, Fragment } from 'react';
-
-import InventoryNav from '../../InventoryNav';
-
 import './Home.css';
+import React, { Component, Fragment } from 'react';
 import CarouselPage from './Carousel/index';
 import EcommercePage from './Ecommerce/Ecommerce';
 import FeaturesPage from './AboutSection/AboutSection';
@@ -30,10 +27,8 @@ class Home extends Component {
   ];
 
   render() {
-    const { categories } = this.props;
     return (
       <Fragment>
-        <InventoryNav categories={categories} />
         <CarouselPage />
         <EcommercePage />
         <FeaturesPage />
