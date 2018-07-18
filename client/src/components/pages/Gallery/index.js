@@ -50,6 +50,7 @@ class photoGallery extends React.Component {
   render() {
     return (
       <div>
+        <br />
         <Gallery photos={photos} onClick={this.openLightbox} />
         <Lightbox
           images={photos}
