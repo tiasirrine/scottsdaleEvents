@@ -45,7 +45,8 @@ class InventoryCard extends Component {
   };
 
   render() {
-    console.log(this.state);
+    console.log('state: ', this.state);
+    console.log('props: ', this.props);
     return (
       <Container>
         <Card className="item-card-class text-white bg-primary text-center card card-cascade narrower">
@@ -54,12 +55,7 @@ class InventoryCard extends Component {
             alt="Card image cap "
             className="view view-cascade gradient-card-header card-image"
           />
-          <CardText>
-            {' '}
-            <div className="overlay">
-              <div className="text">{this.props.cardDesc}</div>
-            </div>
-          </CardText>
+          <CardText>{this.props.cardDesc}</CardText>
 
           <CardBody>
             <CardTitle>{this.props.cardTitle}</CardTitle>
