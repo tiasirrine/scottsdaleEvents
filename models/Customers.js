@@ -6,7 +6,9 @@ const Customers = sequelize.define(
   {
     email: {
       type: Sequelize.STRING,
-      primaryKey: true,
+      unique: {
+        msg: 'This email is already in use'
+      },
       validate: {
         isEmail: {
           args: true,

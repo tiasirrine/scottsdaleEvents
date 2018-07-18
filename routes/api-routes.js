@@ -1,25 +1,16 @@
 require('dotenv').config();
-const { products, users } = require('../controllers');
+const fs = require('fs');
+const { products, users, cart_products } = require('../controllers');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const router = require('express').Router();
-
-// loads the categories for the InventoryNav
-router.get('/get-distinct-category', (req, res) => {
-  products
-    .selectAllCategories()
-    .then(result => {
-      res.send(result);
-    })
-    .catch(err => res.status(500).send(err));
-});
+const Json2csvParser = require('json2csv').Parser;
 
 router.get('/get-category-products', (req, res) => {
-  const { category } = req.query;
   products
     .selectAll()
     .then(result => res.send(result))
-    .catch(err => console.log(err));
+    .catch(err => res.send(err));
 });
 
 // creates a new customer
@@ -29,12 +20,11 @@ router.post('/create-customer', (req, res) => {
     .then(result => {
       delete result.dataValues.password;
       res.json(result);
-    })
-    .catch(err => res.send(err));
+    }) //TODO: send 403 err with msg
+    .catch(err => res.send(err.errors[0].message));
 });
 
 // gets a new customer
-//FIXME: This should get a user by id
 router.get('/get-customer', (req, res) => {
   const { username, password } = req.query;
   users
@@ -70,9 +60,19 @@ router.get('/all-customers', (req, res) => {
     .catch(err => res.send(err));
 });
 
-// router.post('save-product', (req, res) => {
-//   //
-// });
+router.post('/save-product', (req, res) => {
+  cart_products
+    .saveProductToCart(req.body)
+    .then(result => res.send(result))
+    .catch(err => res.send(err));
+});
+
+router.post('/get-estimate', (req, res) => {
+  console.log(req.body);
+  const fields = Object.keys(req.body);
+  const opts = { fields };
+  const data = JSON.stringify(req.body);
+});
 
 router.get('/login', passport.authenticate('local'), (req, res) => {
   res.send(req.session.passport.user);
@@ -84,7 +84,7 @@ passport.use(
     users
       .getCustomer(username, password)
       .then(result => done(null, result))
-      .catch(err => done(null, false));
+      .catch(() => done(null, false));
   })
 );
 
