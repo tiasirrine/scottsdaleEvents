@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import InventoryPage from './pages/Inventory';
 import API from '../api/API';
 import Gallery from './pages/Gallery';
-import ContactUs from './pages/Contact/Form/index';
+import ContactPage from './pages/Contact/Form/index';
 import CustomerLogin from './pages/CustomerLogin';
 import ShoppingCart from './pages/ShoppingCart';
 import Footer from './Footer/Footer';
@@ -64,9 +64,7 @@ class App extends Component {
         const categories = Object.keys(inventoryObj);
 
         categories.forEach(a => {
-          subCategories[a] = [
-            ...new Set(inventoryObj[a].map(b => b.subcategory))
-          ];
+          subCategories[a] = [...new Set(inventoryObj[a].map(b => b.subcategory))];
         });
 
         return this.setState({ inventoryObj, subCategories, categories });
@@ -97,7 +95,6 @@ class App extends Component {
         <Fragment>
           <Navbar />
           <Switch>
-
             <Route exact path="/" component={Home} />
             <Route
               path="/inventory"
@@ -109,11 +106,10 @@ class App extends Component {
                   inventoryObj={inventoryObj}
                 />
               )}
-
             />
             <Route exact path="/gallery" component={Gallery} />
             <Route exact path="/login" component={CustomerLogin} />
-            <Route exact path="/contact" component={ContactUs} />
+            <Route exact path="/contact" component={ContactPage} />
             <Route exact path="/cart" component={ShoppingCart} />
           </Switch>
           <Footer />
