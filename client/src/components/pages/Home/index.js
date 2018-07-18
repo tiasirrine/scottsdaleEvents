@@ -1,7 +1,3 @@
-
-import React, { Component, Fragment } from 'react';
-
-
 import './Home.css';
 import React, { Component, Fragment } from 'react';
 import CarouselPage from './Carousel/index';
