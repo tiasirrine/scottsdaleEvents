@@ -96,3 +96,9 @@ input[type='number']::placeholder {
 ul {
   list-style-type: none;
 }
+
+.flex {
+  display: flex;
+  align-items: stretch;
+  min-height: 100vh;
+}

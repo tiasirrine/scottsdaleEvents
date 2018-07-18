@@ -1,10 +1,6 @@
 * {
   box-sizing: border-box;
 }
-html,
-body {
-  height: 100%;
-}
 
 body {
   background-color: #f5f5f5;
@@ -18,8 +14,6 @@ a:hover {
   color: black;
 }
 
-.flex {
-  display: flex;
-  align-items: stretch;
-  height: 100%;
+.no-margin {
+  margin: 0 !important;
 }
