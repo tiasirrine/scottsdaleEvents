@@ -4,7 +4,7 @@ const sequelize = require('../config/connection.js');
 const Customer_carts = sequelize.define(
   'user_cart',
   {
-    user_id: {
+    customer_id: {
       type: Sequelize.INTEGER,
       allowNull: false
     },

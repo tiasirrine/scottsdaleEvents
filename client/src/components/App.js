@@ -64,7 +64,9 @@ class App extends Component {
         const categories = Object.keys(inventoryObj);
 
         categories.forEach(a => {
-          subCategories[a] = [...new Set(inventoryObj[a].map(b => b.subcategory))];
+          subCategories[a] = [
+            ...new Set(inventoryObj[a].map(b => b.subcategory))
+          ];
         });
 
         return this.setState({ inventoryObj, subCategories, categories });
@@ -73,19 +75,6 @@ class App extends Component {
         console.error(error);
       });
   };
-
-  // loads the inventory categories for the nav bar
-  // loadCategories = () => {
-  //   return API.getDistinctCategories()
-  //     .then(result => {
-  //       const arr = result.data.map(index => index['category']);
-  //       return this.setState({ categories: arr });
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //       this.setState({ error: '500 (Internal Server Error)' });
-  //     });
-  // };
 
   render() {
     const { categories, subCategories, inventoryObj } = this.state;
