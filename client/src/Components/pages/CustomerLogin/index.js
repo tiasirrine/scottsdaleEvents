@@ -1,92 +1,74 @@
-import React, { Component } from 'react';
-import {
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Container,
-  // Row,
-  Col
-} from 'reactstrap';
+import './index.css';
 
-class CustomerLogin extends Component {
+import React from 'react';
+import { Container, Row, Col, Input, Button, Fa, Card, CardBody, ModalFooter } from 'mdbreact';
+
+class FormsPage extends React.Component {
   render() {
     return (
-      <section class="container form-elegant">
-        <div class="card">
-          <div class="card-body mx-4">
-            <div class="text-center">
-              <h3 class="dark-grey-text mb-5">
-                <strong>Sign in</strong>
-              </h3>
-            </div>
-
-            <div class="md-form">
-              <input type="text" id="Form-email1" class="form-control" />
-              <label for="Form-email1">Your email</label>
-            </div>
-
-            <div class="md-form pb-3">
-              <input type="password" id="Form-pass1" class="form-control" />
-              <label for="Form-pass1">Your password</label>
-              <p class="font-small blue-text d-flex justify-content-end">
-                Forgot{' '}
-                <a href="#" class="blue-text ml-1">
-                  {' '}
-                  Password?
-                </a>
-              </p>
-            </div>
-
-            <div class="text-center mb-3">
-              <button
-                type="button"
-                class="btn blue-gradient btn-block btn-rounded z-depth-1a"
+      <Container>
+        <section className="form-dark">
+          <Row>
+            <Col md="5">
+              <Card
+                className="card-image"
+                style={{
+                  backgroundImage:
+                    'url(https://mdbootstrap.com/img/Photos/Others/pricing-table7.jpg)',
+                  width: '28rem'
+                }}
               >
-                Sign in
-              </button>
-            </div>
-            <p class="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2">
-              {' '}
-              or Sign in with:
-            </p>
-
-            <div class="row my-3 d-flex justify-content-center">
-              <button
-                type="button"
-                class="btn btn-white btn-rounded mr-md-3 z-depth-1a"
-              >
-                <i class="fa fa-facebook blue-text text-center" />
-              </button>
-              <button
-                type="button"
-                class="btn btn-white btn-rounded mr-md-3 z-depth-1a"
-              >
-                <i class="fa fa-twitter blue-text" />
-              </button>
-              <button
-                type="button"
-                class="btn btn-white btn-rounded z-depth-1a"
-              >
-                <i class="fa fa-google-plus blue-text" />
-              </button>
-            </div>
-          </div>
-
-          <div class="modal-footer mx-5 pt-3 mb-1">
-            <p class="font-small grey-text d-flex justify-content-end">
-              Not a member?{' '}
-              <a href="#" class="blue-text ml-1">
-                {' '}
-                Sign Up
-              </a>
-            </p>
-          </div>
-        </div>
-      </section>
+                <div className="text-white rgba-stylish-strong py-5 px-5 z-depth-4">
+                  <div className="text-center">
+                    <h3 className="white-text mb-5 mt-4 font-weight-bold">
+                      <strong>SIGN</strong>{' '}
+                      <a className="green-text font-weight-bold">
+                        <strong> UP</strong>
+                      </a>
+                    </h3>
+                  </div>
+                  <Input label="Your email" group type="text" validate />
+                  <Input label="Your password" group type="password" validate />
+                  <div className="md-form pb-3">
+                    <div className="form-check my-4">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="defaultCheck17"
+                      />
+                      <label className="form-check-label white-text" htmlFor="defaultCheck17">
+                        Accept the<a href="#" className="green-text font-weight-bold">
+                          {' '}
+                          Terms and Conditions
+                        </a>
+                      </label>
+                    </div>
+                  </div>
+                  <Row className="d-flex align-items-center mb-4">
+                    <div className="text-center mb-3 col-md-12">
+                      <Button color="success" rounded type="button" className="btn-block z-depth-1">
+                        Sign in
+                      </Button>
+                    </div>
+                  </Row>
+                  <Col md="12">
+                    <p className="font-small white-text d-flex justify-content-end">
+                      Have an account?{' '}
+                      <a href="#" className="green-text ml-1 font-weight-bold">
+                        {' '}
+                        Log in
+                      </a>
+                    </p>
+                  </Col>
+                </div>
+              </Card>
+            </Col>
+          </Row>
+        </section>
+      </Container>
     );
   }
 }
-export default CustomerLogin;
 
+export default FormsPage;
