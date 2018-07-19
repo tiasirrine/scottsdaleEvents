@@ -11,7 +11,8 @@ import {
   Col,
   Container,
   Fa,
-  Row
+  Row,
+  View
 } from 'mdbreact';
 
 const CategoryComponentWrapper = props => {
@@ -22,23 +23,25 @@ const CategoryComponentWrapper = props => {
       <Row>
         {categories
           ? categories.map(a => (
-              <Col md="4" key={a}>
-                <Card className="card-image" style={{ backgroundImage: `url(${image})` }} key={a}>
-                  <div className=" card-text text-white text-bottom  rgba-black-light py-5 px-4">
-                    <div>
-                      <CardTitle tag="h3" className="pt-2 card-title-text">
-                        {a}
-                      </CardTitle>
-                      <Link
-                        to={`/inventory/${a}`}
-                        className="white-text d-flex justify-content-end"
-                      >
-                        <h5>
-                          See more <Fa icon="angle-double-right" />
-                        </h5>
-                      </Link>
+              <Col md="4" key={a} className="ind-card-col">
+                <Card className="card card-cascade wider reverse my-4 animated fadeInUpBig">
+                  <Link to={`/inventory/${a}`}>
+                    <div className="mask rgba-white-slight waves-effect waves-light" />
+                    <div className="view view-cascade overlay">
+                      <View zoom>
+                        <CardImage
+                          src={image}
+                          className="img-fluid ind-card-image"
+                          alt="Category Image"
+                        />
+                      </View>
                     </div>
-                  </div>
+                    <CardBody className="card-body card-body-cascade text-center">
+                      <CardTitle>
+                        <strong>{a}</strong>
+                      </CardTitle>
+                    </CardBody>
+                  </Link>
                 </Card>
               </Col>
             ))
