@@ -6,11 +6,13 @@ import {
   CardText,
   CardTitle,
   CardSubtitle,
+  Col,
   Container,
   Button,
   FormGroup,
   Label,
-  Input
+  Input,
+  Row
 } from 'reactstrap';
 import './InventoryPage.css';
 import image from '../../../images/Photos/event7.jpg';
@@ -48,44 +50,43 @@ class InventoryCard extends Component {
     console.log('state: ', this.state);
     console.log('props: ', this.props);
     return (
-      <Container>
-        <Card className="item-card-class text-white bg-primary text-center card card-cascade narrower">
-          <CardImg
-            src={image}
-            alt="Card image cap "
-            className="view view-cascade gradient-card-header card-image"
-          />
-          <CardText>{this.props.cardDesc}</CardText>
+      <Container className="py-3">
+        <Card>
+          <Row>
+            <Col md="4">
+              <CardImg src={image} alt="Card image cap " />
+            </Col>
+            <Col md="8" className="px-3">
+              <CardBody className="px-3">
+                <CardTitle>{this.props.cardTitle}</CardTitle>
+                <CardText>{this.props.cardDesc}</CardText>
+                <FormGroup>
+                  <Label for="item-quantity" />
+                  <Input
+                    value={this.state.quantity}
+                    onChange={this.handleInputChange}
+                    data-id={this.props.id}
+                    type="number"
+                    name="quantity"
+                    id="item-quantity"
+                    max="1000"
+                    maxLength="4"
+                    placeholder={'Quantity'}
+                  />
+                </FormGroup>
 
-          <CardBody>
-            <CardTitle>{this.props.cardTitle}</CardTitle>
-            <FormGroup>
-              <Label for="item-quantity" />
-              <Input
-                value={this.state.quantity}
-                onChange={this.handleInputChange}
-                data-id={this.props.id}
-                type="number"
-                name="quantity"
-                id="item-quantity"
-                max="1000"
-                maxLength="4"
-                placeholder={'Quantity'}
-              />
-            </FormGroup>
-            {/* <CardText>Here is some text for a detailed description...or not</CardText> */}
-
-            {/* <CardSubtitle>{this.props.cardDesc}</CardSubtitle> */}
-          </CardBody>
+                <Button
+                  type="submit"
+                  value="Submit"
+                  onClick={this.state.handleFormSubmit}
+                  data-id={this.props.id}
+                >
+                  Add To Cart
+                </Button>
+              </CardBody>
+            </Col>
+          </Row>
         </Card>
-        <Button
-          type="submit"
-          value="Submit"
-          onClick={this.state.handleFormSubmit}
-          data-id={this.props.id}
-        >
-          Add To Cart
-        </Button>
       </Container>
     );
   }
