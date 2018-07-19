@@ -40,3 +40,8 @@ ul {
 .card-title {
   font-size: 12px;
 }
+
+body {
+  background-image: url('./woodbackground.jpg');
+  background-size: contain;
+}
