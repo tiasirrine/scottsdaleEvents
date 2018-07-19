@@ -36,6 +36,7 @@ ul {
 .card {
   margin: 20px;
 }
-.container {
-  margin: 25px;
+
+.card-title {
+  font-size: 12px;
 }

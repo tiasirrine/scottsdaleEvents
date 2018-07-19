@@ -23,7 +23,7 @@ const CategoryComponentWrapper = props => {
       <Row>
         {categories
           ? categories.map(a => (
-              <Col md="4" key={a} className="ind-card-col">
+              <Col md="3" key={a} className="ind-card-col">
                 <Card className="card card-cascade wider reverse my-4 animated fadeInUpBig">
                   <Link to={`/inventory/${a}`}>
                     <div className="mask rgba-white-slight waves-effect waves-light" />
