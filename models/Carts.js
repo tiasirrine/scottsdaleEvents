@@ -1,13 +1,13 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/connection.js');
 
-const Customer_carts = sequelize.define(
-  'user_cart',
+const Carts = sequelize.define(
+  'carts',
   {
-    customer_id: {
-      type: Sequelize.INTEGER,
-      allowNull: false
-    },
+    // customer_id: {
+    //   type: Sequelize.INTEGER,
+    //   allowNull: false
+    // },
     did_check_out: Sequelize.BOOLEAN,
     allowNull: false
   },
@@ -16,6 +16,6 @@ const Customer_carts = sequelize.define(
   }
 );
 
-Customer_carts.sync();
+Carts.sync();
 
-module.exports = Customer_carts;
+module.exports = Carts;

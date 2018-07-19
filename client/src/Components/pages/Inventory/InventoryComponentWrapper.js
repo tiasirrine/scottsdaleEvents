@@ -36,17 +36,18 @@ const InventoryComponentWrapper = props => {
 
   return (
     <Container fluid>
-      <Row>
-        {getInvItems
-          ? getInvItems.map((a, i) => {
-              return (
-                <Col md="4" key={i}>
-                  <InventoryCard cardTitle={a.name} cardDesc={a.description} id={i} />
-                </Col>
-              );
-            })
-          : null}
-      </Row>
+      {getInvItems
+        ? getInvItems.map((a, i) => {
+            return (
+              <InventoryCard
+                key={i}
+                cardTitle={a.name}
+                cardDesc={a.description}
+                id={i}
+              />
+            );
+          })
+        : null}
     </Container>
   );
 };
