@@ -11,7 +11,8 @@ import {
   Col,
   Container,
   Fa,
-  Row
+  Row,
+  View
 } from 'mdbreact';
 import InventoryCard from './InventoryCard';
 
@@ -44,31 +45,26 @@ const SubCategoryComponentWrapper = props => {
       <Row>
         {itemsToRender && !getInvItems
           ? itemsToRender.map(a => (
-              <Col key={a}>
-                <Card>
-                  <CardImage
-                    top
-                    src={image}
-                    overlay="white-slight"
-                    hover
-                    waves
-                    alt="Card image cap"
-                  />
-                  <CardBody className="elegant-color white-text rounded-bottom">
-                    <a className="activator waves-effect waves-light mr-4">
-                      <Fa icon="share-alt" />
-                    </a>
-                    <CardTitle>{a}</CardTitle>
-                    <hr className="hr-light" />
-                    <Link
-                      to={`${props.match.url}/${a}`}
-                      className="black-text d-flex justify-content-end"
-                    >
-                      <h5 className="white-text">
-                        See more <Fa icon="angle-double-right" />
-                      </h5>
-                    </Link>
-                  </CardBody>
+              <Col md="4" key={a} className="ind-card-col">
+                <Card className="card card-cascade wider reverse my-4 animated fadeInUpBig">
+                  <Link to={`${props.match.url}/${a}`}>
+                    <div className="mask rgba-white-slight waves-effect waves-light" />
+                    <div className="view view-cascade overlay">
+                      <View zoom>
+                        <CardImage
+                          cascade
+                          src={image}
+                          className="img-fluid ind-card-image"
+                          alt="Category Image"
+                        />
+                      </View>
+                    </div>
+                    <CardBody cascade className="card-body card-body-cascade text-center">
+                      <CardTitle>
+                        <strong>{a}</strong>
+                      </CardTitle>
+                    </CardBody>
+                  </Link>
                 </Card>
               </Col>
             ))
