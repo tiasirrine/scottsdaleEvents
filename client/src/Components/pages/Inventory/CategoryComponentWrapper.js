@@ -30,13 +30,14 @@ const CategoryComponentWrapper = props => {
                     <div className="view view-cascade overlay">
                       <View zoom>
                         <CardImage
+                          cascade
                           src={image}
                           className="img-fluid ind-card-image"
                           alt="Category Image"
                         />
                       </View>
                     </div>
-                    <CardBody className="card-body card-body-cascade text-center">
+                    <CardBody cascade className="card-body card-body-cascade text-center">
                       <CardTitle>
                         <strong>{a}</strong>
                       </CardTitle>
