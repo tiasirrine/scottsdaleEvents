@@ -1,7 +1,6 @@
 import './InventoryPage.css';
 import React, { Component, Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import API from '../../../api/API';
 import image from '../../../images/Photos/Bars/bar10.jpg';
 import CategoryComponentWrapper from './CategoryComponentWrapper';
 import SubCategoryComponentWrapper from './SubCategoryComponentWrapper';
