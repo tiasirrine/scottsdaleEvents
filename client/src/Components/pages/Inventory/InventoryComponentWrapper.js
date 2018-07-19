@@ -39,7 +39,6 @@ const InventoryComponentWrapper = props => {
       <Row>
         {getInvItems
           ? getInvItems.map((a, i) => {
-              console.log('a: ', a);
               return (
                 <Col md="4" key={i}>
                   <InventoryCard cardTitle={a.name} cardDesc={a.description} id={i} />
