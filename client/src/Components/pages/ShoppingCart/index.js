@@ -16,18 +16,21 @@ class ShoppingCart extends Component {
     this.setState({
       products: [
         {
+          id: '1',
           name: 'Firepit Bench',
           qty: '2',
           price: '35.00',
           total: '70.00'
         },
         {
+          id: '2',
           name: 'Descansa Bench Short',
           qty: '2',
           price: '35.00',
           total: '70.00'
         },
         {
+          id: '3',
           name: 'Some other thing',
           qty: '4',
           price: '65.00',
