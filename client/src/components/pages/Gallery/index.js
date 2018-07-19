@@ -60,6 +60,7 @@ class photoGallery extends React.Component {
           currentImage={this.state.currentImage}
           isOpen={this.state.lightboxIsOpen}
         />
+        <br />
       </div>
     );
   }
