@@ -35,7 +35,9 @@ const SubCategoryComponentWrapper = props => {
     : null;
 
   // checks if there are no sub categories. if not, gets the inventory items.
-  const getInvItems = subCategories.includes('') ? inventory[param].map(a => a) : null;
+  const getInvItems = subCategories.includes('')
+    ? inventory[param].map(a => a)
+    : null;
 
   // contains individual inventory items if there are no sub categories
   const itemsToRender = subCategories.length ? subCategories : null;
@@ -59,7 +61,10 @@ const SubCategoryComponentWrapper = props => {
                         />
                       </View>
                     </div>
-                    <CardBody cascade className="card-body card-body-cascade text-center">
+                    <CardBody
+                      cascade
+                      className="card-body card-body-cascade text-center"
+                    >
                       <CardTitle>
                         <strong>{a}</strong>
                       </CardTitle>
@@ -73,10 +78,12 @@ const SubCategoryComponentWrapper = props => {
         {getInvItems
           ? getInvItems.map((a, i) => {
               return (
-                <Col md="4" key={i}>
-                  <InventoryCard cardTitle={a.name} cardDesc={a.description} id={i} />
-                  {console.log('a:', a)}
-                </Col>
+                <InventoryCard
+                  key={i}
+                  cardTitle={a.name}
+                  cardDesc={a.description}
+                  id={i}
+                />
               );
             })
           : null}
