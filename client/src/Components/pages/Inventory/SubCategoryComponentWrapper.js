@@ -1,5 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {
+  Button,
+  Card,
+  CardBody,
+  CardGroup,
+  CardImage,
+  CardTitle,
+  CardText,
+  Col,
+  Container,
+  Fa,
+  Row,
+  View
+} from 'mdbreact';
+import InventoryCard from './InventoryCard';
 
 const SubCategoryComponentWrapper = props => {
   const { inventory, image } = props;
@@ -20,38 +35,53 @@ const SubCategoryComponentWrapper = props => {
     : null;
 
   // checks if there are no sub categories. if not, gets the inventory items.
-  const getInvItems = subCategories.includes('')
-    ? inventory[param].map(a => a.name)
-    : null;
+  const getInvItems = subCategories.includes('') ? inventory[param].map(a => a) : null;
 
   // contains individual inventory items if there are no sub categories
   const itemsToRender = subCategories.length ? subCategories : null;
 
   return (
-    <div className="container-fluid">
-      <div className="row">
+    <Container fluid>
+      <Row>
         {itemsToRender && !getInvItems
           ? itemsToRender.map(a => (
-              <div key={a}>
-                <Link to={`${props.match.url}/${a}`}>
-                  <img className="image" src={image} />
-                  <p>{a}</p>
-                </Link>
-              </div>
+              <Col md="4" key={a} className="ind-card-col">
+                <Card className="card card-cascade wider reverse my-4 animated fadeInUpBig">
+                  <Link to={`${props.match.url}/${a}`}>
+                    <div className="mask rgba-white-slight waves-effect waves-light" />
+                    <div className="view view-cascade overlay">
+                      <View zoom>
+                        <CardImage
+                          cascade
+                          src={image}
+                          className="img-fluid ind-card-image"
+                          alt="Category Image"
+                        />
+                      </View>
+                    </div>
+                    <CardBody cascade className="card-body card-body-cascade text-center">
+                      <CardTitle>
+                        <strong>{a}</strong>
+                      </CardTitle>
+                    </CardBody>
+                  </Link>
+                </Card>
+              </Col>
             ))
           : null}
+
         {getInvItems
-          ? getInvItems.map((a, i) => (
-              <div key={i}>
-                <Link to={`${props.match.url}/${a}`}>
-                  <img className="image" src={image} />
-                  <p>{a}</p>
-                </Link>
-              </div>
-            ))
+          ? getInvItems.map((a, i) => {
+              return (
+                <Col md="4" key={i}>
+                  <InventoryCard cardTitle={a.name} cardDesc={a.description} id={i} />
+                  {console.log('a:', a)}
+                </Col>
+              );
+            })
           : null}
-      </div>
-    </div>
+      </Row>
+    </Container>
   );
 };
 
