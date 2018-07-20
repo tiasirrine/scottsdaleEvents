@@ -8,7 +8,7 @@ class SidebarButton extends Component {
     const { category, subCategories } = props;
 
     return (
-      <li className="nav-item mb-3">
+      <li className="nav-item">
         {!subCategories.includes('') ? (
           <Fragment>
             <a

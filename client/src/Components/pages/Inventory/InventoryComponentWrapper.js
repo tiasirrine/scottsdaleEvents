@@ -1,5 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {
+  Button,
+  Card,
+  CardBody,
+  CardGroup,
+  CardImage,
+  CardTitle,
+  CardText,
+  Col,
+  Container,
+  Fa,
+  Row
+} from 'mdbreact';
+import InventoryCard from './InventoryCard';
 
 const InventoryComponentWrapper = props => {
   const { inventory, categories, image } = props;
@@ -12,7 +26,7 @@ const InventoryComponentWrapper = props => {
     ? inventory[categoryParam]
         .map(a => {
           if (a.subcategory === subCategoryParam) {
-            return a.name;
+            return a;
           }
         })
         .filter(a => a !== undefined)
@@ -21,20 +35,20 @@ const InventoryComponentWrapper = props => {
   console.log(getInvItems);
 
   return (
-    <div className="container-fluid">
-      <div className="row">
-        {getInvItems
-          ? getInvItems.map(a => (
-              <div key={a}>
-                <Link to={`${props.match.url}/${a}`}>
-                  <img className="image" src={image} />
-                  <p>{a}</p>
-                </Link>
-              </div>
-            ))
-          : null}
-      </div>
-    </div>
+    <Container fluid>
+      {getInvItems
+        ? getInvItems.map((a, i) => {
+            return (
+              <InventoryCard
+                key={i}
+                cardTitle={a.name}
+                cardDesc={a.description}
+                id={i}
+              />
+            );
+          })
+        : null}
+    </Container>
   );
 };
 
