@@ -50,38 +50,49 @@ class InventoryCard extends Component {
     console.log('state: ', this.state);
     console.log('props: ', this.props);
     return (
-      <Card className="py-3">
-        <Row>
+      <Card className="py-3 clearfix inventory-card">
+        <Row className="justify-content-md-center inventory-card">
           <Col md="4">
-            <CardImg src={image} alt="Card image cap " />
+            <CardImg
+              src={image}
+              alt={this.props.cardTitle}
+              className="d-flex align-self-center mr-3"
+            />
           </Col>
           <Col md="8" className="px-3">
             <CardBody className="px-3">
               <CardTitle>{this.props.cardTitle}</CardTitle>
               <CardText>{this.props.cardDesc}</CardText>
               <FormGroup>
-                <Label for="item-quantity" />
-                <Input
-                  value={this.state.quantity}
-                  onChange={this.handleInputChange}
-                  data-id={this.props.id}
-                  type="number"
-                  name="quantity"
-                  id="item-quantity"
-                  max="1000"
-                  maxLength="4"
-                  placeholder={'Quantity'}
-                />
+                <Row>
+                  <Col md="6">
+                    <Label for="item-quantity" />
+                    <Input
+                      value={this.state.quantity}
+                      onChange={this.handleInputChange}
+                      data-id={this.props.id}
+                      type="number"
+                      name="quantity"
+                      id="item-quantity"
+                      max="1000"
+                      maxLength="4"
+                      placeholder={'Quantity'}
+                      className="float-left"
+                    />
+                  </Col>
+                  <Col md="6">
+                    <Button
+                      type="submit"
+                      value="Submit"
+                      onClick={this.state.handleFormSubmit}
+                      data-id={this.props.id}
+                      className="float-left"
+                    >
+                      Add To Cart
+                    </Button>
+                  </Col>
+                </Row>
               </FormGroup>
-
-              <Button
-                type="submit"
-                value="Submit"
-                onClick={this.state.handleFormSubmit}
-                data-id={this.props.id}
-              >
-                Add To Cart
-              </Button>
             </CardBody>
           </Col>
         </Row>
