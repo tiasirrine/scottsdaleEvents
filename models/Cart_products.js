@@ -4,11 +4,11 @@ const sequelize = require('../config/connection.js');
 const Cart_products = sequelize.define(
   'cart_product',
   {
-    user_cart_id: {
+    customer_cart_id: {
       type: Sequelize.INTEGER,
       allowNull: false
     },
-    inventory_id: {
+    product_id: {
       type: Sequelize.INTEGER,
       allowNull: false
     },
