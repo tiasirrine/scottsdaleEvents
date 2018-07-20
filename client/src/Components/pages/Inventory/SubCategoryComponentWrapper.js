@@ -45,9 +45,9 @@ const SubCategoryComponentWrapper = props => {
       <Row>
         {itemsToRender && !getInvItems
           ? itemsToRender.map(a => (
-              <Col md="3" key={a} className="ind-card-col">
+              <Col md="4" key={a} className="ind-card-col">
                 <Card className="card card-cascade wider reverse my-4 animated fadeInUpBig">
-                  <Link to={`/inventory/${a}`}>
+                  <Link to={`${props.match.url}/${a}`}>
                     <div className="view view-cascade overlay">
                       <View zoom>
                         <CardImage
