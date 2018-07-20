@@ -1,32 +1,14 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../config/connection.js');
-
-const Admins = sequelize.define(
-  'admin',
-  {
+module.exports = function(sequelize, DataTypes) {
+  const Admin = sequelize.define('Admin', {
     email: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       primaryKey: true,
       validate: {
-        isEmail: {
-          args: true,
-          msg: 'Please enter a valid email address'
-        }
+        isEmail: { args: true, msg: 'Please enter a valid email address' }
       }
     },
-    password: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    superAdmin: {
-      type: Sequelize.BOOLEAN
-    }
-  },
-  {
-    timestamps: false
-  }
-);
+    password: { type: DataTypes.STRING, allowNull: false }
+  });
 
-Admins.sync();
-
-module.exports = Admins;
+  return Admin;
+};
