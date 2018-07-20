@@ -46,3 +46,11 @@ body {
   background-image: url('./woodbackground.jpg');
   background-size: contain;
 }
+
+.cat-names {
+  font-size: 12px;
+}
+
+.inventory-card {
+  height: 165px;
+}
