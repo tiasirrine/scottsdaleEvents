@@ -153,14 +153,15 @@ router.post('/api/form', (req, res) => {
   });
 });
 
-router.get('/login', passport.authenticate('local'), (req, res) => {
+router.post('/login', passport.authenticate('local'), (req, res) => {
   res.send(req.session.passport.user);
 });
 
 //FIXME: This needs to be usable for users and admins
 passport.use(
   new LocalStrategy((username, password, done) => {
-    users
+    console.log(username, password);
+    user
       .getCustomer(username, password)
       .then(result => done(null, result))
       .catch(() => done(null, false));
@@ -174,7 +175,7 @@ passport.serializeUser((user, done) => {
 
 // checks the cookie
 passport.deserializeUser((id, done) => {
-  users.getUserById(id, (err, user) => {
+  user.getUserById(id, (err, user) => {
     done(err, user);
   });
 });

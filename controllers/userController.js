@@ -67,9 +67,9 @@ module.exports = {
 
   // TODO: eventually there will need to be a check on the customer to see
   // if the account is locked or not
-  getCustomer: function(username, password) {
+  getCustomer: function(email, password) {
     return new Promise((resolve, reject) => {
-      db.Customer.findAll({ where: { username: username } })
+      db.Customer.findAll({ where: { email: email } })
         .then(returnedUser => {
           this.checkPassword(password, returnedUser[0].password)
             .then(res => resolve(res))

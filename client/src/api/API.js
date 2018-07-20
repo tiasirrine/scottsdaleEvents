@@ -13,5 +13,9 @@ export default {
   //TODO: pass in customer id
   loadCart: function() {
     return axios.get('/load-cart', { params: { id: 1 }, timeout: 15000 });
+  },
+
+  login: function(data) {
+    return axios.post('/login', data);
   }
 };
