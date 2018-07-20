@@ -3,8 +3,8 @@ import { Container, Row, Col, Card, CardBody, Fa, Button, Input } from 'mdbreact
 import axios from 'axios';
 
 class ContactPage extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       name: '',
@@ -23,7 +23,8 @@ class ContactPage extends Component {
   };
 
   async handleSubmit(e) {
-    e.preventDefault();
+    //e.preventDefault();
+    console.log();
 
     const { name, companyName, contactEmail, number, message } = this.state;
 
@@ -48,7 +49,7 @@ class ContactPage extends Component {
           </p>
           <Row>
             <Col md="9" className="md-0 mb-5">
-              <form onSubmit={this.handleSubmit}>
+              <form>
                 <Row>
                   <Col md="12">
                     <div className="md-form mb-0">
@@ -112,7 +113,7 @@ class ContactPage extends Component {
                 </Row>
               </form>
               <div className="text-center text-md-left">
-                <Button color="primary" size="md">
+                <Button color="primary" size="md" onClick={this.handleSubmit} type="send">
                   Send
                 </Button>
               </div>
