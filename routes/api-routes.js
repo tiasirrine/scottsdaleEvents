@@ -3,10 +3,14 @@ const { products, users, cart_products } = require('../controllers');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const router = require('express').Router();
+const nodemailer = require('nodemailer');
+
+
 const Json2csvParser = require('json2csv').Parser;
 
 // gets all the products. runs on first page load.
 // stores products to prevent multiple calls to server for data
+
 router.get('/get-category-products', (req, res) => {
   products
     .selectAll()
@@ -91,6 +95,56 @@ router.post('/get-estimate', (req, res) => {
   } catch (err) {
     console.log(err);
   }
+});
+
+//route for nodemailer
+router.post('/api/form', (req, res) => {
+  console.log(req.body);
+  nodemailer.createTestAccount((err, account) => {
+    if (err) {
+      console.error('Failed to create a testing account. ' + err.message);
+      return process.exit(1);
+    }
+
+    console.log('Credentials obtained, sending message...');
+
+    const htmlEmail = `
+      <h3>Contact Details</h3>
+      <ul>
+        <li>Name: ${req.body.name}</li>
+        <li>CompanyName: ${req.body.companyName}</li>
+        <li>Contact Number: ${req.body.number}</li>
+        <li>Contact Email: ${req.body.contactEmail}</li
+        <li>Message to Scottsdale Event Decor: ${req.body.email}</li>
+      </ul>
+    `;
+
+    let transporter = nodemailer.createTransport({
+      host: 'smtp.ethereal.email',
+      port: 587,
+      auth: {
+        user: 'h5i4kjohpp6onalz@ethereal.email',
+        pass: 'ephpes6sVk62fgzwNR'
+      }
+    });
+
+    let mailOptions = {
+      from: 'tesxt@testaccount.com',
+      to: 'h5i4kjohpp6onalz@ethereal.email',
+      replyTo: 'test@testaccount.com',
+      subject: ' New Message ',
+      text: req.body.message,
+      html: htmlEmail
+    };
+
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        return console.log(err);
+      }
+      console.log('message sent: %s', info.message);
+      console.log('Message URL: %s', nodemailer.getTestMessageUrl(info));
+    });
+  });
 });
 
 router.get('/login', passport.authenticate('local'), (req, res) => {

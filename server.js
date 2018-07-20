@@ -6,9 +6,7 @@ const express = require('express');
 const routes = require('./routes/api-routes');
 const session = require('express-session');
 const passport = require('passport');
-const dotenv = require('dotenv');
 const db = require('./models');
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -35,11 +33,6 @@ app.use(passport.session());
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 }
-
-//route for nodemailer
-app.post('/api/form', (req, res) => {
-  console.log(req.body);
-});
 
 // Add routes, both API and view
 app.use(routes);
