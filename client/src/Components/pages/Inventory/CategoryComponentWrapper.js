@@ -20,7 +20,7 @@ const CategoryComponentWrapper = props => {
 
   return (
     <Container fluid>
-      <Row>
+      <Row className="justify-content-md-center">
         {categories
           ? categories.map(a => (
               <Col md="3" key={a} className="ind-card-col">

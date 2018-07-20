@@ -42,7 +42,7 @@ const SubCategoryComponentWrapper = props => {
 
   return (
     <Container fluid>
-      <Row>
+      <Row className="justify-content-md-center">
         {itemsToRender && !getInvItems
           ? itemsToRender.map(a => (
               <Col md="4" key={a} className="ind-card-col">
