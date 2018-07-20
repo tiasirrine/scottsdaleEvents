@@ -1,67 +1,81 @@
 import './index.css';
-
 import React from 'react';
-import { Container, Row, Col, Input, Button, Fa, Card, CardBody, ModalFooter } from 'mdbreact';
+import { Container, Row, Col, Input, Button, Card, CardBody } from 'mdbreact';
+import API from '../../../api/API';
 
-class FormsPage extends React.Component {
+class CustomerLogin extends React.Component {
+  state = { username: '', password: '' };
+
+  onChange = e => {
+    const { value, name } = e.target;
+    this.setState({ [name]: value });
+  };
+
+  onSubmit = () => {
+    const { username, password } = this.state;
+    API.login({ username, password })
+      .then(res => console.log(res))
+      .catch(err => this.setState({ error: 'error' }));
+  };
+
   render() {
     return (
       <Container>
-        <section className="form-dark">
+        <section className="form-simple">
           <Row>
-            <Col md="5">
-              <Card
-                className="card-image"
-                style={{
-                  backgroundImage:
-                    'url(https://mdbootstrap.com/img/Photos/Others/pricing-table7.jpg)',
-                  width: '28rem'
-                }}
-              >
-                <div className="text-white rgba-stylish-strong py-5 px-5 z-depth-4">
-                  <div className="text-center">
-                    <h3 className="white-text mb-5 mt-4 font-weight-bold">
-                      <strong>SIGN</strong>{' '}
-                      <a className="green-text font-weight-bold">
-                        <strong> UP</strong>
-                      </a>
+            <Col lg="8" className="offset-md-2">
+              <Card>
+                <div className="header pt-3 grey lighten-2">
+                  <Row className="d-flex justify-content-start">
+                    <h3 className="deep-grey-text mt-3 mb-4 pb-1 mx-5">
+                      Log in
                     </h3>
-                  </div>
-                  <Input label="Your email" group type="text" validate />
-                  <Input label="Your password" group type="password" validate />
-                  <div className="md-form pb-3">
-                    <div className="form-check my-4">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="defaultCheck17"
-                      />
-                      <label className="form-check-label white-text" htmlFor="defaultCheck17">
-                        Accept the<a href="#" className="green-text font-weight-bold">
-                          {' '}
-                          Terms and Conditions
-                        </a>
-                      </label>
-                    </div>
-                  </div>
-                  <Row className="d-flex align-items-center mb-4">
-                    <div className="text-center mb-3 col-md-12">
-                      <Button color="success" rounded type="button" className="btn-block z-depth-1">
-                        Sign in
-                      </Button>
-                    </div>
                   </Row>
-                  <Col md="12">
-                    <p className="font-small white-text d-flex justify-content-end">
-                      Have an account?{' '}
-                      <a href="#" className="green-text ml-1 font-weight-bold">
-                        {' '}
-                        Log in
-                      </a>
-                    </p>
-                  </Col>
                 </div>
+                <CardBody className="mx-4 mt-4">
+                  <Input
+                    onChange={this.onChange}
+                    name="username"
+                    label="Your email"
+                    group
+                    type="text"
+                    validate
+                  />
+                  <Input
+                    onChange={this.onChange}
+                    name="password"
+                    label="Your password"
+                    group
+                    type="password"
+                    validate
+                    containerClass="mb-0"
+                  />
+                  <p className="font-small grey-text d-flex justify-content-end">
+                    Forgot{' '}
+                    <a
+                      href="#"
+                      className="dark-grey-text font-weight-bold ml-1"
+                    >
+                      {' '}
+                      Password?
+                    </a>
+                  </p>
+                  {this.state.error && (
+                    <p className="text-danger text-center">
+                      Username or password is incorrect
+                    </p>
+                  )}
+                  <div className="text-center mb-4 mt-5">
+                    <Button
+                      onClick={this.onSubmit}
+                      color="danger"
+                      type="button"
+                      className="btn-block z-depth-2"
+                    >
+                      Log in
+                    </Button>
+                  </div>
+                </CardBody>
               </Card>
             </Col>
           </Row>
@@ -71,4 +85,4 @@ class FormsPage extends React.Component {
   }
 }
 
-export default FormsPage;
+export default CustomerLogin;

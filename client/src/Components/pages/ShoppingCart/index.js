@@ -92,7 +92,7 @@ class ShoppingCart extends Component {
             {products &&
               products.map((a, i) => {
                 return (
-                  <tr key={a.name}>
+                  <tr key={i}>
                     <th scope="row">
                       {a.name}
                       <br />
