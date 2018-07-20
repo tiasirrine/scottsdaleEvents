@@ -1,3 +1,19 @@
 .top-nav {
   background-color: #546e7a;
 }
+
+.navbar {
+  font-size: 12px;
+}
+
+@media (min-width: 992px) {
+  .navbar {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 1050px) {
+  .navbar {
+    font-size: 16px;
+  }
+}

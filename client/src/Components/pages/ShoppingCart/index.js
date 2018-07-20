@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import { Container, Table, Input, Button } from 'mdbreact';
 import API from '../../../api/API';
 
-// const styles = {
-//   fontSize: 8
-// };
-
 class ShoppingCart extends Component {
   constructor(props) {
     super(props);
@@ -13,31 +9,20 @@ class ShoppingCart extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      products: [
-        {
-          id: '1',
-          name: 'Firepit Bench',
-          qty: '2',
-          price: '35.00',
-          total: '70.00'
-        },
-        {
-          id: '2',
-          name: 'Descansa Bench Short',
-          qty: '2',
-          price: '35.00',
-          total: '70.00'
-        },
-        {
-          id: '3',
-          name: 'Some other thing',
-          qty: '4',
-          price: '65.00',
-          total: '70.00'
-        }
-      ]
-    });
+    // gets active cart for a customer
+    API.loadCart()
+      .then(res => {
+        // grabs the pertinent data from the cart
+        const data = res.data.map(a => {
+          // finds the total cost based on price and qty
+          a.Product.total = (a.qty * Number(a.Product.price)).toString();
+          a.Product.qty = a.qty.toString();
+          return a.Product;
+        });
+        console.log(data);
+        this.setState({ products: data });
+      })
+      .catch(err => console.log(err));
   }
 
   onChange = e => {
