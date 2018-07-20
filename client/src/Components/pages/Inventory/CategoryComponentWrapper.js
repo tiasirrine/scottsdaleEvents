@@ -38,9 +38,7 @@ const CategoryComponentWrapper = props => {
                       </View>
                     </div>
                     <CardBody cascade className="card-body card-body-cascade text-center">
-                      <CardTitle>
-                        <strong>{a}</strong>
-                      </CardTitle>
+                      <strong>{a}</strong>
                     </CardBody>
                   </Link>
                 </Card>
