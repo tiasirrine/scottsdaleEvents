@@ -50,7 +50,7 @@ class InventoryCard extends Component {
     console.log('state: ', this.state);
     console.log('props: ', this.props);
     return (
-      <Card className="py-3">
+      <Card className="py-3 clearfix">
         <Row>
           <Col md="4">
             <CardImg src={image} alt="Card image cap " />

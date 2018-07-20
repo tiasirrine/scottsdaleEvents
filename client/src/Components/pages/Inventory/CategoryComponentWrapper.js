@@ -26,7 +26,6 @@ const CategoryComponentWrapper = props => {
               <Col md="3" key={a} className="ind-card-col">
                 <Card className="card card-cascade wider reverse my-4 animated fadeInUpBig">
                   <Link to={`/inventory/${a}`}>
-                    <div className="mask rgba-white-slight waves-effect waves-light" />
                     <div className="view view-cascade overlay">
                       <View zoom>
                         <CardImage
@@ -35,11 +34,11 @@ const CategoryComponentWrapper = props => {
                           className="img-fluid ind-card-image"
                           alt="Category Image"
                         />
+                        <div class="mask flex-center waves-effect waves-light cat-names text-justify rgba-white-strong">
+                          <strong>{a}</strong>
+                        </div>
                       </View>
                     </div>
-                    <CardBody cascade className="card-body card-body-cascade text-center">
-                      <strong>{a}</strong>
-                    </CardBody>
                   </Link>
                 </Card>
               </Col>
