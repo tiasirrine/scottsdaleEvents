@@ -1,11 +1,7 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../config/connection.js');
-
-const Customers = sequelize.define(
-  'customer',
-  {
+module.exports = function(sequelize, DataTypes) {
+  const Customer = sequelize.define('Customer', {
     email: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       unique: {
         msg: 'This email is already in use'
       },
@@ -17,7 +13,7 @@ const Customers = sequelize.define(
       }
     },
     password: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         len: {
@@ -27,14 +23,9 @@ const Customers = sequelize.define(
       }
     },
     frozen: {
-      type: Sequelize.BOOLEAN
+      type: DataTypes.BOOLEAN
     }
-  },
-  {
-    timestamps: false
-  }
-);
+  });
 
-Customers.sync();
-
-module.exports = Customers;
+  return Customer;
+};

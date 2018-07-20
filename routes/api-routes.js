@@ -1,4 +1,3 @@
-require('dotenv').config();
 const fs = require('fs');
 const { products, users, cart_products } = require('../controllers');
 const passport = require('passport');
@@ -16,7 +15,10 @@ router.get('/get-category-products', (req, res) => {
   products
     .selectAll()
     .then(result => res.send(result))
-    .catch(err => res.send(err));
+    .catch(err => {
+      console.log('get-category-products:', err);
+      res.send(err);
+    });
 });
 
 // creates a new customer

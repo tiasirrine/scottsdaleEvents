@@ -1,33 +1,24 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../config/connection.js');
-
-const Products = sequelize.define(
-  'product',
-  {
+module.exports = function(sequelize, DataTypes) {
+  const Product = sequelize.define('Product', {
     category: {
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     subcategory: {
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     key: {
-      type: Sequelize.INTEGER
+      type: DataTypes.INTEGER
     },
     name: {
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     description: {
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     price: {
-      type: Sequelize.DECIMAL
+      type: DataTypes.DECIMAL
     }
-  },
-  {
-    timestamps: false
-  }
-);
+  });
 
-Products.sync();
-
-module.exports = Products;
+  return Product;
+};
