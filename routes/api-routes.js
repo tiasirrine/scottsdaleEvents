@@ -1,29 +1,28 @@
 const fs = require('fs');
-const { products, users, cart_products } = require('../controllers');
+const { product, user, cartProduct } = require('../controllers');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const router = require('express').Router();
 const nodemailer = require('nodemailer');
-
 
 const Json2csvParser = require('json2csv').Parser;
 
 // gets all the products. runs on first page load.
 // stores products to prevent multiple calls to server for data
 
-router.get('/get-category-products', (req, res) => {
-  products
+router.get('/get-products', (req, res) => {
+  product
     .selectAll()
     .then(result => res.send(result))
     .catch(err => {
-      console.log('get-category-products:', err);
+      console.log('get-products:', err);
       res.send(err);
     });
 });
 
 // creates a new customer
 router.post('/create-customer', (req, res) => {
-  users
+  user
     .createCustomer(req.body)
     .then(result => {
       delete result.dataValues.password;
@@ -35,7 +34,7 @@ router.post('/create-customer', (req, res) => {
 // gets a new customer
 router.get('/get-customer', (req, res) => {
   const { username, password } = req.query;
-  users
+  user
     .getCustomer(username, password)
     .then(result => res.send(result))
     .catch(err => res.send(err));
@@ -44,7 +43,7 @@ router.get('/get-customer', (req, res) => {
 // deletes a customer
 router.post('/delete-customer', (req, res) => {
   const { id } = req.body;
-  users
+  user
     .deleteCustomer(id)
     .then(result => res.send(result))
     .catch(err => res.send(err));
@@ -54,7 +53,7 @@ router.post('/delete-customer', (req, res) => {
 router.post('/update-freeze', (req, res) => {
   const { bool, id } = req.body;
   const convertedBool = bool === 'true' ? true : false;
-  users
+  user
     .updateFreeze(convertedBool, id)
     .then(result => res.send(result))
     .catch(err => res.send(err));
@@ -62,7 +61,7 @@ router.post('/update-freeze', (req, res) => {
 
 // loads all customers
 router.get('/all-customers', (req, res) => {
-  users
+  user
     .getAllCustomers()
     .then(result => res.send(result))
     .catch(err => res.send(err));
@@ -70,8 +69,15 @@ router.get('/all-customers', (req, res) => {
 
 // saves a product to a customers cart
 router.post('/save-product', (req, res) => {
-  cart_products
+  cartProduct
     .saveProductToCart(req.body)
+    .then(result => res.send(result))
+    .catch(err => res.send(err));
+});
+
+router.get('/load-cart', (req, res) => {
+  user
+    .getCart(req.query.id)
     .then(result => res.send(result))
     .catch(err => res.send(err));
 });
