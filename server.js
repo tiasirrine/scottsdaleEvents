@@ -5,7 +5,7 @@ const express = require('express');
 const routes = require('./routes/api-routes');
 const session = require('express-session');
 const passport = require('passport');
-const nodeamiler = require('nodemailer');
+
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -34,11 +34,6 @@ app.use(passport.session());
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 }
-
-//route for nodemailer
-app.post('/api/form', (req, res) => {
-  console.log(req.body);
-});
 
 // Add routes, both API and view
 app.use(routes);
