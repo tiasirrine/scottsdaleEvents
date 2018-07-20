@@ -17,13 +17,11 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      inventoryObj: this.loadCategoryProducts()
-    });
+    this.setState({ inventoryObj: this.loadProducts() });
   }
 
-  loadCategoryProducts = category => {
-    API.getCategoryProducts(category)
+  loadProducts = () => {
+    API.getProducts()
       .then(result => {
         const { data } = result;
         // will hold filtered data
@@ -60,7 +58,6 @@ class App extends Component {
         // gets the keys (categories) from inventoryObj
         // creates a key on subCategories for each category
         // each value is an array of sub categories.
-
         const categories = Object.keys(inventoryObj);
 
         categories.forEach(a => {

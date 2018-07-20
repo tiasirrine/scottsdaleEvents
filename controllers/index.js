@@ -1,5 +1,5 @@
 module.exports = {
-  cart_products: require('./cart_productsController'),
-  products: require('./productsController'),
-  users: require('./usersController')
+  cartProduct: require('./cartProductController'),
+  product: require('./productController'),
+  user: require('./userController')
 };

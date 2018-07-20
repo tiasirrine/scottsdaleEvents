@@ -2,6 +2,38 @@ const db = require('../models');
 const bcrypt = require('bcryptjs');
 
 module.exports = {
+  // loads all products for a user, for their active cart
+  getCart: function(id) {
+    return new Promise((resolve, reject) => {
+      db.Customer.findAll({
+        where: {
+          id: id
+        },
+        include: [
+          {
+            model: db.Cart,
+            where: {
+              didCheckOut: false
+            },
+            order: [['createdAt', 'DESC']],
+            include: [
+              {
+                model: db.CartProduct,
+                include: [{ model: db.Product }]
+              }
+            ]
+          }
+        ]
+      })
+        .then(result => {
+          resolve(result[0].Carts[0].CartProducts);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+
   hashPassword: function(unhashedPassword) {
     return new Promise((resolve, reject) => {
       bcrypt.genSalt(10, function(err, salt) {
@@ -62,7 +94,13 @@ module.exports = {
             // creates a new customer with the hashed password
             db.Customer.create(userObj)
               // sends result back to client
-              .then(result => resolve(result))
+              .then(newCustomer => {
+                // creates a cart for the customer
+                db.Cart.create({
+                  didCheckOut: false,
+                  CustomerId: newCustomer.id
+                }).then(() => resolve(newCustomer));
+              })
               .catch(err => reject(err));
           })
           .catch(err => reject(err));

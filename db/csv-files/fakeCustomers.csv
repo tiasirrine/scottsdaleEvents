@@ -1,5 +1,5 @@
-ID,Username,Password,email,frozen
-1,wing,123,wing@wing.com,0
-2,trevor,123,trevor@trevor.com,0
-3,tia,123,tia@tia.com,0
-4,josh,123,josh@josh.com,0
+id,email,password,frozen
+1,trevor@johnson.com,johnson,0
+2,tia@sirrine.com,sirrine,0
+3,josh@hinton.com,hinton,0
+4,wing@wong.com,wong,0
