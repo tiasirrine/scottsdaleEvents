@@ -1,5 +1,4 @@
-const Customer = require('../models/Customers');
-const Admin = require('../models/Admins');
+const db = require('../models');
 const bcrypt = require('bcryptjs');
 
 module.exports = {
@@ -38,7 +37,7 @@ module.exports = {
   // if the account is locked or not
   getCustomer: function(username, password) {
     return new Promise((resolve, reject) => {
-      Customer.findAll({ where: { username: username } })
+      db.Customer.findAll({ where: { username: username } })
         .then(returnedUser => {
           this.checkPassword(password, returnedUser[0].password)
             .then(res => resolve(res))
@@ -61,7 +60,7 @@ module.exports = {
           .then(hashedPassword => {
             userObj.password = hashedPassword;
             // creates a new customer with the hashed password
-            Customer.create(userObj)
+            db.Customer.create(userObj)
               // sends result back to client
               .then(result => resolve(result))
               .catch(err => reject(err));
@@ -73,7 +72,7 @@ module.exports = {
 
   deleteCustomer: function(id) {
     return new Promise((resolve, reject) => {
-      Customer.destroy({ where: { id: parseInt(id) } })
+      db.Customer.destroy({ where: { id: parseInt(id) } })
         .then(res => {
           // checks if 0 results were deleted
           if (!res) reject('Failed to remove customer');
@@ -86,7 +85,7 @@ module.exports = {
   // values and where are objects
   updateFreeze: function(bool, id) {
     return new Promise((resolve, reject) => {
-      Customer.update({ frozen: bool }, { where: { id: parseInt(id) } })
+      db.Customer.update({ frozen: bool }, { where: { id: parseInt(id) } })
         .then(result => resolve(result))
         .catch(err => reject(err));
     });
@@ -95,7 +94,7 @@ module.exports = {
   //TODO: remove hash on results
   getAllCustomers: function() {
     return new Promise((resolve, reject) => {
-      Customer.findAll({})
+      db.Customer.findAll({})
         .then(result => resolve(result))
         .catch(err => reject(err));
     });
@@ -103,7 +102,7 @@ module.exports = {
 
   getUserById: function(id) {
     return new Promise((resolve, reject) => {
-      Customer.findAll({ where: { id: id } })
+      db.Customer.findAll({ where: { id: id } })
         .then(result => resolve(result))
         .catch(err => reject(err));
     });

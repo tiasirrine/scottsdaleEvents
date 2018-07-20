@@ -1,27 +1,18 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../config/connection.js');
-
-const Cart_products = sequelize.define(
-  'cart_product',
-  {
+module.exports = function(sequelize, DataTypes) {
+  const Cart_product = sequelize.define('Cart_product', {
     customer_cart_id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     product_id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     qty: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false
     }
-  },
-  {
-    timestamps: false
-  }
-);
+  });
 
-Cart_products.sync();
-
-module.exports = Cart_products;
+  return Cart_product;
+};
