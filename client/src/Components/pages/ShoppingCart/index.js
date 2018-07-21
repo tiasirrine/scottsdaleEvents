@@ -30,7 +30,7 @@ class ShoppingCart extends Component {
     const { name } = e.target;
     let { value } = e.target;
     // gets the current state which contains the products
-    const { products } = this.state;
+    const { activeCart } = this.state;
 
     // ensures only numbers are passed in
     if (isNaN(value.slice(-1))) {
@@ -38,7 +38,7 @@ class ShoppingCart extends Component {
     }
 
     // updates the appropriate object with the new quantity and price
-    const updated = products.map(a => {
+    const updated = activeCart.map(a => {
       if (a.name === name) {
         a.qty = value;
         a.total = Number(a.price) * Number(value);
