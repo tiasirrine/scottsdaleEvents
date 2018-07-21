@@ -38,7 +38,7 @@ class Nav extends Component {
           </button>
           <div className="collapse navbar-collapse mr-auto" id="navbarNav">
             <ul className="navbar-nav ml-auto">
-              <li>
+              <li data-toggle="collapse" data-target=".navbar-collapse.show">
                 <Link
                   name="/"
                   to="/"
@@ -49,7 +49,7 @@ class Nav extends Component {
                   Home
                 </Link>
               </li>
-              <li>
+              <li data-toggle="collapse" data-target=".navbar-collapse.show">
                 <Link
                   name="/inventory"
                   to="/inventory"
@@ -60,7 +60,7 @@ class Nav extends Component {
                   Inventory
                 </Link>
               </li>
-              <li>
+              <li data-toggle="collapse" data-target=".navbar-collapse.show">
                 <Link
                   name="/gallery"
                   to="/gallery"
@@ -71,7 +71,7 @@ class Nav extends Component {
                   Gallery
                 </Link>
               </li>
-              <li>
+              <li data-toggle="collapse" data-target=".navbar-collapse.show">
                 <Link
                   name="/about"
                   to="/about"
@@ -82,7 +82,7 @@ class Nav extends Component {
                   About Us
                 </Link>
               </li>
-              <li>
+              <li data-toggle="collapse" data-target=".navbar-collapse.show">
                 <Link
                   name="/contact"
                   to="/contact"
@@ -94,7 +94,7 @@ class Nav extends Component {
                 </Link>
               </li>
               {auth.isAuthed() && (
-                <li>
+                <li data-toggle="collapse" data-target=".navbar-collapse.show">
                   <Link
                     name="/cart"
                     to="/cart"
@@ -107,7 +107,7 @@ class Nav extends Component {
                 </li>
               )}
               {!auth.isAuthed() && (
-                <li>
+                <li data-toggle="collapse" data-target=".navbar-collapse.show">
                   <Link
                     name="/login"
                     to="/login"
