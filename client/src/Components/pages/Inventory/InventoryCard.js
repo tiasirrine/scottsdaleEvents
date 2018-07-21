@@ -16,19 +16,25 @@ import {
 } from 'reactstrap';
 import './InventoryPage.css';
 import image from '../../../images/Photos/event7.jpg';
+import API from '../../../api/API';
 
 class InventoryCard extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      quantity: ''
+      quantity: 0
     };
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   handleInputChange = event => {
-    const { name, value } = event.target;
+    const { name } = event.target;
+    let { value } = event.target;
+    // ensures only numbers are passed in
+    if (isNaN(value.slice(-1))) {
+      value = value.replace(/[^0-9]+/g, '');
+    }
     this.setState({
       [name]: value
     });
@@ -36,14 +42,21 @@ class InventoryCard extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    const copyofReturned = this.state.quantity.slice();
-    const articleToSave = copyofReturned[event.target.getAttribute('data-id')];
-    const objectToSave = {};
-    objectToSave.quantity = articleToSave.quantity;
+    const obj = {};
+    obj.ProductId = event.target.getAttribute('data-id');
+    obj.qty = this.state.quantity;
+    obj.CartId = sessionStorage.activeCart;
 
-    this.setState({ quantity: this.state.quantity });
-    console.log(objectToSave);
-    //code to save to db or save the state for cart goes here
+    API.saveProduct(obj)
+      .then(data => console.log(data))
+      .catch(err => console.log(err));
+    // const copyofReturned = this.state.quantity.slice();
+    // const articleToSave = copyofReturned[event.target.getAttribute('data-id')];
+    // const objectToSave = {};
+    // objectToSave.quantity = articleToSave.quantity;
+    // this.setState({ quantity: this.state.quantity });
+    // console.log(objectToSave);
+    // //code to save to db or save the state for cart goes here
   };
 
   render() {
@@ -63,33 +76,38 @@ class InventoryCard extends Component {
             <CardBody className="px-3">
               <CardTitle>{this.props.cardTitle}</CardTitle>
               <CardText>{this.props.cardDesc}</CardText>
+              <CardText>${this.props.cardPrice}</CardText>
               <FormGroup>
                 <Row>
                   <Col md="6">
                     <Label for="item-quantity" />
-                    <Input
-                      value={this.state.quantity}
-                      onChange={this.handleInputChange}
-                      data-id={this.props.id}
-                      type="number"
-                      name="quantity"
-                      id="item-quantity"
-                      max="1000"
-                      maxLength="4"
-                      placeholder={'Quantity'}
-                      className="float-left"
-                    />
+                    {sessionStorage.isAuthed && (
+                      <Input
+                        value={this.state.quantity}
+                        onChange={this.handleInputChange}
+                        data-id={this.props.id}
+                        type="number"
+                        name="quantity"
+                        id="item-quantity"
+                        max="1000"
+                        maxLength="4"
+                        placeholder={'Quantity'}
+                        className="float-left"
+                      />
+                    )}
                   </Col>
                   <Col md="6">
-                    <Button
-                      type="submit"
-                      value="Submit"
-                      onClick={this.state.handleFormSubmit}
-                      data-id={this.props.id}
-                      className="float-left"
-                    >
-                      Add To Cart
-                    </Button>
+                    {sessionStorage.isAuthed && (
+                      <Button
+                        type="submit"
+                        value="Submit"
+                        onClick={this.handleFormSubmit}
+                        data-id={this.props.id}
+                        className="float-left"
+                      >
+                        Add To Cart
+                      </Button>
+                    )}
                   </Col>
                 </Row>
               </FormGroup>

@@ -17,5 +17,9 @@ export default {
 
   login: function(data) {
     return axios.post('/login', data);
+  },
+
+  saveProduct: function(data) {
+    return axios.post('/save-product', data);
   }
 };

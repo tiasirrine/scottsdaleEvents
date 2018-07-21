@@ -69,7 +69,15 @@ const SubCategoryComponentWrapper = props => {
 
         {getInvItems
           ? getInvItems.map((a, i) => {
-              return <InventoryCard key={i} cardTitle={a.name} cardDesc={a.description} id={i} />;
+              return (
+                <InventoryCard
+                  key={i}
+                  cardTitle={a.name}
+                  cardDesc={a.description}
+                  cardPrice={a.price}
+                  id={a.id}
+                />
+              );
             })
           : null}
       </Row>
