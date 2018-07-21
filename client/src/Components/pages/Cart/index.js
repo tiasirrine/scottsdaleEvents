@@ -3,7 +3,7 @@ import { Container, Table, Input, Button } from 'mdbreact';
 import API from '../../../api/API';
 import auth from '../../../api/auth';
 
-class ShoppingCart extends Component {
+class Cart extends Component {
   constructor(props) {
     super(props);
     this.state = { activeCart: null };
@@ -135,4 +135,4 @@ class ShoppingCart extends Component {
   }
 }
 
-export default ShoppingCart;
+export default Cart;
