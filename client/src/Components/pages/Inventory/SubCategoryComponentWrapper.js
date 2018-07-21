@@ -56,7 +56,7 @@ const SubCategoryComponentWrapper = props => {
                           className="img-fluid ind-card-image"
                           alt="Category Image"
                         />
-                        <div class="mask flex-center waves-effect waves-light cat-names text-justify rgba-white-strong">
+                        <div className="mask flex-center waves-effect waves-light cat-names text-justify rgba-white-strong">
                           <strong>{a}</strong>
                         </div>
                       </View>
