@@ -1,19 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import {
-  Button,
-  Card,
-  CardBody,
-  CardDeck,
-  CardGroup,
-  CardImage,
-  CardTitle,
-  CardText,
-  Col,
-  Container,
-  Fa,
-  Row
-} from 'mdbreact';
+import { Container } from 'mdbreact';
 import InventoryCard from './InventoryCard';
 
 const InventoryComponentWrapper = props => {
@@ -23,6 +9,7 @@ const InventoryComponentWrapper = props => {
   const categoryParam = props.match.params.category;
   const subCategoryParam = props.match.params.subcategory;
 
+  // gets the inventory items for the sub category
   const getInvItems = inventory
     ? inventory[categoryParam]
         .map(a => {

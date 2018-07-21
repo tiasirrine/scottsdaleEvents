@@ -26,7 +26,6 @@ module.exports = {
         ]
       })
         .then(result => {
-          console.log('result:', result);
           resolve(result[0].Carts);
         })
         .catch(err => {
@@ -117,7 +116,9 @@ module.exports = {
                 db.Cart.create({
                   didCheckOut: false,
                   CustomerId: newCustomer.id
-                }).then(() => resolve(newCustomer));
+                })
+                  .then(() => resolve(newCustomer))
+                  .catch(err => reject(err));
               })
               .catch(err => reject(err));
           })

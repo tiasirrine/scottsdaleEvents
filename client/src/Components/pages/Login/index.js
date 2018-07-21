@@ -7,23 +7,28 @@ import API from '../../../api/API';
 class Login extends React.Component {
   state = { username: '', password: '' };
 
+  // tracks user input
   onChange = e => {
     const { value, name } = e.target;
     this.setState({ [name]: value });
   };
 
+  // sends provided username and password to express for validation
   onSubmit = () => {
     const { username, password } = this.state;
     API.login({ username, password })
       .then(res => {
+        // if express authed the user, then save some values in session storage
         if (res.data) {
           sessionStorage.setItem('isAuthed', true);
           sessionStorage.setItem('userName', res.data.email);
           sessionStorage.setItem('activeCart', res.data.carts[0].id);
           sessionStorage.setItem('userId', res.data.id);
           this.setState({ isAuthed: true });
+          // denies the user
         } else {
           sessionStorage.setItem('isAuthed', false);
+          this.setState({ error: 'error' });
         }
       })
       .catch(err => {
@@ -33,7 +38,6 @@ class Login extends React.Component {
   };
 
   render() {
-    // console.log(this.state);
     if (this.state.isAuthed) {
       return <Redirect to="/" />;
     } else {
