@@ -35,7 +35,9 @@ const SubCategoryComponentWrapper = props => {
     : null;
 
   // checks if there are no sub categories. if not, gets the inventory items.
-  const getInvItems = subCategories.includes('') ? inventory[param].map(a => a) : null;
+  const getInvItems = subCategories.includes('')
+    ? inventory[param].map(a => a)
+    : null;
 
   // contains individual inventory items if there are no sub categories
   const itemsToRender = subCategories.length ? subCategories : null;
@@ -56,7 +58,7 @@ const SubCategoryComponentWrapper = props => {
                           className="img-fluid ind-card-image"
                           alt="Category Image"
                         />
-                        <div class="mask flex-center waves-effect waves-light cat-names text-justify rgba-white-strong">
+                        <div className="mask flex-center waves-effect waves-light cat-names text-justify rgba-white-strong">
                           <strong>{a}</strong>
                         </div>
                       </View>
