@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   CardBody,
+  CardDeck,
   CardGroup,
   CardImage,
   CardTitle,
@@ -43,7 +44,8 @@ const InventoryComponentWrapper = props => {
                 key={i}
                 cardTitle={a.name}
                 cardDesc={a.description}
-                id={i}
+                cardPrice={a.price}
+                id={a.id}
               />
             );
           })
