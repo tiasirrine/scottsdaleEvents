@@ -26,9 +26,11 @@ module.exports = {
         ]
       })
         .then(result => {
+          console.log('result:', result);
           resolve(result[0].Carts);
         })
         .catch(err => {
+          console.log('err:', err);
           reject(err);
         });
     });

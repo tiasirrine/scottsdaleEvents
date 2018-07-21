@@ -1,6 +1,7 @@
+import './navbar.css';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import './navbar.css';
+import auth from '../../api/auth';
 
 class Nav extends Component {
   state = { active: window.location.pathname };
@@ -83,17 +84,6 @@ class Nav extends Component {
               </li>
               <li>
                 <Link
-                  name="/login"
-                  to="/login"
-                  className={`nav-link waves-effect waves-light ${this.state
-                    .active === '/login' && 'active'}`}
-                  onClick={this.onClick}
-                >
-                  Login
-                </Link>
-              </li>
-              <li>
-                <Link
                   name="/contact"
                   to="/contact"
                   className={`nav-link waves-effect waves-light ${this.state
@@ -103,17 +93,32 @@ class Nav extends Component {
                   Contact Us
                 </Link>
               </li>
-              <li>
-                <Link
-                  name="/cart"
-                  to="/cart"
-                  className={`nav-link waves-effect waves-light ${this.state
-                    .active === '/cart' && 'active'}`}
-                  onClick={this.onClick}
-                >
-                  <i className="fa fa-shopping-cart" />
-                </Link>
-              </li>
+              {auth.isAuthed() && (
+                <li>
+                  <Link
+                    name="/cart"
+                    to="/cart"
+                    className={`nav-link waves-effect waves-light ${this.state
+                      .active === '/cart' && 'active'}`}
+                    onClick={this.onClick}
+                  >
+                    <i className="fa fa-shopping-cart" />
+                  </Link>
+                </li>
+              )}
+              {!auth.isAuthed() && (
+                <li>
+                  <Link
+                    name="/login"
+                    to="/login"
+                    className={`nav-link waves-effect waves-light ${this.state
+                      .active === '/login' && 'active'}`}
+                    onClick={this.onClick}
+                  >
+                    Login
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
         </div>

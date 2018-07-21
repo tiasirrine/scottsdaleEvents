@@ -16,11 +16,11 @@ class CustomerLogin extends React.Component {
     const { username, password } = this.state;
     API.login({ username, password })
       .then(res => {
-        console.log('res:', res.data);
         if (res.data) {
           sessionStorage.setItem('isAuthed', true);
           sessionStorage.setItem('userName', res.data.email);
           sessionStorage.setItem('activeCart', res.data.carts[0].id);
+          sessionStorage.setItem('userId', res.data.id);
           this.setState({ isAuthed: true });
         } else {
           sessionStorage.setItem('isAuthed', false);

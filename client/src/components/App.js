@@ -9,6 +9,7 @@ import ContactPage from './pages/Contact/Form/index';
 import FormsPage from './pages/CustomerLogin';
 import ShoppingCart from './pages/ShoppingCart';
 import Footer from './Footer/Footer';
+import PrivateRoute from './PrivateRoute';
 
 class App extends Component {
   constructor(props) {
@@ -94,9 +95,13 @@ class App extends Component {
               )}
             />
             <Route exact path="/gallery" component={Gallery} />
-            <Route exact path="/login" component={FormsPage} />
             <Route exact path="/contact" component={ContactPage} />
-            <Route exact path="/cart" component={ShoppingCart} />
+            <PrivateRoute
+              path="/login"
+              hideLogin={true}
+              component={FormsPage}
+            />
+            <PrivateRoute path="/cart" component={ShoppingCart} />
           </Switch>
           <Footer />
         </Fragment>
