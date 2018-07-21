@@ -18,3 +18,7 @@ a:hover {
 .no-margin {
   margin: 0 !important;
 }
+
+.main-height {
+  min-height: calc(100vh - 62px);
+}

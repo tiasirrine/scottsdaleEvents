@@ -6,8 +6,8 @@ import InventoryPage from './pages/Inventory';
 import API from '../api/API';
 import Gallery from './pages/Gallery';
 import ContactPage from './pages/Contact/Form/index';
-import FormsPage from './pages/CustomerLogin';
-import ShoppingCart from './pages/ShoppingCart';
+import Login from './pages/Login';
+import Cart from './pages/Cart';
 import Footer from './Footer/Footer';
 import PrivateRoute from './PrivateRoute';
 
@@ -82,26 +82,28 @@ class App extends Component {
         <Fragment>
           <Navbar />
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route
-              path="/inventory"
-              render={props => (
-                <InventoryPage
-                  {...props}
-                  categories={categories}
-                  subCategories={subCategories}
-                  inventoryObj={inventoryObj}
-                />
-              )}
-            />
-            <Route exact path="/gallery" component={Gallery} />
-            <Route exact path="/contact" component={ContactPage} />
-            <PrivateRoute
-              path="/login"
-              hideLogin={true}
-              component={FormsPage}
-            />
-            <PrivateRoute path="/cart" component={ShoppingCart} />
+            <div
+              className="main-height"
+              data-toggle="collapse"
+              data-target=".navbar-collapse.show"
+            >
+              <Route exact path="/" component={Home} />
+              <Route
+                path="/inventory"
+                render={props => (
+                  <InventoryPage
+                    {...props}
+                    categories={categories}
+                    subCategories={subCategories}
+                    inventoryObj={inventoryObj}
+                  />
+                )}
+              />
+              <Route exact path="/gallery" component={Gallery} />
+              <Route exact path="/contact" component={ContactPage} />
+              <PrivateRoute path="/login" hideLogin={true} component={Login} />
+              <PrivateRoute path="/cart" component={Cart} />
+            </div>
           </Switch>
           <Footer />
         </Fragment>
