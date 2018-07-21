@@ -16,10 +16,11 @@ class CustomerLogin extends React.Component {
     const { username, password } = this.state;
     API.login({ username, password })
       .then(res => {
-        console.log('res:', res);
+        console.log('res:', res.data);
         if (res.data) {
           sessionStorage.setItem('isAuthed', true);
-          sessionStorage.setItem('userName', this.state.username);
+          sessionStorage.setItem('userName', res.data.email);
+          sessionStorage.setItem('activeCart', res.data.carts[0].id);
           this.setState({ isAuthed: true });
         } else {
           sessionStorage.setItem('isAuthed', false);
@@ -32,7 +33,7 @@ class CustomerLogin extends React.Component {
   };
 
   render() {
-    console.log(this.state);
+    // console.log(this.state);
     if (this.state.isAuthed) {
       return <Redirect to="/" />;
     } else {

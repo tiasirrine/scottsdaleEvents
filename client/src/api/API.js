@@ -6,6 +6,7 @@ export default {
     return axios.get('/get-products', { timeout: 15000 });
   },
 
+  // called in the shopping cart
   getEstimate: function(values) {
     return axios.post('/get-estimate', values);
   },
