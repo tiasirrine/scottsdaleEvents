@@ -17,15 +17,18 @@ import {
 import './InventoryPage.css';
 import image from '../../../images/Photos/event7.jpg';
 import API from '../../../api/API';
+import auth from '../../../api/auth';
 
 class InventoryCard extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      quantity: 0
-    };
+    this.state = { quantity: 0, isAuthed: false };
     this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({ isAuthed: auth.isAuthed() });
   }
 
   handleInputChange = event => {
@@ -50,18 +53,9 @@ class InventoryCard extends Component {
     API.saveProduct(obj)
       .then(data => console.log(data))
       .catch(err => console.log(err));
-    // const copyofReturned = this.state.quantity.slice();
-    // const articleToSave = copyofReturned[event.target.getAttribute('data-id')];
-    // const objectToSave = {};
-    // objectToSave.quantity = articleToSave.quantity;
-    // this.setState({ quantity: this.state.quantity });
-    // console.log(objectToSave);
-    // //code to save to db or save the state for cart goes here
   };
 
   render() {
-    console.log('state: ', this.state);
-    console.log('props: ', this.props);
     return (
       <Card className="py-3 clearfix inventory-card">
         <Row className="justify-content-md-center inventory-card">
@@ -81,7 +75,7 @@ class InventoryCard extends Component {
                 <Row>
                   <Col md="6">
                     <Label for="item-quantity" />
-                    {sessionStorage.isAuthed && (
+                    {this.state.isAuthed && (
                       <Input
                         value={this.state.quantity}
                         onChange={this.handleInputChange}
@@ -97,7 +91,7 @@ class InventoryCard extends Component {
                     )}
                   </Col>
                   <Col md="6">
-                    {sessionStorage.isAuthed && (
+                    {this.state.isAuthed && (
                       <Button
                         type="submit"
                         value="Submit"

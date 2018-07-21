@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Table, Input, Button } from 'mdbreact';
 import API from '../../../api/API';
+import auth from '../../../api/auth';
 
 class ShoppingCart extends Component {
   constructor(props) {
@@ -10,19 +11,24 @@ class ShoppingCart extends Component {
 
   componentDidMount() {
     // gets active cart for a customer
-    API.loadCart()
-      .then(res => {
-        // grabs the pertinent data from the cart
-        const data = res.data[0].CartProducts.map(a => {
-          // finds the total cost based on price and qty
-          a.Product.total = (a.qty * Number(a.Product.price)).toString();
-          a.Product.qty = a.qty.toString();
-          return a.Product;
-        });
-        console.log(data);
-        this.setState({ activeCart: data });
-      })
-      .catch(err => console.log(err));
+
+    // this.setState({ isAuthed: auth.isAuthed() });
+
+    if (auth.isAuthed()) {
+      API.loadCart(auth.userId())
+        .then(res => {
+          // grabs the pertinent data from the cart
+          const data = res.data[0].CartProducts.map(a => {
+            // finds the total cost based on price and qty
+            a.Product.total = (a.qty * Number(a.Product.price)).toString();
+            a.Product.qty = a.qty.toString();
+            return a.Product;
+          });
+          console.log(data);
+          this.setState({ activeCart: data });
+        })
+        .catch(err => console.log(err));
+    }
   }
 
   onChange = e => {
