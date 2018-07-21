@@ -1,19 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  Button,
-  Card,
-  CardBody,
-  CardGroup,
-  CardImage,
-  CardTitle,
-  CardText,
-  Col,
-  Container,
-  Fa,
-  Row,
-  View
-} from 'mdbreact';
+import { Card, CardImage, Col, Container, Row, View } from 'mdbreact';
 import InventoryCard from './InventoryCard';
 
 const SubCategoryComponentWrapper = props => {
@@ -68,21 +55,20 @@ const SubCategoryComponentWrapper = props => {
               </Col>
             ))
           : null}
-
-        {getInvItems
-          ? getInvItems.map((a, i) => {
-              return (
-                <InventoryCard
-                  key={i}
-                  cardTitle={a.name}
-                  cardDesc={a.description}
-                  cardPrice={a.price}
-                  id={a.id}
-                />
-              );
-            })
-          : null}
       </Row>
+      {getInvItems
+        ? getInvItems.map((a, i) => {
+            return (
+              <InventoryCard
+                key={i}
+                cardTitle={a.name}
+                cardDesc={a.description}
+                cardPrice={a.price}
+                id={a.id}
+              />
+            );
+          })
+        : null}
     </Container>
   );
 };

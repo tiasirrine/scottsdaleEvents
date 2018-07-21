@@ -7,6 +7,9 @@ import SubCategoryComponentWrapper from './SubCategoryComponentWrapper';
 import InventoryComponentWrapper from './InventoryComponentWrapper';
 import Sidebar from './Sidebar';
 
+// The main functionality of this component is to render the specified routes for the inventory
+// Similiar to App.js. It routes requests to the appropriate component, and serves as a parent component
+
 class InventoryPage extends Component {
   constructor(props) {
     super(props);

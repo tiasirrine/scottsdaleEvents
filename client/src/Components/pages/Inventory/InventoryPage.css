@@ -26,6 +26,7 @@ ul {
   align-items: stretch;
   min-height: 100vh;
 }
+
 .card-image {
   background-size: cover;
   background-repeat: no-repeat;
@@ -54,6 +55,11 @@ ul {
 
 .inventory-card {
   height: 165px;
+}
+
+.product-img {
+  width: 100% !important;
+  max-width: 400px !important;
 }
 
 @media (max-width: 768px) {
