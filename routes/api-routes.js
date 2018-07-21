@@ -69,6 +69,7 @@ router.get('/all-customers', (req, res) => {
 
 // saves a product to a customers cart
 router.post('/save-product', (req, res) => {
+  console.log('req.body: ', req.body);
   cartProduct
     .saveProductToCart(req.body)
     .then(result => res.send(result))
