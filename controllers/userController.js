@@ -15,7 +15,7 @@ module.exports = {
             where: {
               didCheckOut: false
             },
-            order: [['createdAt', 'DESC']],
+            // order: [['updatedAt', 'DESC']],
             include: [
               {
                 model: db.CartProduct,
@@ -26,7 +26,7 @@ module.exports = {
         ]
       })
         .then(result => {
-          resolve(result[0].Carts[0].CartProducts);
+          resolve(result[0].Carts);
         })
         .catch(err => {
           reject(err);
@@ -69,10 +69,26 @@ module.exports = {
   // if the account is locked or not
   getCustomer: function(email, password) {
     return new Promise((resolve, reject) => {
-      db.Customer.findAll({ where: { email: email } })
+      db.Customer.findAll({
+        where: { email: email },
+        include: [
+          {
+            model: db.Cart,
+            where: {
+              didCheckOut: false
+            }
+          }
+        ]
+      })
         .then(returnedUser => {
           this.checkPassword(password, returnedUser[0].password)
-            .then(res => resolve(res))
+            .then(() => {
+              const obj = {};
+              obj.id = returnedUser[0].dataValues.id;
+              obj.email = returnedUser[0].dataValues.email;
+              obj.carts = returnedUser[0].dataValues.Carts;
+              resolve(obj);
+            })
             .catch(err => reject(err));
         })
         .catch(() => reject('User not found'));

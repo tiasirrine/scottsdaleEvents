@@ -154,13 +154,13 @@ router.post('/api/form', (req, res) => {
 });
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
+  // console.log(req.session.passport.user[0].dataValues.password);
   res.send(req.session.passport.user);
 });
 
 //FIXME: This needs to be usable for users and admins
 passport.use(
   new LocalStrategy((username, password, done) => {
-    console.log(username, password);
     user
       .getCustomer(username, password)
       .then(result => done(null, result))

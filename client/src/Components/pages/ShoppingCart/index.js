@@ -5,7 +5,7 @@ import API from '../../../api/API';
 class ShoppingCart extends Component {
   constructor(props) {
     super(props);
-    this.state = { products: null };
+    this.state = { activeCart: null };
   }
 
   componentDidMount() {
@@ -13,14 +13,14 @@ class ShoppingCart extends Component {
     API.loadCart()
       .then(res => {
         // grabs the pertinent data from the cart
-        const data = res.data.map(a => {
+        const data = res.data[0].CartProducts.map(a => {
           // finds the total cost based on price and qty
           a.Product.total = (a.qty * Number(a.Product.price)).toString();
           a.Product.qty = a.qty.toString();
           return a.Product;
         });
         console.log(data);
-        this.setState({ products: data });
+        this.setState({ activeCart: data });
       })
       .catch(err => console.log(err));
   }
@@ -74,8 +74,7 @@ class ShoppingCart extends Component {
   };
 
   render() {
-    console.log(this.state);
-    const { products } = this.state;
+    const { activeCart } = this.state;
 
     return (
       <Container className="mt-3">
@@ -89,8 +88,8 @@ class ShoppingCart extends Component {
             </tr>
           </thead>
           <tbody>
-            {products &&
-              products.map((a, i) => {
+            {activeCart &&
+              activeCart.map((a, i) => {
                 return (
                   <tr key={i}>
                     <th scope="row">
@@ -110,12 +109,12 @@ class ShoppingCart extends Component {
                         onChange={this.onChange}
                         name={a.name}
                         label="Quantity"
-                        value={products[i].qty}
+                        value={activeCart[i].qty}
                         size="sm"
                       />
                     </td>
-                    <td>{products[i].price}</td>
-                    <td>{products[i].total}</td>
+                    <td>{activeCart[i].price}</td>
+                    <td>{activeCart[i].total}</td>
                   </tr>
                 );
               })}
