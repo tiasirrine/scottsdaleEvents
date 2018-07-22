@@ -1,7 +1,8 @@
 import './navbar.css';
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component, Fragment } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import auth from '../../api/auth';
+import API from '../../api/API';
 
 class Nav extends Component {
   state = { active: window.location.pathname };
@@ -17,6 +18,8 @@ class Nav extends Component {
       });
     }
   }
+
+  logout = () => sessionStorage.clear();
 
   render() {
     return (
@@ -82,30 +85,19 @@ class Nav extends Component {
                   About Us
                 </Link>
               </li>
-              <li data-toggle="collapse" data-target=".navbar-collapse.show">
-                <Link
-                  name="/contact"
-                  to="/contact"
-                  className={`nav-link waves-effect waves-light ${this.state
-                    .active === '/contact' && 'active'}`}
-                  onClick={this.onClick}
-                >
-                  Contact Us
-                </Link>
-              </li>
-              {auth.isAuthed() && (
+              {
                 <li data-toggle="collapse" data-target=".navbar-collapse.show">
                   <Link
-                    name="/cart"
-                    to="/cart"
+                    name="/contact"
+                    to="/contact"
                     className={`nav-link waves-effect waves-light ${this.state
-                      .active === '/cart' && 'active'}`}
+                      .active === '/contact' && 'active'}`}
                     onClick={this.onClick}
                   >
-                    <i className="fa fa-shopping-cart" />
+                    Contact Us
                   </Link>
                 </li>
-              )}
+              }
               {!auth.isAuthed() && (
                 <li data-toggle="collapse" data-target=".navbar-collapse.show">
                   <Link
@@ -118,6 +110,36 @@ class Nav extends Component {
                     Login
                   </Link>
                 </li>
+              )}
+              {auth.isAuthed() && (
+                <Fragment>
+                  <li
+                    data-toggle="collapse"
+                    data-target=".navbar-collapse.show"
+                  >
+                    <Link
+                      to="/"
+                      className="nav-link waves-effect waves-light"
+                      onClick={this.logout}
+                    >
+                      Logout
+                    </Link>
+                  </li>
+                  <li
+                    data-toggle="collapse"
+                    data-target=".navbar-collapse.show"
+                  >
+                    <Link
+                      name="/cart"
+                      to="/cart"
+                      className={`nav-link waves-effect waves-light ${this.state
+                        .active === '/cart' && 'active'}`}
+                      onClick={this.onClick}
+                    >
+                      <i className="fa fa-shopping-cart" />
+                    </Link>
+                  </li>
+                </Fragment>
               )}
             </ul>
           </div>

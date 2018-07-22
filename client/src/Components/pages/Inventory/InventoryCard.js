@@ -47,7 +47,7 @@ class InventoryCard extends Component {
   // saves the product to the users cart.
   handleFormSubmit = event => {
     // prevents adding 0 items of something
-    if (this.state.quanty) {
+    if (this.state.quantity) {
       event.preventDefault();
       // grabs the values needed for the product to save to the cart
       const obj = {};
