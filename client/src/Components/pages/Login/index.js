@@ -18,6 +18,7 @@ class Login extends React.Component {
     const { username, password } = this.state;
     API.login({ username, password })
       .then(res => {
+        console.log(res.data);
         // if express authed the user, then save some values in session storage
         if (res.data) {
           sessionStorage.setItem('isAuthed', true);
@@ -32,8 +33,8 @@ class Login extends React.Component {
         }
       })
       .catch(err => {
-        console.log('err:', err);
-        this.setState({ error: 'error' });
+        const error = err.response ? err.response.data : 'Connection timed out';
+        this.setState({ error: error });
       });
   };
 
@@ -84,7 +85,7 @@ class Login extends React.Component {
                     </p>
                     {this.state.error && (
                       <p className="text-danger text-center">
-                        Username or password is incorrect
+                        {this.state.error}
                       </p>
                     )}
                     <div className="text-center mb-4 mt-5">

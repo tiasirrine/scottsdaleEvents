@@ -1,19 +1,4 @@
 import React, { Component, Fragment } from 'react';
-// import {
-//   Card,
-//   CardImg,
-//   CardBody,
-//   CardText,
-//   CardTitle,
-//   CardSubtitle,
-//   Col,
-//   Container,
-//   Button,
-//   FormGroup,
-//   Label,
-//   Input,
-//   Row
-// } from 'reactstrap';
 import { Button, Input } from 'mdbreact';
 import './InventoryPage.css';
 import image from '../../../images/Photos/event7.jpg';
@@ -23,7 +8,7 @@ import auth from '../../../api/auth';
 class InventoryCard extends Component {
   constructor(props) {
     super(props);
-    this.state = { quantity: 0, isAuthed: false };
+    this.state = { quantity: 0, isAuthed: false, result: null };
   }
 
   // checks if a user is authed. If so, displays cart and qty.
@@ -47,7 +32,7 @@ class InventoryCard extends Component {
   // saves the product to the users cart.
   handleFormSubmit = event => {
     // prevents adding 0 items of something
-    if (this.state.quantity) {
+    if (this.state.quantity > 0) {
       event.preventDefault();
       // grabs the values needed for the product to save to the cart
       const obj = {};
@@ -56,10 +41,14 @@ class InventoryCard extends Component {
       obj.CartId = sessionStorage.activeCart;
 
       API.saveProduct(obj)
-        .then(data => console.log(data))
-        .catch(err => console.log(err));
+        .then(result => {
+          this.setState({ result: result.data });
+        })
+        .catch(err => {
+          this.setState({ result: 'Failed to save product' });
+        });
     } else {
-      //TODO: display message asking to choose a quantity
+      this.setState({ result: 'Please choose a valid quantity' });
     }
   };
 
@@ -87,6 +76,7 @@ class InventoryCard extends Component {
               >
                 Add To Cart
               </Button>
+              {this.state.result && <p className="my-2">{this.state.result}</p>}
               <Input
                 value={this.state.quantity.toString()}
                 onChange={this.handleInputChange}

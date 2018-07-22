@@ -69,8 +69,8 @@ class App extends Component {
 
         return this.setState({ inventoryObj, subCategories, categories });
       })
-      .catch(error => {
-        console.error(error);
+      .catch(err => {
+        console.log(err.response.data);
       });
   };
 

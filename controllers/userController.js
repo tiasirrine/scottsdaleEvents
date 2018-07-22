@@ -26,7 +26,8 @@ module.exports = {
         ]
       })
         .then(result => {
-          resolve(result[0].Carts);
+          if (result.length) resolve(result[0].Carts);
+          else reject('No carts found for this user');
         })
         .catch(err => {
           console.log('err:', err);
