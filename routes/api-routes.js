@@ -1,23 +1,19 @@
 const fs = require('fs');
-const { product, user, cartProduct } = require('../controllers');
+const { product, user } = require('../controllers');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const router = require('express').Router();
 const nodemailer = require('nodemailer');
-
+const db = require('../models');
 const Json2csvParser = require('json2csv').Parser;
 
 // gets all the products. runs on first page load.
 // stores products to prevent multiple calls to server for data
 
 router.get('/get-products', (req, res) => {
-  product
-    .selectAll()
-    .then(result => res.send(result))
-    .catch(err => {
-      console.log('get-products:', err);
-      res.send(err);
-    });
+  db.Product.findAll({})
+    .then(result => res.status(200).send(result))
+    .catch(error => res.status(500).send(error));
 });
 
 // creates a new customer
@@ -27,17 +23,8 @@ router.post('/create-customer', (req, res) => {
     .then(result => {
       delete result.dataValues.password;
       res.json(result);
-    }) //TODO: send 403 err with msg
+    })
     .catch(err => res.send(err.errors[0].message));
-});
-
-// gets a new customer
-router.get('/get-customer', (req, res) => {
-  const { username, password } = req.query;
-  user
-    .getCustomer(username, password)
-    .then(result => res.send(result))
-    .catch(err => res.send(err));
 });
 
 // deletes a customer
@@ -45,8 +32,8 @@ router.post('/delete-customer', (req, res) => {
   const { id } = req.body;
   user
     .deleteCustomer(id)
-    .then(result => res.send(result))
-    .catch(err => res.send(err));
+    .then(result => res.status(201).send(result))
+    .catch(err => res.status(500).send(err));
 });
 
 // updates any customer freeze
@@ -55,32 +42,44 @@ router.post('/update-freeze', (req, res) => {
   const convertedBool = bool === 'true' ? true : false;
   user
     .updateFreeze(convertedBool, id)
-    .then(result => res.send(result))
-    .catch(err => res.send(err));
+    .then(result => res.status(201).send(result))
+    .catch(err => res.status(500).send(err));
 });
 
 // loads all customers
 router.get('/all-customers', (req, res) => {
   user
     .getAllCustomers()
-    .then(result => res.send(result))
-    .catch(err => res.send(err));
+    .then(result => res.status(200).send(result))
+    .catch(err => res.status(500).send(err));
 });
 
 // saves a product to a customers cart
 router.post('/save-product', (req, res) => {
-  console.log('req.body: ', req.body);
-  cartProduct
-    .saveProductToCart(req.body)
-    .then(result => res.send(result))
-    .catch(err => res.send(err));
+  db.CartProduct.create(req.body)
+    .then(() => res.status(200).send('Product Saved'))
+    .catch(() => res.status(500).send('Failed to save product'));
 });
 
 router.get('/load-cart', (req, res) => {
   user
     .getCart(req.query.id)
-    .then(result => res.send(result))
-    .catch(err => res.send(err));
+    .then(result => res.status(200).send(result))
+    .catch(err => res.status(500).send(err));
+});
+
+router.post('/delete-product', (req, res) => {
+  const { cartProductId } = req.body;
+  console.log(req.body);
+  db.CartProduct.destroy({ where: { id: cartProductId } })
+    // res is either 1 or 0. 1 is a success, 0 is a fail.
+    .then(result => {
+      if (result) res.status(200).send('Product removed');
+      else res.status(500).send('Failed to remove product');
+    })
+    .catch(() => {
+      throw res.status(500).send('Failed to remove product');
+    });
 });
 
 // creates a csv file for a customers estimate
@@ -155,11 +154,11 @@ router.post('/api/form', (req, res) => {
 });
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
-  // console.log(req.session.passport.user[0].dataValues.password);
-  const user = Object.assign({}, req.session.passport.user);
   // this is a weird workaround to a bug I was experiencing.
+  // copies the value of the authenticated user to a new var before logging the user out
+  const user = { ...req.session.passport.user };
   // if I do not log the user out after authenticating the whole back end breaks on the next call to the server
-  // regardless fo what it is.
+  // regardless of what it is.
   // user is still authenticated on the client via sessionStorage.
   req.logout();
   res.send(user);

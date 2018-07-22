@@ -8,7 +8,7 @@ export default {
 
   // called in the shopping cart
   getEstimate: function(values) {
-    return axios.post('/get-estimate', values);
+    return axios.post('/get-estimate', values, { timeout: 15000 });
   },
 
   //TODO: pass in customer id
@@ -16,11 +16,15 @@ export default {
     return axios.get('/load-cart', { params: { id }, timeout: 15000 });
   },
 
+  deleteProduct: function(cartProductId) {
+    return axios.post('/delete-product', cartProductId, { timeout: 15000 });
+  },
+
   login: function(data) {
-    return axios.post('/login', data);
+    return axios.post('/login', data, { timeout: 15000 });
   },
 
   saveProduct: function(data) {
-    return axios.post('/save-product', data);
+    return axios.post('/save-product', data, { timeout: 15000 });
   }
 };
