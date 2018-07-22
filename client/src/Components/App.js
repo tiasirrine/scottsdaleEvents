@@ -81,12 +81,12 @@ class App extends Component {
       <Router>
         <Fragment>
           <Navbar />
-          <Switch>
-            <div
-              className="main-height"
-              data-toggle="collapse"
-              data-target=".navbar-collapse.show"
-            >
+          <div
+            className="main-height"
+            data-toggle="collapse"
+            data-target=".navbar-collapse.show"
+          >
+            <Switch>
               <Route exact path="/" component={Home} />
               <Route
                 path="/inventory"
@@ -103,8 +103,8 @@ class App extends Component {
               <Route exact path="/contact" component={ContactPage} />
               <PrivateRoute path="/login" hideLogin={true} component={Login} />
               <PrivateRoute path="/cart" component={Cart} />
-            </div>
-          </Switch>
+            </Switch>
+          </div>
           <Footer />
         </Fragment>
       </Router>

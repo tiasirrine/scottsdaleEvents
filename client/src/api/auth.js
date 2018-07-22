@@ -13,9 +13,5 @@ export default {
 
   userId: function() {
     return sessionStorage.userId ? sessionStorage.userId : false;
-  },
-
-  removeAuth: function() {
-    sessionStorage.removeItem('isAuthed');
   }
 };
