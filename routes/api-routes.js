@@ -156,7 +156,13 @@ router.post('/api/form', (req, res) => {
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
   // console.log(req.session.passport.user[0].dataValues.password);
-  res.send(req.session.passport.user);
+  const user = Object.assign({}, req.session.passport.user);
+  // this is a weird workaround to a bug I was experiencing.
+  // if I do not log the user out after authenticating the whole back end breaks on the next call to the server
+  // regardless fo what it is.
+  // user is still authenticated on the client via sessionStorage.
+  req.logout();
+  res.send(user);
 });
 
 //FIXME: This needs to be usable for users and admins
