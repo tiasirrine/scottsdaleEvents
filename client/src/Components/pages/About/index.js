@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import './About';
 import { Container, Jumbotron, Row, Col } from 'reactstrap';
 
-class AboutPage extends Component {
+class About extends Component {
   render() {
     return (
       <Fragment>
@@ -44,4 +44,4 @@ class AboutPage extends Component {
   }
 }
 
-export default AboutPage;
+export default About;

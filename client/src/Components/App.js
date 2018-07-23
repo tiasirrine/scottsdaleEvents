@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Cart from './pages/Cart';
 import Footer from './Footer/Footer';
 import PrivateRoute from './PrivateRoute';
+import About from './pages/About';
 
 class App extends Component {
   constructor(props) {
@@ -62,9 +63,7 @@ class App extends Component {
         const categories = Object.keys(inventoryObj);
 
         categories.forEach(a => {
-          subCategories[a] = [
-            ...new Set(inventoryObj[a].map(b => b.subcategory))
-          ];
+          subCategories[a] = [...new Set(inventoryObj[a].map(b => b.subcategory))];
         });
 
         return this.setState({ inventoryObj, subCategories, categories });
@@ -81,11 +80,7 @@ class App extends Component {
       <Router>
         <Fragment>
           <Navbar />
-          <div
-            className="main-height"
-            data-toggle="collapse"
-            data-target=".navbar-collapse.show"
-          >
+          <div className="main-height" data-toggle="collapse" data-target=".navbar-collapse.show">
             <Switch>
               <Route exact path="/" component={Home} />
               <Route
@@ -99,6 +94,7 @@ class App extends Component {
                   />
                 )}
               />
+              <Route exact path="/about" component={About} />
               <Route exact path="/gallery" component={Gallery} />
               <Route exact path="/contact" component={ContactPage} />
               <PrivateRoute path="/login" hideLogin={true} component={Login} />
