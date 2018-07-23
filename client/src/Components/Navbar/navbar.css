@@ -1,10 +1,11 @@
 .top-nav {
-  background-color: #546e7a;
+  background-color: #b71c1c;
   height: 62px;
 }
 
 .navbar {
   font-size: 12px;
+  background-color: #b71c1c;
 }
 
 @media (min-width: 992px) {
