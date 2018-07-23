@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Card, CardBody, Fa, Button, Input } from 'mdbreact';
 import axios from 'axios';
+import './Form.css';
 
 class ContactPage extends Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class ContactPage extends Component {
 
     const { name, companyName, contactEmail, number, message } = this.state;
 
-    const form = await axios.post('/api/form', {
+    await axios.post('/api/form', {
       name,
       companyName,
       contactEmail,
@@ -113,7 +114,7 @@ class ContactPage extends Component {
                 </Row>
               </form>
               <div className="text-center text-md-left">
-                <Button color="primary" size="md" onClick={this.handleSubmit} type="send">
+                <Button className="aButton" size="md" onClick={this.handleSubmit} type="send">
                   Send
                 </Button>
               </div>
@@ -121,15 +122,15 @@ class ContactPage extends Component {
             <Col md="3" className="text-center">
               <ul className="list-unstyled mb-0">
                 <li>
-                  <Fa icon="map-marker" size="2x" className="blue-text" />
+                  <Fa icon="map-marker" size="2x" className="grey-text" />
                   <p>Scottsdale, Arizona</p>
                 </li>
                 <li>
-                  <Fa icon="phone" size="2x" className="blue-text mt-4" />
+                  <Fa icon="phone" size="2x" className="grey-text mt-4" />
                   <p>+ 01 234 567 89</p>
                 </li>
                 <li>
-                  <Fa icon="envelope" size="2x" className="blue-text mt-4" />
+                  <Fa icon="envelope" size="2x" className="grey-text mt-4" />
                   <p>contact@example.com</p>
                 </li>
               </ul>

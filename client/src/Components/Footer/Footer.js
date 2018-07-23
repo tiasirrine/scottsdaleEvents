@@ -4,21 +4,15 @@ import { Col, Container, Row, Footer } from 'mdbreact';
 class FooterPage extends React.Component {
   render() {
     return (
-      <Footer color="mdb-color" className="font-small lighten-3 pt-4 no-margin">
+      <Footer color="mdb-color" className="font-small red darken-4 pt-4 no-margin">
         <Container fluid className="text-center text-md-left">
           <Row className="my-4">
             <Col md="4" lg="4">
-              <h5 className="text-uppercase mb-4 font-weight-bold">
-                Footer Content
-              </h5>
+              <h5 className="text-uppercase mb-4 font-weight-bold">Footer Content</h5>
+              <p>Here you can use rows and columns here to organize your footer content.</p>
               <p>
-                Here you can use rows and columns here to organize your footer
-                content.
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit,
-                error amet numquam iure provident voluptate esse quasi,
-                veritatis totam voluptas nostrum.{' '}
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit, error amet numquam
+                iure provident voluptate esse quasi, veritatis totam voluptas nostrum.{' '}
               </p>
             </Col>
             <hr className="clearfix w-100 d-md-none" />
@@ -68,10 +62,7 @@ class FooterPage extends React.Component {
                 <a type="button" className="btn-floating btn-small btn-gplus">
                   <i className="fa fa-google-plus" />
                 </a>
-                <a
-                  type="button"
-                  className="btn-floating btn-small btn-dribbble"
-                >
+                <a type="button" className="btn-floating btn-small btn-dribbble">
                   <i className="fa fa-dribbble" />
                 </a>
               </div>
