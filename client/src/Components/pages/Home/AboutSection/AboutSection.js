@@ -21,9 +21,6 @@ class FeaturesPage extends Component {
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
                   </p>
-                  <Button size="sm" className="aButton">
-                    Learn more
-                  </Button>
                 </Col>
               </Row>
             </Col>
@@ -35,9 +32,6 @@ class FeaturesPage extends Component {
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
                   </p>
-                  <Button className="aButton" size="sm">
-                    Learn more
-                  </Button>
                 </Col>
               </Row>
             </Col>
@@ -49,9 +43,6 @@ class FeaturesPage extends Component {
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
                   </p>
-                  <Button className="aButton" size="sm">
-                    Learn more
-                  </Button>
                 </Col>
               </Row>
             </Col>
