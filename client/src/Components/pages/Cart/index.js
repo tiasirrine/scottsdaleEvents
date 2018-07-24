@@ -99,6 +99,13 @@ class Cart extends Component {
   render() {
     console.log(this.state);
     const { activeCart } = this.state;
+    Array.prototype.sum = function(prop) {
+      var totalPrice = 0;
+      for (var i = 0, _len = this.length; i < _len; i++) {
+        totalPrice += parseInt(this[i][prop]);
+      }
+      return totalPrice;
+    };
 
     if ((activeCart && !activeCart.length) || !activeCart) {
       return <h3>Your cart is empty</h3>;
@@ -149,7 +156,7 @@ class Cart extends Component {
                 })}
             </tbody>
           </Table>
-          <div className="text-right">$1200</div>
+          <div className="text-right">{activeCart.sum('total')}</div>
           <Button color="success" onClick={this.onSubmit}>
             Submit
           </Button>
