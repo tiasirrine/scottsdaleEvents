@@ -1,5 +1,18 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Card, CardBody, Fa, Button, Input } from 'mdbreact';
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  CardBody,
+  Fa,
+  Button,
+  Input,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  ModalFooter
+} from 'mdbreact';
 import axios from 'axios';
 import './Form.css';
 
@@ -12,16 +25,24 @@ class ContactPage extends Component {
       companyName: '',
       contactEmail: '',
       number: '',
-      message: ''
+      message: '',
+      modal: false
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.toggle = this.toggle.bind(this);
   }
 
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
+
+  toggle() {
+    this.setState({
+      modal: !this.state.modal
+    });
+  }
 
   async handleSubmit(e) {
     //e.preventDefault();
@@ -44,9 +65,7 @@ class ContactPage extends Component {
         <section className="my-5">
           <h2 className="h1-responsive font-weight-bold text-center my-5">Contact us</h2>
           <p className="text-center w-responsive mx-auto pb-5">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit, error amet numquam iure
-            provident voluptate esse quasi, veritatis totam voluptas nostrum quisquam eum porro a
-            pariatur veniam.
+            Please fill out the form below and we will get back to you as quickly as possilbe!
           </p>
           <Row>
             <Col md="9" className="md-0 mb-5">
@@ -114,7 +133,13 @@ class ContactPage extends Component {
                 </Row>
               </form>
               <div className="text-center text-md-left">
-                <Button className="aButton" size="md" onClick={this.handleSubmit} type="send">
+                <Button
+                  className="aButton"
+                  size="md"
+                  onClick={this.handleSubmit}
+                  onClick={this.toggle}
+                  type="send"
+                >
                   Send
                 </Button>
               </div>
@@ -137,6 +162,15 @@ class ContactPage extends Component {
             </Col>
           </Row>
         </section>
+        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+          <ModalHeader toggle={this.toggle}>Thank you!</ModalHeader>
+          <ModalBody>We will be contacting you soon.</ModalBody>
+          <ModalFooter>
+            <Button className="aButton" onClick={this.toggle}>
+              Close
+            </Button>
+          </ModalFooter>
+        </Modal>
       </Container>
     );
   }

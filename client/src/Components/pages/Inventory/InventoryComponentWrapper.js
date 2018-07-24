@@ -32,6 +32,7 @@ const InventoryComponentWrapper = props => {
                 cardPrice={a.price}
                 cardQuantity={a.quantity}
                 id={a.id}
+                url={a.url}
               />
             );
           })

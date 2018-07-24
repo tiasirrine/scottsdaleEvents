@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Button, Input } from 'mdbreact';
 import './InventoryPage.css';
-import image from '../../../images/Photos/event7.jpg';
+// import image from '../../../images/Photos/event7.jpg';
 import API from '../../../api/API';
 import auth from '../../../api/auth';
 
@@ -56,7 +56,9 @@ class InventoryCard extends Component {
     return (
       <div className="row my-5 pb-4">
         <div className="col-md-5 mb-3 mb-sm-3">
-          <img className="img-fluid product-img" src={image} alt={this.props.cardTitle} />
+
+          <img className="img-fluid product-img" src={this.props.url} alt={this.props.cardTitle} />
+
         </div>
         <div className="col-md-7 border-bottom pb-3 pb-sm-3">
           <h3 className="mb-2">{this.props.cardTitle}</h3>
@@ -69,6 +71,7 @@ class InventoryCard extends Component {
                 value="Submit"
                 onClick={this.handleFormSubmit}
                 data-id={this.props.id}
+                className="aButton"
               >
                 Add To Cart
               </Button>
