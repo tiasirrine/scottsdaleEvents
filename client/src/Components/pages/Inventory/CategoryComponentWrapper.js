@@ -17,6 +17,7 @@ import {
 
 const CategoryComponentWrapper = props => {
   const { categories, image } = props;
+  const param = props.match.params.category;
   return (
     <Row className="justify-content-md-center">
       {categories
