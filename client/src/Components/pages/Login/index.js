@@ -33,7 +33,9 @@ class Login extends React.Component {
         }
       })
       .catch(err => {
-        const error = err.response ? err.response.data : 'Connection timed out';
+        const error = err.response
+          ? 'Username or password is incorrect'
+          : 'Connection timed out';
         this.setState({ error: error });
       });
   };

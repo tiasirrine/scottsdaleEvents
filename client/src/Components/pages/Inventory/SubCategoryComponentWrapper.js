@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardImage, Col, Container, Row, View } from 'mdbreact';
 import InventoryCard from './InventoryCard';
@@ -30,7 +30,7 @@ const SubCategoryComponentWrapper = props => {
   const itemsToRender = subCategories.length ? subCategories : null;
 
   return (
-    <Container fluid>
+    <Fragment>
       <Row className="justify-content-md-center">
         {itemsToRender && !getInvItems
           ? itemsToRender.map(a => (
@@ -69,7 +69,7 @@ const SubCategoryComponentWrapper = props => {
             );
           })
         : null}
-    </Container>
+    </Fragment>
   );
 };
 

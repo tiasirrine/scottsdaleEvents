@@ -6,6 +6,11 @@
 .navbar {
   font-size: 12px;
   background-color: #b71c1c;
+  position: fixed;
+  width: 100%;
+  z-index: 2;
+  top: 0;
+  left: 0;
 }
 
 @media (min-width: 992px) {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Container } from 'mdbreact';
 import InventoryCard from './InventoryCard';
 
@@ -21,7 +21,7 @@ const InventoryComponentWrapper = props => {
     : null;
 
   return (
-    <Container fluid>
+    <Fragment>
       {getInvItems
         ? getInvItems.map((a, i) => {
             return (
@@ -35,7 +35,7 @@ const InventoryComponentWrapper = props => {
             );
           })
         : null}
-    </Container>
+    </Fragment>
   );
 };
 
