@@ -23,7 +23,7 @@ class Nav extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-expand-md navbar-dark top-nav">
+      <nav className="navbar navbar-expand-md navbar-dark">
         <div className="container">
           <Link to="/" className="navbar-brand">
             Scottsdale Events
@@ -56,8 +56,9 @@ class Nav extends Component {
                 <Link
                   name="/inventory"
                   to="/inventory"
-                  className={`nav-link waves-effect waves-light ${this.state
-                    .active === '/inventory' && 'active'}`}
+                  className={`nav-link waves-effect waves-light ${window.location.href.includes(
+                    'inventory'
+                  ) && 'active'}`}
                   onClick={this.onClick}
                 >
                   Inventory
