@@ -33,7 +33,7 @@ class InventoryCard extends Component {
 
   // saves the product to the users cart.
   handleFormSubmit = event => {
-    // prevents adding 0 items of something
+    // prevents adding 0 items of something or too many
     if (this.state.quantity > 0 && this.state.quantity <= parseInt(this.props.cardQuantity)) {
       event.preventDefault();
       // grabs the values needed for the product to save to the cart
@@ -64,9 +64,9 @@ class InventoryCard extends Component {
           <h3 className="mb-2">{this.props.cardTitle}</h3>
           <p className="mb-2">{this.props.cardDesc}</p>
           <p>${this.props.cardPrice}</p>
-          <p>{this.props.cardQuantity} units currently available</p>
           {this.state.isAuthed && (
             <Fragment>
+              <p>{this.props.cardQuantity} units currently available</p>
               <Button
                 type="submit"
                 value="Submit"
