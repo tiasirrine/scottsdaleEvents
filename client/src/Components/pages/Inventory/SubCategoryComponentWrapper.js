@@ -28,7 +28,7 @@ const SubCategoryComponentWrapper = props => {
 
   // contains individual inventory items if there are no sub categories
   const itemsToRender = subCategories.length ? subCategories : null;
-
+  console.log(inventory);
   return (
     <Fragment>
       <Row className="justify-content-md-center">
@@ -65,6 +65,7 @@ const SubCategoryComponentWrapper = props => {
                 cardDesc={a.description}
                 cardPrice={a.price}
                 id={a.id}
+                url={a.url}
               />
             );
           })
