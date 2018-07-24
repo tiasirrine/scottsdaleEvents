@@ -37,6 +37,12 @@ class Login extends React.Component {
         this.setState({ error: error });
       });
   };
+  handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      console.log('do validate');
+      this.onSubmit();
+    }
+  };
 
   render() {
     if (this.state.isAuthed) {
@@ -56,6 +62,7 @@ class Login extends React.Component {
                   <CardBody className="mx-4 mt-4">
                     <Input
                       onChange={this.onChange}
+                      onKeyPress={this.handleKeyPress}
                       name="username"
                       label="Your email"
                       group
@@ -64,6 +71,7 @@ class Login extends React.Component {
                     />
                     <Input
                       onChange={this.onChange}
+                      onKeyPress={this.handleKeyPress}
                       name="password"
                       label="Your password"
                       group
@@ -84,8 +92,11 @@ class Login extends React.Component {
                     <div className="text-center mb-4 mt-5">
                       <Button
                         onClick={this.onSubmit}
+                        onKeyPress={this.handleKeyPress}
                         color="danger"
-                        type="button"
+                        type="submit"
+                        value="Submit"
+                        id="onSubmit-button"
                         className="btn-block z-depth-2 aButton"
                       >
                         Log in
