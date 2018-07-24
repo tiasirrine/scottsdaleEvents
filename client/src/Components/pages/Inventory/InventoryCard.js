@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Button, Input } from 'mdbreact';
 import './InventoryPage.css';
-import image from '../../../images/Photos/event7.jpg';
+// import image from '../../../images/Photos/event7.jpg';
 import API from '../../../api/API';
 import auth from '../../../api/auth';
 
@@ -58,7 +58,7 @@ class InventoryCard extends Component {
         <div className="col-md-5 mb-3 mb-sm-3">
           <img
             className="img-fluid product-img"
-            src={image}
+            src={this.props.url}
             alt={this.props.cardTitle}
           />
         </div>
