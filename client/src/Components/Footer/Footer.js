@@ -1,5 +1,6 @@
 import './Footer.css';
 import React from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import { Col, Container, Row, Footer } from 'mdbreact';
 
 class FooterPage extends React.Component {
@@ -19,22 +20,22 @@ class FooterPage extends React.Component {
             <Col md="2" lg="2" className="ml-auto">
               <ul className="list-unstyled">
                 <p>
-                  <a href="#!">Home</a>
+                  <Link to="/">Home</Link>
                 </p>
                 <p>
-                  <a href="#!">Inventory</a>
+                  <Link to="/invenotry">Inventory</Link>
                 </p>
                 <p>
-                  <a href="#!">Gallery</a>
+                  <Link to="/gallery">Gallery</Link>
                 </p>
                 <p>
-                  <a href="#!">About Us</a>
+                  <Link to="/about">About Us</Link>
                 </p>
                 <p>
-                  <a href="#!">Contact Us</a>
+                  <Link to="/contact">Contact Us</Link>
                 </p>
                 <p>
-                  <a href="#!">Login</a>
+                  <Link to="/login">Login</Link>
                 </p>
               </ul>
             </Col>
