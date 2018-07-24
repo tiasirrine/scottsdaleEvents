@@ -1,13 +1,9 @@
-.top-nav {
-  background-color: #b71c1c;
-  height: 62px;
-}
-
 .navbar {
   font-size: 12px;
   background-color: #b71c1c;
-  position: fixed;
+  min-height: 62px;
   width: 100%;
+  position: fixed;
   z-index: 2;
   top: 0;
   left: 0;

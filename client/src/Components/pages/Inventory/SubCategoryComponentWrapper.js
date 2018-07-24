@@ -34,8 +34,8 @@ const SubCategoryComponentWrapper = props => {
       <Row className="justify-content-md-center">
         {itemsToRender && !getInvItems
           ? itemsToRender.map(a => (
-              <Col md="4" key={a} className="ind-card-col">
-                <Card className="card card-cascade wider reverse my-4 animated fadeInUpBig">
+              <Col md="6" lg="4" xl="3" key={a} className="ind-card-col">
+                <Card className="card card-cascade wider reverse my-4 animated fadeInUpBig w-300">
                   <Link to={`${props.match.url}/${a}`}>
                     <div className="view view-cascade overlay">
                       <View zoom>
