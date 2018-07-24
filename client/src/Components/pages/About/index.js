@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import './About';
+//import './About';
 import { Container, Jumbotron, Row, Col } from 'reactstrap';
 
 class About extends Component {
