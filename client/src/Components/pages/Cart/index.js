@@ -157,7 +157,7 @@ class Cart extends Component {
             </tbody>
           </Table>
           <div className="text-right">{activeCart.sum('total')}</div>
-          <Button color="success" onClick={this.onSubmit}>
+          <Button color="success" onClick={this.onSubmit} className="aButton">
             Submit
           </Button>
         </Container>
