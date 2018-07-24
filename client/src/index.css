@@ -21,4 +21,5 @@ a:hover {
 
 .main-height {
   min-height: calc(100vh - 62px);
+  margin-top: 62px;
 }
