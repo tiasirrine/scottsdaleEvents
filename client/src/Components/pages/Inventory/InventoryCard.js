@@ -86,7 +86,7 @@ class InventoryCard extends Component {
                 name="quantity"
                 id="item-quantity"
                 max={this.props.cardQuantity}
-                maxLength="4"
+                min="0"
                 placeholder={'Quantity'}
               />
             </Fragment>
