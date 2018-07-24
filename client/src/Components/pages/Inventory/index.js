@@ -6,6 +6,7 @@ import CategoryComponentWrapper from './CategoryComponentWrapper';
 import SubCategoryComponentWrapper from './SubCategoryComponentWrapper';
 import InventoryComponentWrapper from './InventoryComponentWrapper';
 import Sidebar from './Sidebar';
+import { Container } from 'mdbreact';
 
 // The main functionality of this component is to render the specified routes for the inventory
 // Similiar to App.js. It routes requests to the appropriate component, and serves as a parent component
@@ -18,9 +19,9 @@ class InventoryPage extends Component {
   render() {
     const { categories, inventoryObj, subCategories } = this.props;
     return (
-      <Fragment>
-        <div className="flex">
-          <Sidebar subCategories={subCategories} />
+      <div className="flex">
+        <Sidebar subCategories={subCategories} />
+        <Container fluid className="ml-250">
           <Switch>
             <Route
               exact
@@ -56,8 +57,8 @@ class InventoryPage extends Component {
               )}
             />
           </Switch>
-        </div>
-      </Fragment>
+        </Container>
+      </div>
     );
   }
 }
