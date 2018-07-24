@@ -17,7 +17,6 @@ import {
 
 const CategoryComponentWrapper = props => {
   const { categories, image } = props;
-
   return (
     <Row className="justify-content-md-center">
       {categories
