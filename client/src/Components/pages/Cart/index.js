@@ -1,12 +1,26 @@
 import React, { Component } from 'react';
-import { Container, Table, Input, Button } from 'mdbreact';
+import {
+  Container,
+  Table,
+  Input,
+  Button,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  ModalFooter
+} from 'mdbreact';
 import API from '../../../api/API';
 import auth from '../../../api/auth';
 
 class Cart extends Component {
   constructor(props) {
     super(props);
-    this.state = { activeCart: null };
+    this.state = {
+      activeCart: null,
+      modal: false
+    };
+
+    this.toggle = this.toggle.bind(this);
   }
 
   componentDidMount() {
@@ -96,6 +110,12 @@ class Cart extends Component {
       .catch(err => console.log(err));
   };
 
+  toggle() {
+    this.setState({
+      modal: !this.state.modal
+    });
+  }
+
   render() {
     console.log(this.state);
     const { activeCart } = this.state;
@@ -157,9 +177,18 @@ class Cart extends Component {
             </tbody>
           </Table>
           <div className="text-right">{activeCart.sum('total')}</div>
-          <Button color="success" onClick={this.onSubmit} className="aButton">
+          <Button color="success" onClick={(this.onSubmit, this.toggle)} className="aButton">
             Submit
           </Button>
+          <Modal isOpen={this.state.modal} toggle={this.toggle}>
+            <ModalHeader toggle={this.toggle}>Thank you!</ModalHeader>
+            <ModalBody>Your order has been placed.</ModalBody>
+            <ModalFooter>
+              <Button className="aButton" onClick={this.toggle}>
+                Close
+              </Button>
+            </ModalFooter>
+          </Modal>
         </Container>
       );
     }
