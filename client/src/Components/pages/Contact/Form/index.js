@@ -34,6 +34,10 @@ class ContactPage extends Component {
     this.toggle = this.toggle.bind(this);
   }
 
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -63,9 +67,12 @@ class ContactPage extends Component {
     return (
       <Container>
         <section className="my-5">
-          <h2 className="h1-responsive font-weight-bold text-center my-5">Contact us</h2>
+          <h2 className="h1-responsive font-weight-bold text-center my-5">
+            Contact us
+          </h2>
           <p className="text-center w-responsive mx-auto pb-5">
-            Please fill out the form below and we will get back to you as quickly as possilbe!
+            Please fill out the form below and we will get back to you as
+            quickly as possilbe!
           </p>
           <Row>
             <Col md="9" className="md-0 mb-5">
