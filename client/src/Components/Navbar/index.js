@@ -75,7 +75,17 @@ class Nav extends Component {
                   Gallery
                 </Link>
               </li>
-
+              <li data-toggle="collapse" data-target=".navbar-collapse.show">
+                <Link
+                  name="/about"
+                  to="/about"
+                  className={`nav-link waves-effect waves-light ${this.state
+                    .active === '/about' && 'active'}`}
+                  onClick={this.onClick}
+                >
+                  About Us
+                </Link>
+              </li>
               {
                 <li data-toggle="collapse" data-target=".navbar-collapse.show">
                   <Link
