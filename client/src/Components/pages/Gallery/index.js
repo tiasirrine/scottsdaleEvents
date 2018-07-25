@@ -25,6 +25,11 @@ class photoGallery extends React.Component {
     this.gotoNext = this.gotoNext.bind(this);
     this.gotoPrevious = this.gotoPrevious.bind(this);
   }
+
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
   openLightbox(event, obj) {
     this.setState({
       currentImage: obj.index,
