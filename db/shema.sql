@@ -5,7 +5,7 @@ CREATE DATABASE scottsdaleevents;
 use scottsdaleEvents;
 
 LOAD DATA LOCAL INFILE 
-'C:\\Users\\wwong\\Desktop\\Project3\\scottsdaleEvents\\inventory.csv'
+'C:\\Users\\Trevor\\Desktop\\coding\\bootcamp\\scottsdaleEvents\\db\\csv-files\\inventory.csv'
 IGNORE
 INTO TABLE products
 FIELDS TERMINATED BY ','
