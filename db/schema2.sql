@@ -6,20 +6,12 @@ use scottsdaleEvents;
 
 CREATE TABLE customers(
     ID INT AUTO_INCREMENT,
-    username VARCHAR(100) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    email VARCHAR(100) NULL,
-    frozen INT NULL,
+    email VARCHAR NOT NULL,
+    password VARCHAR NOT NULL,
+    frozen bool,
     PRIMARY KEY(ID)
 );
 
-CREATE TABLE admins(
-    ID INT AUTO_INCREMENT,
-    username VARCHAR(100) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    superAdmin INT,
-    PRIMARY KEY(ID)
-);
 
 CREATE TABLE user_carts(
 	ID INT AUTO_INCREMENT,
