@@ -1,9 +1,9 @@
 module.exports = {
   test: {
-    username: 'root',
-    password: null,
-    database: 'database_development',
-    host: '127.0.0.1',
+    username: process.env.TEST_USERNAME,
+    password: process.env.TEST_PASSWORD,
+    database: process.env.TEST_DATABASE,
+    host: process.env.TEST_HOST,
     dialect: 'mysql'
   },
   production: {
