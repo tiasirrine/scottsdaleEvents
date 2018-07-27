@@ -2,7 +2,7 @@ module.exports = function(sequelize, DataTypes) {
   const Cart = sequelize.define(
     'Cart',
     {
-      didCheckOut: { type: DataTypes.BOOLEAN, allowNull: false }
+      isActive: { type: DataTypes.BOOLEAN, allowNull: false }
     },
     { createdAt: false }
   );
@@ -13,3 +13,5 @@ module.exports = function(sequelize, DataTypes) {
 
   return Cart;
 };
+
+// Cart
