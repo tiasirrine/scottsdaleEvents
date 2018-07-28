@@ -5,10 +5,6 @@ import EcommercePage from './Ecommerce/Ecommerce';
 import FeaturesPage from './AboutSection/AboutSection';
 
 class Home extends Component {
-  componentDidMount() {
-    window.scrollTo(0, 0);
-  }
-
   items = [
     {
       src: 'http://via.placeholder.com/1000x400',

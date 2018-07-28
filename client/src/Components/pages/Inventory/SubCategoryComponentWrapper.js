@@ -12,22 +12,17 @@ const SubCategoryComponentWrapper = props => {
   // will contain the subcategories, if there are any
   const subCategories = [];
 
-  const subImgs = [];
-
   // grabs the sub categories. Even though this "isn't being used", its needed for getInvItems
   const getSubCategories = inventory
     ? inventory[param].map(a => {
         if (!subCategories.includes(a.subcategory)) {
-          subImgs.push(a.url);
           subCategories.push(a.subcategory);
         }
       })
     : null;
 
   // checks if there are no sub categories. if not, gets the inventory items.
-  const getInvItems = subCategories.includes('')
-    ? inventory[param].map(a => a)
-    : null;
+  const getInvItems = subCategories.includes('') ? inventory[param].map(a => a) : null;
 
   // contains individual inventory items if there are no sub categories
   const itemsToRender = subCategories.length ? subCategories : null;
@@ -36,7 +31,7 @@ const SubCategoryComponentWrapper = props => {
     <Fragment>
       <Row className="justify-content-md-center">
         {itemsToRender && !getInvItems
-          ? itemsToRender.map((a, i) => (
+          ? itemsToRender.map(a => (
               <Col md="6" lg="4" xl="3" key={a} className="ind-card-col">
                 <Card className="card card-cascade wider reverse my-4 animated fadeInUpBig w-300">
                   <Link to={`${props.match.url}/${a}`}>
@@ -44,8 +39,8 @@ const SubCategoryComponentWrapper = props => {
                       <View zoom>
                         <CardImage
                           cascade
-                          src={subImgs[i]}
-                          className="card-image ind-card-image"
+                          src={image}
+                          className="img-fluid ind-card-image"
                           alt="Category Image"
                         />
                         <div className="mask flex-center waves-effect waves-light cat-names text-justify rgba-white-strong">

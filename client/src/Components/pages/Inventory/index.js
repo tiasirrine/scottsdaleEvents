@@ -16,22 +16,12 @@ class InventoryPage extends Component {
     super(props);
   }
 
-  componentDidMount() {
-    window.scrollTo(0, 0);
-  }
-
   render() {
     const { categories, inventoryObj, subCategories } = this.props;
-
-    const categoryImgs =
-      categories && inventoryObj
-        ? categories.map(a => inventoryObj[a][0].url)
-        : null;
-
     return (
       <div className="flex">
         <Sidebar subCategories={subCategories} />
-        <Container fluid className="ml-270">
+        <Container fluid className="ml-250">
           <Switch>
             <Route
               exact
@@ -40,7 +30,7 @@ class InventoryPage extends Component {
                 <CategoryComponentWrapper
                   {...props}
                   categories={categories}
-                  images={categoryImgs}
+                  image={image}
                 />
               )}
             />

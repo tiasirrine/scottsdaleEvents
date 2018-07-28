@@ -63,9 +63,7 @@ class App extends Component {
         const categories = Object.keys(inventoryObj);
 
         categories.forEach(a => {
-          subCategories[a] = [
-            ...new Set(inventoryObj[a].map(b => b.subcategory))
-          ];
+          subCategories[a] = [...new Set(inventoryObj[a].map(b => b.subcategory))];
         });
 
         return this.setState({ inventoryObj, subCategories, categories });
@@ -82,11 +80,7 @@ class App extends Component {
       <Router>
         <Fragment>
           <Navbar />
-          <div
-            className="main-height"
-            data-toggle="collapse"
-            data-target=".navbar-collapse.show"
-          >
+          <div className="main-height" data-toggle="collapse" data-target=".navbar-collapse.show">
             <Switch>
               <Route exact path="/" component={Home} />
               <Route
@@ -100,12 +94,11 @@ class App extends Component {
                   />
                 )}
               />
+              <Route exact path="/about" component={About} />
               <Route exact path="/gallery" component={Gallery} />
               <Route exact path="/contact" component={ContactPage} />
-              <Route exact path="/about" component={About} />
               <PrivateRoute path="/login" hideLogin={true} component={Login} />
               <PrivateRoute path="/cart" component={Cart} />
-              <Route component={Home} />
             </Switch>
           </div>
           <Footer />
