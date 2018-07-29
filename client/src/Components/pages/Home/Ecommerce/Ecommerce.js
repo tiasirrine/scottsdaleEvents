@@ -30,12 +30,10 @@ class EcommercePage extends Component {
             <Col lg="3" md="6" className="mb-lg-0 mb-4">
               <Card collection className="z-depth-1-half">
                 <div className="view zoom">
-                  <img src={images[5]} className="img-fluid" alt="" />
+                  <img src={images[4]} className="img-fluid" alt="" />
                   <div className="stripe dark">
                     <a>
-                      <p>
-                        Bistro Lighting <Fa icon="angle-right" />
-                      </p>
+                      <p>Bistro Lighting</p>
                     </a>
                   </div>
                 </div>
@@ -44,16 +42,10 @@ class EcommercePage extends Component {
             <Col lg="3" md="6" className="mb-lg-0 mb-4">
               <Card collection className="z-depth-1-half">
                 <div className="view zoom">
-                  <img
-                    src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/8.jpg"
-                    className="img-fluid"
-                    alt=""
-                  />
+                  <img src={images[4]} className="img-fluid" alt="" />
                   <div className="stripe dark">
                     <a>
-                      <p>
-                        Wood Tables <Fa icon="angle-right" />
-                      </p>
+                      <p>Wood Tables</p>
                     </a>
                   </div>
                 </div>
@@ -62,16 +54,10 @@ class EcommercePage extends Component {
             <Col lg="3" md="6" className="mb-lg-0 mb-4">
               <Card collection className="z-depth-1-half">
                 <div className="view zoom">
-                  <img
-                    src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/9.jpg"
-                    className="img-fluid"
-                    alt=""
-                  />
+                  <img src={images[4]} className="img-fluid" alt="" />
                   <div className="stripe dark">
                     <a>
-                      <p>
-                        Premium Seating <Fa icon="angle-right" />
-                      </p>
+                      <p>Premium Seating</p>
                     </a>
                   </div>
                 </div>
@@ -80,16 +66,10 @@ class EcommercePage extends Component {
             <Col lg="3" md="6" className="mb-lg-0 mb-4">
               <Card collection className="z-depth-1-half">
                 <div className="view zoom">
-                  <img
-                    src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/7.jpg"
-                    className="img-fluid"
-                    alt=""
-                  />
+                  <img src={images[4]} className="img-fluid" alt="" />
                   <div className="stripe dark">
                     <a>
-                      <p>
-                        Bars <Fa icon="angle-right" />
-                      </p>
+                      <p>Bars</p>
                     </a>
                   </div>
                 </div>
