@@ -6,40 +6,35 @@ import { Col, Container, Row, Footer } from 'mdbreact';
 class FooterPage extends React.Component {
   render() {
     return (
-      <Footer
-        color="mdb-color"
-        className={`font-small red darken-4 pt-4 footer-z`}
-      >
+      <Footer color="mdb-color" className={`font-small red darken-4 pt-4 footer-z`}>
         <Container fluid className="text-center text-md-left">
-          <Row>
+          <Row className="my-4">
             <Col md="4" lg="4">
-              <h5 className="text-uppercase mb-4 font-weight-bold">
-                Scottsdale Events Decor
-              </h5>
+              <h5 className="text-uppercase mb-4 font-weight-bold">Scottsdale Events Decor</h5>
               <p>
-                Handcrafted, handselected, premier event rental company based in
-                Scottsdale, Arizona.
+                Handcrafted, handselected, premier event rental company based in Scottsdale,
+                Arizona.
               </p>
             </Col>
             <hr className="clearfix w-100 d-md-none" />
             <Col md="2" lg="2" className="ml-auto">
-              <ul className="list-unstyled mb-2">
-                <p className="mb-1">
+              <ul className="list-unstyled">
+                <p>
                   <Link to="/">Home</Link>
                 </p>
-                <p className="mb-1">
-                  <Link to="/inventory">Inventory</Link>
+                <p>
+                  <Link to="/invenotry">Inventory</Link>
                 </p>
-                <p className="mb-1">
+                <p>
                   <Link to="/gallery">Gallery</Link>
                 </p>
-                <p className="mb-1">
+                <p>
                   <Link to="/about">About Us</Link>
                 </p>
-                <p className="mb-1">
+                <p>
                   <Link to="/contact">Contact Us</Link>
                 </p>
-                <p className="mb-1">
+                <p>
                   <Link to="/login">Login</Link>
                 </p>
               </ul>
@@ -47,13 +42,13 @@ class FooterPage extends React.Component {
             <hr className="clearfix w-100 d-md-none" />
             <Col md="5" lg="3">
               <h5 className="text-uppercase mb-4 font-weight-bold">Address</h5>
-              <p className="mb-1">
+              <p>
                 <i className="fa fa-home mr-3" /> Scottsdale, Arizona
               </p>
-              <p className="mb-1">
+              <p>
                 <i className="fa fa-envelope mr-3" /> cristina@scottsdaleme.com
               </p>
-              <p className="mb-1">
+              <p>
                 <i className="fa fa-phone mr-3" /> (480)-699-9381
               </p>
             </Col>

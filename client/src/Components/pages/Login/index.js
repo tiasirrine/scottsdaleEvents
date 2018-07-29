@@ -13,10 +13,6 @@ class Login extends React.Component {
     this.setState({ [name]: value });
   };
 
-  componentDidMount() {
-    window.scrollTo(0, 0);
-  }
-
   // sends provided username and password to express for validation
   onSubmit = () => {
     const { username, password } = this.state;
@@ -37,9 +33,7 @@ class Login extends React.Component {
         }
       })
       .catch(err => {
-        const error = err.response
-          ? 'Username or password is incorrect'
-          : 'Connection timed out';
+        const error = err.response ? 'Username or password is incorrect' : 'Connection timed out';
         this.setState({ error: error });
       });
   };
@@ -62,9 +56,7 @@ class Login extends React.Component {
                 <Card>
                   <div className="header pt-3 grey lighten-2">
                     <Row className="d-flex justify-content-start">
-                      <h3 className="deep-grey-text mt-3 mb-4 pb-1 mx-5">
-                        Log in
-                      </h3>
+                      <h3 className="deep-grey-text mt-3 mb-4 pb-1 mx-5">Log in</h3>
                     </Row>
                   </div>
                   <CardBody className="mx-4 mt-4">
@@ -89,18 +81,13 @@ class Login extends React.Component {
                     />
                     <p className="font-small grey-text d-flex justify-content-end">
                       Forgot{' '}
-                      <a
-                        href="#"
-                        className="dark-grey-text font-weight-bold ml-1"
-                      >
+                      <a href="#" className="dark-grey-text font-weight-bold ml-1">
                         {' '}
                         Password?
                       </a>
                     </p>
                     {this.state.error && (
-                      <p className="text-danger text-center">
-                        {this.state.error}
-                      </p>
+                      <p className="text-danger text-center">{this.state.error}</p>
                     )}
                     <div className="text-center mb-4 mt-5">
                       <Button
