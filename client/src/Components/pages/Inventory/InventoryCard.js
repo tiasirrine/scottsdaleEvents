@@ -1,9 +1,6 @@
 import React, { Component, Fragment } from 'react';
-//import { ToastContainer, toast } from 'react-toastify';
-//import './alerts.css';
 import { Button, Input } from 'mdbreact';
 import './InventoryPage.css';
-// import image from '../../../images/Photos/event7.jpg';
 import API from '../../../api/API';
 import auth from '../../../api/auth';
 
@@ -34,7 +31,10 @@ class InventoryCard extends Component {
   // saves the product to the users cart.
   handleFormSubmit = event => {
     // prevents adding 0 items of something or too many
-    if (this.state.quantity > 0 && this.state.quantity <= parseInt(this.props.cardQuantity)) {
+    if (
+      this.state.quantity > 0 &&
+      this.state.quantity <= parseInt(this.props.cardQuantity)
+    ) {
       event.preventDefault();
       // grabs the values needed for the product to save to the cart
       const obj = {};
@@ -58,7 +58,11 @@ class InventoryCard extends Component {
     return (
       <div className="row my-5 pb-4">
         <div className="col-md-5 mb-3 mb-sm-3">
-          <img className="img-fluid product-img" src={this.props.url} alt={this.props.cardTitle} />
+          <img
+            className="img-fluid product-img"
+            src={this.props.url}
+            alt={this.props.cardTitle}
+          />
         </div>
         <div className="col-md-7 border-bottom pb-3 pb-sm-3">
           <h3 className="mb-2">{this.props.cardTitle}</h3>
@@ -98,62 +102,3 @@ class InventoryCard extends Component {
 }
 
 export default InventoryCard;
-
-// render() {
-//   return (
-//     <Card className="py-3 clearfix inventory-card">
-//       <Row className="justify-content-md-center inventory-card">
-//         <Col md="4">
-//           <CardImg
-//             src={image}
-//             alt={this.props.cardTitle}
-//             className="d-flex align-self-center mr-3"
-//           />
-//         </Col>
-//         <Col md="8" className="px-3">
-//           <CardBody className="px-3">
-//             <CardTitle>{this.props.cardTitle}</CardTitle>
-//             <CardText>{this.props.cardDesc}</CardText>
-//             <CardText>${this.props.cardPrice}</CardText>
-//             <FormGroup>
-//               <Row>
-//                 <Col md="6">
-//                   <Label for="item-quantity" />
-// {this.state.isAuthed && (
-//   <Input
-//     value={this.state.quantity}
-//     onChange={this.handleInputChange}
-//     data-id={this.props.id}
-//     type="number"
-//     name="quantity"
-//     id="item-quantity"
-//     max="1000"
-//     maxLength="4"
-//     placeholder={'Quantity'}
-//     className="float-left"
-//   />
-// )}
-//                 </Col>
-//                 <Col md="6">
-// {
-//   this.state.isAuthed && (
-//     <Button
-//       type="submit"
-//       value="Submit"
-//       onClick={this.handleFormSubmit}
-//       data-id={this.props.id}
-//       className="float-left"
-//     >
-//       Add To Cart
-//     </Button>
-//   );
-// }
-//                 </Col>
-//               </Row>
-//             </FormGroup>
-//           </CardBody>
-//         </Col>
-//       </Row>
-//     </Card>
-//   );
-// }
