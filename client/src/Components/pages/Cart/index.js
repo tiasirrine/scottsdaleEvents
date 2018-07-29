@@ -1,3 +1,4 @@
+import './Cart.css';
 import React, { Component } from 'react';
 import {
   Container,
@@ -25,6 +26,7 @@ class Cart extends Component {
 
   componentDidMount() {
     // gets active cart for a customer
+    window.scrollTo(0, 0);
 
     if (auth.isAuthed()) {
       API.loadCart(auth.userId())
@@ -117,7 +119,7 @@ class Cart extends Component {
   }
 
   render() {
-    console.log(this.state);
+    // console.log(this.state);
     const { activeCart } = this.state;
     Array.prototype.sum = function(prop) {
       var totalPrice = 0;
@@ -131,7 +133,7 @@ class Cart extends Component {
       return <h3>Your cart is empty</h3>;
     } else {
       return (
-        <Container className="mt-3">
+        <Container className="cart-top">
           <Table>
             <thead className="blue-grey lighten-4">
               <tr>
@@ -169,15 +171,19 @@ class Cart extends Component {
                           size="sm"
                         />
                       </td>
-                      <td>{activeCart[i].price}</td>
-                      <td>{activeCart[i].total}</td>
+                      <td>${activeCart[i].price}</td>
+                      <td>${activeCart[i].total}</td>
                     </tr>
                   );
                 })}
             </tbody>
           </Table>
-          <div className="text-right">{activeCart.sum('total')}</div>
-          <Button color="success" onClick={(this.onSubmit, this.toggle)} className="aButton">
+          <div className="text-right">${activeCart.sum('total')}</div>
+          <Button
+            color="success"
+            onClick={(this.onSubmit, this.toggle)}
+            className="aButton"
+          >
             Submit
           </Button>
           <Modal isOpen={this.state.modal} toggle={this.toggle}>

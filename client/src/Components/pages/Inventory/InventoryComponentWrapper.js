@@ -20,6 +20,8 @@ const InventoryComponentWrapper = props => {
         .filter(a => a !== undefined)
     : null;
 
+  console.log(inventory);
+
   return (
     <Fragment>
       {getInvItems
