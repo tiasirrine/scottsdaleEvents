@@ -34,6 +34,7 @@ class Home extends Component {
     return (
       <Fragment>
         <CarouselPage />
+        <EcommercePage />
         <FeaturesPage />
       </Fragment>
     );
