@@ -12,7 +12,7 @@ const db = require('./models');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// serve static files from ./client/public
+// serve static files from /public
 app.use(express.static('./client/public'));
 
 // Define middleware here

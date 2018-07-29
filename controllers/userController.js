@@ -13,7 +13,7 @@ module.exports = {
           {
             model: db.Cart,
             where: {
-              isActive: false
+              didCheckOut: false
             },
             // order: [['updatedAt', 'DESC']],
             include: [
@@ -77,7 +77,7 @@ module.exports = {
           {
             model: db.Cart,
             where: {
-              isActive: false
+              didCheckOut: false
             }
           }
         ]
@@ -115,7 +115,7 @@ module.exports = {
               .then(newCustomer => {
                 // creates a cart for the customer
                 db.Cart.create({
-                  isActive: false,
+                  didCheckOut: false,
                   CustomerId: newCustomer.id
                 })
                   .then(() => resolve(newCustomer))

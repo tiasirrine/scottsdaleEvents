@@ -1,10 +1,16 @@
 module.exports = {
+  test: {
+    username: 'root',
+    password: null,
+    database: 'database_development',
+    host: '127.0.0.1',
+    dialect: 'mysql'
+  },
   production: {
     username: process.env.JAWSDB_USERNAME,
     password: process.env.JAWSDB_PASSWORD,
     database: process.env.JAWSDB_DATABASE,
     host: process.env.JAWSDB_HOST,
-    operatorsAliases: false,
     dialect: 'mysql'
   },
   development: {
