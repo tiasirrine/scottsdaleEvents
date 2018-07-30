@@ -3,7 +3,7 @@ import { Container } from 'mdbreact';
 import InventoryCard from './InventoryCard';
 
 const InventoryComponentWrapper = props => {
-  const { inventory, categories, image } = props;
+  const { inventory, categories } = props;
 
   // grabs the current path
   const categoryParam = props.match.params.category;
