@@ -11,6 +11,7 @@ module.exports = {
     password: process.env.JAWSDB_PASS,
     database: process.env.JAWSDB_DB,
     host: process.env.JAWSDB_HOST,
+    operatorsAliases: false,
     dialect: 'mysql'
   },
   development: {

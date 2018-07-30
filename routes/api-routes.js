@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { product, user } = require('../controllers');
+const { user } = require('../controllers');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const router = require('express').Router();
