@@ -1,7 +1,6 @@
 import './InventoryPage.css';
 import React, { Component, Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import image from '../../../images/Photos/Bars/bar10.jpg';
 import CategoryComponentWrapper from './CategoryComponentWrapper';
 import SubCategoryComponentWrapper from './SubCategoryComponentWrapper';
 import InventoryComponentWrapper from './InventoryComponentWrapper';
@@ -51,7 +50,6 @@ class InventoryPage extends Component {
                 <SubCategoryComponentWrapper
                   {...props}
                   inventory={inventoryObj}
-                  image={image}
                 />
               )}
             />
@@ -62,7 +60,6 @@ class InventoryPage extends Component {
                 <InventoryComponentWrapper
                   {...props}
                   inventory={inventoryObj}
-                  image={image}
                 />
               )}
             />

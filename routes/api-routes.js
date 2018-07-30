@@ -13,7 +13,10 @@ const Json2csvParser = require('json2csv').Parser;
 router.get('/get-products', (req, res) => {
   db.Product.findAll({})
     .then(result => res.status(200).send(result))
-    .catch(error => res.status(500).send(error));
+    .catch(error => {
+      console.log(error);
+      res.status(500).send(error);
+    });
 });
 
 // creates a new customer

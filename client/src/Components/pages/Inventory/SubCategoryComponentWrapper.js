@@ -4,7 +4,7 @@ import { Card, CardImage, Col, Container, Row, View } from 'mdbreact';
 import InventoryCard from './InventoryCard';
 
 const SubCategoryComponentWrapper = props => {
-  const { inventory, image } = props;
+  const { inventory } = props;
 
   // grabs the current path
   const param = props.match.params.category;
