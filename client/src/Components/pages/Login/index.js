@@ -7,15 +7,15 @@ import API from '../../../api/API';
 class Login extends React.Component {
   state = { username: '', password: '' };
 
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
   // tracks user input
   onChange = e => {
     const { value, name } = e.target;
     this.setState({ [name]: value });
   };
-
-  componentDidMount() {
-    window.scrollTo(0, 0);
-  }
 
   // sends provided username and password to express for validation
   onSubmit = () => {

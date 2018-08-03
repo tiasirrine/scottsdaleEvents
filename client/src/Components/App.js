@@ -102,7 +102,6 @@ class App extends Component {
               />
               <Route exact path="/gallery" component={Gallery} />
               <Route exact path="/contact" component={ContactPage} />
-              <Route exact path="/about" component={About} />
               <PrivateRoute path="/login" hideLogin={true} component={Login} />
               <PrivateRoute path="/cart" component={Cart} />
               <Route component={Home} />
