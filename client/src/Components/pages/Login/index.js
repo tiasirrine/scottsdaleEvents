@@ -5,7 +5,7 @@ import { Container, Row, Col, Input, Button, Card, CardBody } from 'mdbreact';
 import API from '../../../api/API';
 
 class Login extends React.Component {
-  state = { username: '', password: '' };
+  state = { email: '', password: '' };
 
   componentDidMount() {
     window.scrollTo(0, 0);
@@ -17,41 +17,41 @@ class Login extends React.Component {
     this.setState({ [name]: value });
   };
 
-  // sends provided username and password to express for validation
+  // sends provided email and password to express for validation
   onSubmit = () => {
-    const { username, password } = this.state;
-    API.login({ username, password })
+    const { email, password } = this.state;
+    API.login({ email, password })
       .then(res => {
         console.log(res.data);
-        // if express authed the user, then save some values in session storage
+        // runs on a successful validation
         if (res.data) {
-          sessionStorage.setItem('isAuthed', true);
-          sessionStorage.setItem('userName', res.data.email);
-          sessionStorage.setItem('activeCart', res.data.carts[0].id);
-          sessionStorage.setItem('userId', res.data.id);
+          // sets user credentials in sessionstorage
+          sessionStorage.setItem('token', res.data.token);
+          sessionStorage.setItem('email', res.data.user.email);
+          sessionStorage.setItem('userId', res.data.user.id);
+          sessionStorage.setItem('activeCart', res.data.user.carts[0].id);
+          // sets the isAuthed state property from App.js to true. Used for protecting routes.
           this.setState({ isAuthed: true });
-          // denies the user
         } else {
-          sessionStorage.setItem('isAuthed', false);
           this.setState({ error: 'error' });
         }
       })
       .catch(err => {
-        const error = err.response
-          ? 'Username or password is incorrect'
-          : 'Connection timed out';
+        console.log(err.response);
+        const error = err.response ? err.response.data : 'Connection timed out';
         this.setState({ error: error });
       });
   };
+
+  // allows the form to submit on enter.
   handleKeyPress = e => {
     if (e.key === 'Enter') {
-      console.log('do validate');
       this.onSubmit();
     }
   };
 
   render() {
-    if (this.state.isAuthed) {
+    if (sessionStorage.getItem('token')) {
       return <Redirect to="/" />;
     } else {
       return (
@@ -71,7 +71,7 @@ class Login extends React.Component {
                     <Input
                       onChange={this.onChange}
                       onKeyPress={this.handleKeyPress}
-                      name="username"
+                      name="email"
                       label="Your email"
                       group
                       type="text"

@@ -6,15 +6,11 @@ module.exports = {
   getCart: function(id) {
     return new Promise((resolve, reject) => {
       db.Customer.findAll({
-        where: {
-          id: id
-        },
+        where: { id: id },
         include: [
           {
             model: db.Cart,
-            where: {
-              didCheckOut: false
-            },
+            where: { isActive: true },
             // order: [['updatedAt', 'DESC']],
             include: [
               {
@@ -46,7 +42,6 @@ module.exports = {
         bcrypt.hash(unhashedPassword, salt, function(err, hash) {
           // sends an error if there is one
           if (err) reject(err);
-
           // saves the hashed password to the customer
           resolve(hash);
         });
@@ -67,6 +62,29 @@ module.exports = {
     });
   },
 
+  getUserById: function(id) {
+    console.log('id');
+    return new Promise((resolve, reject) => {
+      db.Customer.findAll({
+        where: { id: id },
+        include: [
+          {
+            model: db.Cart,
+            where: { isActive: true }
+          }
+        ]
+      })
+        .then(result => {
+          console.log('adf', result);
+          resolve(result);
+        })
+        .catch(err => {
+          console.log('err', err);
+          reject(err);
+        });
+    });
+  },
+
   // TODO: eventually there will need to be a check on the customer to see
   // if the account is locked or not
   getCustomer: function(email, password) {
@@ -76,9 +94,7 @@ module.exports = {
         include: [
           {
             model: db.Cart,
-            where: {
-              didCheckOut: false
-            }
+            where: { isActive: true }
           }
         ]
       })
@@ -115,7 +131,7 @@ module.exports = {
               .then(newCustomer => {
                 // creates a cart for the customer
                 db.Cart.create({
-                  didCheckOut: false,
+                  isActive: true,
                   CustomerId: newCustomer.id
                 })
                   .then(() => resolve(newCustomer))
@@ -156,13 +172,13 @@ module.exports = {
         .then(result => resolve(result))
         .catch(err => reject(err));
     });
-  },
-
-  getUserById: function(id) {
-    return new Promise((resolve, reject) => {
-      db.Customer.findAll({ where: { id: id } })
-        .then(result => resolve(result))
-        .catch(err => reject(err));
-    });
   }
+
+  // getUserById: function(id) {
+  //   return new Promise((resolve, reject) => {
+  //     db.Customer.findAll({ where: { id: id } })
+  //       .then(result => resolve(result))
+  //       .catch(err => reject(err));
+  //   });
+  // }
 };

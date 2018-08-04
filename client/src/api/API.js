@@ -21,7 +21,7 @@ export default {
   },
 
   login: function(data) {
-    return axios.post('/login', data, { timeout: 15000 });
+    return axios.get('/login', { params: data }, { timeout: 15000 });
   },
 
   saveProduct: function(data) {

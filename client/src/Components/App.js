@@ -77,7 +77,7 @@ class App extends Component {
 
   render() {
     const { categories, subCategories, inventoryObj } = this.state;
-
+    console.log(this.state);
     return (
       <Router>
         <Fragment>
@@ -102,7 +102,7 @@ class App extends Component {
               />
               <Route exact path="/gallery" component={Gallery} />
               <Route exact path="/contact" component={ContactPage} />
-              <PrivateRoute path="/login" hideLogin={true} component={Login} />
+              <Route exact path="/login" component={Login} />
               <PrivateRoute path="/cart" component={Cart} />
               <Route component={Home} />
             </Switch>
