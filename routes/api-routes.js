@@ -1,15 +1,34 @@
 const fs = require('fs');
 const { user } = require('../controllers');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
 const router = require('express').Router();
 const nodemailer = require('nodemailer');
 const db = require('../models');
 const Json2csvParser = require('json2csv').Parser;
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
+
+// format of token
+// Authorization: Bearer <access_token>
+// const verifyToken = (req, res, next) => {
+//   // get auth header value
+//   const bearerHeader = req.headers['authorization'];
+//   // check if bearerHeader is undefined
+//   if (bearerHeader) {
+//     // split at the space
+//     const bearer = bearerHeader.split(' ');
+//     // Get token from array
+//     const bearerToken = bearer[1];
+//     // Set the token
+//     req.token = bearerToken;
+//     // next middleware
+//     next();
+//   } else {
+//     // forbidden
+//     res.sendStatus(403);
+//   }
+// };
 
 // gets all the products. runs on first page load.
-// stores products to prevent multiple calls to server for data
-
 router.get('/get-products', (req, res) => {
   db.Product.findAll({})
     .then(result => res.status(200).send(result))
@@ -64,12 +83,13 @@ router.post('/save-product', (req, res) => {
     .catch(() => res.status(500).send('Failed to save product'));
 });
 
-router.get('/load-cart', (req, res) => {
-  user
-    .getCart(req.query.id)
-    .then(result => res.status(200).send(result))
-    .catch(err => res.status(500).send(err));
-});
+router.get(
+  '/load-cart',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    res.json(req.user);
+  }
+);
 
 router.post('/delete-product', (req, res) => {
   const { cartProductId } = req.body;
@@ -156,37 +176,21 @@ router.post('/api/form', (req, res) => {
   });
 });
 
-router.post('/login', passport.authenticate('local'), (req, res) => {
-  // this is a weird workaround to a bug I was experiencing.
-  // copies the value of the authenticated user to a new var before logging the user out
-  const user = { ...req.session.passport.user };
-  // if I do not log the user out after authenticating the whole back end breaks on the next call to the server
-  // regardless of what it is.
-  // user is still authenticated on the client via sessionStorage.
-  req.logout();
-  res.send(user);
-});
-
-//FIXME: This needs to be usable for users and admins
-passport.use(
-  new LocalStrategy((username, password, done) => {
-    user
-      .getCustomer(username, password)
-      .then(result => done(null, result))
-      .catch(() => done(null, false));
-  })
-);
-
-// saves the users session in a cookie based on the userID
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
-
-// checks the cookie
-passport.deserializeUser((id, done) => {
-  user.getUserById(id, (err, user) => {
-    done(err, user);
-  });
+router.get('/login', (req, res) => {
+  const { email, password } = req.query;
+  console.log(req.query);
+  user
+    .getCustomer(email, password)
+    .then(result => {
+      jwt.sign({ result }, 'secretkey', { expiresIn: '1h' }, (err, token) => {
+        if (err) res.send(err);
+        res.send({ token, user: result });
+      });
+    })
+    .catch(err => {
+      console.log('err', err);
+      throw res.status(403).send(err);
+    });
 });
 
 module.exports = router;

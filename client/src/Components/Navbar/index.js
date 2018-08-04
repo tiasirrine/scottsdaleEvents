@@ -1,16 +1,11 @@
 import './navbar.css';
 import React, { Component, Fragment } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import auth from '../../api/auth';
-import API from '../../api/API';
 
 class Nav extends Component {
   state = { active: window.location.pathname };
 
-  onClick = e => {
-    this.setState({ active: e.target.name });
-  };
-
+  // sets the current url route to state
   componentDidUpdate() {
     if (this.state.active !== window.location.pathname) {
       this.setState({
@@ -19,7 +14,14 @@ class Nav extends Component {
     }
   }
 
+  // sets the active class to the clicked nav button
+  onClick = e => this.setState({ active: e.target.name });
+
+  // clears sessions storage and logs a user out
   logout = () => sessionStorage.clear();
+
+  // checks session storage and reveals cart and logout button
+  checkLogIn = () => (sessionStorage.getItem('token') ? true : false);
 
   render() {
     return (
@@ -89,7 +91,7 @@ class Nav extends Component {
                   </Link>
                 </li>
               }
-              {!auth.isAuthed() && (
+              {!this.checkLogIn() && (
                 <li data-toggle="collapse" data-target=".navbar-collapse.show">
                   <Link
                     name="/login"
@@ -102,7 +104,7 @@ class Nav extends Component {
                   </Link>
                 </li>
               )}
-              {auth.isAuthed() && (
+              {this.checkLogIn() && (
                 <Fragment>
                   <li
                     data-toggle="collapse"
