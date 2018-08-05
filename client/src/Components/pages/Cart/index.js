@@ -10,6 +10,7 @@ import {
   ModalHeader,
   ModalFooter
 } from 'mdbreact';
+import API from '../../../api/API';
 
 class Cart extends Component {
   constructor(props) {
