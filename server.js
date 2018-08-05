@@ -5,9 +5,12 @@ const express = require('express');
 const routes = require('./routes/api-routes');
 const db = require('./models');
 const passport = require('passport');
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+app.use(cors());
 
 // Define middleware here
 app.use(bodyParser.urlencoded({ extended: true }));
