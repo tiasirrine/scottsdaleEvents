@@ -10,8 +10,6 @@ import {
   ModalHeader,
   ModalFooter
 } from 'mdbreact';
-import API from '../../../api/API';
-import auth from '../../../api/auth';
 
 class Cart extends Component {
   constructor(props) {
@@ -24,27 +22,27 @@ class Cart extends Component {
     this.toggle = this.toggle.bind(this);
   }
 
+  // gets active cart for a customer
   componentDidMount() {
-    // gets active cart for a customer
     window.scrollTo(0, 0);
 
-    if (auth.isAuthed()) {
-      API.loadCart(auth.userId())
-        .then(res => {
-          console.log(res.data);
-          // grabs the pertinent data from the cart
-          const data = res.data[0].CartProducts.map(a => {
-            // finds the total cost based on price and qty
-            a.Product.total = (a.qty * Number(a.Product.price)).toString();
-            a.Product.qty = a.qty.toString();
-            a.Product.CartId = a.CartId;
-            a.Product.CartProductId = a.id;
-            return a.Product;
-          });
-          console.log(data);
-          this.setState({ activeCart: data });
-        })
-        .catch(err => console.log(err.response.data));
+    // only sorts the active cart if there are items already saved for it
+    if (this.props.loadedCart.length) {
+      const activeCart = this.props.loadedCart[0].CartProducts;
+
+      // grabs the pertinent data from the cart
+      const sortedActiveCart = activeCart.map(a => {
+        // finds the total cost based on price and qty
+        a.Product.total = (a.qty * Number(a.Product.price)).toString();
+        a.Product.qty = a.qty.toString();
+        a.Product.CartId = a.CartId;
+        a.Product.CartProductId = a.id;
+        return a.Product;
+      });
+
+      this.setState({
+        activeCart: sortedActiveCart
+      });
     }
   }
 
@@ -119,7 +117,6 @@ class Cart extends Component {
   }
 
   render() {
-    // console.log(this.state);
     const { activeCart } = this.state;
     Array.prototype.sum = function(prop) {
       var totalPrice = 0;

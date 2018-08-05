@@ -11,9 +11,18 @@ export default {
     return axios.post('/get-estimate', values, { timeout: 15000 });
   },
 
-  //TODO: pass in customer id
-  loadCart: function(id) {
-    return axios.get('/load-cart', { params: { id }, timeout: 15000 });
+  loadCart: function() {
+    return axios.get('/load-carts', {
+      timeout: 15000,
+      headers: { Authorization: 'Bearer ' + sessionStorage.getItem('token') }
+    });
+  },
+
+  checkToken: function() {
+    return axios.get('/check-token', {
+      timeout: 15000,
+      headers: { Authorization: 'Bearer ' + sessionStorage.getItem('token') }
+    });
   },
 
   deleteProduct: function(cartProductId) {
@@ -25,6 +34,11 @@ export default {
   },
 
   saveProduct: function(data) {
-    return axios.post('/save-product', data, { timeout: 15000 });
+    return axios.post('/save-product', data, {
+      timeout: 15000,
+      headers: {
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
+    });
   }
 };

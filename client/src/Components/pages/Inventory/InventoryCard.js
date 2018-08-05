@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import { Button, Input } from 'mdbreact';
 import './InventoryPage.css';
 import API from '../../../api/API';
-// import auth from '../../../api/auth';
 
 class InventoryCard extends Component {
   constructor(props) {
@@ -12,7 +11,11 @@ class InventoryCard extends Component {
 
   // checks if a user is authed. If so, displays cart and qty.
   componentDidMount() {
-    // this.setState({ isAuthed: auth.isAuthed() });
+    API.checkToken()
+      .then(res => this.setState({ isAuthed: true }))
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   // updates qty for a product

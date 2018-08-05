@@ -7,26 +7,13 @@ const Json2csvParser = require('json2csv').Parser;
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
-// format of token
-// Authorization: Bearer <access_token>
-// const verifyToken = (req, res, next) => {
-//   // get auth header value
-//   const bearerHeader = req.headers['authorization'];
-//   // check if bearerHeader is undefined
-//   if (bearerHeader) {
-//     // split at the space
-//     const bearer = bearerHeader.split(' ');
-//     // Get token from array
-//     const bearerToken = bearer[1];
-//     // Set the token
-//     req.token = bearerToken;
-//     // next middleware
-//     next();
-//   } else {
-//     // forbidden
-//     res.sendStatus(403);
-//   }
-// };
+router.get(
+  '/check-token',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    res.sendStatus(200);
+  }
+);
 
 // gets all the products. runs on first page load.
 router.get('/get-products', (req, res) => {
@@ -84,10 +71,32 @@ router.post('/save-product', (req, res) => {
 });
 
 router.get(
-  '/load-cart',
+  '/load-carts',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    res.json(req.user);
+    user
+      .loadCarts(req.user.id)
+      .then(result => {
+        // returns carts sorted by the isActive boolean value
+        // ensures the active cart is at index 0
+        result.sort((x, y) => {
+          return x.isActive === y.isActive ? 0 : x ? 1 : -1;
+        });
+        res.status(200).json(result);
+      })
+      .catch(err => res.status(500).send(err));
+  }
+);
+
+router.get(
+  '/create-cart',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    console.log(req.user.id);
+    user
+      .createCart(req.user.id)
+      .then(result => res.json(result))
+      .catch(err => res.json(err));
   }
 );
 

@@ -3,15 +3,13 @@ const bcrypt = require('bcryptjs');
 
 module.exports = {
   // loads all products for a user, for their active cart
-  getCart: function(id) {
+  loadCarts: function(id) {
     return new Promise((resolve, reject) => {
       db.Customer.findAll({
         where: { id: id },
         include: [
           {
             model: db.Cart,
-            where: { isActive: true },
-            // order: [['updatedAt', 'DESC']],
             include: [
               {
                 model: db.CartProduct,
@@ -30,6 +28,18 @@ module.exports = {
           reject(err);
         });
     });
+  },
+
+  createCart: function(id) {
+    db.Cart.create({
+      isActive: false,
+      CustomerId: id
+    })
+      .then(res => {
+        console.log(res);
+        resolve(res);
+      })
+      .catch(err => reject(err));
   },
 
   hashPassword: function(unhashedPassword) {
@@ -75,7 +85,6 @@ module.exports = {
         ]
       })
         .then(result => {
-          console.log('adf', result);
           resolve(result);
         })
         .catch(err => {

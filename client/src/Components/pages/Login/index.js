@@ -22,7 +22,6 @@ class Login extends React.Component {
     const { email, password } = this.state;
     API.login({ email, password })
       .then(res => {
-        console.log(res.data);
         // runs on a successful validation
         if (res.data) {
           // sets user credentials in sessionstorage
