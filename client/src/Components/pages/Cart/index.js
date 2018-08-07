@@ -105,17 +105,23 @@ class Cart extends Component {
       });
   };
 
-  onSubmit = () => {
-    API.getEstimate(this.state)
-      .then(result => console.log(result))
-      .catch(err => console.log(err));
-  };
+  // onSubmit = () => {
+  //   API.getEstimate(this.state)
+  //     .then(result => console.log(result))
+  //     .catch(err => console.log(err));
+  // };
 
   toggle() {
     this.setState({
       modal: !this.state.modal
     });
   }
+  // allows the form to submit on enter.
+  handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      this.onSubmit();
+    }
+  };
 
   render() {
     const { activeCart } = this.state;
@@ -180,6 +186,7 @@ class Cart extends Component {
           <Button
             color="success"
             onClick={(this.onSubmit, this.toggle)}
+            onKeyPress={this.handleKeyPress}
             className="aButton"
           >
             Submit

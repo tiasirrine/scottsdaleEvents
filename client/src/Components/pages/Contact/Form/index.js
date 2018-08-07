@@ -47,6 +47,12 @@ class ContactPage extends Component {
       modal: !this.state.modal
     });
   }
+  // allows the form to submit on enter.
+  handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      this.handleSubmit();
+    }
+  };
 
   async handleSubmit(e) {
     //e.preventDefault();
@@ -67,12 +73,9 @@ class ContactPage extends Component {
     return (
       <Container className="m120">
         <section className="my-5">
-          <h2 className="h1-responsive font-weight-bold text-center">
-            Contact us
-          </h2>
+          <h2 className="h1-responsive font-weight-bold text-center">Contact us</h2>
           <p className="text-center w-responsive mx-auto pb-5">
-            Please fill out the form below and we will get back to you as
-            quickly as possilbe!
+            Please fill out the form below and we will get back to you as quickly as possilbe!
           </p>
           <Row>
             <Col md="9" className="md-0 mb-5">
@@ -86,6 +89,7 @@ class ContactPage extends Component {
                         label="Your name"
                         name="name"
                         onChange={this.handleChange}
+                        onKeyPress={this.handleKeyPress}
                       />
                     </div>
                   </Col>
@@ -97,6 +101,7 @@ class ContactPage extends Component {
                         label="Company name"
                         name="companyName"
                         onChange={this.handleChange}
+                        onKeyPress={this.handleKeyPress}
                       />
                     </div>
                   </Col>
@@ -108,6 +113,7 @@ class ContactPage extends Component {
                         label="Your email"
                         name="contactEmail"
                         onChange={this.handleChange}
+                        onKeyPress={this.handleKeyPress}
                       />
                     </div>
                   </Col>
@@ -121,6 +127,7 @@ class ContactPage extends Component {
                         label="Contact Number"
                         name="number"
                         onChange={this.handleChange}
+                        onKeyPress={this.handleKeyPress}
                       />
                     </div>
                   </Col>
@@ -134,6 +141,7 @@ class ContactPage extends Component {
                         label="Your message"
                         name="message"
                         onChange={this.handleChange}
+                        onKeyPress={this.handleKeyPress}
                       />
                     </div>
                   </Col>
@@ -143,8 +151,8 @@ class ContactPage extends Component {
                 <Button
                   className="aButton"
                   size="md"
-                  onClick={this.handleSubmit}
-                  onClick={this.toggle}
+                  onClick={(this.handleSubmit, this.toggle)}
+                  onKeyPress={this.handleKeyPress}
                   type="send"
                 >
                   Send
@@ -159,11 +167,11 @@ class ContactPage extends Component {
                 </li>
                 <li>
                   <Fa icon="phone" size="2x" className="grey-text mt-4" />
-                  <p>+ 01 234 567 89</p>
+                  <p>(480)699-9381</p>
                 </li>
                 <li>
                   <Fa icon="envelope" size="2x" className="grey-text mt-4" />
-                  <p>contact@example.com</p>
+                  <p> cristina@scottsdaleme.com</p>
                 </li>
               </ul>
             </Col>
