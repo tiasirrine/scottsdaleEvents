@@ -26,7 +26,12 @@ class ContactPage extends Component {
       contactEmail: '',
       number: '',
       message: '',
-      modal: false
+      modal: false,
+      resultName: '',
+      resultCompany: '',
+      resultEmail: '',
+      resultNumber: '',
+      resultMessage: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -83,37 +88,46 @@ class ContactPage extends Component {
                 <Row>
                   <Col md="12">
                     <div className="md-form mb-0">
+                      {this.state.resultName && <p className="my-2">{this.state.resultName}</p>}
                       <Input
                         type="text"
                         id="name"
                         label="Your name"
                         name="name"
                         onChange={this.handleChange}
-                        onKeyPress={this.handleKeyPress}
+                        onKeyPress={(this.handleKeyPress, this.toggle)}
+                        value={this.state.resultName}
                       />
                     </div>
                   </Col>
                   <Col md="12">
                     <div className="md-form mb-0">
+                      {this.state.resultCompany && (
+                        <p className="my-2">{this.state.resultCompany}</p>
+                      )}
                       <Input
                         type="text"
                         id="companyName"
                         label="Company name"
                         name="companyName"
                         onChange={this.handleChange}
-                        onKeyPress={this.handleKeyPress}
+                        onKeyPress={(this.handleKeyPress, this.toggle)}
+                        required
+                        value={this.state.resultCompany}
                       />
                     </div>
                   </Col>
                   <Col md="12">
                     <div className="md-form mb-0">
+                      {this.state.resultEmail && <p className="my-2">{this.state.resultEmail}</p>}
                       <Input
                         type="text"
                         id="contactEmail"
                         label="Your email"
                         name="contactEmail"
                         onChange={this.handleChange}
-                        onKeyPress={this.handleKeyPress}
+                        onKeyPress={(this.handleKeyPress, this.toggle)}
+                        value={this.state.resultEmail}
                       />
                     </div>
                   </Col>
@@ -121,13 +135,15 @@ class ContactPage extends Component {
                 <Row>
                   <Col md="12">
                     <div className="md-form mb-0">
+                      {this.state.resultNumber && <p className="my-2">{this.state.resultNumber}</p>}
                       <Input
                         type="text"
                         id="number"
                         label="Contact Number"
                         name="number"
                         onChange={this.handleChange}
-                        onKeyPress={this.handleKeyPress}
+                        onKeyPress={(this.handleKeyPress, this.toggle)}
+                        value={this.state.resultNumber}
                       />
                     </div>
                   </Col>
@@ -135,13 +151,17 @@ class ContactPage extends Component {
                 <Row>
                   <Col md="12">
                     <div className="md-form mb-0">
+                      {this.state.resultMessage && (
+                        <p className="my-2">{this.state.resultMessage}</p>
+                      )}
                       <Input
                         type="textarea"
                         id="message"
                         label="Your message"
                         name="message"
                         onChange={this.handleChange}
-                        onKeyPress={this.handleKeyPress}
+                        onKeyPress={(this.handleKeyPress, this.toggle)}
+                        value={this.state.resultMessage}
                       />
                     </div>
                   </Col>
