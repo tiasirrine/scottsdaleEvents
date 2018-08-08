@@ -28,7 +28,7 @@ class Nav extends Component {
       <nav className="navbar navbar-expand-md navbar-dark">
         <div className="container">
           <Link to="/" className="navbar-brand">
-            Scottsdale Events
+            Scottsdale Event Dècor
           </Link>
           <button
             className="navbar-toggler ml-auto"
@@ -47,8 +47,8 @@ class Nav extends Component {
                 <Link
                   name="/"
                   to="/"
-                  className={`nav-link waves-effect waves-light ${this.state
-                    .active === '/' && 'active'}`}
+                  className={`nav-link waves-effect waves-light ${this.state.active === '/' &&
+                    'active'}`}
                   onClick={this.onClick}
                 >
                   Home
@@ -70,8 +70,8 @@ class Nav extends Component {
                 <Link
                   name="/gallery"
                   to="/gallery"
-                  className={`nav-link waves-effect waves-light ${this.state
-                    .active === '/gallery' && 'active'}`}
+                  className={`nav-link waves-effect waves-light ${this.state.active ===
+                    '/gallery' && 'active'}`}
                   onClick={this.onClick}
                 >
                   Gallery
@@ -83,8 +83,8 @@ class Nav extends Component {
                   <Link
                     name="/contact"
                     to="/contact"
-                    className={`nav-link waves-effect waves-light ${this.state
-                      .active === '/contact' && 'active'}`}
+                    className={`nav-link waves-effect waves-light ${this.state.active ===
+                      '/contact' && 'active'}`}
                     onClick={this.onClick}
                   >
                     Contact Us
@@ -96,8 +96,8 @@ class Nav extends Component {
                   <Link
                     name="/login"
                     to="/login"
-                    className={`nav-link waves-effect waves-light ${this.state
-                      .active === '/login' && 'active'}`}
+                    className={`nav-link waves-effect waves-light ${this.state.active ===
+                      '/login' && 'active'}`}
                     onClick={this.onClick}
                   >
                     Login
@@ -106,10 +106,7 @@ class Nav extends Component {
               )}
               {this.checkLogIn() && (
                 <Fragment>
-                  <li
-                    data-toggle="collapse"
-                    data-target=".navbar-collapse.show"
-                  >
+                  <li data-toggle="collapse" data-target=".navbar-collapse.show">
                     <Link
                       to="/"
                       className="nav-link waves-effect waves-light"
@@ -118,15 +115,12 @@ class Nav extends Component {
                       Logout
                     </Link>
                   </li>
-                  <li
-                    data-toggle="collapse"
-                    data-target=".navbar-collapse.show"
-                  >
+                  <li data-toggle="collapse" data-target=".navbar-collapse.show">
                     <Link
                       name="/cart"
                       to="/cart"
-                      className={`nav-link waves-effect waves-light ${this.state
-                        .active === '/cart' && 'active'}`}
+                      className={`nav-link waves-effect waves-light ${this.state.active ===
+                        '/cart' && 'active'}`}
                       onClick={this.onClick}
                     >
                       <i className="fa fa-shopping-cart" />
