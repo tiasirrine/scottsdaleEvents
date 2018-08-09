@@ -1,16 +1,11 @@
 import './navbar.css';
 import React, { Component, Fragment } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import auth from '../../api/auth';
-import API from '../../api/API';
+import { Link } from 'react-router-dom';
 
 class Nav extends Component {
   state = { active: window.location.pathname };
 
-  onClick = e => {
-    this.setState({ active: e.target.name });
-  };
-
+  // sets the current url route to state
   componentDidUpdate() {
     if (this.state.active !== window.location.pathname) {
       this.setState({
@@ -19,7 +14,14 @@ class Nav extends Component {
     }
   }
 
+  // sets the active class to the clicked nav button
+  onClick = e => this.setState({ active: e.target.name });
+
+  // clears sessions storage and logs a user out
   logout = () => sessionStorage.clear();
+
+  // checks session storage and reveals cart and logout button
+  checkLogIn = () => (sessionStorage.getItem('token') ? true : false);
 
   render() {
     return (
@@ -89,7 +91,7 @@ class Nav extends Component {
                   </Link>
                 </li>
               }
-              {!auth.isAuthed() && (
+              {!this.checkLogIn() && (
                 <li data-toggle="collapse" data-target=".navbar-collapse.show">
                   <Link
                     name="/login"
@@ -102,33 +104,44 @@ class Nav extends Component {
                   </Link>
                 </li>
               )}
-              {auth.isAuthed() && (
+              {this.checkLogIn() && (
                 <Fragment>
-                  <li
-                    data-toggle="collapse"
-                    data-target=".navbar-collapse.show"
-                  >
-                    <Link
-                      to="/"
-                      className="nav-link waves-effect waves-light"
-                      onClick={this.logout}
+                  <li className="dropdown">
+                    <a
+                      className="nav-link dropdown-toggle"
+                      id="navbarDropdown"
+                      role="button"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
                     >
-                      Logout
-                    </Link>
-                  </li>
-                  <li
-                    data-toggle="collapse"
-                    data-target=".navbar-collapse.show"
-                  >
-                    <Link
-                      name="/cart"
-                      to="/cart"
-                      className={`nav-link waves-effect waves-light ${this.state
-                        .active === '/cart' && 'active'}`}
-                      onClick={this.onClick}
+                      Hello, Trevor
+                    </a>
+                    <div
+                      className="dropdown-menu"
+                      aria-labelledby="navbarDropdown"
                     >
-                      <i className="fa fa-shopping-cart" />
-                    </Link>
+                      <Link to="/profile" className="dropdown-item">
+                        Profile
+                      </Link>
+                      <Link
+                        to="/cart"
+                        className={`nav-link waves-effect waves-light ${this
+                          .state.active === '/cart' && 'active'}`}
+                        onClick={this.onClick}
+                      >
+                        Cart
+                        {/*<i className="fa fa-shopping-cart" />*/}
+                      </Link>
+                      <div className="dropdown-divider" />
+                      <Link
+                        to="/"
+                        className="nav-link waves-effect waves-light"
+                        onClick={this.logout}
+                      >
+                        Logout
+                      </Link>
+                    </div>
                   </li>
                 </Fragment>
               )}

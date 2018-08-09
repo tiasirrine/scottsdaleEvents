@@ -5,7 +5,7 @@ import { Container, Row, Col, Input, Button, Card, CardBody } from 'mdbreact';
 import API from '../../../api/API';
 
 class Login extends React.Component {
-  state = { username: '', password: '' };
+  state = { email: '', password: '' };
 
   componentDidMount() {
     window.scrollTo(0, 0);
@@ -17,42 +17,58 @@ class Login extends React.Component {
     this.setState({ [name]: value });
   };
 
-  // sends provided username and password to express for validation
+  // sends provided email and password to express for validation
   onSubmit = () => {
-    const { username, password } = this.state;
-    API.login({ username, password })
+    const { pathname } = this.props.location;
+    const { email, password } = this.state;
+    API.login({ email, password }, pathname)
       .then(res => {
-        console.log(res.data);
-        // if express authed the user, then save some values in session storage
+        console.log(res);
+        // tracks if the user is an admin or not for setting state
+        // to determine where to re-direct too
+        let isAdmin;
+
+        // makes sure we got back data
         if (res.data) {
-          sessionStorage.setItem('isAuthed', true);
-          sessionStorage.setItem('userName', res.data.email);
-          sessionStorage.setItem('activeCart', res.data.carts[0].id);
-          sessionStorage.setItem('userId', res.data.id);
-          this.setState({ isAuthed: true });
-          // denies the user
+          // checks for an admin
+          if (res.data.user.isAdmin) {
+            isAdmin = true;
+            sessionStorage.setItem('isAdmin', true);
+            // this is a customer
+          } else if (res.data && !res.data.user.isAdmin) {
+            isAdmin = false;
+            sessionStorage.setItem('activeCart', res.data.user.carts[0].id);
+          }
+          // common values between admins and customers
+          sessionStorage.setItem('token', res.data.token);
+          sessionStorage.setItem('email', res.data.user.email);
+          sessionStorage.setItem('userId', res.data.user.id);
+          sessionStorage.setItem('firstName', res.data.user.firstName);
+          sessionStorage.setItem('lastName', res.data.user.lastName);
+          this.setState({ isAuthed: true, isAdmin });
         } else {
-          sessionStorage.setItem('isAuthed', false);
           this.setState({ error: 'error' });
         }
       })
       .catch(err => {
-        const error = err.response
-          ? 'Username or password is incorrect'
-          : 'Connection timed out';
+        console.log(err.response);
+        const error = err.response ? err.response.data : 'Connection timed out';
         this.setState({ error: error });
       });
   };
+
+  // allows the form to submit on enter.
   handleKeyPress = e => {
     if (e.key === 'Enter') {
-      console.log('do validate');
       this.onSubmit();
     }
   };
 
   render() {
-    if (this.state.isAuthed) {
+    if (this.state.isAdmin === false && sessionStorage.getItem('token')) {
       return <Redirect to="/" />;
+    } else if (this.state.isAdmin) {
+      return <Redirect to="/dashboard" />;
     } else {
       return (
         <Container>
@@ -63,7 +79,7 @@ class Login extends React.Component {
                   <div className="header pt-3 grey lighten-2">
                     <Row className="d-flex justify-content-start">
                       <h3 className="deep-grey-text mt-3 mb-4 pb-1 mx-5">
-                        Log in
+                        {this.props.title ? this.props.title : 'Log in'}
                       </h3>
                     </Row>
                   </div>
@@ -71,7 +87,7 @@ class Login extends React.Component {
                     <Input
                       onChange={this.onChange}
                       onKeyPress={this.handleKeyPress}
-                      name="username"
+                      name="email"
                       label="Your email"
                       group
                       type="text"

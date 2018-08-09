@@ -1,25 +1,45 @@
 const fs = require('fs');
-const { product, user } = require('../controllers');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+const { user } = require('../controllers');
 const router = require('express').Router();
 const nodemailer = require('nodemailer');
 const db = require('../models');
 const Json2csvParser = require('json2csv').Parser;
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
+
+router.get(
+  '/check-token',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    res.sendStatus(200);
+  }
+);
 
 // gets all the products. runs on first page load.
-// stores products to prevent multiple calls to server for data
-
 router.get('/get-products', (req, res) => {
   db.Product.findAll({})
     .then(result => res.status(200).send(result))
-    .catch(error => res.status(500).send(error));
+    .catch(error => {
+      console.log(error);
+      res.status(500).send(error);
+    });
 });
 
 // creates a new customer
-router.post('/create-customer', (req, res) => {
+router.post('/create/customer', (req, res) => {
   user
     .createCustomer(req.body)
+    .then(result => {
+      delete result.dataValues.password;
+      res.json(result);
+    })
+    .catch(err => res.send(err.errors[0].message));
+});
+
+// creates a new admin
+router.post('/create/admin', (req, res) => {
+  user
+    .createAdmin(req.body)
     .then(result => {
       delete result.dataValues.password;
       res.json(result);
@@ -61,12 +81,35 @@ router.post('/save-product', (req, res) => {
     .catch(() => res.status(500).send('Failed to save product'));
 });
 
-router.get('/load-cart', (req, res) => {
-  user
-    .getCart(req.query.id)
-    .then(result => res.status(200).send(result))
-    .catch(err => res.status(500).send(err));
-});
+router.get(
+  '/load-carts',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    user
+      .loadCarts(req.user.id)
+      .then(result => {
+        // returns carts sorted by the isActive boolean value
+        // ensures the active cart is at index 0
+        result.sort((x, y) => {
+          return x.isActive === y.isActive ? 0 : x ? 1 : -1;
+        });
+        res.status(200).json(result);
+      })
+      .catch(err => res.status(500).send(err));
+  }
+);
+
+router.get(
+  '/create-cart',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    console.log(req.user.id);
+    user
+      .createCart(req.user.id)
+      .then(result => res.json(result))
+      .catch(err => res.json(err));
+  }
+);
 
 router.post('/delete-product', (req, res) => {
   const { cartProductId } = req.body;
@@ -153,37 +196,40 @@ router.post('/api/form', (req, res) => {
   });
 });
 
-router.post('/login', passport.authenticate('local'), (req, res) => {
-  // this is a weird workaround to a bug I was experiencing.
-  // copies the value of the authenticated user to a new var before logging the user out
-  const user = { ...req.session.passport.user };
-  // if I do not log the user out after authenticating the whole back end breaks on the next call to the server
-  // regardless of what it is.
-  // user is still authenticated on the client via sessionStorage.
-  req.logout();
-  res.send(user);
+// authentictes a customer and sets a token
+router.get('/auth/customer', (req, res) => {
+  const { email, password } = req.query;
+  console.log(req.query);
+  user
+    .getCustomer(email, password)
+    .then(result => {
+      jwt.sign({ result }, 'secretkey', { expiresIn: '1w' }, (err, token) => {
+        if (err) res.send(err);
+        res.send({ token, user: result });
+      });
+    })
+    .catch(err => {
+      console.log('err', err);
+      res.status(403).send(err);
+    });
 });
 
-//FIXME: This needs to be usable for users and admins
-passport.use(
-  new LocalStrategy((username, password, done) => {
-    user
-      .getCustomer(username, password)
-      .then(result => done(null, result))
-      .catch(() => done(null, false));
-  })
-);
-
-// saves the users session in a cookie based on the userID
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
-
-// checks the cookie
-passport.deserializeUser((id, done) => {
-  user.getUserById(id, (err, user) => {
-    done(err, user);
-  });
+// authentictes an admin and sets a token
+router.get('/auth/admin', (req, res) => {
+  const { email, password } = req.query;
+  console.log(req.query);
+  user
+    .getAdmin(email, password)
+    .then(result => {
+      jwt.sign({ result }, 'secretkey', { expiresIn: '1w' }, (err, token) => {
+        if (err) res.send(err);
+        res.send({ token, user: result });
+      });
+    })
+    .catch(err => {
+      console.log('err', err);
+      res.status(403).send(err);
+    });
 });
 
 module.exports = router;
