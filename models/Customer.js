@@ -16,6 +16,9 @@ module.exports = function(sequelize, DataTypes) {
           len: { args: [3], msg: 'Password must be at least 3 characters' }
         }
       },
+      company: { type: DataTypes.STRING, allowNull: false },
+      firstName: { type: DataTypes.STRING, allowNull: false },
+      lastName: { type: DataTypes.STRING, allowNull: false },
       frozen: { type: DataTypes.BOOLEAN }
     },
     { timestamps: false }
