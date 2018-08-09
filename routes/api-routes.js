@@ -26,9 +26,20 @@ router.get('/get-products', (req, res) => {
 });
 
 // creates a new customer
-router.post('/create-customer', (req, res) => {
+router.post('/create/customer', (req, res) => {
   user
     .createCustomer(req.body)
+    .then(result => {
+      delete result.dataValues.password;
+      res.json(result);
+    })
+    .catch(err => res.send(err.errors[0].message));
+});
+
+// creates a new admin
+router.post('/create/admin', (req, res) => {
+  user
+    .createAdmin(req.body)
     .then(result => {
       delete result.dataValues.password;
       res.json(result);
@@ -185,20 +196,39 @@ router.post('/api/form', (req, res) => {
   });
 });
 
-router.get('/login', (req, res) => {
+// authentictes a customer and sets a token
+router.get('/auth/customer', (req, res) => {
   const { email, password } = req.query;
   console.log(req.query);
   user
     .getCustomer(email, password)
     .then(result => {
-      jwt.sign({ result }, 'secretkey', { expiresIn: '1h' }, (err, token) => {
+      jwt.sign({ result }, 'secretkey', { expiresIn: '1w' }, (err, token) => {
         if (err) res.send(err);
         res.send({ token, user: result });
       });
     })
     .catch(err => {
       console.log('err', err);
-      throw res.status(403).send(err);
+      res.status(403).send(err);
+    });
+});
+
+// authentictes an admin and sets a token
+router.get('/auth/admin', (req, res) => {
+  const { email, password } = req.query;
+  console.log(req.query);
+  user
+    .getAdmin(email, password)
+    .then(result => {
+      jwt.sign({ result }, 'secretkey', { expiresIn: '1w' }, (err, token) => {
+        if (err) res.send(err);
+        res.send({ token, user: result });
+      });
+    })
+    .catch(err => {
+      console.log('err', err);
+      res.status(403).send(err);
     });
 });
 

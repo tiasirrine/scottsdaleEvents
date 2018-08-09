@@ -7,10 +7,12 @@ import API from '../api/API';
 import Gallery from './pages/Gallery';
 import ContactPage from './pages/Contact/Form/index';
 import Login from './pages/Login';
+import Admin from './pages/Admin';
 import Cart from './pages/Cart';
 import Footer from './Footer/Footer';
 import PrivateRoute from './PrivateRoute';
 import About from './pages/About';
+import Dashboard from './pages/Dashboard';
 
 class App extends Component {
   constructor(props) {
@@ -75,13 +77,23 @@ class App extends Component {
       });
   };
 
+  // hides the nav and footer for the admin and dashboard view
+  hideNavAndFooter = () => {
+    if (
+      window.location.pathname === '/admin' ||
+      window.location.pathname === '/dashboard'
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   render() {
     const { categories, subCategories, inventoryObj } = this.state;
-    console.log(this.state);
     return (
       <Router>
         <Fragment>
-          <Navbar />
+          {!this.hideNavAndFooter() && <Navbar />}
           <div
             className="main-height"
             data-toggle="collapse"
@@ -103,11 +115,17 @@ class App extends Component {
               <Route exact path="/gallery" component={Gallery} />
               <Route exact path="/contact" component={ContactPage} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/dashboard" component={Dashboard} />
+              <Route
+                exact
+                path="/admin"
+                render={props => <Admin {...props} Component={Login} />}
+              />
               <PrivateRoute path="/cart" component={Cart} />
               <Route component={Home} />
             </Switch>
           </div>
-          <Footer />
+          {!this.hideNavAndFooter() && <Footer />}
         </Fragment>
       </Router>
     );

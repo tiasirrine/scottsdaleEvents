@@ -122,6 +122,59 @@ module.exports = {
     });
   },
 
+  // logs in an admin
+  getAdmin: function(email, password) {
+    return new Promise((resolve, reject) => {
+      db.Admin.findAll({ where: { email: email } })
+        .then(returnedUser => {
+          if (!returnedUser.length) {
+            return reject('User not found');
+          }
+          this.checkPassword(password, returnedUser[0].password)
+            .then(() => {
+              const obj = {};
+              obj.id = returnedUser[0].dataValues.id;
+              obj.email = returnedUser[0].dataValues.email;
+              obj.firstName = returnedUser[0].dataValues.firstName;
+              obj.lastName = returnedUser[0].dataValues.lastName;
+              obj.isAdmin = true;
+              resolve(obj);
+            })
+            .catch(err => {
+              console.log(err);
+              reject(err);
+            });
+        })
+        .catch(err => {
+          console.log('asdfa', err);
+          reject('User not found');
+        });
+    });
+  },
+
+  // req.body is passed in here
+  // creates an admin
+  createAdmin: function(userObj) {
+    const { password } = userObj;
+    // hashes password
+    return new Promise((resolve, reject) => {
+      if (password.length < 3) {
+        reject('Password must be at least 3 characters');
+      } else {
+        this.hashPassword(password)
+          .then(hashedPassword => {
+            userObj.password = hashedPassword;
+            // creates a new customer with the hashed password
+            db.Admin.create(userObj)
+              // sends result back to client
+              .then(newCustomer => resolve(newCustomer))
+              .catch(err => reject(err));
+          })
+          .catch(err => reject(err));
+      }
+    });
+  },
+
   // req.body is passed in here
   createCustomer: function(userObj) {
     const { password } = userObj;
@@ -182,12 +235,4 @@ module.exports = {
         .catch(err => reject(err));
     });
   }
-
-  // getUserById: function(id) {
-  //   return new Promise((resolve, reject) => {
-  //     db.Customer.findAll({ where: { id: id } })
-  //       .then(result => resolve(result))
-  //       .catch(err => reject(err));
-  //   });
-  // }
 };
