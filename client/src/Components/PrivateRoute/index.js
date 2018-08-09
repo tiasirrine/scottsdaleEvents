@@ -27,6 +27,9 @@ class PrivateRoute extends Component {
     if (this.state.isAuthed === null) {
       return <div>Loading...</div>;
     } else if (this.state.isAuthed === false) {
+      // checkAuth will return false if a token is expired
+      // clears session storage in case it is
+      sessionStorage.clear();
       return <Redirect to="/login" />;
     } else {
       return (
