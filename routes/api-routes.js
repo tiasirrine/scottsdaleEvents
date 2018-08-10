@@ -11,7 +11,8 @@ router.get(
   '/check-token',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    res.sendStatus(200);
+    console.log(req.user);
+    res.status(200).json({ isAdmin: req.user.isAdmin });
   }
 );
 

@@ -23,28 +23,45 @@ class Cart extends Component {
     this.toggle = this.toggle.bind(this);
   }
 
+  //TODO: load cart here instead of private route. Use private route to authenticate the token
+  // allows us to authenticate the admin dashboard this way as well
+  loadCart = () => {
+    return API.loadCart()
+      .then(res => this.setState({ loadedCart: res.data }))
+      .catch(err => {
+        this.setState({ isAuthed: false });
+      });
+  };
+
   // gets active cart for a customer
   componentDidMount() {
     window.scrollTo(0, 0);
 
-    // only sorts the active cart if there are items already saved for it
-    if (this.props.loadedCart.length) {
-      const activeCart = this.props.loadedCart[0].CartProducts;
+    API.loadCart()
+      .then(res => {
+        console.log('asdf', res.data);
+        // only sorts the active cart if there are items already saved for it
+        if (res.data.length) {
+          const activeCart = res.data[0].CartProducts;
+          console.log(activeCart);
+          // grabs the pertinent data from the cart
+          const sortedActiveCart = activeCart.map(a => {
+            // finds the total cost based on price and qty
+            a.Product.total = (a.qty * Number(a.Product.price)).toString();
+            a.Product.qty = a.qty.toString();
+            a.Product.CartId = a.CartId;
+            a.Product.CartProductId = a.id;
+            return a.Product;
+          });
 
-      // grabs the pertinent data from the cart
-      const sortedActiveCart = activeCart.map(a => {
-        // finds the total cost based on price and qty
-        a.Product.total = (a.qty * Number(a.Product.price)).toString();
-        a.Product.qty = a.qty.toString();
-        a.Product.CartId = a.CartId;
-        a.Product.CartProductId = a.id;
-        return a.Product;
+          this.setState({
+            activeCart: sortedActiveCart
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
       });
-
-      this.setState({
-        activeCart: sortedActiveCart
-      });
-    }
   }
 
   onChange = e => {

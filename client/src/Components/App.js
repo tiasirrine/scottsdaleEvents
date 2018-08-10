@@ -115,13 +115,13 @@ class App extends Component {
               <Route exact path="/gallery" component={Gallery} />
               <Route exact path="/contact" component={ContactPage} />
               <Route exact path="/login" component={Login} />
-              <Route exact path="/dashboard" component={Dashboard} />
               <Route
                 exact
                 path="/admin"
                 render={props => <Admin {...props} Component={Login} />}
               />
               <PrivateRoute path="/cart" component={Cart} />
+              <PrivateRoute path="/dashboard" component={Dashboard} />
               <Route component={Home} />
             </Switch>
           </div>

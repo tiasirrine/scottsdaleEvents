@@ -6,13 +6,13 @@ import API from '../../../api/API';
 class InventoryCard extends Component {
   constructor(props) {
     super(props);
-    this.state = { quantity: 0, isAuthed: false, result: null };
+    this.state = { quantity: 0, isAuthed: false, result: null, isAdmin: null };
   }
 
   // checks if a user is authed. If so, displays cart and qty.
   componentDidMount() {
     API.checkToken()
-      .then(res => this.setState({ isAuthed: true }))
+      .then(res => this.setState({ isAuthed: true, isAdmin: res.data.isAdmin }))
       .catch(err => {
         console.log(err);
       });
@@ -34,7 +34,10 @@ class InventoryCard extends Component {
   // saves the product to the users cart.
   handleFormSubmit = event => {
     // prevents adding 0 items of something or too many
-    if (this.state.quantity > 0 && this.state.quantity <= parseInt(this.props.cardQuantity)) {
+    if (
+      this.state.quantity > 0 &&
+      this.state.quantity <= parseInt(this.props.cardQuantity)
+    ) {
       event.preventDefault();
       // grabs the values needed for the product to save to the cart
       const obj = {};
@@ -58,40 +61,47 @@ class InventoryCard extends Component {
     return (
       <div className="row my-5 pb-4">
         <div className="col-md-5 mb-3 mb-sm-3">
-          <img className="img-fluid product-img" src={this.props.url} alt={this.props.cardTitle} />
+          <img
+            className="img-fluid product-img"
+            src={this.props.url}
+            alt={this.props.cardTitle}
+          />
         </div>
         <div className="col-md-7 border-bottom pb-3 pb-sm-3">
           <h3 className="mb-2">{this.props.cardTitle}</h3>
           <p className="mb-2">{this.props.cardDesc}</p>
           <p>${this.props.cardPrice}</p>
-          {this.state.isAuthed && (
-            <Fragment>
-              <p>{this.props.cardQuantity} units in inventory</p>
+          {this.state.isAuthed &&
+            !this.state.isAdmin && (
+              <Fragment>
+                <p>{this.props.cardQuantity} units in inventory</p>
 
-              {this.state.result && <p className="my-2">{this.state.result}</p>}
-              <Input
-                value={this.state.quantity.toString()}
-                onChange={this.handleInputChange}
-                data-id={this.props.id}
-                type="number"
-                name="quantity"
-                id="item-quantity"
-                max={this.props.cardQuantity}
-                min="0"
-                placeholder={'Quantity'}
-              />
-              <Button
-                type="submit"
-                value="Submit"
-                onClick={this.handleFormSubmit}
-                data-id={this.props.id}
-                className="aButton"
-              >
-                {' '}
-                Add To Cart
-              </Button>
-            </Fragment>
-          )}
+                {this.state.result && (
+                  <p className="my-2">{this.state.result}</p>
+                )}
+                <Input
+                  value={this.state.quantity.toString()}
+                  onChange={this.handleInputChange}
+                  data-id={this.props.id}
+                  type="number"
+                  name="quantity"
+                  id="item-quantity"
+                  max={this.props.cardQuantity}
+                  min="0"
+                  placeholder={'Quantity'}
+                />
+                <Button
+                  type="submit"
+                  value="Submit"
+                  onClick={this.handleFormSubmit}
+                  data-id={this.props.id}
+                  className="aButton"
+                >
+                  {' '}
+                  Add To Cart
+                </Button>
+              </Fragment>
+            )}
         </div>
       </div>
     );

@@ -73,7 +73,6 @@ module.exports = {
   },
 
   getUserById: function(id) {
-    console.log('id');
     return new Promise((resolve, reject) => {
       db.Customer.findAll({
         where: { id: id },
@@ -89,6 +88,17 @@ module.exports = {
         })
         .catch(err => {
           console.log('err', err);
+          reject(err);
+        });
+    });
+  },
+
+  getAdminById: function(id) {
+    return new Promise((resolve, reject) => {
+      db.Admin.findAll({ where: { id: id } })
+        .then(result => resolve(result))
+        .catch(err => {
+          console.log(err);
           reject(err);
         });
     });
