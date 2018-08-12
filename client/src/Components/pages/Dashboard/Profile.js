@@ -12,7 +12,12 @@ const styles = {
 };
 
 export default class Profile extends Component {
+  constructor(props) {
+    super(props);
+    this.user = this.props.user;
+  }
   render() {
+    const { user } = this;
     return (
       <Container>
         <Row>
@@ -25,55 +30,41 @@ export default class Profile extends Component {
               <div className="grey-text">
                 <Input
                   label="First name"
-                  value={sessionStorage.getItem('firstName')}
+                  value={user.firstName}
                   icon="user"
                   group
                   type="text"
-                  validate
-                  error="wrong"
-                  success="right"
                 />
                 <Input
                   label="Last Name"
-                  value={sessionStorage.getItem('lastName')}
+                  value={user.lastName}
                   icon="user"
                   group
                   type="text"
-                  validate
-                  error="wrong"
-                  success="right"
                 />
                 <Input
                   label="Your email"
-                  value={sessionStorage.getItem('email')}
+                  value={user.email}
                   icon="envelope"
                   group
                   type="email"
-                  validate
-                  error="wrong"
-                  success="right"
                 />
               </div>
               <div>
-                <Button color="primary">Update Profile</Button>
+                <Button color="primary" data-id={user.id}>
+                  Update Profile
+                </Button>
               </div>
             </form>
             <form>
               <p className="h5 text-center mb-4">Change Your Password</p>
               <div className="grey-text">
-                <Input
-                  label="New Password"
-                  icon="lock"
-                  group
-                  type="password"
-                  validate
-                />
+                <Input label="New Password" icon="lock" group type="password" />
                 <Input
                   label="Confirm Password"
                   icon="lock"
                   group
                   type="password"
-                  validate
                 />
                 <Button color="primary">Update Password</Button>
               </div>

@@ -12,29 +12,20 @@ class AdminSidebar extends Component {
       sidebarDocked: mql.matches,
       sidebarOpen: false
     };
-
-    this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
-    this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     mql.addListener(this.mediaQueryChanged);
   }
 
-  componentWillUnmount() {
-    this.state.mql.removeListener(this.mediaQueryChanged);
-  }
+  // componentWillUnmount() {
+  //   this.state.mql.removeListener(this.mediaQueryChanged);
+  // }
 
-  onSetSidebarOpen(open) {
-    this.setState({ sidebarOpen: open });
-  }
+  onSetSidebarOpen = open => this.setState({ sidebarOpen: open });
 
-  mediaQueryChanged() {
+  mediaQueryChanged = () =>
     this.setState({ sidebarDocked: mql.matches, sidebarOpen: false });
-  }
-
-  // clears sessions storage and logs a user out
-  logout = () => sessionStorage.clear();
 
   render() {
     const MainContent = this.props.mainContent;
@@ -46,7 +37,7 @@ class AdminSidebar extends Component {
         docked={this.state.sidebarDocked}
         onSetOpen={this.onSetSidebarOpen}
       >
-        <MainContent />
+        <MainContent user={this.props.user} />
       </Sidebar>
     );
   }

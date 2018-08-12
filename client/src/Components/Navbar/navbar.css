@@ -9,6 +9,11 @@
   left: 0;
 }
 
+.activeTab {
+  border-bottom: solid 2px white;
+  padding-bottom: 5px;
+}
+
 @media (min-width: 992px) {
   .navbar {
     font-size: 14px;
