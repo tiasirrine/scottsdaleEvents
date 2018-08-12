@@ -209,6 +209,10 @@ export default class Nav extends Component {
   checkLogIn = () => (sessionStorage.getItem('token') ? true : false);
 
   render() {
+    const { href } = window.location;
+    if (href.includes('/admin') || href.includes('/dashboard')) {
+      return null;
+    }
     return (
       <Navbar color="stylish-color" dark expand="md" fixed="top" scrolling>
         <Container>
