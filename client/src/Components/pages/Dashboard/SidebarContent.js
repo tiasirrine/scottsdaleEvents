@@ -10,6 +10,9 @@ const styles = {
   }
 };
 
+// clears sessions storage and logs a user out
+const logout = () => sessionStorage.clear();
+
 const SidebarContent = () => (
   <div style={styles.mainDiv}>
     <div style={styles.btnContainer}>
@@ -34,7 +37,7 @@ const SidebarContent = () => (
       <Link to="/dashboard/suspend/admin">Suspend Admin</Link>
     </div>
     <div style={styles.btnContainer}>
-      <Link to="/" className="waves-effect waves-light" onClick={this.logout}>
+      <Link to="/" className="waves-effect waves-light">
         Logout
       </Link>
     </div>
