@@ -20,7 +20,6 @@ class PrivateRoute extends Component {
   checkAuth = () => {
     API.checkToken()
       .then(res => {
-        console.log(res);
         this.setState({ isAuthed: true, isAdmin: res.data.isAdmin });
       })
       .catch(err => {
@@ -32,10 +31,9 @@ class PrivateRoute extends Component {
   render() {
     const { component, ...rest } = this.props;
     const Component = component;
-    console.log(this.state);
     // used while waiting for state to change
     if (this.state.isAuthed === null) {
-      return <div>Loading...</div>;
+      return <div className="loader" />;
     } else if (this.state.isAuthed === false) {
       // checkAuth will return false if a token is expired
       // clears session storage in case it is

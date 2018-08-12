@@ -47,8 +47,8 @@ class Nav extends Component {
                 <Link
                   name="/"
                   to="/"
-                  className={`nav-link waves-effect waves-light ${this.state.active === '/' &&
-                    'active'}`}
+                  className={`nav-link waves-effect waves-light ${this.state
+                    .active === '/' && 'active'}`}
                   onClick={this.onClick}
                 >
                   Home
@@ -70,8 +70,8 @@ class Nav extends Component {
                 <Link
                   name="/gallery"
                   to="/gallery"
-                  className={`nav-link waves-effect waves-light ${this.state.active ===
-                    '/gallery' && 'active'}`}
+                  className={`nav-link waves-effect waves-light ${this.state
+                    .active === '/gallery' && 'active'}`}
                   onClick={this.onClick}
                 >
                   Gallery
@@ -83,8 +83,8 @@ class Nav extends Component {
                   <Link
                     name="/contact"
                     to="/contact"
-                    className={`nav-link waves-effect waves-light ${this.state.active ===
-                      '/contact' && 'active'}`}
+                    className={`nav-link waves-effect waves-light ${this.state
+                      .active === '/contact' && 'active'}`}
                     onClick={this.onClick}
                   >
                     Contact Us
@@ -96,8 +96,8 @@ class Nav extends Component {
                   <Link
                     name="/login"
                     to="/login"
-                    className={`nav-link waves-effect waves-light ${this.state.active ===
-                      '/login' && 'active'}`}
+                    className={`nav-link waves-effect waves-light ${this.state
+                      .active === '/login' && 'active'}`}
                     onClick={this.onClick}
                   >
                     Login
@@ -115,7 +115,7 @@ class Nav extends Component {
                       aria-haspopup="true"
                       aria-expanded="false"
                     >
-                      Hello, Trevor
+                      Hello, {sessionStorage.getItem('firstName')}
                     </a>
                     <div
                       className="dropdown-menu"

@@ -80,8 +80,8 @@ class App extends Component {
   // hides the nav and footer for the admin and dashboard view
   hideNavAndFooter = () => {
     if (
-      window.location.pathname === '/admin' ||
-      window.location.pathname === '/dashboard'
+      window.location.href.includes('admin') ||
+      window.location.href.includes('dashboard')
     ) {
       return true;
     }

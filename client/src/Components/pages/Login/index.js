@@ -19,17 +19,20 @@ class Login extends React.Component {
 
   // sends provided email and password to express for validation
   onSubmit = () => {
+    // removes any previous data that may be there when logging in
+    sessionStorage.clear();
     const { pathname } = this.props.location;
     const { email, password } = this.state;
     API.login({ email, password }, pathname)
       .then(res => {
-        console.log(res);
+        // console.log(res);
         // tracks if the user is an admin or not for setting state
         // to determine where to re-direct too
         let isAdmin;
 
         // makes sure we got back data
         if (res.data) {
+          console.log(res.data);
           // checks for an admin
           if (res.data.user.isAdmin) {
             isAdmin = true;
@@ -38,6 +41,7 @@ class Login extends React.Component {
           } else if (res.data && !res.data.user.isAdmin) {
             isAdmin = false;
             sessionStorage.setItem('activeCart', res.data.user.carts[0].id);
+            sessionStorage.setItem('isAdmin', false);
           }
           // common values between admins and customers
           sessionStorage.setItem('token', res.data.token);
@@ -45,6 +49,7 @@ class Login extends React.Component {
           sessionStorage.setItem('userId', res.data.user.id);
           sessionStorage.setItem('firstName', res.data.user.firstName);
           sessionStorage.setItem('lastName', res.data.user.lastName);
+          sessionStorage.setItem('company', res.data.user.company);
           this.setState({ isAuthed: true, isAdmin });
         } else {
           this.setState({ error: 'error' });
