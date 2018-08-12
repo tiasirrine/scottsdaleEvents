@@ -16,8 +16,8 @@ class Cart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeCart: null,
-      modal: false
+      activeCart: null
+      // modal: false
     };
 
     this.toggle = this.toggle.bind(this);
@@ -122,11 +122,11 @@ class Cart extends Component {
       });
   };
 
-  // onSubmit = () => {
-  //   API.getEstimate(this.state)
-  //     .then(result => console.log(result))
-  //     .catch(err => console.log(err));
-  // };
+  onSubmit = () => {
+    API.getEstimate(this.state)
+      .then(result => console.log(result))
+      .catch(err => console.log(err));
+  };
 
   toggle() {
     this.setState({
@@ -150,8 +150,10 @@ class Cart extends Component {
       return totalPrice;
     };
 
-    if ((activeCart && !activeCart.length) || !activeCart) {
+    if (activeCart && !activeCart.length) {
       return <h3>Your cart is empty</h3>;
+    } else if (!activeCart) {
+      return <div className="loader" />;
     } else {
       return (
         <Container className="cart-top">
@@ -202,7 +204,7 @@ class Cart extends Component {
           <div className="text-right">${activeCart.sum('total')}</div>
           <Button
             color="success"
-            onClick={(this.onSubmit, this.toggle)}
+            onClick={this.onSubmit}
             onKeyPress={this.handleKeyPress}
             className="aButton"
           >

@@ -26,6 +26,20 @@ export default {
     });
   },
 
+  // used to get info about the user from the token
+  decodeToken: function() {
+    const token = sessionStorage.getItem('token');
+    let userObj;
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace('-', '+').replace('_', '/');
+      userObj = JSON.parse(window.atob(base64));
+    } catch (e) {
+      return false;
+    }
+    return userObj;
+  },
+
   deleteProduct: function(cartProductId) {
     return axios.post('/delete-product', cartProductId, { timeout: 15000 });
   },

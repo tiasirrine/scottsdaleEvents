@@ -124,6 +124,10 @@ module.exports = {
               obj.id = returnedUser[0].dataValues.id;
               obj.email = returnedUser[0].dataValues.email;
               obj.carts = returnedUser[0].dataValues.Carts;
+              obj.firstName = returnedUser[0].dataValues.firstName;
+              obj.lastName = returnedUser[0].dataValues.lastName;
+              obj.company = returnedUser[0].dataValues.company;
+              obj.isAdmin = false;
               resolve(obj);
             })
             .catch(err => reject(err));

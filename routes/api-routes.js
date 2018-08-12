@@ -129,18 +129,20 @@ router.post('/delete-product', (req, res) => {
 // creates a csv file for a customers estimate
 router.post('/get-estimate', (req, res) => {
   // creates the columns for the csv file
-  const fields = ['id', 'name', 'qty', 'price', 'total'];
+  const fields = ['id', 'qty', 'price', 'total'];
 
   // contains the rows for the csv file
-  const products = req.body.products;
-
+  const products = req.body.activeCart;
+  console.log(products);
   // creates the csv file. checks for errors.
   try {
     const parser = new Json2csvParser({ fields, quote: '' });
     const csv = parser.parse(products);
     fs.writeFile('./csv/estimates/estimate.csv', csv, function(err) {
       if (err) console.log(err);
-      console.log('File created.');
+      else {
+        console.log('File created.');
+      }
     });
   } catch (err) {
     console.log(err);
