@@ -5,15 +5,21 @@ import { Col, Container, Row, Footer } from 'mdbreact';
 
 class FooterPage extends React.Component {
   render() {
+    const { href } = window.location;
+    if (href.includes('/admin') || href.includes('/dashboard')) {
+      return null;
+    }
     return (
       <Footer className={`font-small  pt-4 footer-z`}>
         <Container fluid className="text-center text-md-left">
           <Row>
             <Col md="4" lg="4">
-              <h5 className="text-uppercase mb-4 font-weight-bold">Scottsdale Event Dècor</h5>
+              <h5 className="text-uppercase mb-4 font-weight-bold">
+                Scottsdale Event Dècor
+              </h5>
               <p>
-                Handcrafted, handselected, premier event rental company based in Scottsdale,
-                Arizona.
+                Handcrafted, handselected, premier event rental company based in
+                Scottsdale, Arizona.
               </p>
             </Col>
             <hr className="clearfix w-100 d-md-none" />
@@ -58,7 +64,8 @@ class FooterPage extends React.Component {
         </Container>
         <div className="footer-copyright text-center py-3">
           <Container fluid>
-            &copy; {new Date().getFullYear()} Copyright: <Link to="/"> Scottsdale Event Dècor</Link>
+            &copy; {new Date().getFullYear()} Copyright:{' '}
+            <Link to="/"> Scottsdale Event Dècor</Link>
           </Container>
         </div>
       </Footer>
