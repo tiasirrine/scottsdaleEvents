@@ -27,36 +27,42 @@ export default class Profile extends Component {
     };
   }
 
+  // attached to each input field to update the input value
   handleInputChange = event => {
     const { value, name } = event.target;
-    // Updating the input's state
-    this.setState({
-      [name]: value
-    });
+    this.setState({ [name]: value });
   };
 
+  // updates a users profile and password.
+  // each button has a 'name' attribute to determine what button was pressed
+  // and to help identify what message to display to the user,
+  // as well as where to display the message
   updateAdmin = e => {
     console.log(e.target);
     const { name } = e.target;
+    const { firstName, lastName, email, id, password, password2 } = this.state;
+    // will hold the value that needs to be updated
     let value;
 
     // checks which button was pressed. either update profile, or update password
     // only grabs the necessary values for the button pressed
     if (name === 'update-password') {
-      value = { id: this.state.id, password: this.state.password2 };
+      value = { id, password };
     } else {
-      value = {
-        id: this.state.id,
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        email: this.state.email
-      };
+      value = { id, firstName, lastName, email };
     }
 
+    // calls api function to update the user in the db
     API.updateAdmin(value)
       .then(result => {
-        console.log('adsfas', result);
-        this.setState({ result: result.data.success, lastPressed: name });
+        // if passwords are being updated, set the password msg
+        let passwordMsg;
+        if (name === 'update-password')
+          passwordMsg = 'Your password has been updated';
+        this.setState({
+          result: passwordMsg || result.data.success,
+          lastPressed: name
+        });
       })
       .catch(err => {
         console.log(err);
