@@ -48,6 +48,22 @@ router.post('/create/admin', (req, res) => {
     .catch(err => res.send(err.errors[0].message));
 });
 
+router.post(
+  '/update/admin',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    console.log(req.body);
+    user
+      .updateAdmin(req.body)
+      .then(() => {
+        res.json({ success: 'Your profile has been updated' });
+      })
+      .catch(err => {
+        res.json(err);
+      });
+  }
+);
+
 // deletes a customer
 router.post('/delete-customer', (req, res) => {
   const { id } = req.body;
