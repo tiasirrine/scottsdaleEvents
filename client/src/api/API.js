@@ -58,5 +58,14 @@ export default {
         Authorization: 'Bearer ' + sessionStorage.getItem('token')
       }
     });
+  },
+
+  updateAdmin: function(user) {
+    return axios.post('/update/admin', user, {
+      timeout: 15000,
+      headers: {
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
+    });
   }
 };

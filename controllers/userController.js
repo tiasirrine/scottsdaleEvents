@@ -189,6 +189,26 @@ module.exports = {
     });
   },
 
+  // updates any admin values
+  updateAdmin: function(userObj) {
+    return new Promise((resolve, reject) => {
+      // first find the admin to update based on id
+      db.Admin.findOne({ where: { id: userObj.id } })
+        .then(result => {
+          if (result) {
+            // if the admin is found, update the found value with the new value
+            resolve(result.update(userObj));
+          } else {
+            reject({ error: 'An error occured during the update' });
+          }
+        })
+        .catch(err => {
+          console.log('err:', err);
+          reject({ error: 'An error occured during the update' });
+        });
+    });
+  },
+
   // req.body is passed in here
   createCustomer: function(userObj) {
     const { password } = userObj;
