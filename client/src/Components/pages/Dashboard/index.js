@@ -1,8 +1,9 @@
 // import './dashboard.css';
 import React, { Component, Fragment } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import AdminSidebar from './AdminSidebar';
 import Profile from './Profile';
+import CreateCustomer from './CreateCustomer';
 import API from '../../../api/API';
 
 class Dashboard extends Component {
@@ -13,7 +14,16 @@ class Dashboard extends Component {
   decodedToken = () => API.decodeToken();
 
   render() {
-    // return <AdminSidebar />;
+    if (!this.decodedToken()) {
+      return (
+        <Redirect
+          to={{
+            pathname: '/admin',
+            state: { msg: 'Your session has expired' }
+          }}
+        />
+      );
+    }
     return (
       <Fragment>
         <Switch>
@@ -23,9 +33,15 @@ class Dashboard extends Component {
             render={props => (
               <AdminSidebar
                 {...props}
-                mainContent={Profile}
-                user={this.decodedToken().result}
+                mainContent={<Profile user={this.decodedToken().result} />}
               />
+            )}
+          />
+          <Route
+            exact
+            path="/dashboard/create/customer"
+            render={props => (
+              <AdminSidebar {...props} mainContent={<CreateCustomer />} />
             )}
           />
         </Switch>

@@ -29,7 +29,6 @@ class AdminSidebar extends Component {
 
   render() {
     const MainContent = this.props.mainContent;
-    console.log(this.props);
     return (
       <Sidebar
         sidebar={<SidebarContent />}
@@ -37,7 +36,7 @@ class AdminSidebar extends Component {
         docked={this.state.sidebarDocked}
         onSetOpen={this.onSetSidebarOpen}
       >
-        <MainContent user={this.props.user} />
+        {MainContent}
       </Sidebar>
     );
   }

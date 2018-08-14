@@ -27,15 +27,19 @@ router.get('/get-products', (req, res) => {
 });
 
 // creates a new customer
-router.post('/create/customer', (req, res) => {
-  user
-    .createCustomer(req.body)
-    .then(result => {
-      delete result.dataValues.password;
-      res.json(result);
-    })
-    .catch(err => res.send(err.errors[0].message));
-});
+router.post(
+  '/create/customer',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    user
+      .createCustomer(req.body)
+      .then(result => {
+        delete result.dataValues.password;
+        res.json({ success: 'New customer created successfully' });
+      })
+      .catch(err => res.json({ error: err.errors[0].message }));
+  }
+);
 
 // creates a new admin
 router.post('/create/admin', (req, res) => {

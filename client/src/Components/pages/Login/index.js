@@ -70,6 +70,7 @@ class Login extends React.Component {
   };
 
   render() {
+    console.log(this.props);
     if (this.state.isAdmin === false && sessionStorage.getItem('token')) {
       return <Redirect to="/" />;
     } else if (this.state.isAdmin) {
@@ -135,6 +136,12 @@ class Login extends React.Component {
                       >
                         Log in
                       </Button>
+                      {this.props.location.state && (
+                        <p className="text-danger">
+                          {this.props.location.state.msg}
+                          {(this.props.location.state = null)}
+                        </p>
+                      )}
                     </div>
                   </CardBody>
                 </Card>
