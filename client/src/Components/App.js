@@ -81,15 +81,6 @@ class App extends Component {
       });
   };
 
-  // hides the nav and footer for the admin and dashboard view
-  // hideNavAndFooter = () => {
-  //   const { href } = window.location;
-  //   if (href.includes('admin') || href.includes('dashboard')) {
-  //     return this.setState({ hideNavAndFooter: true });
-  //   }
-  //   return this.setState({ hideNavAndFooter: false });
-  // };
-
   render() {
     const { categories, subCategories, inventoryObj } = this.state;
     return (

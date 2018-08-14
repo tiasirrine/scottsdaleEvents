@@ -196,8 +196,21 @@ module.exports = {
       db.Admin.findOne({ where: { id: userObj.id } })
         .then(result => {
           if (result) {
-            // if the admin is found, update the found value with the new value
-            resolve(result.update(userObj));
+            // since the user may update their password here, the password needs to be hashed
+            if (userObj.password) {
+              this.hashPassword(userObj.password)
+                .then(hashedPassword => {
+                  userObj.password = hashedPassword;
+                  // if the admin is found, update the found value with the new value
+                  resolve(result.update(userObj));
+                })
+                .catch(err => {
+                  console.log(err);
+                  reject(err);
+                });
+            } else {
+              resolve(result.update(userObj));
+            }
           } else {
             reject({ error: 'An error occured during the update' });
           }
