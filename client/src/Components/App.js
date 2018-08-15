@@ -14,6 +14,7 @@ import PrivateRoute from './PrivateRoute';
 import About from './pages/About';
 import Dashboard from './pages/Dashboard';
 import EventDetailPage from './pages/EventDetails';
+import EventDetails from './pages/EventDetails';
 
 class App extends Component {
   constructor(props) {
@@ -105,7 +106,7 @@ class App extends Component {
               <Route exact path="/login" component={Login} />
               <Route exact path="/admin" render={props => <Admin {...props} Component={Login} />} />
               <PrivateRoute path="/cart" component={Cart} />
-              <PrivateRoute path="/cart/event" component={EventDetailPage} />
+              <PrivateRoute path="/eventdetails" component={EventDetails} />
               <PrivateRoute path="/dashboard" component={Dashboard} />
               <Route component={Home} />
             </Switch>

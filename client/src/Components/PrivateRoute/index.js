@@ -45,6 +45,8 @@ class PrivateRoute extends Component {
       // if t he user is a customer, and accessing the cart, allow access. admins cannot access the cart
     } else if (this.props.path === '/cart' && !this.state.isAdmin) {
       return <Route {...rest} render={props => <Component {...props} />} />;
+    } else if (this.props.path === '/eventdetails' && !this.state.isAdmin) {
+      return <Route {...rest} render={props => <Component {...props} />} />;
     } else {
       return <Redirect to="/" />;
     }
