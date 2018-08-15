@@ -1,4 +1,4 @@
-// import './dashboard.css';
+import './index.css';
 import React, { Component, Fragment } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import AdminSidebar from './AdminSidebar';
@@ -7,14 +7,21 @@ import CreateCustomer from './CreateCustomer';
 import API from '../../../api/API';
 
 class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { unauthorized: false };
+  }
   componentDidMount() {
     window.scrollTo(0, 0);
   }
 
+  // used to check if a user is authorized at any part of the admin dashboard
+  checkAuth = bool => this.setState({ unauthorized: bool });
+
   decodedToken = () => API.decodeToken();
 
   render() {
-    if (!this.decodedToken()) {
+    if (this.state.unauthorized || !this.decodedToken()) {
       return (
         <Redirect
           to={{
@@ -33,7 +40,13 @@ class Dashboard extends Component {
             render={props => (
               <AdminSidebar
                 {...props}
-                mainContent={<Profile user={this.decodedToken().result} />}
+                mainContent={func => (
+                  <Profile
+                    checkAuth={this.checkAuth}
+                    user={this.decodedToken().result}
+                    toggleSideBar={func}
+                  />
+                )}
               />
             )}
           />
@@ -41,7 +54,15 @@ class Dashboard extends Component {
             exact
             path="/dashboard/create/customer"
             render={props => (
-              <AdminSidebar {...props} mainContent={<CreateCustomer />} />
+              <AdminSidebar
+                {...props}
+                mainContent={func => (
+                  <CreateCustomer
+                    toggleSideBar={func}
+                    checkAuth={this.checkAuth}
+                  />
+                )}
+              />
             )}
           />
         </Switch>
