@@ -1,0 +1,16 @@
+.sidebarClassName {
+  background-color: #4b515d;
+}
+
+.icon {
+  font-size: 24px;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+@media (min-width: 800px) {
+  .hideIcon {
+    display: none;
+  }
+}
