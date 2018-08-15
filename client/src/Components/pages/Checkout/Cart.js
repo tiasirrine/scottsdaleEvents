@@ -1,4 +1,4 @@
-import './Cart.css';
+import './Checkout.css';
 import React, { Component } from 'react';
 import {
   Container,
@@ -203,7 +203,7 @@ class Cart extends Component {
             </tbody>
           </Table>
           <div className="text-right">${activeCart.sum('total')}</div>
-          <Link to="eventdetails">
+          <Link to="/checkout/event">
             <Button color="success" className="aButton">
               Next
             </Button>
