@@ -71,130 +71,69 @@ class EventForm extends Component {
 
   render() {
     return (
-      <Container className="m120">
-        <section className="my-5">
-          <h2 className="h1-responsive font-weight-bold text-center">Event Details</h2>
-          <p className="text-center w-responsive mx-auto pb-5">
-            Please provide us with the details of the Event
-          </p>
-          <Row>
-            <Col md="9" className="md-0 mb-5">
-              <form>
-                <Row>
-                  <Col md="12">
-                    <div className="md-form mb-0">
-                      {this.state.resultName && <p className="my-2">{this.state.resultName}</p>}
-                      <Input
-                        type="text"
-                        id="name"
-                        label="Event Details
-Customer Name 
-Group Name (Required)
-Venue 
-Date of Event 
-Time of Event 
-Location of Event 
-Room 
-Comments/Note/File addition (blueprints,designs..etc)
-Event Setup & Strike
-Set-up at 
-Set-up by 
-Comments/Notes 
- Will Call Order (Only if button is activated; means they are subleasing from us)
-Customer Name 
-Pick Up Date 
-Pick Up Time 
-Return Date 
-Return Time
-"
-                        name="name"
-                        onChange={this.handleChange}
-                        onKeyPress={(this.handleKeyPress, this.toggle)}
-                        value={this.state.resultName}
-                      />
-                    </div>
-                  </Col>
-                  <Col md="12">
-                    <div className="md-form mb-0">
-                      {this.state.resultCompany && (
-                        <p className="my-2">{this.state.resultCompany}</p>
-                      )}
-                      <Input
-                        type="text"
-                        id="companyName"
-                        label="Company name"
-                        name="companyName"
-                        onChange={this.handleChange}
-                        onKeyPress={(this.handleKeyPress, this.toggle)}
-                        required
-                        value={this.state.resultCompany}
-                      />
-                    </div>
-                  </Col>
-                  <Col md="12">
-                    <div className="md-form mb-0">
-                      {this.state.resultEmail && <p className="my-2">{this.state.resultEmail}</p>}
-                      <Input
-                        type="text"
-                        id="contactEmail"
-                        label="Your email"
-                        name="contactEmail"
-                        onChange={this.handleChange}
-                        onKeyPress={(this.handleKeyPress, this.toggle)}
-                        value={this.state.resultEmail}
-                      />
-                    </div>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md="12">
-                    <div className="md-form mb-0">
-                      {this.state.resultNumber && <p className="my-2">{this.state.resultNumber}</p>}
-                      <Input
-                        type="text"
-                        id="number"
-                        label="Contact Number"
-                        name="number"
-                        onChange={this.handleChange}
-                        onKeyPress={(this.handleKeyPress, this.toggle)}
-                        value={this.state.resultNumber}
-                      />
-                    </div>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md="12">
-                    <div className="md-form mb-0">
-                      {this.state.resultMessage && (
-                        <p className="my-2">{this.state.resultMessage}</p>
-                      )}
-                      <Input
-                        type="textarea"
-                        id="message"
-                        label="Your message"
-                        name="message"
-                        onChange={this.handleChange}
-                        onKeyPress={(this.handleKeyPress, this.toggle)}
-                        value={this.state.resultMessage}
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </form>
-              <div className="text-center text-md-left">
-                <Button
-                  className="aButton"
-                  size="md"
-                  onClick={this.handleSubmit}
-                  onKeyPress={this.handleKeyPress}
-                  type="send"
-                >
-                  Summary
-                </Button>
-              </div>
-            </Col>
-          </Row>
-        </section>
+      <Container>
+        <Row>
+          <Col md="6">
+            <Card>
+              <CardBody>
+                <form>
+                  <p className="h4 text-center py-4">Event Details</p>
+                  <div className="grey-text">
+                    <Input
+                      label="Your name"
+                      icon="user"
+                      onChange={this.handleChange}
+                      group
+                      type="text"
+                      validate
+                      error="wrong"
+                      success="right"
+                    />
+                    <Input
+                      label="Your email"
+                      icon="envelope"
+                      onChange={this.handleChange}
+                      group
+                      type="email"
+                      validate
+                      error="wrong"
+                      success="right"
+                    />
+                    <Input
+                      label="Confirm your email"
+                      icon="exclamation-triangle"
+                      onChange={this.handleChange}
+                      group
+                      type="text"
+                      validate
+                      error="wrong"
+                      success="right"
+                    />
+                    <Input
+                      label="Your password"
+                      icon="lock"
+                      onChange={this.handleChange}
+                      group
+                      type="password"
+                      validate
+                    />
+                  </div>
+                  <div className="text-center py-4 mt-3">
+                    <Button
+                      className="aButton"
+                      size="md"
+                      onClick={this.handleSubmit}
+                      onKeyPress={this.handleKeyPress}
+                      type="send"
+                    >
+                      Go to Summary
+                    </Button>
+                  </div>
+                </form>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
       </Container>
     );
   }
