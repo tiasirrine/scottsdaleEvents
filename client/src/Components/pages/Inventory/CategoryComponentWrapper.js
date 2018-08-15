@@ -33,13 +33,14 @@ const CategoryComponentWrapper = props => {
                         className="ind-card-image card-image"
                         alt="Category Image"
                       />
-                      <div className="mask flex-center waves-effect waves-light cat-names text-justify rgba-white-strong">
-                        <strong>{a}</strong>
-                      </div>
+                      <div className="mask flex-center waves-effect waves-light cat-names text-justify" />
                     </View>
                   </div>
                 </Link>
               </Card>
+              <Link to={`/inventory/${a}`}>
+                <figcaption className="figure-caption text-center">{a}</figcaption>
+              </Link>
             </Col>
           ))
         : null}
