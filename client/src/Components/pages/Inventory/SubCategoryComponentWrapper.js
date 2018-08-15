@@ -52,7 +52,9 @@ const SubCategoryComponentWrapper = props => {
                   </Link>
                 </Card>
                 <Link to={`${props.match.url}/${a}`}>
-                  <figcaption className="figure-caption text-center">{a}</figcaption>
+                  <figcaption className="figure-caption text-center animated fadeInUpBig">
+                    {a}
+                  </figcaption>
                 </Link>
               </Col>
             ))
