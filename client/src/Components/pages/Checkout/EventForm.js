@@ -14,7 +14,8 @@ import {
   ModalFooter
 } from 'mdbreact';
 import axios from 'axios';
-import './EventDetails.css';
+import './Checkout.css';
+import { Link } from 'react-router-dom';
 
 class EventForm extends Component {
   constructor(props) {
@@ -55,18 +56,8 @@ class EventForm extends Component {
   };
 
   async handleSubmit(e) {
-    //e.preventDefault();
-    console.log();
-
-    const { name, companyName, contactEmail, number, message } = this.state;
-
-    await axios.post('/api/form', {
-      name,
-      companyName,
-      contactEmail,
-      number,
-      message
-    });
+    e.preventDefault();
+    console.log('go to summary');
   }
 
   render() {
@@ -119,15 +110,12 @@ class EventForm extends Component {
                     />
                   </div>
                   <div className="text-center py-4 mt-3">
-                    <Button
-                      className="aButton"
-                      size="md"
-                      onClick={this.handleSubmit}
-                      onKeyPress={this.handleKeyPress}
-                      type="send"
-                    >
-                      Go to Summary
-                    </Button>
+                    <Link to="/checkout/summary">
+                      <Button color="success" className="aButton" size="md">
+                        Go to Summary
+                      </Button>
+                    </Link>
+                    ;
                   </div>
                 </form>
               </CardBody>

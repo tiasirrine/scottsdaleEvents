@@ -6,13 +6,10 @@ class EcommercePage extends Component {
     return (
       <Container>
         <section className="text-center my-5">
-          <h2 className="h1-responsive font-weight-bold text-center my-5">
-            Our bestsellers
-          </h2>
+          <h2 className="h1-responsive font-weight-bold text-center my-5">Our bestsellers</h2>
           <p className="grey-text text-center w-responsive mx-auto mb-5">
-            At Scottsdale Event Decor we are proud to deliver superb quality
-            rental items that are designed and manufactured locally in our
-            warehouse.
+            At Scottsdale Event Decor we are proud to deliver premium quality rental items that are
+            designed and manufactured locally in our warehouse.
           </p>
           <Row>
             <Col lg="3" md="6" className="mb-lg-0 mb-4">

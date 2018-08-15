@@ -8,13 +8,13 @@ import Gallery from './pages/Gallery';
 import ContactPage from './pages/Contact/Form/index';
 import Login from './pages/Login';
 import Admin from './pages/Admin';
-import Cart from './pages/Cart';
+
 import Footer from './Footer/Footer';
 import PrivateRoute from './PrivateRoute';
 import About from './pages/About';
 import Dashboard from './pages/Dashboard';
-import EventDetailPage from './pages/EventDetails';
-import EventDetails from './pages/EventDetails';
+
+import Checkout from './pages/Checkout';
 
 class App extends Component {
   constructor(props) {
@@ -103,10 +103,10 @@ class App extends Component {
               />
               <Route exact path="/gallery" component={Gallery} />
               <Route exact path="/contact" component={ContactPage} />
+              <Route exact path="/about" component={About} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/admin" render={props => <Admin {...props} Component={Login} />} />
-              <PrivateRoute path="/cart" component={Cart} />
-              <PrivateRoute path="/eventdetails" component={EventDetails} />
+              <PrivateRoute path="/checkout" component={Checkout} />
               <PrivateRoute path="/dashboard" component={Dashboard} />
               <Route component={Home} />
             </Switch>
