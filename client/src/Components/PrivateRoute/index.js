@@ -9,14 +9,21 @@ import API from '../../api/API';
 class PrivateRoute extends Component {
   constructor(props) {
     super(props);
-    this.state = { isAuthed: null, loadedCart: null };
-    this.auth = this.checkAuth();
+    this.state = { isAuthed: null, isAdmin: null };
   }
 
+  componentDidMount() {
+    this.checkAuth();
+  }
+
+  // checks if a user is authenticated.
   checkAuth = () => {
-    return API.loadCart()
-      .then(res => this.setState({ isAuthed: true, loadedCart: res.data }))
+    API.checkToken()
+      .then(res => {
+        this.setState({ isAuthed: true, isAdmin: res.data.isAdmin });
+      })
       .catch(err => {
+        console.log(err);
         this.setState({ isAuthed: false });
       });
   };
@@ -24,52 +31,24 @@ class PrivateRoute extends Component {
   render() {
     const { component, ...rest } = this.props;
     const Component = component;
+    // used while waiting for state to change
     if (this.state.isAuthed === null) {
-      return <div>Loading...</div>;
+      return <div className="loader" />;
     } else if (this.state.isAuthed === false) {
       // checkAuth will return false if a token is expired
       // clears session storage in case it is
       sessionStorage.clear();
-      return <Redirect to="/login" />;
+      return <Redirect to="/" />;
+      // if the user is an admin, and accessing the dashboard, allow access. customers cannot access the dashboard
+    } else if (this.props.path === '/dashboard' && this.state.isAdmin) {
+      return <Route {...rest} render={props => <Component {...props} />} />;
+      // if t he user is a customer, and accessing the cart, allow access. admins cannot access the cart
+    } else if (this.props.path === '/cart' && !this.state.isAdmin) {
+      return <Route {...rest} render={props => <Component {...props} />} />;
     } else {
-      return (
-        <Route
-          {...rest}
-          render={props => (
-            <Component {...props} loadedCart={this.state.loadedCart} />
-          )}
-        />
-      );
+      return <Redirect to="/" />;
     }
   }
 }
-
-// const PrivateRoute = ({ component: Component, ...rest }) => {
-//   return API.loadCart()
-//     .then(res => {
-//       <Route {...rest} render={props => <Component {...props} />} />;
-//     })
-//     .catch(err => {
-//       <Redirect to="/login" />;
-//     });
-
-// const isAuthed = () =>
-//   API.loadCart()
-//     .then(res => {
-//       return res;
-//     })
-//     .catch(err => {
-//       return err.response.status;
-//     });
-
-// return (
-//   <Route
-//     {...rest}
-//     render={props =>
-//       isAuthed() !== 401 ? <Component {...props} /> : <Redirect to="/login" />
-//     }
-//   />
-// );
-// };
 
 export default PrivateRoute;

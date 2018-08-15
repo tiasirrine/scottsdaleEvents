@@ -1,4 +1,5 @@
 .footer-z {
   position: relative;
   z-index: 3;
+  background-color: #585d66;
 }

@@ -11,7 +11,8 @@ router.get(
   '/check-token',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    res.sendStatus(200);
+    console.log(req.user);
+    res.status(200).json({ isAdmin: req.user.isAdmin });
   }
 );
 
@@ -26,15 +27,19 @@ router.get('/get-products', (req, res) => {
 });
 
 // creates a new customer
-router.post('/create/customer', (req, res) => {
-  user
-    .createCustomer(req.body)
-    .then(result => {
-      delete result.dataValues.password;
-      res.json(result);
-    })
-    .catch(err => res.send(err.errors[0].message));
-});
+router.post(
+  '/create/customer',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    user
+      .createCustomer(req.body)
+      .then(result => {
+        delete result.dataValues.password;
+        res.json({ success: 'New customer created successfully' });
+      })
+      .catch(err => res.json({ error: err.errors[0].message }));
+  }
+);
 
 // creates a new admin
 router.post('/create/admin', (req, res) => {
@@ -46,6 +51,22 @@ router.post('/create/admin', (req, res) => {
     })
     .catch(err => res.send(err.errors[0].message));
 });
+
+router.post(
+  '/update/admin',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    console.log(req.body);
+    user
+      .updateAdmin(req.body)
+      .then(() => {
+        res.json({ success: 'Your profile has been updated' });
+      })
+      .catch(err => {
+        res.json(err);
+      });
+  }
+);
 
 // deletes a customer
 router.post('/delete-customer', (req, res) => {
@@ -128,18 +149,20 @@ router.post('/delete-product', (req, res) => {
 // creates a csv file for a customers estimate
 router.post('/get-estimate', (req, res) => {
   // creates the columns for the csv file
-  const fields = ['id', 'name', 'qty', 'price', 'total'];
+  const fields = ['id', 'qty', 'price', 'total'];
 
   // contains the rows for the csv file
-  const products = req.body.products;
-
+  const products = req.body.activeCart;
+  console.log(products);
   // creates the csv file. checks for errors.
   try {
     const parser = new Json2csvParser({ fields, quote: '' });
     const csv = parser.parse(products);
     fs.writeFile('./csv/estimates/estimate.csv', csv, function(err) {
       if (err) console.log(err);
-      console.log('File created.');
+      else {
+        console.log('File created.');
+      }
     });
   } catch (err) {
     console.log(err);

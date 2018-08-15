@@ -1,5 +1,4 @@
 import axios from 'axios';
-import decode from 'jwt-decode';
 
 export default {
   // called in App.js
@@ -27,6 +26,20 @@ export default {
     });
   },
 
+  // used to get info about the user from the token
+  decodeToken: function() {
+    const token = sessionStorage.getItem('token');
+    let userObj;
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace('-', '+').replace('_', '/');
+      userObj = JSON.parse(window.atob(base64));
+    } catch (e) {
+      return false;
+    }
+    return userObj;
+  },
+
   deleteProduct: function(cartProductId) {
     return axios.post('/delete-product', cartProductId, { timeout: 15000 });
   },
@@ -40,6 +53,25 @@ export default {
 
   saveProduct: function(data) {
     return axios.post('/save-product', data, {
+      timeout: 15000,
+      headers: {
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
+    });
+  },
+
+  updateAdmin: function(user) {
+    return axios.post('/update/admin', user, {
+      timeout: 15000,
+      headers: {
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
+    });
+  },
+
+  // used in Dashboard/CreateCustomer
+  createCustomer: function(customer) {
+    return axios.post('/create/customer', customer, {
       timeout: 15000,
       headers: {
         Authorization: 'Bearer ' + sessionStorage.getItem('token')

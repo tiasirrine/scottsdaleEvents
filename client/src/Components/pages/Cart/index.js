@@ -16,35 +16,52 @@ class Cart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeCart: null,
-      modal: false
+      activeCart: null
+      // modal: false
     };
 
     this.toggle = this.toggle.bind(this);
   }
 
+  //TODO: load cart here instead of private route. Use private route to authenticate the token
+  // allows us to authenticate the admin dashboard this way as well
+  loadCart = () => {
+    return API.loadCart()
+      .then(res => this.setState({ loadedCart: res.data }))
+      .catch(err => {
+        this.setState({ isAuthed: false });
+      });
+  };
+
   // gets active cart for a customer
   componentDidMount() {
     window.scrollTo(0, 0);
 
-    // only sorts the active cart if there are items already saved for it
-    if (this.props.loadedCart.length) {
-      const activeCart = this.props.loadedCart[0].CartProducts;
+    API.loadCart()
+      .then(res => {
+        console.log('asdf', res.data);
+        // only sorts the active cart if there are items already saved for it
+        if (res.data.length) {
+          const activeCart = res.data[0].CartProducts;
+          console.log(activeCart);
+          // grabs the pertinent data from the cart
+          const sortedActiveCart = activeCart.map(a => {
+            // finds the total cost based on price and qty
+            a.Product.total = (a.qty * Number(a.Product.price)).toString();
+            a.Product.qty = a.qty.toString();
+            a.Product.CartId = a.CartId;
+            a.Product.CartProductId = a.id;
+            return a.Product;
+          });
 
-      // grabs the pertinent data from the cart
-      const sortedActiveCart = activeCart.map(a => {
-        // finds the total cost based on price and qty
-        a.Product.total = (a.qty * Number(a.Product.price)).toString();
-        a.Product.qty = a.qty.toString();
-        a.Product.CartId = a.CartId;
-        a.Product.CartProductId = a.id;
-        return a.Product;
+          this.setState({
+            activeCart: sortedActiveCart
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
       });
-
-      this.setState({
-        activeCart: sortedActiveCart
-      });
-    }
   }
 
   onChange = e => {
@@ -116,6 +133,12 @@ class Cart extends Component {
       modal: !this.state.modal
     });
   }
+  // allows the form to submit on enter.
+  handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      this.onSubmit();
+    }
+  };
 
   render() {
     const { activeCart } = this.state;
@@ -127,8 +150,10 @@ class Cart extends Component {
       return totalPrice;
     };
 
-    if ((activeCart && !activeCart.length) || !activeCart) {
+    if (activeCart && !activeCart.length) {
       return <h3>Your cart is empty</h3>;
+    } else if (!activeCart) {
+      return <div className="loader" />;
     } else {
       return (
         <Container className="cart-top">
@@ -179,7 +204,8 @@ class Cart extends Component {
           <div className="text-right">${activeCart.sum('total')}</div>
           <Button
             color="success"
-            onClick={(this.onSubmit, this.toggle)}
+            onClick={this.onSubmit}
+            onKeyPress={this.handleKeyPress}
             className="aButton"
           >
             Submit

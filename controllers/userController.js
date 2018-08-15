@@ -73,7 +73,6 @@ module.exports = {
   },
 
   getUserById: function(id) {
-    console.log('id');
     return new Promise((resolve, reject) => {
       db.Customer.findAll({
         where: { id: id },
@@ -89,6 +88,17 @@ module.exports = {
         })
         .catch(err => {
           console.log('err', err);
+          reject(err);
+        });
+    });
+  },
+
+  getAdminById: function(id) {
+    return new Promise((resolve, reject) => {
+      db.Admin.findAll({ where: { id: id } })
+        .then(result => resolve(result))
+        .catch(err => {
+          console.log(err);
           reject(err);
         });
     });
@@ -114,6 +124,10 @@ module.exports = {
               obj.id = returnedUser[0].dataValues.id;
               obj.email = returnedUser[0].dataValues.email;
               obj.carts = returnedUser[0].dataValues.Carts;
+              obj.firstName = returnedUser[0].dataValues.firstName;
+              obj.lastName = returnedUser[0].dataValues.lastName;
+              obj.company = returnedUser[0].dataValues.company;
+              obj.isAdmin = false;
               resolve(obj);
             })
             .catch(err => reject(err));
@@ -172,6 +186,39 @@ module.exports = {
           })
           .catch(err => reject(err));
       }
+    });
+  },
+
+  // updates any admin values
+  updateAdmin: function(userObj) {
+    return new Promise((resolve, reject) => {
+      // first find the admin to update based on id
+      db.Admin.findOne({ where: { id: userObj.id } })
+        .then(result => {
+          if (result) {
+            // since the user may update their password here, the password needs to be hashed
+            if (userObj.password) {
+              this.hashPassword(userObj.password)
+                .then(hashedPassword => {
+                  userObj.password = hashedPassword;
+                  // if the admin is found, update the found value with the new value
+                  resolve(result.update(userObj));
+                })
+                .catch(err => {
+                  console.log(err);
+                  reject(err);
+                });
+            } else {
+              resolve(result.update(userObj));
+            }
+          } else {
+            reject({ error: 'An error occured during the update' });
+          }
+        })
+        .catch(err => {
+          console.log('err:', err);
+          reject({ error: 'An error occured during the update' });
+        });
     });
   },
 

@@ -1,12 +1,17 @@
 .navbar {
   font-size: 12px;
-  background-color: #b71c1c;
+  background-color: #585d66;
   min-height: 62px;
   width: 100%;
   position: fixed;
   z-index: 2;
   top: 0;
   left: 0;
+}
+
+.activeTab {
+  border-bottom: solid 2px white;
+  padding-bottom: 5px;
 }
 
 @media (min-width: 992px) {

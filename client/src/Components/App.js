@@ -17,7 +17,11 @@ import Dashboard from './pages/Dashboard';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { inventoryObj: null, subCategories: null };
+    this.state = {
+      inventoryObj: null,
+      subCategories: null,
+      hideNavAndFooter: false
+    };
   }
 
   componentDidMount() {
@@ -77,23 +81,12 @@ class App extends Component {
       });
   };
 
-  // hides the nav and footer for the admin and dashboard view
-  hideNavAndFooter = () => {
-    if (
-      window.location.pathname === '/admin' ||
-      window.location.pathname === '/dashboard'
-    ) {
-      return true;
-    }
-    return false;
-  };
-
   render() {
     const { categories, subCategories, inventoryObj } = this.state;
     return (
       <Router>
         <Fragment>
-          {!this.hideNavAndFooter() && <Navbar />}
+          <Navbar />
           <div
             className="main-height"
             data-toggle="collapse"
@@ -115,17 +108,17 @@ class App extends Component {
               <Route exact path="/gallery" component={Gallery} />
               <Route exact path="/contact" component={ContactPage} />
               <Route exact path="/login" component={Login} />
-              <Route exact path="/dashboard" component={Dashboard} />
               <Route
                 exact
                 path="/admin"
                 render={props => <Admin {...props} Component={Login} />}
               />
               <PrivateRoute path="/cart" component={Cart} />
+              <PrivateRoute path="/dashboard" component={Dashboard} />
               <Route component={Home} />
             </Switch>
           </div>
-          {!this.hideNavAndFooter() && <Footer />}
+          <Footer />
         </Fragment>
       </Router>
     );
