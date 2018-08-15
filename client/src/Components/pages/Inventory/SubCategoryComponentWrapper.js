@@ -25,9 +25,7 @@ const SubCategoryComponentWrapper = props => {
     : null;
 
   // checks if there are no sub categories. if not, gets the inventory items.
-  const getInvItems = subCategories.includes('')
-    ? inventory[param].map(a => a)
-    : null;
+  const getInvItems = subCategories.includes('') ? inventory[param].map(a => a) : null;
 
   // contains individual inventory items if there are no sub categories
   const itemsToRender = subCategories.length ? subCategories : null;
@@ -48,13 +46,14 @@ const SubCategoryComponentWrapper = props => {
                           className="card-image ind-card-image"
                           alt="Category Image"
                         />
-                        <div className="mask flex-center waves-effect waves-light cat-names text-justify rgba-white-strong">
-                          <strong>{a}</strong>
-                        </div>
+                        <div className="mask flex-center waves-effect waves-light cat-names text-justify" />
                       </View>
                     </div>
                   </Link>
                 </Card>
+                <Link to={`${props.match.url}/${a}`}>
+                  <figcaption className="figure-caption text-center">{a}</figcaption>
+                </Link>
               </Col>
             ))
           : null}
