@@ -16,7 +16,7 @@ import {
 
 import './Checkout.css';
 
-class Summary extends Component {
+class Summary extends React.Component {
   constructor(props) {
     super(props);
 
@@ -54,10 +54,39 @@ class Summary extends Component {
     console.log('submitted');
   }
 
+  submitHandler = event => {
+    event.preventDefault();
+    event.target.className += ' was-validated';
+  };
+
+  changeHandler = event => {
+    this.setState({ ...this.state, [event.target.name]: event.target.value });
+  };
+
   render() {
     return (
-      <Container>
-        <h3>Summary</h3>
+      <Container className="mt-5">
+        <Row className="mt-6">
+          <Col md="">
+            <form className="needs-validation" onSubmit={this.submitHandler} noValidate>
+              <div className="custom-control custom-checkbox animated jello mb-3">
+                <input
+                  type="checkbox"
+                  className="custom-control-input"
+                  id="customControlValidation1"
+                  required
+                />
+                <label className="custom-control-label" htmlFor="customControlValidation1">
+                  Agree To Terms and Conditions
+                </label>
+                <div className="invalid-feedback">You must agree before submitting.</div>
+              </div>
+              <button className="btn btn-unique" type="submit">
+                Submit Order
+              </button>
+            </form>
+          </Col>
+        </Row>
       </Container>
     );
   }
