@@ -13,6 +13,7 @@ import Footer from './Footer/Footer';
 import PrivateRoute from './PrivateRoute';
 import About from './pages/About';
 import Dashboard from './pages/Dashboard';
+import EventDetails from './pages/EventDetails';
 
 class App extends Component {
   constructor(props) {
@@ -69,9 +70,7 @@ class App extends Component {
         const categories = Object.keys(inventoryObj);
 
         categories.forEach(a => {
-          subCategories[a] = [
-            ...new Set(inventoryObj[a].map(b => b.subcategory))
-          ];
+          subCategories[a] = [...new Set(inventoryObj[a].map(b => b.subcategory))];
         });
 
         return this.setState({ inventoryObj, subCategories, categories });
@@ -87,11 +86,7 @@ class App extends Component {
       <Router>
         <Fragment>
           <Navbar />
-          <div
-            className="main-height"
-            data-toggle="collapse"
-            data-target=".navbar-collapse.show"
-          >
+          <div className="main-height" data-toggle="collapse" data-target=".navbar-collapse.show">
             <Switch>
               <Route exact path="/" component={Home} />
               <Route
@@ -108,12 +103,9 @@ class App extends Component {
               <Route exact path="/gallery" component={Gallery} />
               <Route exact path="/contact" component={ContactPage} />
               <Route exact path="/login" component={Login} />
-              <Route
-                exact
-                path="/admin"
-                render={props => <Admin {...props} Component={Login} />}
-              />
+              <Route exact path="/admin" render={props => <Admin {...props} Component={Login} />} />
               <PrivateRoute path="/cart" component={Cart} />
+              <Route path="/EventDetails" component={EventDetails} />
               <PrivateRoute path="/dashboard" component={Dashboard} />
               <Route component={Home} />
             </Switch>
