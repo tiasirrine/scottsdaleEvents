@@ -219,47 +219,44 @@ export default class Nav extends Component {
           <Link className="text-white navbar-brand" to="/">
             Scottsdale Event Dècor
           </Link>
-          {!this.state.isWideEnough && (
-            <NavbarToggler onClick={this.navbarToggler} />
-          )}
+          {!this.state.isWideEnough && <NavbarToggler onClick={this.navbarToggler} />}
           <Collapse isOpen={this.state.collapse} navbar>
             <NavbarNav right>
               <NavItem>
                 <NavLink to="/">
-                  <span
-                    className={`${this.state.active === '/' && 'activeTab'}`}
-                  >
-                    Home
-                  </span>
+                  <span className={`${this.state.active === '/' && 'activeTab'}`}>Home</span>
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink to="/inventory">
-                  <span
-                    className={`${this.state.active.includes('inventory') &&
-                      'activeTab'}`}
-                  >
+                  <span className={`${this.state.active.includes('inventory') && 'activeTab'}`}>
                     Inventory
                   </span>
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink to="/gallery">
-                  <span
-                    className={`${this.state.active === '/gallery' &&
-                      'activeTab'}`}
-                  >
+                  <span className={`${this.state.active === '/gallery' && 'activeTab'}`}>
                     Gallery
                   </span>
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink to="/contact">
+                  <span className={`${this.state.active === '/contact' && 'activeTab'}`}>
+                    Contact Us
+                  </span>
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink to="/about">
+                  <span className={`${this.state.active === '/about' && 'activeTab'}`}>About</span>
                 </NavLink>
               </NavItem>
               {!this.checkLogIn() && (
                 <NavItem>
                   <NavLink to="/login">
-                    <span
-                      className={`${this.state.active === '/login' &&
-                        'activeTab'}`}
-                    >
+                    <span className={`${this.state.active === '/login' && 'activeTab'}`}>
                       Login
                     </span>
                   </NavLink>
@@ -276,7 +273,7 @@ export default class Nav extends Component {
                         <Link to="/profile">Profile</Link>
                       </DropdownItem>
                       <DropdownItem>
-                        <Link to="/cart">Cart</Link>
+                        <Link to="/checkout/cart">Cart</Link>
                       </DropdownItem>
                       <div className="dropdown-divider" />
                       <DropdownItem>
