@@ -203,7 +203,7 @@ class Cart extends Component {
             </tbody>
           </Table>
           <div className="text-right">${activeCart.sum('total')}</div>
-          <Link to="/EventDetails">
+          <Link to="/cart/event">
             <Button color="success" className="aButton">
               Next
             </Button>
