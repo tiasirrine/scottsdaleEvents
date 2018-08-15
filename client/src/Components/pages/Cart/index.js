@@ -11,6 +11,7 @@ import {
   ModalFooter
 } from 'mdbreact';
 import API from '../../../api/API';
+import { Link } from 'react-router-dom';
 
 class Cart extends Component {
   constructor(props) {
@@ -122,11 +123,11 @@ class Cart extends Component {
       });
   };
 
-  onSubmit = () => {
-    API.getEstimate(this.state)
-      .then(result => console.log(result))
-      .catch(err => console.log(err));
-  };
+  // onSubmit = () => {
+  //   API.getEstimate(this.state)
+  //     .then(result => console.log(result))
+  //     .catch(err => console.log(err));
+  // };
 
   toggle() {
     this.setState({
@@ -202,14 +203,11 @@ class Cart extends Component {
             </tbody>
           </Table>
           <div className="text-right">${activeCart.sum('total')}</div>
-          <Button
-            color="success"
-            onClick={this.onSubmit}
-            onKeyPress={this.handleKeyPress}
-            className="aButton"
-          >
-            Submit
-          </Button>
+          <Link to="eventdetails">
+            <Button color="success" className="aButton">
+              Next
+            </Button>
+          </Link>
           <Modal isOpen={this.state.modal} toggle={this.toggle}>
             <ModalHeader toggle={this.toggle}>Thank you!</ModalHeader>
             <ModalBody>Your order has been placed.</ModalBody>
