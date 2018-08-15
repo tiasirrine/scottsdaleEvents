@@ -202,7 +202,9 @@ class Cart extends Component {
                 })}
             </tbody>
           </Table>
-          <div className="text-right">${activeCart.sum('total')}</div>
+          <div className="text-right">
+            Est Subtotal: {'   '}${activeCart.sum('total')}
+          </div>
           <Link to="/checkout/event">
             <Button color="success" className="aButton">
               Next
