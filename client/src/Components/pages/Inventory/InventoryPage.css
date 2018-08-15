@@ -67,6 +67,9 @@ ul {
 #item-quantity {
   max-width: 5rem;
 }
+.figure-caption {
+  font-weight: bolder;
+}
 
 @media (max-width: 768px) {
   /* .card-img {
