@@ -205,7 +205,7 @@ class Cart extends Component {
           <div className="text-right">
             Est Subtotal: {'   '}${activeCart.sum('total')}
           </div>
-          <Link to="/checkout/event">
+          <Link to={{ pathname: '/checkout/event', state: this.state.activeCart }}>
             <Button color="success" className="aButton">
               Next
             </Button>

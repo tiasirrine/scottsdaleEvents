@@ -64,6 +64,7 @@ class Summary extends React.Component {
   };
 
   render() {
+    console.log(this.props);
     return (
       <Container className="mt-5">
         <Row className="mt-6">
