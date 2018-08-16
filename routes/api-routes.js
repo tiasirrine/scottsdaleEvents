@@ -7,10 +7,14 @@ const Json2csvParser = require('json2csv').Parser;
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
-router.get('/check-token', passport.authenticate('jwt', { session: false }), (req, res) => {
-  console.log(req.user);
-  res.status(200).json({ isAdmin: req.user.isAdmin });
-});
+router.get(
+  '/check-token',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    console.log(req.user);
+    res.status(200).json({ isAdmin: req.user.isAdmin });
+  }
+);
 
 // gets all the products. runs on first page load.
 router.get('/get-products', (req, res) => {
@@ -23,15 +27,19 @@ router.get('/get-products', (req, res) => {
 });
 
 // creates a new customer
-router.post('/create/customer', passport.authenticate('jwt', { session: false }), (req, res) => {
-  user
-    .createCustomer(req.body)
-    .then(result => {
-      delete result.dataValues.password;
-      res.json({ success: 'New customer created successfully' });
-    })
-    .catch(err => res.json({ error: err.errors[0].message }));
-});
+router.post(
+  '/create/customer',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    user
+      .createCustomer(req.body)
+      .then(result => {
+        delete result.dataValues.password;
+        res.json({ success: 'New customer created successfully' });
+      })
+      .catch(err => res.json({ error: err.errors[0].message }));
+  }
+);
 
 // creates a new admin
 router.post('/create/admin', (req, res) => {
@@ -44,17 +52,21 @@ router.post('/create/admin', (req, res) => {
     .catch(err => res.send(err.errors[0].message));
 });
 
-router.post('/update/admin', passport.authenticate('jwt', { session: false }), (req, res) => {
-  console.log(req.body);
-  user
-    .updateAdmin(req.body)
-    .then(() => {
-      res.json({ success: 'Your profile has been updated' });
-    })
-    .catch(err => {
-      res.json(err);
-    });
-});
+router.post(
+  '/update/admin',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    console.log(req.body);
+    user
+      .updateAdmin(req.body)
+      .then(() => {
+        res.json({ success: 'Your profile has been updated' });
+      })
+      .catch(err => {
+        res.json(err);
+      });
+  }
+);
 
 // deletes a customer
 router.post('/delete-customer', (req, res) => {
@@ -90,27 +102,35 @@ router.post('/save-product', (req, res) => {
     .catch(() => res.status(500).send('Failed to save product'));
 });
 
-router.get('/load-carts', passport.authenticate('jwt', { session: false }), (req, res) => {
-  user
-    .loadCarts(req.user.id)
-    .then(result => {
-      // returns carts sorted by the isActive boolean value
-      // ensures the active cart is at index 0
-      result.sort((x, y) => {
-        return x.isActive === y.isActive ? 0 : x ? 1 : -1;
-      });
-      res.status(200).json(result);
-    })
-    .catch(err => res.status(500).send(err));
-});
+router.get(
+  '/load-carts',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    user
+      .loadCarts(req.user.id)
+      .then(result => {
+        // returns carts sorted by the isActive boolean value
+        // ensures the active cart is at index 0
+        result.sort((x, y) => {
+          return x.isActive === y.isActive ? 0 : x ? 1 : -1;
+        });
+        res.status(200).json(result);
+      })
+      .catch(err => res.status(500).send(err));
+  }
+);
 
-router.get('/create-cart', passport.authenticate('jwt', { session: false }), (req, res) => {
-  console.log(req.user.id);
-  user
-    .createCart(req.user.id)
-    .then(result => res.json(result))
-    .catch(err => res.json(err));
-});
+router.get(
+  '/create-cart',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    console.log(req.user.id);
+    user
+      .createCart(req.user.id)
+      .then(result => res.json(result))
+      .catch(err => res.json(err));
+  }
+);
 
 router.post('/delete-product', (req, res) => {
   const { cartProductId } = req.body;
@@ -128,24 +148,39 @@ router.post('/delete-product', (req, res) => {
 
 // creates a csv file for a customers estimate
 router.post('/get-estimate', (req, res) => {
-  console.log('req.body', req.body);
+  // console.log('req.body', req.body);
   // creates the columns for the csv file
-  const fields = ['id', 'qty', 'price', 'total'];
+  const fields = ['id', 'qty'];
 
   // contains the rows for the csv file
-  const products = req.body.cartProps;
+  const { eventProps, cartProps } = req.body;
+  Object.keys(eventProps).forEach(a => fields.push(a));
+
+  const merged = cartProps.map(product => {
+    for (let info in eventProps) {
+      product[info] = eventProps[info];
+    }
+    return product;
+  });
+
+  console.log(merged);
+
   // creates the csv file. checks for errors.
   try {
     const parser = new Json2csvParser({ fields, quote: '' });
-    const csv = parser.parse(products);
+    const csv = parser.parse(merged);
     fs.writeFile('./csv/estimates/estimate.csv', csv, function(err) {
-      if (err) console.log(err);
-      else {
+      if (err) {
+        console.log(err);
+        return false;
+      } else {
         console.log('File created.');
+        return true;
       }
     });
   } catch (err) {
     console.log(err);
+    return false;
   }
 });
 
