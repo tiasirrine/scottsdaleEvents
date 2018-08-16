@@ -1,19 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  CardBody,
-  Fa,
-  Button,
-  Input,
-  MDBDatePicker,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  ModalFooter
-} from 'mdbreact';
+import { Container, Row, Col, Card, CardBody, Fa, Button, Input } from 'mdbreact';
 import axios from 'axios';
 import './Checkout.css';
 import { Link } from 'react-router-dom';
@@ -23,9 +9,9 @@ class EventForm extends Component {
     super(props);
 
     this.state = {
-      name: '',
-      companyName: '',
-      contactEmail: '',
+      custName: '',
+      groupName: '',
+      venue: '',
       number: '',
       message: '',
       modal: false
@@ -79,6 +65,7 @@ class EventForm extends Component {
                       <div className="grey-text">
                         <Input
                           label="Customer Name"
+                          name="custName"
                           icon="user-circle"
                           onChange={this.handleChange}
                           group
@@ -89,6 +76,7 @@ class EventForm extends Component {
                         />
                         <Input
                           label="Group Name"
+                          name="groupName"
                           icon="group"
                           onChange={this.handleChange}
                           group
@@ -99,6 +87,7 @@ class EventForm extends Component {
                         />
                         <Input
                           label="Venue"
+                          name="venue"
                           icon="building"
                           onChange={this.handleChange}
                           group
