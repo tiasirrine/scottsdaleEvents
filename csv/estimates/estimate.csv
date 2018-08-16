@@ -1,8 +1,4 @@
-id,qty,eventCustName,eventGroupName,eventVenue,eventDate,eventTime,eventLocation,eventRoom,eventComments,setupAt,setupBy,setupComments,willCustName,willPickupDate,willPickupTime,willReturnDate,willReturnTime
-5,2,josh,,,,,,,,,,,,,,,
-11,1,josh,,,,,,,,,,,,,,,
-12,3,josh,,,,,,,,,,,,,,,
-1,5,josh,,,,,,,,,,,,,,,
-1,2,josh,,,,,,,,,,,,,,,
-2,1,josh,,,,,,,,,,,,,,,
-11,2,josh,,,,,,,,,,,,,,,
+sku,qty,eventCustName,eventGroupName,eventVenue,eventDate,eventTime,eventLocation,eventRoom,eventComments,setupAt,setupBy,setupComments,willCustName,willPickupDate,willPickupTime,willReturnDate,willReturnTime
+1002-1006,3,Josh,SED,Hyatt,2024-12-31,00:59,ballroom,4455,Hello, I'm a test,12:59,12:59,testing,,,,,
+1001-1004,1,Josh,SED,Hyatt,2024-12-31,00:59,ballroom,4455,Hello, I'm a test,12:59,12:59,testing,,,,,
+1001-1005,2,Josh,SED,Hyatt,2024-12-31,00:59,ballroom,4455,Hello, I'm a test,12:59,12:59,testing,,,,,
