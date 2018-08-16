@@ -1,14 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  CardBody,
-  Fa,
-  Button,
-  Input
-} from 'mdbreact';
+import { Container, Row, Col, Card, CardBody, Fa, Button, Input } from 'mdbreact';
 import './Checkout.css';
 import { Link } from 'react-router-dom';
 
@@ -17,11 +8,22 @@ class EventForm extends Component {
     super(props);
 
     this.state = {
-      custName: '',
-      groupName: '',
-      venue: '',
-      number: '',
-      message: ''
+      eventCustName: '',
+      eventGroupName: '',
+      eventVenue: '',
+      eventDate: '',
+      eventTime: '',
+      eventLocation: '',
+      eventRoom: '',
+      eventComments: '',
+      setupAt: '',
+      setupBy: '',
+      setupComments: '',
+      willCustName: '',
+      willPickupDate: '',
+      willPickupTime: '',
+      willReturnDate: '',
+      willReturnTime: ''
     };
   }
 
@@ -63,8 +65,9 @@ class EventForm extends Component {
                       <p className="h4 text-center py-4">Event Details</p>
                       <div className="grey-text">
                         <Input
+                          // value={this.props.location.state.eventProps.eventCustName}
                           label="Customer Name"
-                          name="custName"
+                          name="eventCustName"
                           icon="user-circle"
                           onChange={this.handleChange}
                           group
@@ -75,7 +78,7 @@ class EventForm extends Component {
                         />
                         <Input
                           label="Group Name"
-                          name="groupName"
+                          name="eventGroupName"
                           icon="group"
                           onChange={this.handleChange}
                           group
@@ -86,7 +89,7 @@ class EventForm extends Component {
                         />
                         <Input
                           label="Venue"
-                          name="venue"
+                          name="eventVenue"
                           icon="building"
                           onChange={this.handleChange}
                           group
@@ -97,6 +100,7 @@ class EventForm extends Component {
                         />
                         <Input
                           label="Date of Event"
+                          name="eventDate"
                           icon="calendar"
                           onChange={this.handleChange}
                           group
@@ -108,6 +112,7 @@ class EventForm extends Component {
                         />
                         <Input
                           label="Time of Event"
+                          name="eventTime"
                           icon="lock"
                           onChange={this.handleChange}
                           group
@@ -118,6 +123,7 @@ class EventForm extends Component {
                         />
                         <Input
                           label="Location of Event"
+                          name="eventLocation"
                           icon="group"
                           onChange={this.handleChange}
                           group
@@ -128,6 +134,7 @@ class EventForm extends Component {
                         />
                         <Input
                           label="Room"
+                          name="eventRoom"
                           icon="group"
                           onChange={this.handleChange}
                           group
@@ -139,25 +146,25 @@ class EventForm extends Component {
                         <div className="md-form">
                           <i className="fa fa-pencil prefix" />
                           <textarea
+                            name="eventComments"
+                            onChange={this.handleChange}
                             type="text"
                             id="form10"
                             className="md-textarea form-control"
                             rows="3"
                           />
                           <label htmlFor="form10">
-                            Comments/Note/File addition
-                            (blueprints,designs..etc)
+                            Comments/Note/File addition (blueprints,designs..etc)
                           </label>
                         </div>
                       </div>
                     </Col>
                     <Col md="6">
-                      <p className="h4 text-center py-4">
-                        Event Setup & Strike
-                      </p>
+                      <p className="h4 text-center py-4">Event Setup & Strike</p>
                       <div className="grey-text">
                         <Input
                           label="Set-up at"
+                          name="setupAt"
                           icon="clock"
                           onChange={this.handleChange}
                           group
@@ -168,6 +175,7 @@ class EventForm extends Component {
                         />
                         <Input
                           label="Set-up by"
+                          name="setupBy"
                           icon="clock"
                           onChange={this.handleChange}
                           group
@@ -179,6 +187,8 @@ class EventForm extends Component {
                         <div className="md-form">
                           <i className="fa fa-pencil prefix" />
                           <textarea
+                            name="setupComments"
+                            onChange={this.handleChange}
                             type="text"
                             id="form10"
                             className="md-textarea form-control"
@@ -205,6 +215,7 @@ class EventForm extends Component {
                       <div className="grey-text">
                         <Input
                           label="Customer Name"
+                          name="willCustName"
                           icon="user-circle"
                           onChange={this.handleChange}
                           group
@@ -215,6 +226,7 @@ class EventForm extends Component {
                         />
                         <Input
                           label="Pick Up Date"
+                          name="willPickupDate"
                           icon="calendar"
                           onChange={this.handleChange}
                           group
@@ -225,6 +237,7 @@ class EventForm extends Component {
                         />
                         <Input
                           label="Pick Up Time"
+                          name="willPickupTime"
                           icon="clock"
                           onChange={this.handleChange}
                           group
@@ -235,6 +248,7 @@ class EventForm extends Component {
                         />
                         <Input
                           label="Return Date"
+                          name="willReturnDate"
                           icon="calendar"
                           onChange={this.handleChange}
                           group
@@ -245,6 +259,7 @@ class EventForm extends Component {
                         />
                         <Input
                           label="Return Time"
+                          name="willReturnTime"
                           icon="clock"
                           onChange={this.handleChange}
                           group

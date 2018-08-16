@@ -1,6 +1,6 @@
 import './Checkout.css';
 import React, { Component } from 'react';
-import { Container, Table, Input, Button } from 'mdbreact';
+import { Autocomplete, Col, Container, Table, Input, Button } from 'mdbreact';
 import API from '../../../api/API';
 import { Link } from 'react-router-dom';
 
@@ -109,6 +109,7 @@ class Cart extends Component {
   };
 
   render() {
+    console.log('Props: ', this.props);
     const { activeCart } = this.state;
     Array.prototype.sum = function(prop) {
       var totalPrice = 0;
@@ -172,9 +173,8 @@ class Cart extends Component {
           <div className="text-right">
             Est Subtotal: {'   '}${activeCart.sum('total')}
           </div>
-          <Link
-            to={{ pathname: '/checkout/event', state: this.state.activeCart }}
-          >
+
+          <Link to={{ pathname: '/checkout/event', state: this.state.activeCart }}>
             <Button color="success" className="aButton">
               Next
             </Button>

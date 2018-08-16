@@ -11,7 +11,8 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
-  ModalFooter
+  ModalFooter,
+  Table
 } from 'mdbreact';
 import API from '../../../api/API';
 import { Link } from 'react-router-dom';
@@ -68,6 +69,19 @@ class Summary extends React.Component {
     console.log(this.props);
     return (
       <Container className="mt-5">
+        <Table>
+          <thead className="blue-grey lighten-4">
+            <tr>
+              <th>Summary</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>{this.props.location.state.cartProps[0].name}</th>
+              <th>{this.props.location.state.eventProps.eventCustName}</th>
+            </tr>
+          </tbody>
+        </Table>
         <Row className="mt-6">
           <Col md="">
             <form className="needs-validation" onSubmit={this.submitHandler} noValidate>
@@ -83,7 +97,15 @@ class Summary extends React.Component {
                 </label>
                 <div className="invalid-feedback">You must agree before submitting.</div>
               </div>
-              <Link to="/checkout/event">
+              <Link
+                to={{
+                  pathname: '/checkout/event',
+                  state: {
+                    cartProps: this.props.location.state.cartProps,
+                    eventProps: this.props.location.state.eventProps
+                  }
+                }}
+              >
                 <Button color="success" className="aButton" size="md">
                   Back
                 </Button>
