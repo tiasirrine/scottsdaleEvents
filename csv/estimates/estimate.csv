@@ -1,1 +1,4 @@
-id,qty,price,total
+id,qty,custName,groupName,venue,number,message,
+37,1,adsfa,poefc,s,,,
+18,2,adsfa,poefc,s,,,
+9,4,adsfa,poefc,s,,,

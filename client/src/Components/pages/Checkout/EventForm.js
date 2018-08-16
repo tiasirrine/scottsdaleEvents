@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Card, CardBody, Fa, Button, Input } from 'mdbreact';
-import axios from 'axios';
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  CardBody,
+  Fa,
+  Button,
+  Input
+} from 'mdbreact';
 import './Checkout.css';
 import { Link } from 'react-router-dom';
 
@@ -13,13 +21,8 @@ class EventForm extends Component {
       groupName: '',
       venue: '',
       number: '',
-      message: '',
-      modal: false
+      message: ''
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.toggle = this.toggle.bind(this);
   }
 
   componentDidMount() {
@@ -30,11 +33,6 @@ class EventForm extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  toggle() {
-    this.setState({
-      modal: !this.state.modal
-    });
-  }
   // allows the form to submit on enter.
   handleKeyPress = e => {
     if (e.key === 'Enter') {
@@ -42,10 +40,11 @@ class EventForm extends Component {
     }
   };
 
-  async handleSubmit(e) {
+  handleSubmit = e => {
     e.preventDefault();
     console.log('go to summary');
-  }
+  };
+
   getPickerValue = value => {
     console.log(value);
   };
@@ -146,13 +145,16 @@ class EventForm extends Component {
                             rows="3"
                           />
                           <label htmlFor="form10">
-                            Comments/Note/File addition (blueprints,designs..etc)
+                            Comments/Note/File addition
+                            (blueprints,designs..etc)
                           </label>
                         </div>
                       </div>
                     </Col>
                     <Col md="6">
-                      <p className="h4 text-center py-4">Event Setup & Strike</p>
+                      <p className="h4 text-center py-4">
+                        Event Setup & Strike
+                      </p>
                       <div className="grey-text">
                         <Input
                           label="Set-up at"
@@ -263,7 +265,10 @@ class EventForm extends Component {
                     <Link
                       to={{
                         pathname: '/checkout/summary',
-                        state: { cartProps: this.props.location.state, eventProps: this.state }
+                        state: {
+                          cartProps: this.props.location.state,
+                          eventProps: this.state
+                        }
                       }}
                     >
                       <Button color="success" className="aButton" size="md">
