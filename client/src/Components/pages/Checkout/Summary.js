@@ -13,7 +13,8 @@ import {
   ModalHeader,
   ModalFooter
 } from 'mdbreact';
-
+import API from '../../../api/API';
+import { Link } from 'react-router-dom';
 import './Checkout.css';
 
 class Summary extends React.Component {
@@ -48,11 +49,11 @@ class Summary extends React.Component {
       this.handleSubmit();
     }
   };
-
-  async handleSubmit(e) {
-    //e.preventDefault();
-    console.log('submitted');
-  }
+  handleSubmit = e => {
+    API.getEstimate(this.props.location.state)
+      .then(result => console.log(result))
+      .catch(err => console.log(err));
+  };
 
   submitHandler = event => {
     event.preventDefault();
@@ -82,7 +83,12 @@ class Summary extends React.Component {
                 </label>
                 <div className="invalid-feedback">You must agree before submitting.</div>
               </div>
-              <button className="btn btn-unique" type="submit">
+              <Link to="/checkout/event">
+                <Button color="success" className="aButton" size="md">
+                  Back
+                </Button>
+              </Link>
+              <button className="btn btn-unique" onClick={this.handleSubmit}>
                 Submit Order
               </button>
             </form>
