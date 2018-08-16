@@ -1,15 +1,6 @@
 import './Checkout.css';
 import React, { Component } from 'react';
-import {
-  Container,
-  Table,
-  Input,
-  Button,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  ModalFooter
-} from 'mdbreact';
+import { Container, Table, Input, Button } from 'mdbreact';
 import API from '../../../api/API';
 import { Link } from 'react-router-dom';
 
@@ -18,21 +9,8 @@ class Cart extends Component {
     super(props);
     this.state = {
       activeCart: null
-      // modal: false
     };
-
-    this.toggle = this.toggle.bind(this);
   }
-
-  //TODO: load cart here instead of private route. Use private route to authenticate the token
-  // allows us to authenticate the admin dashboard this way as well
-  loadCart = () => {
-    return API.loadCart()
-      .then(res => this.setState({ loadedCart: res.data }))
-      .catch(err => {
-        this.setState({ isAuthed: false });
-      });
-  };
 
   // gets active cart for a customer
   componentDidMount() {
@@ -123,11 +101,6 @@ class Cart extends Component {
       });
   };
 
-  toggle() {
-    this.setState({
-      modal: !this.state.modal
-    });
-  }
   // allows the form to submit on enter.
   handleKeyPress = e => {
     if (e.key === 'Enter') {
@@ -199,20 +172,13 @@ class Cart extends Component {
           <div className="text-right">
             Est Subtotal: {'   '}${activeCart.sum('total')}
           </div>
-          <Link to={{ pathname: '/checkout/event', state: this.state.activeCart }}>
+          <Link
+            to={{ pathname: '/checkout/event', state: this.state.activeCart }}
+          >
             <Button color="success" className="aButton">
               Next
             </Button>
           </Link>
-          <Modal isOpen={this.state.modal} toggle={this.toggle}>
-            <ModalHeader toggle={this.toggle}>Thank you!</ModalHeader>
-            <ModalBody>Your order has been placed.</ModalBody>
-            <ModalFooter>
-              <Button className="aButton" onClick={this.toggle}>
-                Close
-              </Button>
-            </ModalFooter>
-          </Modal>
         </Container>
       );
     }
