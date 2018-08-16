@@ -39,7 +39,7 @@ app.get('*', function(req, res) {
     }
   });
 });
-
+//test
 // Start the API server
 db.sequelize.sync().then(() => {
   app.listen(PORT, function() {
