@@ -123,12 +123,6 @@ class Cart extends Component {
       });
   };
 
-  // onSubmit = () => {
-  //   API.getEstimate(this.state)
-  //     .then(result => console.log(result))
-  //     .catch(err => console.log(err));
-  // };
-
   toggle() {
     this.setState({
       modal: !this.state.modal
