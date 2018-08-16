@@ -2,6 +2,7 @@ module.exports = function(sequelize, DataTypes) {
   const Product = sequelize.define(
     'Product',
     {
+      sku: { type: DataTypes.STRING },
       category: { type: DataTypes.STRING },
       subcategory: { type: DataTypes.STRING },
       name: { type: DataTypes.STRING },

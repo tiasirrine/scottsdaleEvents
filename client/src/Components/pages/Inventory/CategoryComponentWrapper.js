@@ -19,7 +19,7 @@ const CategoryComponentWrapper = props => {
   const { categories, images } = props;
   const param = props.match.params.category;
   return (
-    <Row className="justify-content-md-center">
+    <Row className="justify-content-md-left">
       {categories
         ? categories.map((a, i) => (
             <Col md="6" lg="4" xl="3" key={a} className="ind-card-col">
