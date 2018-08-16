@@ -65,6 +65,7 @@ class EventForm extends Component {
   };
 
   render() {
+    console.log(this.props);
     return (
       <Container>
         <Row>
@@ -112,6 +113,7 @@ class EventForm extends Component {
                           onChange={this.handleChange}
                           group
                           type="date"
+                          placeholder=""
                           validate
                           error="wrong"
                           success="right"
@@ -146,15 +148,15 @@ class EventForm extends Component {
                           error="wrong"
                           success="right"
                         />
-                        <div class="md-form">
-                          <i class="fa fa-pencil prefix" />
+                        <div className="md-form">
+                          <i className="fa fa-pencil prefix" />
                           <textarea
                             type="text"
                             id="form10"
-                            class="md-textarea form-control"
+                            className="md-textarea form-control"
                             rows="3"
                           />
-                          <label for="form10">
+                          <label htmlFor="form10">
                             Comments/Note/File addition (blueprints,designs..etc)
                           </label>
                         </div>
@@ -183,27 +185,27 @@ class EventForm extends Component {
                           error="wrong"
                           success="right"
                         />
-                        <div class="md-form">
-                          <i class="fa fa-pencil prefix" />
+                        <div className="md-form">
+                          <i className="fa fa-pencil prefix" />
                           <textarea
                             type="text"
                             id="form10"
-                            class="md-textarea form-control"
+                            className="md-textarea form-control"
                             rows="3"
                           />
-                          <label for="form10">Comments/Notes</label>
+                          <label htmlFor="form10">Comments/Notes</label>
                         </div>
                       </div>
-                      <div class="custom-control custom-radio">
+                      <div className="custom-control custom-radio">
                         <input
                           type="radio"
-                          class="custom-control-input"
+                          className="custom-control-input"
                           id="defaultUnchecked"
                           name="defaultExampleRadios"
                         />
                         <label
-                          class="custom-control-label h4 text-center py-4"
-                          for="defaultUnchecked"
+                          className="custom-control-label h4 text-center py-4"
+                          htmlFor="defaultUnchecked"
                         >
                           Will-Call Order
                         </label>
@@ -269,7 +271,12 @@ class EventForm extends Component {
                         Back to Cart
                       </Button>
                     </Link>
-                    <Link to="/checkout/summary">
+                    <Link
+                      to={{
+                        pathname: '/checkout/summary',
+                        state: { cartProps: this.props.location.state, eventProps: this.state }
+                      }}
+                    >
                       <Button color="success" className="aButton" size="md">
                         Go to Summary
                       </Button>
