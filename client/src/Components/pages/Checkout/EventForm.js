@@ -12,12 +12,13 @@ class EventForm extends Component {
       eventGroupName: '',
       eventVenue: '',
       eventDate: '',
-      eventTime: '',
+      eventStartTime: '',
+      eventEndTime: '',
       eventLocation: '',
-      eventRoom: '',
       eventComments: '',
-      setupAt: '',
-      setupBy: '',
+      loadIn: '',
+      setByTime: '',
+      strikeTime: '',
       setupComments: '',
       willCustName: '',
       willPickupDate: '',
@@ -68,6 +69,7 @@ class EventForm extends Component {
                           // value={this.props.location.state.eventProps.eventCustName}
                           label="Customer Name"
                           name="eventCustName"
+                          className="disabled"
                           icon="user-circle"
                           onChange={this.handleChange}
                           group
@@ -111,8 +113,8 @@ class EventForm extends Component {
                           success="right"
                         />
                         <Input
-                          label="Time of Event"
-                          name="eventTime"
+                          label="Start Time of Event"
+                          name="eventStartTime"
                           icon="lock"
                           onChange={this.handleChange}
                           group
@@ -122,7 +124,18 @@ class EventForm extends Component {
                           success="right"
                         />
                         <Input
-                          label="Location of Event"
+                          label="End Time of Event"
+                          name="eventEndTime"
+                          icon="lock"
+                          onChange={this.handleChange}
+                          group
+                          type="time"
+                          validate
+                          error="wrong"
+                          success="right"
+                        />
+                        <Input
+                          label="Site/Room"
                           name="eventLocation"
                           icon="group"
                           onChange={this.handleChange}
@@ -132,17 +145,7 @@ class EventForm extends Component {
                           error="wrong"
                           success="right"
                         />
-                        <Input
-                          label="Room"
-                          name="eventRoom"
-                          icon="group"
-                          onChange={this.handleChange}
-                          group
-                          type="text"
-                          validate
-                          error="wrong"
-                          success="right"
-                        />
+
                         <div className="md-form">
                           <i className="fa fa-pencil prefix" />
                           <textarea
@@ -163,8 +166,8 @@ class EventForm extends Component {
                       <p className="h4 text-center py-4">Event Setup & Strike</p>
                       <div className="grey-text">
                         <Input
-                          label="Set-up at"
-                          name="setupAt"
+                          label="Load-in Time"
+                          name="loadIn"
                           icon="clock"
                           onChange={this.handleChange}
                           group
@@ -174,8 +177,19 @@ class EventForm extends Component {
                           success="right"
                         />
                         <Input
-                          label="Set-up by"
-                          name="setupBy"
+                          label="Set-by Time"
+                          name="setByTime"
+                          icon="clock"
+                          onChange={this.handleChange}
+                          group
+                          type="time"
+                          validate
+                          error="wrong"
+                          success="right"
+                        />
+                        <Input
+                          label="Strike Time"
+                          name="strikeTime"
                           icon="clock"
                           onChange={this.handleChange}
                           group
