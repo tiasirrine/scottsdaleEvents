@@ -58,6 +58,9 @@ class Cart extends Component {
       if (a.name === name) {
         a.qty = value;
         a.total = Number(a.price) * Number(value);
+        // API.updateQty()
+        //   .then()
+        //   .catch();
       }
       return a;
     });
@@ -174,7 +177,9 @@ class Cart extends Component {
             Est Subtotal: {'   '}${activeCart.sum('total')}
           </div>
 
-          <Link to={{ pathname: '/checkout/event', state: this.state.activeCart }}>
+          <Link
+            to={{ pathname: '/checkout/event', state: this.state.activeCart }}
+          >
             <Button color="success" className="aButton">
               Next
             </Button>
