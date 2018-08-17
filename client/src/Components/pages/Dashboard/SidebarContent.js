@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 const styles = {
   btnContainer: {
@@ -55,9 +55,9 @@ const SidebarContent = () => (
     </div>
     <div style={styles.btnContainer}>
       <Link
-        style={styles.link}
         to="/"
-        onClick={this.logout}
+        style={styles.link}
+        onClick={logout}
         className="waves-effect waves-light"
       >
         Logout
