@@ -32,7 +32,6 @@ class Login extends React.Component {
 
         // makes sure we got back data
         if (res.data) {
-          console.log(res.data);
           // checks for an admin
           if (res.data.user.isAdmin) {
             isAdmin = true;
@@ -70,7 +69,6 @@ class Login extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     if (this.state.isAdmin === false && sessionStorage.getItem('token')) {
       return <Redirect to="/" />;
     } else if (this.state.isAdmin) {

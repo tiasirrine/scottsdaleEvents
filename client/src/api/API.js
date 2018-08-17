@@ -69,6 +69,15 @@ export default {
     });
   },
 
+  updateQty: function(qty) {
+    return axios.post('/update/quantity', qty, {
+      timeout: 15000,
+      headers: {
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
+    });
+  },
+
   // used in Dashboard/CreateCustomer
   createCustomer: function(customer) {
     return axios.post('/create/customer', customer, {

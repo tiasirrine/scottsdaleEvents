@@ -7,7 +7,7 @@ module.exports = function(sequelize, DataTypes) {
       subcategory: { type: DataTypes.STRING },
       name: { type: DataTypes.STRING },
       description: { type: DataTypes.STRING },
-      price: { type: DataTypes.DECIMAL },
+      price: { type: DataTypes.INTEGER },
       quantity: { type: DataTypes.INTEGER },
       url: { type: DataTypes.STRING }
     },
