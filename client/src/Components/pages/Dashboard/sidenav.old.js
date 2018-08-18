@@ -1,16 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import Sidebar from 'react-sidebar';
-import SidebarContent from './SidebarContent';
+import SideNavContent from './SideNavContent';
 
 const mql = window.matchMedia(`(min-width: 800px)`);
 
-const styles = {
-  sidebar: {
-    backgroundColor: 'black'
-  }
-};
-
-class AdminSidebar extends Component {
+export default class SideNav extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -45,7 +39,7 @@ class AdminSidebar extends Component {
     const MainContent = this.props.mainContent;
     return (
       <Sidebar
-        sidebar={<SidebarContent />}
+        sidebar={<SideNavContent />}
         sidebarClassName={'sidebarClassName'}
         open={this.state.sidebarOpen}
         docked={this.state.sidebarDocked}
@@ -56,5 +50,3 @@ class AdminSidebar extends Component {
     );
   }
 }
-
-export default AdminSidebar;

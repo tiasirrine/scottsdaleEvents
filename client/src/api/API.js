@@ -1,30 +1,29 @@
 import axios from 'axios';
 
-const authConfig = {
-  timeout: 15000,
-  headers: { Authorization: 'Bearer ' + sessionStorage.getItem('token') }
-};
-
-const timeout = { timeout: 15000 };
-
 export default {
   // called in App.js
   getProducts: function(category) {
-    return axios.get('/get-products', timeout);
+    return axios.get('/get-products', { timeout: 15000 });
   },
 
   // called in the shopping cart
   getEstimate: function(values) {
-    return axios.post('/get-estimate', values, timeout);
+    return axios.post('/get-estimate', values, { timeout: 15000 });
   },
 
   loadCart: function() {
-    return axios.get('/load-carts', authConfig);
+    return axios.get('/load-carts', {
+      timeout: 15000,
+      headers: { Authorization: 'Bearer ' + sessionStorage.getItem('token') }
+    });
   },
 
   // used to display the add to cart button and to check if the admin, login and cart page can be displayed
   checkToken: function() {
-    return axios.get('/check-token', authConfig);
+    return axios.get('/check-token', {
+      timeout: 15000,
+      headers: { Authorization: 'Bearer ' + sessionStorage.getItem('token') }
+    });
   },
 
   // used to get info about the user from the token
@@ -43,33 +42,53 @@ export default {
 
   // called in Cart.js
   deleteProduct: function(cartProductId) {
-    return axios.post('/delete-product', cartProductId, timeout);
+    return axios.post('/delete-product', cartProductId, { timeout: 15000 });
   },
 
   // Called in the Login component
   login: function(data, pathname) {
     if (pathname === '/admin') {
-      return axios.get('/auth/admin', { params: data }, timeout);
+      return axios.get('/auth/admin', { params: data }, { timeout: 15000 });
     }
-    return axios.get('/auth/customer', { params: data }, timeout);
+    return axios.get('/auth/customer', { params: data }, { timeout: 15000 });
   },
 
   // called in InventoryCard.js
   saveProduct: function(data) {
-    return axios.post('/save-product', data, authConfig);
+    return axios.post('/save-product', data, {
+      timeout: 15000,
+      headers: {
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
+    });
   },
 
   // called in Cart.js to update the new quantity for a product
   updateQty: function(data) {
-    return axios.post('/update/qty', data, authConfig);
+    return axios.post('/update/qty', data, {
+      timeout: 15000,
+      headers: {
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
+    });
   },
 
   updateAdmin: function(user) {
-    return axios.post('/update/admin', user, authConfig);
+    return axios.post('/update/admin', user, {
+      timeout: 15000,
+      headers: {
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
+    });
   },
 
   // used in Dashboard/CreateCustomer
   createCustomer: function(customer) {
-    return axios.post('/create/customer', customer, authConfig);
+    return axios.post('/create/customer', customer, {
+      timeout: 15000,
+      headers: {
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
+    });
   }
 };

@@ -16,7 +16,7 @@ const styles = {
 // clears sessions storage and logs a user out
 const logout = () => sessionStorage.clear();
 
-const SidebarContent = () => (
+const SideNavContent = () => (
   <div style={styles.mainDiv}>
     <div style={styles.btnContainer}>
       <Link style={styles.link} to="/dashboard">
@@ -66,4 +66,4 @@ const SidebarContent = () => (
   </div>
 );
 
-export default SidebarContent;
+export default SideNavContent;

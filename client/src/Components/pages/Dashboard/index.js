@@ -1,7 +1,8 @@
 import './index.css';
 import React, { Component, Fragment } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import AdminSidebar from './AdminSidebar';
+import SideNav from '../../SideNav';
+import SideNavContent from './SideNavContent';
 import Profile from './Profile';
 import CreateCustomer from './CreateCustomer';
 import API from '../../../api/API';
@@ -38,8 +39,9 @@ class Dashboard extends Component {
             exact
             path="/dashboard"
             render={props => (
-              <AdminSidebar
+              <SideNav
                 {...props}
+                SideNavContent={<SideNavContent />}
                 mainContent={func => (
                   <Profile
                     checkAuth={this.checkAuth}
@@ -54,8 +56,9 @@ class Dashboard extends Component {
             exact
             path="/dashboard/create/customer"
             render={props => (
-              <AdminSidebar
+              <SideNav
                 {...props}
+                SideNavContent={SideNavContent}
                 mainContent={func => (
                   <CreateCustomer
                     toggleSideBar={func}
