@@ -44,6 +44,7 @@ class InventoryCard extends Component {
       obj.ProductId = event.target.getAttribute('data-id');
       obj.qty = this.state.quantity;
       obj.CartId = sessionStorage.activeCart;
+      obj.maxQty = event.target.getAttribute('data-maxqty');
 
       API.saveProduct(obj)
         .then(result => {
@@ -58,6 +59,7 @@ class InventoryCard extends Component {
   };
 
   render() {
+    console.log(this.state);
     return (
       <div className="row my-5 pb-4">
         <div className="col-md-5 mb-3 mb-sm-3">
@@ -96,6 +98,7 @@ class InventoryCard extends Component {
                   value="Submit"
                   onClick={this.handleFormSubmit}
                   data-id={this.props.id}
+                  data-maxqty={this.props.cardQuantity}
                   className="aButton"
                 >
                   {' '}
