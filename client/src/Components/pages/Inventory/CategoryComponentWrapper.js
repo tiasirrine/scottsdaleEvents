@@ -17,36 +17,39 @@ import {
 
 const CategoryComponentWrapper = props => {
   const { categories, images } = props;
-  const param = props.match.params.category;
+  // const param = props.match.params.category;
+  console.log(props);
   return (
-    <Row className="justify-content-md-left">
-      {categories
-        ? categories.map((a, i) => (
-            <Col md="6" lg="4" xl="3" key={a} className="ind-card-col">
-              <Card className="card card-cascade wider reverse my-4 animated fadeInUpBig w-300">
+    <Container>
+      <Row>
+        {categories
+          ? categories.map((a, i) => (
+              <Col md="6" lg="4" xl="3" key={a} className="ind-card-col">
+                <Card className="card card-cascade wider reverse my-4 animated fadeInUpBig w-300">
+                  <Link to={`/inventory/${a}`}>
+                    <div className="view view-cascade overlay">
+                      <View zoom>
+                        <CardImage
+                          cascade
+                          src={images[i]}
+                          className="ind-card-image card-image"
+                          alt="Category Image"
+                        />
+                        <div className="mask flex-center waves-effect waves-light cat-names text-justify" />
+                      </View>
+                    </div>
+                  </Link>
+                </Card>
                 <Link to={`/inventory/${a}`}>
-                  <div className="view view-cascade overlay">
-                    <View zoom>
-                      <CardImage
-                        cascade
-                        src={images[i]}
-                        className="ind-card-image card-image"
-                        alt="Category Image"
-                      />
-                      <div className="mask flex-center waves-effect waves-light cat-names text-justify" />
-                    </View>
-                  </div>
+                  <figcaption className="figure-caption text-center animated fadeInUpBig">
+                    {a}
+                  </figcaption>
                 </Link>
-              </Card>
-              <Link to={`/inventory/${a}`}>
-                <figcaption className="figure-caption text-center animated fadeInUpBig">
-                  {a}
-                </figcaption>
-              </Link>
-            </Col>
-          ))
-        : null}
-    </Row>
+              </Col>
+            ))
+          : null}
+      </Row>
+    </Container>
   );
 };
 
