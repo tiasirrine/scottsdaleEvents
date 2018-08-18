@@ -95,35 +95,62 @@ router.get('/all-customers', (req, res) => {
     .catch(err => res.status(500).send(err));
 });
 
+router.post(
+  '/update/qty',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const { ProductId, qty } = req.body;
+    db.CartProduct.update({ qty: qty }, { where: { ProductId: ProductId } })
+      .then(result => {
+        console.log(result);
+        res.send('success');
+      })
+      .catch(error => {
+        console.log(error);
+        res.send(error);
+      });
+  }
+);
+
 // saves a product to a customers cart
-router.post('/save-product', (req, res) => {
-  const { ProductId } = req.body;
-  // this will either create a new product to save to a cart,
-  // or it will update an already saved product
-  // prevents a cart from having duplicate line items for the same product
-  db.CartProduct.find({
-    where: {
-      ProductId: ProductId
-    }
-  }).then(result => {
-    if (result) {
-      result
-        .update(req.body)
-        .then(() => res.send('Product Saved'))
-        .catch(err => {
-          console.log(err);
-          res.send('Failed to save product');
-        });
-    } else {
-      db.CartProduct.create(req.body)
-        .then(() => res.send('Product Saved'))
-        .catch(err => {
-          console.log('eeeee', err);
-          res.send('Failed to save product');
-        });
-    }
-  });
-});
+router.post(
+  '/save-product',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const { ProductId } = req.body;
+    // this will either create a new product to save to a cart,
+    // or it will update an already saved product
+    // prevents a cart from having duplicate line items for the same product
+    db.CartProduct.find({
+      where: {
+        ProductId: ProductId
+      }
+    }).then(result => {
+      if (result) {
+        const { qty, maxQty } = result.dataValues;
+        if (Number(req.body.qty) + qty > maxQty) {
+          res.send(`Max Quantity Exceeded. You already saved ${qty} items`);
+          return false;
+        }
+        req.body.qty = Number(req.body.qty) + qty;
+        result
+          .update(req.body)
+          .then(() => res.send('Product Saved'))
+          .catch(err => {
+            console.log(err);
+            res.status(500).send('Failed to save product');
+          });
+      } else {
+        db.CartProduct.create(req.body)
+          .then(() => res.send('Product Saved'))
+          .catch(err => {
+            console.log('eeeee', err);
+            res.status(500).send('Failed to save product');
+          });
+      }
+    });
+  }
+);
 
 router.get(
   '/load-carts',
