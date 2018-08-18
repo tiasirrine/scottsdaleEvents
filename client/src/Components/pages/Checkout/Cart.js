@@ -8,7 +8,8 @@ class Cart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeCart: null
+      activeCart: null,
+      errorMsg: null
     };
   }
 
@@ -43,10 +44,14 @@ class Cart extends Component {
       });
   }
 
+  // used to update the quantity to checkout
   onChange = e => {
     // gets the name and value from the input field
     const { name } = e.target;
+    // value is the quantity to update
     let { value } = e.target;
+    // this is the product id of the product to update
+    const ProductId = e.target.getAttribute('data-id');
 
     // ensures only numbers are passed in
     if (isNaN(value.slice(-1))) {
@@ -54,13 +59,24 @@ class Cart extends Component {
     }
 
     // updates the appropriate object with the new quantity and price
+    // loops through the active cart array
     const updated = this.state.activeCart.map(a => {
-      if (a.name === name) {
-        a.qty = value;
-        a.total = Number(a.price) * Number(value);
-        // API.updateQty()
-        //   .then()
-        //   .catch();
+      // if the id of the current object matches the id of the saved object,
+      // then attempt to save the new quantity
+      if (a.id === ProductId) {
+        // does a check to make sure only a valid quantity gets saved to the db
+        if (value > 0 && value <= a.quantity) {
+          a.qty = value;
+          a.total = Number(a.price) * Number(value);
+          API.updateQty({ ProductId, qty: Number(value) })
+            .then(result => {
+              console.log(result);
+            })
+            .catch(err => {
+              console.log(err.response.data);
+              this.setState({ errorMsg: err.response.data });
+            });
+        }
       }
       return a;
     });
@@ -112,8 +128,9 @@ class Cart extends Component {
   };
 
   render() {
-    console.log('Props: ', this.props);
+    console.log('cart: ', this.state);
     const { activeCart } = this.state;
+
     Array.prototype.sum = function(prop) {
       var totalPrice = 0;
       for (var i = 0, _len = this.length; i < _len; i++) {
@@ -129,11 +146,17 @@ class Cart extends Component {
     } else {
       return (
         <Container className="cart-top">
+          {this.state.errorMsg && (
+            <div className="text-center text-danger mb-2">
+              <small>{this.state.errorMsg}</small>
+            </div>
+          )}
           <Table>
             <thead className="blue-grey lighten-4">
               <tr>
                 <th>Product</th>
                 <th>Quantity</th>
+                <th>Available Quantity</th>
                 <th>Price</th>
                 <th>Total</th>
               </tr>
@@ -159,13 +182,17 @@ class Cart extends Component {
                       </th>
                       <td>
                         <Input
+                          data-id={a.id}
+                          type="number"
                           onChange={this.onChange}
                           name={a.name}
-                          label="Quantity"
                           value={activeCart[i].qty}
                           size="sm"
+                          max={a.quantity}
+                          min="0"
                         />
                       </td>
+                      <td>{activeCart[i].quantity}</td>
                       <td>${activeCart[i].price}</td>
                       <td>${activeCart[i].total}</td>
                     </tr>
