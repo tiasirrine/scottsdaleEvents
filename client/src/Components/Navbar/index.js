@@ -35,6 +35,9 @@ export default class Nav extends Component {
       });
     }
 
+    // this.props.collapse is true when a user clicks the main content area,
+    // and the navbar is small, and expanded
+    // calls the function to close the navbar
     if (this.props.collapse && this.state.collapse) {
       this.navbarToggler();
     }
