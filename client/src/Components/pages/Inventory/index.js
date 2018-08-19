@@ -1,11 +1,12 @@
 import './InventoryPage.css';
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import CategoryComponentWrapper from './CategoryComponentWrapper';
 import SubCategoryComponentWrapper from './SubCategoryComponentWrapper';
 import InventoryComponentWrapper from './InventoryComponentWrapper';
 import Sidebar from './Sidebar';
 import { Container } from 'mdbreact';
+// import ReactDOM from 'react-dom';
 
 // The main functionality of this component is to render the specified routes for the inventory
 // Similiar to App.js. It routes requests to the appropriate component, and serves as a parent component
@@ -23,11 +24,12 @@ class InventoryPage extends Component {
     window.scrollTo(0, 0);
     mql.addListener(this.mediaQueryChanged);
     this.mediaQueryChanged();
+    document.addEventListener('click', this.closeSideNavClick, false);
   }
 
-  // removes the match media listener when the component unmounts
   componentWillUnmount() {
     mql.removeListener(this.mediaQueryChanged);
+    document.removeEventListener('click', this.closeSideNavClick);
   }
 
   openSidebarOverlay = () => {
@@ -48,11 +50,8 @@ class InventoryPage extends Component {
   };
 
   // used to close the sidebar when an event click occurs outside of it while it is undocked, and opened
-  eventClick = e => {
-    // this is the name of the class of the clicked element outside the nav bar
+  closeSideNavClick = e => {
     const target = e.target.getAttribute('class');
-    // if it isn't the open icon, and sidebar is open, and its undocked,
-    // then close the sidebar
     if (
       target !== 'fa fa-bars icon' &&
       this.state.sidebarOpen &&
@@ -60,6 +59,10 @@ class InventoryPage extends Component {
     ) {
       this.setState({ sidebarOpen: false });
     }
+    // if (!ReactDOM.findDOMNode(this).contains(e.target)) {
+    //   // console.log(e.target, this);
+    //   this.setState({ sidebarOpen: false });
+    // }
   };
 
   render() {
@@ -76,7 +79,7 @@ class InventoryPage extends Component {
           sidebarOpen={this.state.sidebarOpen}
           subCategories={subCategories}
         />
-        <Container onClick={this.eventClick} fluid className="ml-270">
+        <Container fluid className="ml-270">
           <div className="open-sidebar">
             <i onClick={this.openSidebarOverlay} className="fa fa-bars icon" />
           </div>
