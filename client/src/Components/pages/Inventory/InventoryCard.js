@@ -59,7 +59,6 @@ class InventoryCard extends Component {
   };
 
   render() {
-    console.log(this.state);
     return (
       <div className="row my-5 pb-4">
         <div className="col-md-5 mb-3 mb-sm-3">

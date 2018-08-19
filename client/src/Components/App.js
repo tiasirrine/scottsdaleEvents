@@ -34,6 +34,10 @@ class App extends Component {
     this.setState({ inventoryObj: this.loadProducts() });
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('click', this.domClick);
+  }
+
   loadProducts = () => {
     API.getProducts()
       .then(result => {
@@ -95,6 +99,10 @@ class App extends Component {
   // this is used to close the navbar when it is small, and expanded.
   // closes the navbar when you click the main content area
   domClick = e => {
+    const { href } = window.location;
+    if (href.includes('/admin') || href.includes('/dashboard')) {
+      return false;
+    }
     if (this.node.contains(e.target)) {
       const el = document.getElementsByClassName('navbar-collapse')[0];
       const testEl = el.classList.contains('show');
@@ -137,8 +145,8 @@ class App extends Component {
               <PrivateRoute path="/dashboard" component={Dashboard} />
               <Route component={Home} />
             </Switch>
+            <Footer />
           </div>
-          <Footer />
         </Fragment>
       </Router>
     );

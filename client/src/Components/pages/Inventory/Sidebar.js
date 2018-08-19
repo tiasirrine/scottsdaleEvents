@@ -23,8 +23,8 @@ class Sidebar extends Component {
         className="sidebar"
         style={
           this.props.sidebarOpen
-            ? { display: 'block', zIndex: 2 }
-            : { display: 'none' }
+            ? { transform: 'translateX(0%)', zIndex: 2 }
+            : { transform: 'translateX(-100%)' }
         }
       >
         <ul className="nav flex-column">
