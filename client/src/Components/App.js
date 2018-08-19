@@ -28,6 +28,8 @@ class App extends Component {
   }
 
   componentDidMount() {
+    // this attaches the click event to the main content area to close
+    // the navbar on an outside click, if the navbar is small and opened
     document.addEventListener('click', this.domClick, false);
     this.setState({ inventoryObj: this.loadProducts() });
   }
@@ -85,8 +87,13 @@ class App extends Component {
       });
   };
 
+  // this will be passed into navbar if a user
+  // clicks outside the navbar while it is small and opened
+  // It will update the navbar state to collapse it
   hideNav = () => this.setState({ hideNav: true });
 
+  // this is used to close the navbar when it is small, and expanded.
+  // closes the navbar when you click the main content area
   domClick = e => {
     if (this.node.contains(e.target)) {
       const el = document.getElementsByClassName('navbar-collapse')[0];

@@ -2,13 +2,6 @@ import React, { Component } from 'react';
 import SidebarButton from './SidebarButton';
 // import { Link, NavLink } from 'react-router-dom';
 
-const styles = {
-  showNav: {
-    display: 'block',
-    zIndex: 3
-  }
-};
-
 class Sidebar extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +18,6 @@ class Sidebar extends Component {
 
   render() {
     const { subCategories } = this.state;
-    console.log(this.props);
     return (
       <div
         className="sidebar"

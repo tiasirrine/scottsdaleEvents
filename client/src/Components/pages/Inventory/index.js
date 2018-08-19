@@ -32,10 +32,18 @@ class InventoryPage extends Component {
     }
   };
 
-  mediaQueryChanged = () =>
-    mql.matches
+  mediaQueryChanged = () => {
+    return mql.matches
       ? this.setState({ sidebarOpen: true })
       : this.setState({ sidebarOpen: false });
+  };
+
+  eventClick = e => {
+    const target = e.target.getAttribute('class');
+    if (target !== 'fa fa-bars icon' && this.state.sidebarOpen) {
+      this.setState({ sidebarOpen: false });
+    }
+  };
 
   render() {
     const { categories, inventoryObj, subCategories } = this.props;
@@ -51,7 +59,7 @@ class InventoryPage extends Component {
           sidebarOpen={this.state.sidebarOpen}
           subCategories={subCategories}
         />
-        <Container fluid className="ml-270">
+        <Container onClick={this.eventClick} fluid className="ml-270">
           <div className="open-sidebar">
             <i onClick={this.openSidebarOverlay} className="fa fa-bars icon" />
           </div>
