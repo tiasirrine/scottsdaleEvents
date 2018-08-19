@@ -23,7 +23,6 @@ export default class SideNav extends Component {
   onSetSidebarOpen = open => this.setState({ sidebarOpen: open });
 
   toggleSidebar = () => {
-    console.log(this.state);
     if (this.state.sidebarOpen === false) {
       this.setState({ sidebarDocked: false, sidebarOpen: true });
     } else {

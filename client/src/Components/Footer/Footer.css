@@ -1,5 +1,15 @@
 .footer-z {
-  position: relative;
-  z-index: 3;
+  /* position: relative; */
+  /* z-index: 3; */
   background-color: #585d66;
+}
+
+.mv-footer {
+  margin-left: 0;
+}
+
+@media (min-width: 992px) {
+  .mv-footer {
+    margin-left: 250px;
+  }
 }
