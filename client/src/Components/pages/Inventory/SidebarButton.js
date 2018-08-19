@@ -1,49 +1,70 @@
 import React, { Component, Fragment } from 'react';
+import { Button, Collapse } from 'mdbreact';
 import { Link } from 'react-router-dom';
 
-class SidebarButton extends Component {
-  state = {};
-  render() {
-    const { props } = this;
-    const { category, subCategories } = props;
+export default class SideBarButton extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { collapse: false, active: false };
+  }
 
+  toggle = () => {
+    this.setState({
+      collapse: !this.state.collapse,
+      active: !this.state.collapse && false
+    });
+  };
+
+  click(index) {
+    this.setState({ active: index });
+  }
+
+  categoryFontWeight = () => {
+    return this.state.collapse ? { fontWeight: '700', color: 'black' } : '400';
+  };
+
+  render() {
+    const { category, subCategories } = this.props;
     return (
-      <li className="nav-item">
-        {!subCategories.includes('') ? (
-          <Fragment>
-            <a
-              className="nav-link d-flex justify-content-between waves-effect"
-              data-toggle="collapse"
-              aria-expanded="false"
-              href={`#${category.split(' ')[0]}-sub-menu`}
-            >
-              {category}
-              <i className="fa fa-angle-down rotate-icon" />
-            </a>
-            <ul
-              className="collapse list-unstyled sub-category"
-              id={`${category.split(' ')[0]}-sub-menu`}
-            >
-              {subCategories
-                ? subCategories.map((a, i) => (
-                    <Link key={i} to={`/inventory/${category}/${a}`}>
-                      <li className="waves-effect">{a}</li>
-                    </Link>
-                  ))
-                : null}
-            </ul>
-          </Fragment>
-        ) : (
-          <Link
-            to={`/inventory/${category}`}
-            className="nav-link d-flex justify-content-between waves-effect"
+      <div style={{ margin: '1rem', marginLeft: '2rem' }}>
+        <Link to={`/inventory/${category}`}>
+          <p
+            className="mb-0 d-flex justify-content-between sidenav-btn-hover"
+            style={{
+              fontSize: '19px',
+              cursor: 'pointer',
+              ...this.categoryFontWeight()
+            }}
+            onClick={this.toggle}
           >
             {category}
-          </Link>
+            {!subCategories.includes('') && <i className="fa fa-angle-down" />}
+          </p>
+        </Link>
+        {!subCategories.includes('') && (
+          <Collapse isOpen={this.state.collapse}>
+            {subCategories &&
+              subCategories.map((a, i) => (
+                <Link key={i} to={`/inventory/${category}/${a}`}>
+                  <p
+                    className={`${this.state.active === i &&
+                      'weight'} sidenav-btn-hover`}
+                    style={{
+                      marginLeft: '1rem',
+                      marginBottom: '.5rem',
+                      marginTop: '1rem',
+                      fontSize: '16px',
+                      cursor: 'pointer'
+                    }}
+                    onClick={this.click.bind(this, i)}
+                  >
+                    {a}
+                  </p>
+                </Link>
+              ))}
+          </Collapse>
         )}
-      </li>
+      </div>
     );
   }
 }
-
-export default SidebarButton;

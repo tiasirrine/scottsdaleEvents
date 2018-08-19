@@ -28,6 +28,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    window.scrollTo(0, 0);
     // this attaches the click event to the main content area to close
     // the navbar on an outside click, if the navbar is small and opened
     document.addEventListener('click', this.domClick, false);
@@ -113,6 +114,7 @@ class App extends Component {
   };
 
   render() {
+    console.log(this.state);
     const { categories, subCategories, inventoryObj } = this.state;
     return (
       <Router>
@@ -145,8 +147,8 @@ class App extends Component {
               <PrivateRoute path="/dashboard" component={Dashboard} />
               <Route component={Home} />
             </Switch>
-            <Footer />
           </div>
+          <Footer />
         </Fragment>
       </Router>
     );

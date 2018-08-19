@@ -26,6 +26,10 @@ export default class CreateCustomer extends Component {
     };
   }
 
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
   // attached to each input field to update the input value
   handleInputChange = event => {
     const { value, name } = event.target;

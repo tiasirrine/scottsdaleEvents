@@ -10,6 +10,7 @@ import { Container } from 'mdbreact';
 // The main functionality of this component is to render the specified routes for the inventory
 // Similiar to App.js. It routes requests to the appropriate component, and serves as a parent component
 
+// gets the screen size from the window object
 const mql = window.matchMedia(`(min-width: 992px)`);
 
 class InventoryPage extends Component {
@@ -24,23 +25,34 @@ class InventoryPage extends Component {
     this.mediaQueryChanged();
   }
 
+  // removes the match media listener when the component unmounts
+  componentWillUnmount() {
+    mql.removeListener(this.mediaQueryChanged);
+  }
+
   openSidebarOverlay = () => {
     if (this.state.sidebarOpen === false) {
-      console.log(document.getElementById('sidenav-wrapper'));
       this.setState({ sidebarOpen: true });
     } else {
       this.setState({ sidebarOpen: false });
     }
   };
 
+  // if the screen size greater than or equal to the size set in mql,
+  //  open the sidebar, and dock it (fix in place)
+  // otherwise, close it, and do not dock it (display it as an overlay)
   mediaQueryChanged = () => {
     return mql.matches
       ? this.setState({ sidebarOpen: true, docked: true })
       : this.setState({ sidebarOpen: false, docked: false });
   };
 
+  // used to close the sidebar when an event click occurs outside of it while it is undocked, and opened
   eventClick = e => {
+    // this is the name of the class of the clicked element outside the nav bar
     const target = e.target.getAttribute('class');
+    // if it isn't the open icon, and sidebar is open, and its undocked,
+    // then close the sidebar
     if (
       target !== 'fa fa-bars icon' &&
       this.state.sidebarOpen &&

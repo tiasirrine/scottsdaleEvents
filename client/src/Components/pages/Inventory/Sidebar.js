@@ -23,7 +23,7 @@ class Sidebar extends Component {
         className="sidebar"
         style={
           this.props.sidebarOpen
-            ? { transform: 'translateX(0%)', zIndex: 2 }
+            ? { transform: 'translateX(0%)' }
             : { transform: 'translateX(-100%)' }
         }
       >

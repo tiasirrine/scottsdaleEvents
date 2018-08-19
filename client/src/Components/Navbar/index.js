@@ -62,7 +62,7 @@ export default class Nav extends Component {
       return null;
     }
     return (
-      <Navbar color="stylish-color" dark expand="md" fixed="top" scrolling>
+      <Navbar /*color="stylish-color"*/ dark expand="md" fixed="top" scrolling>
         <Container>
           <Link className="text-white navbar-brand" to="/">
             Scottsdale Event Dècor
@@ -73,63 +73,56 @@ export default class Nav extends Component {
           <Collapse isOpen={this.state.collapse} navbar>
             <NavbarNav right>
               <NavItem>
-                <NavLink to="/">
-                  <span
-                    className={`${this.state.active === '/' && 'activeTab'}`}
-                  >
-                    Home
-                  </span>
+                <NavLink
+                  className={`${this.state.active === '/' && 'activeTab'}`}
+                  to="/"
+                >
+                  <span>Home</span>
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink to="/inventory">
-                  <span
-                    className={`${this.state.active.includes('inventory') &&
-                      'activeTab'}`}
-                  >
-                    Inventory
-                  </span>
+                <NavLink
+                  className={`${this.state.active.includes('inventory') &&
+                    'activeTab'}`}
+                  to="/inventory"
+                >
+                  <span>Inventory</span>
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink to="/gallery">
-                  <span
-                    className={`${this.state.active === '/gallery' &&
-                      'activeTab'}`}
-                  >
-                    Gallery
-                  </span>
+                <NavLink
+                  className={`${this.state.active === '/gallery' &&
+                    'activeTab'}`}
+                  to="/gallery"
+                >
+                  <span>Gallery</span>
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink to="/contact">
-                  <span
-                    className={`${this.state.active === '/contact' &&
-                      'activeTab'}`}
-                  >
-                    Contact Us
-                  </span>
+                <NavLink
+                  className={`${this.state.active === '/contact' &&
+                    'activeTab'}`}
+                  to="/contact"
+                >
+                  <span>Contact Us</span>
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink to="/about">
-                  <span
-                    className={`${this.state.active === '/about' &&
-                      'activeTab'}`}
-                  >
-                    About
-                  </span>
+                <NavLink
+                  className={`${this.state.active === '/about' && 'activeTab'}`}
+                  to="/about"
+                >
+                  <span>About</span>
                 </NavLink>
               </NavItem>
               {!this.checkLogIn() && (
                 <NavItem>
-                  <NavLink to="/login">
-                    <span
-                      className={`${this.state.active === '/login' &&
-                        'activeTab'}`}
-                    >
-                      Login
-                    </span>
+                  <NavLink
+                    className={`${this.state.active === '/login' &&
+                      'activeTab'}`}
+                    to="/login"
+                  >
+                    <span>Login</span>
                   </NavLink>
                 </NavItem>
               )}
