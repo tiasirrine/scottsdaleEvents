@@ -6,11 +6,14 @@ import { Col, Container, Row, Footer } from 'mdbreact';
 class FooterPage extends React.Component {
   render() {
     const { href } = window.location;
-    if (href.includes('/admin') || href.includes('/dashboard')) {
+    if (href.includes('/admin')) {
       return null;
     }
     return (
-      <Footer className={`font-small  pt-4 footer-z`}>
+      <Footer
+        className={`font-small ${href.includes('/inventory') &&
+          'mv-footer'} pt-4 footer-z`}
+      >
         <Container fluid className="text-center text-md-left">
           <Row>
             <Col md="4" lg="4">

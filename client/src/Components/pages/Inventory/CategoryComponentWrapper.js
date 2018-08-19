@@ -19,10 +19,10 @@ const CategoryComponentWrapper = props => {
   const { categories, images } = props;
   const param = props.match.params.category;
   return (
-    <Row className="justify-content-md-left">
+    <Row className="justify-content center justify-content-lg-left">
       {categories
         ? categories.map((a, i) => (
-            <Col md="6" lg="4" xl="3" key={a} className="ind-card-col">
+            <Col xs="12" md="6" lg="4" xl="3" key={a} className="">
               <Card className="card card-cascade wider reverse my-4 animated fadeInUpBig w-300">
                 <Link to={`/inventory/${a}`}>
                   <div className="view view-cascade overlay">

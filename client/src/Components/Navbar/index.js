@@ -25,7 +25,6 @@ export default class Nav extends Component {
       dropdownOpen: false,
       active: window.location.pathname
     };
-    this.toggle = this.toggle.bind(this);
   }
 
   // sets the current url route to state
@@ -34,6 +33,10 @@ export default class Nav extends Component {
       this.setState({
         active: window.location.pathname
       });
+    }
+
+    if (this.props.collapse && this.state.collapse) {
+      this.navbarToggler();
     }
   }
 

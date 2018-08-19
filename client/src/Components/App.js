@@ -22,11 +22,13 @@ class App extends Component {
     this.state = {
       inventoryObj: null,
       subCategories: null,
-      hideNavAndFooter: false
+      hideNavAndFooter: false,
+      hideNav: false
     };
   }
 
   componentDidMount() {
+    document.addEventListener('click', this.domClick, false);
     this.setState({ inventoryObj: this.loadProducts() });
   }
 
@@ -71,7 +73,9 @@ class App extends Component {
         const categories = Object.keys(inventoryObj);
 
         categories.forEach(a => {
-          subCategories[a] = [...new Set(inventoryObj[a].map(b => b.subcategory))];
+          subCategories[a] = [
+            ...new Set(inventoryObj[a].map(b => b.subcategory))
+          ];
         });
 
         return this.setState({ inventoryObj, subCategories, categories });
@@ -81,13 +85,25 @@ class App extends Component {
       });
   };
 
+  hideNav = () => this.setState({ hideNav: true });
+
+  domClick = e => {
+    if (this.node.contains(e.target)) {
+      const el = document.getElementsByClassName('navbar-collapse')[0];
+      const testEl = el.classList.contains('show');
+      if (testEl) {
+        this.setState({ hideNav: true });
+      }
+    }
+  };
+
   render() {
     const { categories, subCategories, inventoryObj } = this.state;
     return (
       <Router>
         <Fragment>
-          <Navbar />
-          <div className="main-height" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <Navbar collapse={this.state.hideNav && this.state.hideNav} />
+          <div ref={node => (this.node = node)} className="main-height">
             <Switch>
               <Route exact path="/" component={Home} />
               <Route
@@ -105,7 +121,11 @@ class App extends Component {
               <Route exact path="/contact" component={ContactPage} />
               <Route exact path="/about" component={About} />
               <Route exact path="/login" component={Login} />
-              <Route exact path="/admin" render={props => <Admin {...props} Component={Login} />} />
+              <Route
+                exact
+                path="/admin"
+                render={props => <Admin {...props} Component={Login} />}
+              />
               <PrivateRoute path="/checkout" component={Checkout} />
               <PrivateRoute path="/dashboard" component={Dashboard} />
               <Route component={Home} />
