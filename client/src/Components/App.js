@@ -8,12 +8,10 @@ import Gallery from './pages/Gallery';
 import ContactPage from './pages/Contact/Form/index';
 import Login from './pages/Login';
 import Admin from './pages/Admin';
-
 import Footer from './Footer/Footer';
 import PrivateRoute from './PrivateRoute';
 import About from './pages/About';
 import Dashboard from './pages/Dashboard';
-
 import Checkout from './pages/Checkout';
 
 class App extends Component {
@@ -31,12 +29,12 @@ class App extends Component {
     window.scrollTo(0, 0);
     // this attaches the click event to the main content area to close
     // the navbar on an outside click, if the navbar is small and opened
-    document.addEventListener('click', this.domClick, false);
+    document.addEventListener('click', this.closeNavbar, false);
     this.setState({ inventoryObj: this.loadProducts() });
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.domClick);
+    document.removeEventListener('click', this.closeNavbar);
   }
 
   loadProducts = () => {
@@ -92,35 +90,38 @@ class App extends Component {
       });
   };
 
-  // this will be passed into navbar if a user
-  // clicks outside the navbar while it is small and opened
-  // It will update the navbar state to collapse it
-  hideNav = () => this.setState({ hideNav: true });
-
   // this is used to close the navbar when it is small, and expanded.
   // closes the navbar when you click the main content area
-  domClick = e => {
+  closeNavbar = e => {
+    const target = e.target.getAttribute('class');
     const { href } = window.location;
-    if (href.includes('/admin') || href.includes('/dashboard')) {
-      return false;
+    // if (href.includes('/admin') || href.includes('/dashboard')) {
+    //   return false;
+    // }
+
+    if (
+      target !==
+      'navbar navbar-dark fixed-top navbar-expand-md scrolling-navbar'
+    ) {
+      this.setState({ hideNav: true });
     }
-    if (this.node.contains(e.target)) {
-      const el = document.getElementsByClassName('navbar-collapse')[0];
-      const testEl = el.classList.contains('show');
-      if (testEl) {
-        this.setState({ hideNav: true });
-      }
-    }
+
+    // if (this.node.contains(e.target)) {
+    //   const el = document.getElementsByClassName('navbar-collapse')[0];
+    //   const testEl = el.classList.contains('show');
+    //   if (testEl) {
+    //     this.setState({ hideNav: true });
+    //   }
+    // }
   };
 
   render() {
-    console.log(this.state);
     const { categories, subCategories, inventoryObj } = this.state;
     return (
       <Router>
         <Fragment>
           <Navbar collapse={this.state.hideNav && this.state.hideNav} />
-          <div ref={node => (this.node = node)} className="main-height">
+          <div className="main-height">
             <Switch>
               <Route exact path="/" component={Home} />
               <Route

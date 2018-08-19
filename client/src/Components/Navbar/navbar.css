@@ -3,7 +3,7 @@
   min-height: 62px;
   width: 100%;
   position: fixed;
-  z-index: 3;
+  z-index: 5;
   top: 0;
   left: 0;
   background-color: #20232a;
@@ -23,6 +23,6 @@
 
 @media (min-width: 1050px) {
   .navbar {
-    font-size: 18px;
+    font-size: 17px;
   }
 }

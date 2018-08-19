@@ -6,7 +6,8 @@ class Sidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      subCategories: this.props.subCategories ? this.props.subCategories : null
+      subCategories: this.props.subCategories ? this.props.subCategories : null,
+      activeIndex: null
     };
   }
 
@@ -15,6 +16,10 @@ class Sidebar extends Component {
       this.setState({ subCategories: this.props.subCategories });
     }
   }
+
+  getActiveIndex = i => {
+    this.setState({ activeIndex: i });
+  };
 
   render() {
     const { subCategories } = this.state;
@@ -35,6 +40,9 @@ class Sidebar extends Component {
                     key={category}
                     category={category}
                     subCategories={subCategories[category]}
+                    index={index}
+                    getActiveIndex={this.getActiveIndex}
+                    activeIndex={this.state.activeIndex}
                   />
                 );
               })
