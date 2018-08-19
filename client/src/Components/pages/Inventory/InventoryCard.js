@@ -60,7 +60,7 @@ class InventoryCard extends Component {
 
   render() {
     return (
-      <div className="row my-5 pb-4">
+      <div className="row my-5 pb-4 text-center text-md-left">
         <div className="col-md-5 mb-3 mb-sm-3">
           <img
             className="img-fluid product-img"
@@ -82,6 +82,7 @@ class InventoryCard extends Component {
                   <p className="my-2">{this.state.result}</p>
                 )}
                 <Input
+                  className="mx-auto mx-md-0"
                   value={this.state.quantity.toString()}
                   onChange={this.handleInputChange}
                   data-id={this.props.id}
