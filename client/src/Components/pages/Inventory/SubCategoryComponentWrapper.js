@@ -25,11 +25,12 @@ const SubCategoryComponentWrapper = props => {
     : null;
 
   // checks if there are no sub categories. if not, gets the inventory items.
-  const getInvItems = subCategories.includes('') ? inventory[param].map(a => a) : null;
+  const getInvItems = subCategories.includes('')
+    ? inventory[param].map(a => a)
+    : null;
 
   // contains individual inventory items if there are no sub categories
   const itemsToRender = subCategories.length ? subCategories : null;
-  console.log(inventory);
   return (
     <Fragment>
       <Row className="justify-content-md-center">

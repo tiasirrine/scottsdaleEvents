@@ -58,7 +58,7 @@ class Dashboard extends Component {
             render={props => (
               <SideNav
                 {...props}
-                SideNavContent={SideNavContent}
+                SideNavContent={<SideNavContent />}
                 mainContent={func => (
                   <CreateCustomer
                     toggleSideBar={func}

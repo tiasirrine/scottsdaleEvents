@@ -16,9 +16,9 @@ export default class SideNav extends Component {
     mql.addListener(this.mediaQueryChanged);
   }
 
-  // componentWillUnmount() {
-  //   this.state.mql.removeListener(this.mediaQueryChanged);
-  // }
+  componentWillUnmount() {
+    mql.removeListener(this.mediaQueryChanged);
+  }
 
   onSetSidebarOpen = open => this.setState({ sidebarOpen: open });
 
@@ -36,7 +36,6 @@ export default class SideNav extends Component {
   render() {
     const MainContent = this.props.mainContent;
     const SideNavContent = this.props.SideNavContent;
-    console.log(SideNavContent);
     return (
       <Sidebar
         sidebar={SideNavContent}

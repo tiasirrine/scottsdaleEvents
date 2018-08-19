@@ -15,7 +15,7 @@ const mql = window.matchMedia(`(min-width: 992px)`);
 class InventoryPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { sidebarOpen: false };
+    this.state = { sidebarOpen: false, docked: false };
   }
 
   componentDidMount() {
@@ -26,6 +26,7 @@ class InventoryPage extends Component {
 
   openSidebarOverlay = () => {
     if (this.state.sidebarOpen === false) {
+      console.log(document.getElementById('sidenav-wrapper'));
       this.setState({ sidebarOpen: true });
     } else {
       this.setState({ sidebarOpen: false });
@@ -34,13 +35,17 @@ class InventoryPage extends Component {
 
   mediaQueryChanged = () => {
     return mql.matches
-      ? this.setState({ sidebarOpen: true })
-      : this.setState({ sidebarOpen: false });
+      ? this.setState({ sidebarOpen: true, docked: true })
+      : this.setState({ sidebarOpen: false, docked: false });
   };
 
   eventClick = e => {
     const target = e.target.getAttribute('class');
-    if (target !== 'fa fa-bars icon' && this.state.sidebarOpen) {
+    if (
+      target !== 'fa fa-bars icon' &&
+      this.state.sidebarOpen &&
+      !this.state.docked
+    ) {
       this.setState({ sidebarOpen: false });
     }
   };

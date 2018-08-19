@@ -6,7 +6,7 @@ import { Col, Container, Row, Footer } from 'mdbreact';
 class FooterPage extends React.Component {
   render() {
     const { href } = window.location;
-    if (href.includes('/admin')) {
+    if (href.includes('/admin') || href.includes('/dashboard')) {
       return null;
     }
     return (
