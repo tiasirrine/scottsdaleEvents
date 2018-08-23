@@ -23,7 +23,8 @@ class Summary extends React.Component {
     super(props);
 
     this.state = {
-      modal: false
+      modal: false,
+      shippingCost: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -69,19 +70,49 @@ class Summary extends React.Component {
     console.log(this.props);
     return (
       <Container className="mt-5">
-        <Table>
-          <thead className="blue-grey lighten-4">
-            <tr>
-              <th>Summary</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th>{this.props.location.state.cartProps[0].name}</th>
-              <th>{this.props.location.state.eventProps.eventCustName}</th>
-            </tr>
-          </tbody>
-        </Table>
+        <header className="text-center">Summary</header>
+        <Row>
+          <Col md="6">
+            {' '}
+            <Table>
+              <thead className="blue-grey lighten-4">
+                <tr>
+                  <th className="text-center">Items</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.props.location.state.cartProps.map((obj, index) => {
+                  return (
+                    <tr>
+                      <td key={index}> {obj.name}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+          </Col>
+          <Col md="6">
+            {' '}
+            <Table>
+              <thead className="blue-grey lighten-4">
+                <tr>
+                  <th className="text-center">Event</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.keys(this.props.location.state.eventProps).map((obj, index) => {
+                  console.log('obj: ', obj);
+                  return (
+                    <tr>
+                      <td key={index}> {this.props.location.state.eventProps[obj]}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+
         <Row className="mt-6">
           <Col md="">
             <form className="needs-validation" onSubmit={this.submitHandler} noValidate>
@@ -101,8 +132,8 @@ class Summary extends React.Component {
                 to={{
                   pathname: '/checkout/event',
                   state: {
-                    cartProps: this.props.location.state.cartProps,
-                    eventProps: this.props.location.state.eventProps
+                    cartPropsBack: this.props.location.state.cartProps,
+                    eventPropsback: this.props.location.state.eventProps
                   }
                 }}
               >
