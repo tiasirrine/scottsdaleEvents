@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Card, CardBody, Fa, Button, Input } from 'mdbreact';
+import { Container, Row, Col, Card, CardBody, Button, Input } from 'mdbreact';
 import './Checkout.css';
 import { Link } from 'react-router-dom';
 

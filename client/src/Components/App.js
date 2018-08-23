@@ -78,9 +78,7 @@ class App extends Component {
         const categories = Object.keys(inventoryObj);
 
         categories.forEach(a => {
-          subCategories[a] = [
-            ...new Set(inventoryObj[a].map(b => b.subcategory))
-          ];
+          subCategories[a] = [...new Set(inventoryObj[a].map(b => b.subcategory))];
         });
 
         return this.setState({ inventoryObj, subCategories, categories });
@@ -94,15 +92,12 @@ class App extends Component {
   // closes the navbar when you click the main content area
   closeNavbar = e => {
     const target = e.target.getAttribute('class');
-    const { href } = window.location;
+    // const { href } = window.location;
     // if (href.includes('/admin') || href.includes('/dashboard')) {
     //   return false;
     // }
 
-    if (
-      target !==
-      'navbar navbar-dark fixed-top navbar-expand-md scrolling-navbar'
-    ) {
+    if (target !== 'navbar navbar-dark fixed-top navbar-expand-md scrolling-navbar') {
       this.setState({ hideNav: true });
     }
 
@@ -139,11 +134,7 @@ class App extends Component {
               <Route exact path="/contact" component={ContactPage} />
               <Route exact path="/about" component={About} />
               <Route exact path="/login" component={Login} />
-              <Route
-                exact
-                path="/admin"
-                render={props => <Admin {...props} Component={Login} />}
-              />
+              <Route exact path="/admin" render={props => <Admin {...props} Component={Login} />} />
               <PrivateRoute path="/checkout" component={Checkout} />
               <PrivateRoute path="/dashboard" component={Dashboard} />
               <Route component={Home} />

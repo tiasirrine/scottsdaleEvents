@@ -3,6 +3,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { Container, Row, Col, Input, Button, Card, CardBody } from 'mdbreact';
 import API from '../../../api/API';
+import { Link } from 'react-router-dom';
 
 class Login extends React.Component {
   state = { email: '', password: '' };
@@ -109,18 +110,13 @@ class Login extends React.Component {
                     />
                     <p className="font-small grey-text d-flex justify-content-end">
                       Forgot{' '}
-                      <a
-                        href="#"
-                        className="dark-grey-text font-weight-bold ml-1"
-                      >
+                      <Link className="dark-grey-text font-weight-bold ml-1" to="/contact">
                         {' '}
                         Password?
-                      </a>
+                      </Link>
                     </p>
                     {this.state.error && (
-                      <p className="text-danger text-center">
-                        {this.state.error}
-                      </p>
+                      <p className="text-danger text-center">{this.state.error}</p>
                     )}
                     <div className="text-center mb-4 mt-5">
                       <Button

@@ -1,23 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  Button,
-  Card,
-  CardBody,
-  CardGroup,
-  CardImage,
-  CardTitle,
-  CardText,
-  Col,
-  Container,
-  Fa,
-  Row,
-  View
-} from 'mdbreact';
+import { Card, CardImage, Col, Row, View } from 'mdbreact';
 
 const CategoryComponentWrapper = props => {
   const { categories, images } = props;
-  const param = props.match.params.category;
+  // const param = props.match.params.category;
   return (
     <Row className="justify-content center justify-content-lg-left">
       {categories
@@ -39,7 +26,9 @@ const CategoryComponentWrapper = props => {
                 </Link>
               </Card>
               <Link to={`/inventory/${a}`}>
-                <figcaption className="figure-caption text-center animated fadeInUpBig">{a}</figcaption>
+                <figcaption className="figure-caption text-center animated fadeInUpBig">
+                  {a}
+                </figcaption>
               </Link>
             </Col>
           ))
