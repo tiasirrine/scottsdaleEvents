@@ -11,15 +11,18 @@ class Sidebar extends Component {
     };
   }
 
+  // without this, the sidebar buttons will not load if you refresh in the inventory page
+  // re-renders the sidebar buttons whenever the component receives new props
   componentDidUpdate(prevProps) {
     if (this.props.subCategories !== prevProps.subCategories) {
       this.setState({ subCategories: this.props.subCategories });
     }
   }
 
-  getActiveIndex = i => {
-    this.setState({ activeIndex: i });
-  };
+  // this is used for tracking which dropdown is open, since only 1 dropdown is open at a time.
+  // it gets called in an onClick function in SidebarButton. Grabs the index of that dropdown button,
+  // and sets it in the state of this component to track which one is open.
+  getActiveIndex = i => this.setState({ activeIndex: i });
 
   render() {
     const { subCategories } = this.state;
@@ -32,22 +35,26 @@ class Sidebar extends Component {
             : { transform: 'translateX(-100%)' }
         }
       >
-        <ul className="nav flex-column">
-          {subCategories
-            ? Object.keys(subCategories).map((category, index, categories) => {
-                return (
-                  <SidebarButton
-                    key={category}
-                    category={category}
-                    subCategories={subCategories[category]}
-                    index={index}
-                    getActiveIndex={this.getActiveIndex}
-                    activeIndex={this.state.activeIndex}
-                  />
-                );
-              })
-            : null}
-        </ul>
+        <div className="inner-scroll">
+          <ul className="nav flex-column">
+            {subCategories
+              ? Object.keys(subCategories).map(
+                  (category, index, categories) => {
+                    return (
+                      <SidebarButton
+                        key={category}
+                        category={category}
+                        subCategories={subCategories[category]}
+                        index={index}
+                        getActiveIndex={this.getActiveIndex}
+                        activeIndex={this.state.activeIndex}
+                      />
+                    );
+                  }
+                )
+              : null}
+          </ul>
+        </div>
       </div>
     );
   }

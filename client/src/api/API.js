@@ -2,27 +2,31 @@ import axios from 'axios';
 
 export default {
   // called in App.js
-  getProducts: function(category) {
-    return axios.get('/get-products', { timeout: 15000 });
+  getProducts: function() {
+    return axios.get('/get/products', { timeout: 15000 });
   },
 
   // called in the shopping cart
   getEstimate: function(values) {
-    return axios.post('/get-estimate', values, { timeout: 15000 });
+    return axios.post('/get/estimate', values, { timeout: 15000 });
   },
 
   loadCart: function() {
-    return axios.get('/load-carts', {
+    return axios.get('/get/carts', {
       timeout: 15000,
-      headers: { Authorization: 'Bearer ' + sessionStorage.getItem('token') }
+      headers: {
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
     });
   },
 
   // used to display the add to cart button and to check if the admin, login and cart page can be displayed
   checkToken: function() {
-    return axios.get('/check-token', {
+    return axios.get('/auth/token', {
       timeout: 15000,
-      headers: { Authorization: 'Bearer ' + sessionStorage.getItem('token') }
+      headers: {
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
     });
   },
 
@@ -42,7 +46,7 @@ export default {
 
   // called in Cart.js
   deleteProduct: function(cartProductId) {
-    return axios.post('/delete-product', cartProductId, { timeout: 15000 });
+    return axios.post('/delete/product', cartProductId, { timeout: 15000 });
   },
 
   // Called in the Login component
@@ -55,7 +59,7 @@ export default {
 
   // called in InventoryCard.js
   saveProduct: function(data) {
-    return axios.post('/save-product', data, {
+    return axios.post('/save/product', data, {
       timeout: 15000,
       headers: {
         Authorization: 'Bearer ' + sessionStorage.getItem('token')
