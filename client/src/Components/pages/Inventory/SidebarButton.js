@@ -20,7 +20,6 @@ export default class SideBarButton extends Component {
   }
 
   categoryFontWeight = () => {
-    console.log(this.el);
     if (this.props.index === this.props.activeIndex) {
       return { fontWeight: '700', color: 'black' };
     }
@@ -41,7 +40,7 @@ export default class SideBarButton extends Component {
     if (this.el) {
       if (!this.el.props.isOpen) {
         this.state.active = false;
-        return styles;
+        // return styles;
       }
     }
   };
