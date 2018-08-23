@@ -39,9 +39,7 @@ const CategoryComponentWrapper = props => {
                 </Link>
               </Card>
               <Link to={`/inventory/${a}`}>
-                <figcaption className="figure-caption text-center animated fadeInUpBig">
-                  {a}
-                </figcaption>
+                <figcaption className="figure-caption text-center animated fadeInUpBig">{a}</figcaption>
               </Link>
             </Col>
           ))

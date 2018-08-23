@@ -7,39 +7,20 @@ const Json2csvParser = require('json2csv').Parser;
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
-router.get(
-  '/check-token',
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    console.log(req.user);
-    res.status(200).json({ isAdmin: req.user.isAdmin });
-  }
-);
-
-// gets all the products. runs on first page load.
-router.get('/get-products', (req, res) => {
-  db.Product.findAll({})
-    .then(result => res.status(200).send(result))
-    .catch(error => {
-      console.log(error);
-      res.status(500).send(error);
+// creates a new customer
+router.post('/create/customer', passport.authenticate('jwt', { session: false }), (req, res) => {
+  console.log(req.body);
+  user
+    .createCustomer(req.body)
+    .then(result => {
+      delete result.dataValues.password;
+      res.json({ success: 'New customer created successfully' });
+    })
+    .catch(err => {
+      console.log('error:', err);
+      res.json({ error: err });
     });
 });
-
-// creates a new customer
-router.post(
-  '/create/customer',
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    user
-      .createCustomer(req.body)
-      .then(result => {
-        delete result.dataValues.password;
-        res.json({ success: 'New customer created successfully' });
-      })
-      .catch(err => res.json({ error: err.errors[0].message }));
-  }
-);
 
 // creates a new admin
 router.post('/create/admin', (req, res) => {
@@ -52,197 +33,16 @@ router.post('/create/admin', (req, res) => {
     .catch(err => res.send(err.errors[0].message));
 });
 
-router.post(
-  '/update/admin',
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    console.log(req.body);
-    user
-      .updateAdmin(req.body)
-      .then(() => {
-        res.json({ success: 'Your profile has been updated' });
-      })
-      .catch(err => {
-        res.json(err);
-      });
-  }
-);
-
-// deletes a customer
-router.post('/delete-customer', (req, res) => {
-  const { id } = req.body;
+router.get('/create/cart', passport.authenticate('jwt', { session: false }), (req, res) => {
+  console.log(req.user.id);
   user
-    .deleteCustomer(id)
-    .then(result => res.status(201).send(result))
-    .catch(err => res.status(500).send(err));
-});
-
-// updates any customer freeze
-router.post('/update-freeze', (req, res) => {
-  const { bool, id } = req.body;
-  const convertedBool = bool === 'true' ? true : false;
-  user
-    .updateFreeze(convertedBool, id)
-    .then(result => res.status(201).send(result))
-    .catch(err => res.status(500).send(err));
-});
-
-// loads all customers
-router.get('/all-customers', (req, res) => {
-  user
-    .getAllCustomers()
-    .then(result => res.status(200).send(result))
-    .catch(err => res.status(500).send(err));
-});
-
-router.post(
-  '/update/qty',
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    const { ProductId, qty } = req.body;
-    db.CartProduct.update({ qty: qty }, { where: { ProductId: ProductId } })
-      .then(result => {
-        console.log(result);
-        res.send('success');
-      })
-      .catch(error => {
-        console.log(error);
-        res.send(error);
-      });
-  }
-);
-
-// saves a product to a customers cart
-router.post(
-  '/save-product',
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    const { ProductId } = req.body;
-    // this will either create a new product to save to a cart,
-    // or it will update an already saved product
-    // prevents a cart from having duplicate line items for the same product
-    db.CartProduct.find({
-      where: {
-        ProductId: ProductId
-      }
-    }).then(result => {
-      if (result) {
-        const { qty, maxQty } = result.dataValues;
-        if (Number(req.body.qty) + qty > maxQty) {
-          res.send(`Max Quantity Exceeded. You already saved ${qty} items`);
-          return false;
-        }
-        req.body.qty = Number(req.body.qty) + qty;
-        result
-          .update(req.body)
-          .then(() => res.send('Product Saved'))
-          .catch(err => {
-            console.log(err);
-            res.status(500).send('Failed to save product');
-          });
-      } else {
-        db.CartProduct.create(req.body)
-          .then(() => res.send('Product Saved'))
-          .catch(err => {
-            console.log('eeeee', err);
-            res.status(500).send('Failed to save product');
-          });
-      }
-    });
-  }
-);
-
-router.get(
-  '/load-carts',
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    user
-      .loadCarts(req.user.id)
-      .then(result => {
-        // returns carts sorted by the isActive boolean value
-        // ensures the active cart is at index 0
-        result.sort((x, y) => {
-          return x.isActive === y.isActive ? 0 : x ? 1 : -1;
-        });
-        res.status(200).json(result);
-      })
-      .catch(err => res.status(500).send(err));
-  }
-);
-
-router.get(
-  '/create-cart',
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    console.log(req.user.id);
-    user
-      .createCart(req.user.id)
-      .then(result => res.json(result))
-      .catch(err => res.json(err));
-  }
-);
-
-router.post('/delete-product', (req, res) => {
-  const { cartProductId } = req.body;
-  console.log(req.body);
-  db.CartProduct.destroy({ where: { id: cartProductId } })
-    // res is either 1 or 0. 1 is a success, 0 is a fail.
-    .then(result => {
-      if (result) res.status(200).send('Product removed');
-      else res.status(500).send('Failed to remove product');
-    })
-    .catch(() => {
-      throw res.status(500).send('Failed to remove product');
-    });
-});
-
-// creates a csv file for a customers estimate
-router.post('/get-estimate', (req, res) => {
-  // console.log('req.body', req.body);
-  // creates the columns for the csv file
-  const fields = ['estimateId', 'sku', 'qty'];
-
-  // contains the rows for the csv file
-  const { eventProps, cartProps } = req.body;
-  Object.keys(eventProps).forEach(a => fields.push(a));
-
-  db.Estimate.create({ _id: '1' })
-    .then(result => {
-      const merged = cartProps.map(product => {
-        product.sku = product.id;
-        for (let info in eventProps) {
-          product[info] = eventProps[info];
-          product['estimateId'] = result.dataValues.id;
-        }
-        return product;
-      });
-
-      // creates the csv file. checks for errors.
-      try {
-        const parser = new Json2csvParser({ fields, quote: '' });
-        const csv = parser.parse(merged);
-        fs.writeFile('./csv/estimates/estimate.csv', csv, function(err) {
-          if (err) {
-            console.log(err);
-            return false;
-          } else {
-            console.log('File created.');
-            return true;
-          }
-        });
-      } catch (err) {
-        console.log(err);
-        return false;
-      }
-    })
-    .catch(error => {
-      console.log(error);
-      return false;
-    });
+    .createCart(req.user.id)
+    .then(result => res.json(result))
+    .catch(err => res.json(err));
 });
 
 //route for nodemailer
-router.post('/api/form', (req, res) => {
+router.post('/create/email', (req, res) => {
   console.log(req.body);
   nodemailer.createTestAccount((err, account) => {
     if (err) {
@@ -291,10 +91,188 @@ router.post('/api/form', (req, res) => {
   });
 });
 
+router.post('/update/admin', passport.authenticate('jwt', { session: false }), (req, res) => {
+  console.log(req.body);
+  user
+    .updateAdmin(req.body)
+    .then(() => {
+      res.json({ success: 'Your profile has been updated' });
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
+
+router.post('/update/qty', passport.authenticate('jwt', { session: false }), (req, res) => {
+  const { ProductId, qty } = req.body;
+  db.CartProduct.update({ qty: qty }, { where: { ProductId: ProductId } })
+    .then(result => {
+      console.log(result);
+      res.send('success');
+    })
+    .catch(error => {
+      console.log(error);
+      res.send(error);
+    });
+});
+
+// updates any customer freeze
+router.post('/update/customer/freeze', (req, res) => {
+  const { bool, id } = req.body;
+  const convertedBool = bool === 'true' ? true : false;
+  user
+    .updateFreeze(convertedBool, id)
+    .then(result => res.status(201).send(result))
+    .catch(err => res.status(500).send(err));
+});
+
+router.post('/update/admin/freeze', (req, res) => {
+  //
+});
+
+// deletes a customer
+router.post('/delete/customer', (req, res) => {
+  const { email } = req.body;
+  user
+    .deleteCustomer(id)
+    .then(result => res.status(201).send(result))
+    .catch(err => res.status(500).send(err));
+});
+
+router.post('/delete/admin', (req, res) => {
+  //
+});
+
+router.post('/delete/product', (req, res) => {
+  const { cartProductId } = req.body;
+  console.log(req.body);
+  db.CartProduct.destroy({ where: { id: cartProductId } })
+    // res is either 1 or 0. 1 is a success, 0 is a fail.
+    .then(result => {
+      if (result) res.status(200).send('Product removed');
+      else res.status(500).send('Failed to remove product');
+    })
+    .catch(() => {
+      throw res.status(500).send('Failed to remove product');
+    });
+});
+
+// loads all customers
+router.get('/get/customers', (req, res) => {
+  user
+    .getAllCustomers()
+    .then(result => res.status(200).send(result))
+    .catch(err => res.status(500).send(err));
+});
+
+// gets all the products. runs on first page load.
+router.get('/get/products', (req, res) => {
+  db.Product.findAll({})
+    .then(result => res.status(200).send(result))
+    .catch(error => {
+      console.log(error);
+      res.status(500).send(error);
+    });
+});
+
+router.get('/get/carts', passport.authenticate('jwt', { session: false }), (req, res) => {
+  user
+    .loadCarts(req.user.id)
+    .then(result => {
+      // returns carts sorted by the isActive boolean value
+      // ensures the active cart is at index 0
+      result.sort((x, y) => {
+        return x.isActive === y.isActive ? 0 : x ? 1 : -1;
+      });
+      res.status(200).json(result);
+    })
+    .catch(err => res.status(500).send(err));
+});
+
+// creates a csv file for a customers estimate
+router.post('/get/estimate', (req, res) => {
+  // console.log('req.body', req.body);
+  // creates the columns for the csv file
+  const fields = ['estimateId', 'sku', 'qty'];
+
+  // contains the rows for the csv file
+  const { eventProps, cartProps } = req.body;
+  Object.keys(eventProps).forEach(a => fields.push(a));
+
+  db.Estimate.create({ _id: '1' })
+    .then(result => {
+      const merged = cartProps.map(product => {
+        product.sku = product.id;
+        for (let info in eventProps) {
+          product[info] = eventProps[info];
+          product['estimateId'] = result.dataValues.id;
+        }
+        return product;
+      });
+
+      // creates the csv file. checks for errors.
+      try {
+        const parser = new Json2csvParser({ fields, quote: '' });
+        const csv = parser.parse(merged);
+        fs.writeFile('./csv/estimates/estimate.csv', csv, function(err) {
+          if (err) {
+            console.log(err);
+            return false;
+          } else {
+            console.log('File created.');
+            return true;
+          }
+        });
+      } catch (err) {
+        console.log(err);
+        return false;
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      return false;
+    });
+});
+
+// saves a product to a customers cart
+router.post('/save/product', passport.authenticate('jwt', { session: false }), (req, res) => {
+  const { ProductId } = req.body;
+  // this will either create a new product to save to a cart,
+  // or it will update an already saved product
+  // prevents a cart from having duplicate line items for the same product
+  db.CartProduct.find({
+    where: {
+      ProductId: ProductId
+    }
+  }).then(result => {
+    if (result) {
+      const { qty, maxQty } = result.dataValues;
+      if (Number(req.body.qty) + qty > maxQty) {
+        res.send(`Max Quantity Exceeded. You already saved ${qty} items`);
+        return false;
+      }
+      req.body.qty = Number(req.body.qty) + qty;
+      result
+        .update(req.body)
+        .then(() => res.send('Product Saved'))
+        .catch(err => {
+          console.log(err);
+          res.status(500).send('Failed to save product');
+        });
+    } else {
+      db.CartProduct.create(req.body)
+        .then(() => res.send('Product Saved'))
+        .catch(err => {
+          console.log('eeeee', err);
+          res.status(500).send('Failed to save product');
+        });
+    }
+  });
+});
+
 // authentictes a customer and sets a token
 router.get('/auth/customer', (req, res) => {
   const { email, password } = req.query;
-  console.log(req.query);
   user
     .getCustomer(email, password)
     .then(result => {
@@ -325,6 +303,11 @@ router.get('/auth/admin', (req, res) => {
       console.log('err', err);
       res.status(403).send(err);
     });
+});
+
+router.get('/auth/token', passport.authenticate('jwt', { session: false }), (req, res) => {
+  console.log(req.user);
+  res.status(200).json({ isAdmin: req.user.isAdmin });
 });
 
 module.exports = router;

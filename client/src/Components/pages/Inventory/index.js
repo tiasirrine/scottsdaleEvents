@@ -32,6 +32,7 @@ class InventoryPage extends Component {
     document.removeEventListener('click', this.closeSideNavClick);
   }
 
+  // the sidebar is hidden on smaller screens. This is used to toggle the hidden sidebar for small screens.
   openSidebarOverlay = () => {
     if (this.state.sidebarOpen === false) {
       this.setState({ sidebarOpen: true });
@@ -41,7 +42,7 @@ class InventoryPage extends Component {
   };
 
   // if the screen size greater than or equal to the size set in mql,
-  //  open the sidebar, and dock it (fix in place)
+  // open the sidebar, and dock it (fix in place)
   // otherwise, close it, and do not dock it (display it as an overlay)
   mediaQueryChanged = () => {
     return mql.matches

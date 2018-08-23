@@ -35,37 +35,35 @@ class Dashboard extends Component {
     return (
       <Fragment>
         <Switch>
-          <Route
-            exact
-            path="/dashboard"
-            render={props => (
-              <SideNav
-                {...props}
-                SideNavContent={<SideNavContent />}
-                mainContent={func => (
-                  <Profile
-                    checkAuth={this.checkAuth}
-                    user={this.decodedToken().result}
-                    toggleSideBar={func}
-                  />
-                )}
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/dashboard/create/customer"
-            render={props => (
-              <SideNav
-                {...props}
-                SideNavContent={<SideNavContent />}
-                mainContent={func => (
-                  <CreateCustomer
-                    toggleSideBar={func}
-                    checkAuth={this.checkAuth}
-                  />
-                )}
-              />
+          <SideNav
+            SideNavContent={<SideNavContent />}
+            mainContent={func => (
+              <Fragment>
+                <Route
+                  exact
+                  path="/dashboard"
+                  render={props => (
+                    <Profile
+                      {...props}
+                      checkAuth={this.checkAuth}
+                      user={this.decodedToken().result}
+                      toggleSideBar={func}
+                    />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/dashboard/create/customer"
+                  render={props => (
+                    <CreateCustomer
+                      {...props}
+                      checkAuth={this.checkAuth}
+                      user={this.decodedToken().result}
+                      toggleSideBar={func}
+                    />
+                  )}
+                />
+              </Fragment>
             )}
           />
         </Switch>

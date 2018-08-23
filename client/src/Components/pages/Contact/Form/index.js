@@ -65,7 +65,7 @@ class ContactPage extends Component {
 
     const { name, companyName, contactEmail, number, message } = this.state;
 
-    await axios.post('/api/form', {
+    await axios.post('/create/email', {
       name,
       companyName,
       contactEmail,
@@ -78,9 +78,12 @@ class ContactPage extends Component {
     return (
       <Container className="m120">
         <section className="my-5">
-          <h2 className="h1-responsive font-weight-bold text-center">Contact us</h2>
+          <h2 className="h1-responsive font-weight-bold text-center">
+            Contact us
+          </h2>
           <p className="text-center w-responsive mx-auto pb-5">
-            Please fill out the form below and we will get back to you as quickly as possilbe!
+            Please fill out the form below and we will get back to you as
+            quickly as possilbe!
           </p>
           <Row>
             <Col md="9" className="md-0 mb-5">
@@ -88,7 +91,9 @@ class ContactPage extends Component {
                 <Row>
                   <Col md="12">
                     <div className="md-form mb-0">
-                      {this.state.resultName && <p className="my-2">{this.state.resultName}</p>}
+                      {this.state.resultName && (
+                        <p className="my-2">{this.state.resultName}</p>
+                      )}
                       <Input
                         type="text"
                         id="name"
@@ -119,7 +124,9 @@ class ContactPage extends Component {
                   </Col>
                   <Col md="12">
                     <div className="md-form mb-0">
-                      {this.state.resultEmail && <p className="my-2">{this.state.resultEmail}</p>}
+                      {this.state.resultEmail && (
+                        <p className="my-2">{this.state.resultEmail}</p>
+                      )}
                       <Input
                         type="text"
                         id="contactEmail"
@@ -135,7 +142,9 @@ class ContactPage extends Component {
                 <Row>
                   <Col md="12">
                     <div className="md-form mb-0">
-                      {this.state.resultNumber && <p className="my-2">{this.state.resultNumber}</p>}
+                      {this.state.resultNumber && (
+                        <p className="my-2">{this.state.resultNumber}</p>
+                      )}
                       <Input
                         type="text"
                         id="number"
