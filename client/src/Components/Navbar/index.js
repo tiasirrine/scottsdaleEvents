@@ -2,7 +2,6 @@ import './navbar.css';
 import React, { Component } from 'react';
 import {
   Navbar,
-  NavbarBrand,
   NavbarNav,
   NavbarToggler,
   Collapse,
@@ -67,23 +66,17 @@ export default class Nav extends Component {
           <Link className="text-white navbar-brand" to="/">
             Scottsdale Event Dècor
           </Link>
-          {!this.state.isWideEnough && (
-            <NavbarToggler onClick={this.navbarToggler} />
-          )}
+          {!this.state.isWideEnough && <NavbarToggler onClick={this.navbarToggler} />}
           <Collapse isOpen={this.state.collapse} navbar>
             <NavbarNav right>
               <NavItem>
-                <NavLink
-                  className={`${this.state.active === '/' && 'activeTab'}`}
-                  to="/"
-                >
+                <NavLink className={`${this.state.active === '/' && 'activeTab'}`} to="/">
                   <span>Home</span>
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink
-                  className={`${this.state.active.includes('inventory') &&
-                    'activeTab'}`}
+                  className={`${this.state.active.includes('inventory') && 'activeTab'}`}
                   to="/inventory"
                 >
                   <span>Inventory</span>
@@ -91,8 +84,7 @@ export default class Nav extends Component {
               </NavItem>
               <NavItem>
                 <NavLink
-                  className={`${this.state.active === '/gallery' &&
-                    'activeTab'}`}
+                  className={`${this.state.active === '/gallery' && 'activeTab'}`}
                   to="/gallery"
                 >
                   <span>Gallery</span>
@@ -100,26 +92,21 @@ export default class Nav extends Component {
               </NavItem>
               <NavItem>
                 <NavLink
-                  className={`${this.state.active === '/contact' &&
-                    'activeTab'}`}
+                  className={`${this.state.active === '/contact' && 'activeTab'}`}
                   to="/contact"
                 >
                   <span>Contact Us</span>
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink
-                  className={`${this.state.active === '/about' && 'activeTab'}`}
-                  to="/about"
-                >
+                <NavLink className={`${this.state.active === '/about' && 'activeTab'}`} to="/about">
                   <span>About</span>
                 </NavLink>
               </NavItem>
               {!this.checkLogIn() && (
                 <NavItem>
                   <NavLink
-                    className={`${this.state.active === '/login' &&
-                      'activeTab'}`}
+                    className={`${this.state.active === '/login' && 'activeTab'}`}
                     to="/login"
                   >
                     <span>Login</span>

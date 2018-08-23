@@ -1,6 +1,6 @@
 import './Checkout.css';
 import React, { Component } from 'react';
-import { Autocomplete, Col, Container, Table, Input, Button } from 'mdbreact';
+import { Container, Table, Input, Button } from 'mdbreact';
 import API from '../../../api/API';
 import { Link } from 'react-router-dom';
 
@@ -156,7 +156,7 @@ class Cart extends Component {
               <tr>
                 <th>Product</th>
                 <th>Quantity</th>
-                <th>Available Quantity</th>
+                <th>Total Quantity in Inventory</th>
                 <th>Price</th>
                 <th>Total</th>
               </tr>
@@ -204,9 +204,7 @@ class Cart extends Component {
             Est Subtotal: {'   '}${activeCart.sum('total')}
           </div>
 
-          <Link
-            to={{ pathname: '/checkout/event', state: this.state.activeCart }}
-          >
+          <Link to={{ pathname: '/checkout/event', state: this.state.activeCart }}>
             <Button color="success" className="aButton">
               Next
             </Button>
