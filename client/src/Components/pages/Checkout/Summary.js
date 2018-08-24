@@ -20,12 +20,14 @@ class Summary extends React.Component {
 
     this.state = {
       modal: false,
-      shippingCost: ''
+      shippingCost: '',
+      isActive: false
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.toggle = this.toggle.bind(this);
+    this.handleCheck = this.handleCheck.bind(this);
   }
 
   componentDidMount() {
@@ -41,16 +43,22 @@ class Summary extends React.Component {
       modal: !this.state.modal
     });
   }
-  // allows the form to submit on enter.
-  handleKeyPress = e => {
-    if (e.key === 'Enter') {
-      this.handleSubmit();
-    }
-  };
+
   handleSubmit = e => {
     API.getEstimate(this.props.location.state)
       .then(result => console.log(result))
       .catch(err => console.log(err));
+  };
+
+  handleCheck(event) {
+    this.state.isActive = event.target.checked;
+    this.setState({ isActive: this.state.isActive });
+  }
+
+  submitButton = () => {
+    console.log('Button Pushed');
+    this.toggle();
+    this.handleSubmit();
   };
 
   submitHandler = event => {
@@ -117,6 +125,7 @@ class Summary extends React.Component {
                   type="checkbox"
                   className="custom-control-input"
                   id="customControlValidation1"
+                  onChange={event => this.handleCheck(event)}
                   required
                 />
                 <label className="custom-control-label" htmlFor="customControlValidation1">
@@ -137,12 +146,25 @@ class Summary extends React.Component {
                   Back
                 </Button>
               </Link>
-              <button className="btn btn-unique" onClick={this.handleSubmit}>
-                Submit Order
-              </button>
+              {this.state.isActive ? (
+                <button className="btn btn-unique" onClick={this.submitButton}>
+                  Submit Order
+                </button>
+              ) : null}
             </form>
           </Col>
         </Row>
+        <Modal isOpen={this.state.modal}>
+          <ModalHeader toggle={this.toggle}>Thank you!</ModalHeader>
+          <ModalBody>We will be contacting you soon.</ModalBody>
+          <ModalFooter>
+            <Link to={`/`}>
+              <Button className="aButton" onClick={this.toggle}>
+                Close
+              </Button>
+            </Link>
+          </ModalFooter>
+        </Modal>
       </Container>
     );
   }
