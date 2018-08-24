@@ -46,7 +46,7 @@ export default class CustomerCard extends Component {
       .then(result => {
         const { success, error } = result.data;
         if (success) {
-          this.setState({ result: success });
+          this.setState({ result: success, ...customer });
         } else {
           this.setState({ result: error });
         }
@@ -61,15 +61,15 @@ export default class CustomerCard extends Component {
     const { customer } = this.props;
     console.log(this.state);
     return (
-      <Card key={customer.email}>
+      <Card key={this.state.email}>
         <CardBody>
           <CardTitle>
-            Name: {customer.firstName} {customer.lastName}
+            Name: {this.state.firstName} {this.state.lastName}
           </CardTitle>
           <div className="d-flex flex-column flex-lg-row justify-content-between">
-            <p>Customer ID: {customer.id}</p>
-            <p>Email: {customer.email} </p>
-            <p>Company: {customer.company}</p>
+            <p>Customer ID: {this.state.id}</p>
+            <p>Email: {this.state.email} </p>
+            <p>Company: {this.state.company}</p>
           </div>
           <p>Status: {!this.state.suspend ? 'Active' : 'Suspended'}</p>
           <div className="">
@@ -85,7 +85,7 @@ export default class CustomerCard extends Component {
                   icon="user"
                   group
                   type="text"
-                  value={customer.firstName}
+                  value={this.state.firstName}
                   onChange={handleInputChange.bind(this)}
                 />
                 <Input
@@ -94,7 +94,7 @@ export default class CustomerCard extends Component {
                   icon="user"
                   group
                   type="text"
-                  value={customer.lastName}
+                  value={this.state.lastName}
                   onChange={handleInputChange.bind(this)}
                 />
                 <Input
@@ -103,7 +103,7 @@ export default class CustomerCard extends Component {
                   icon="pencil"
                   group
                   type="text"
-                  value={customer.company}
+                  value={this.state.company}
                   onChange={handleInputChange.bind(this)}
                 />
                 <Input
@@ -112,12 +112,12 @@ export default class CustomerCard extends Component {
                   icon="envelope"
                   group
                   type="email"
-                  value={customer.email}
+                  value={this.state.email}
                   onChange={handleInputChange.bind(this)}
                 />
                 <div className="custom-control custom-checkbox mb-3">
                   <input
-                    defaultChecked={customer.suspend}
+                    defaultChecked={this.state.suspend}
                     onChange={this.suspendClick}
                     type="checkbox"
                     className="custom-control-input"
