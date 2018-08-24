@@ -74,7 +74,7 @@ class Summary extends React.Component {
     console.log(this.props);
     return (
       <Container className="mt-5">
-        <header className="text-center">Summary</header>
+        <div className="text-center">Summary</div>
         <Row>
           <Col md="6">
             {' '}
@@ -82,16 +82,28 @@ class Summary extends React.Component {
               <thead className="blue-grey lighten-4">
                 <tr>
                   <th className="text-center">Items</th>
+                  <th className="text-center">Quantity</th>
+                  <th className="text-center">Price</th>
                 </tr>
               </thead>
               <tbody>
                 {this.props.location.state.cartProps.map((obj, index) => {
                   return (
-                    <tr>
-                      <td key={index}> {obj.name}</td>
+                    <tr key={index}>
+                      <td className="text-center">{obj.name}</td>
+                      <td className="text-center">{obj.qty}</td>
+                      <td className="text-center">{obj.total}</td>
                     </tr>
                   );
                 })}
+                <tr>
+                  <td className="text-center">{''} </td>
+                  <td className="text-center">{''} </td>
+                  <td className="text-center">
+                    Est. Subtotal: $
+                    {this.props.location.state.cartProps.reduce((a, b) => a + parseInt(b.total), 0)}{' '}
+                  </td>
+                </tr>
               </tbody>
             </Table>
           </Col>
@@ -107,7 +119,7 @@ class Summary extends React.Component {
                 {Object.keys(this.props.location.state.eventProps).map((obj, index) => {
                   console.log('obj: ', obj);
                   return (
-                    <tr>
+                    <tr key={index}>
                       <td key={index}> {this.props.location.state.eventProps[obj]}</td>
                     </tr>
                   );
@@ -154,8 +166,11 @@ class Summary extends React.Component {
             </form>
           </Col>
         </Row>
+
         <Modal isOpen={this.state.modal}>
-          <ModalHeader toggle={this.toggle}>Thank you!</ModalHeader>
+          <Link to={`/`}>
+            <ModalHeader toggle={this.toggle}>Thank you!</ModalHeader>{' '}
+          </Link>
           <ModalBody>We will be contacting you soon.</ModalBody>
           <ModalFooter>
             <Link to={`/`}>

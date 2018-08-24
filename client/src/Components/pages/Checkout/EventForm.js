@@ -37,11 +37,11 @@ class EventForm extends Component {
   };
 
   // allows the form to submit on enter.
-  handleKeyPress = e => {
-    if (e.key === 'Enter') {
-      this.handleSubmit();
-    }
-  };
+  // handleKeyPress = e => {
+  //   if (e.key === 'Enter') {
+  //     this.handleSubmit();
+  //   }
+  // };
 
   handleSubmit = e => {
     e.preventDefault();

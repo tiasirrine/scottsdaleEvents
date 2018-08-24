@@ -9,11 +9,23 @@ tr:nth-child(even) {
   background: #ccc;
 }
 
-input::-webkit-datetime-edit {
-  color: transparent;
+.md-form .prefix ~ label {
+  transform: translateY(-120%);
 }
 
+/*removes auto-placeholder for time/date */
+/* input::-webkit-datetime-edit {
+  color: transparent;
+} */
+
 /* Include this to make it visible when input is clicked */
-input:focus::-webkit-datetime-edit {
+/* input:focus::-webkit-datetime-edit {
   color: #000;
-}
+} */
+
+/* changes the way the autofocus moves */
+/* .md-form label.active {
+  -webkit-transform: translateY(-10%);
+  -ms-transform: translateY(-10%);
+  transform: translateY(-10%);
+} */
