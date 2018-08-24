@@ -29,13 +29,8 @@ const SideNavContent = () => (
       </Link>
     </div>
     <div style={styles.btnContainer}>
-      <Link style={styles.link} to="/dashboard/delete/customer">
-        Delete Customer
-      </Link>
-    </div>
-    <div style={styles.btnContainer}>
-      <Link style={styles.link} to="/dashboard/suspend/customer">
-        Suspend Customer
+      <Link style={styles.link} to="/dashboard/view/customers">
+        View Customers
       </Link>
     </div>
     <div style={styles.btnContainer}>
@@ -44,13 +39,8 @@ const SideNavContent = () => (
       </Link>
     </div>
     <div style={styles.btnContainer}>
-      <Link style={styles.link} to="/dashboard/delete/admin">
-        Delete Admin
-      </Link>
-    </div>
-    <div style={styles.btnContainer}>
-      <Link style={styles.link} to="/dashboard/suspend/admin">
-        Suspend Admin
+      <Link style={styles.link} to="/dashboard/view/admins">
+        View Admins
       </Link>
     </div>
     <div style={styles.btnContainer}>

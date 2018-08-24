@@ -266,10 +266,21 @@ module.exports = {
   },
 
   // values and where are objects
-  updateFreeze: function(bool, id) {
+  updateCustomer: function(user) {
     return new Promise((resolve, reject) => {
-      db.Customer.update({ frozen: bool }, { where: { id: parseInt(id) } })
-        .then(result => resolve(result))
+      db.Customer.find({
+        where: {
+          id: user.id
+        }
+      })
+        .then(result => {
+          if (result) {
+            result
+              .update(user)
+              .then(() => resolve('Success'))
+              .catch(() => reject('An error occured'));
+          }
+        })
         .catch(err => reject(err));
     });
   },
