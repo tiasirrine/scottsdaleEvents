@@ -5,6 +5,7 @@ import SideNav from '../../SideNav';
 import SideNavContent from './SideNavContent';
 import Profile from './Profile';
 import CreateCustomer from './CreateCustomer';
+import CreateAdmin from './CreateAdmin';
 import API from '../../../api/API';
 
 class Dashboard extends Component {
@@ -56,6 +57,18 @@ class Dashboard extends Component {
                   path="/dashboard/create/customer"
                   render={props => (
                     <CreateCustomer
+                      {...props}
+                      checkAuth={this.checkAuth}
+                      user={this.decodedToken().result}
+                      toggleSideBar={func}
+                    />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/dashboard/create/admin"
+                  render={props => (
+                    <CreateAdmin
                       {...props}
                       checkAuth={this.checkAuth}
                       user={this.decodedToken().result}

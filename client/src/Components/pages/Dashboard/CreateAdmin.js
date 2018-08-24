@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Container, Row, Col, Input, Button } from 'mdbreact';
 import API from '../../../api/API';
-import { checkEmail, checkNull } from '../../../api/validate';
+import { checkEmail, checkNull, handleInputChange } from '../../../api/validate';
 
 const styles = {
   h2: {
@@ -17,7 +17,6 @@ export default class CreateCustomer extends Component {
     this.state = {
       firstName: '',
       lastName: '',
-      company: '',
       email: '',
       password: '',
       password2: '',
@@ -30,36 +29,30 @@ export default class CreateCustomer extends Component {
     window.scrollTo(0, 0);
   }
 
-  // attached to each input field to update the input value
-  handleInputChange = event => {
-    const { value, name } = event.target;
-    this.setState({ [name]: value });
-  };
-
   onSubmit = () => {
-    const { result, unauthorized, ...customer } = this.state;
+    const { result, unauthorized, ...admin } = this.state;
 
-    if (!checkNull(customer)) {
+    if (!checkNull(admin)) {
       this.setState({ result: 'All fields must be completed' });
       return;
     }
 
-    if (!checkEmail(customer.email)) {
+    if (!checkEmail(admin.email)) {
       this.setState({ result: 'Please enter a valid email address' });
       return;
     }
 
-    if (customer.password.length < 3 || customer.password2.length < 3) {
+    if (admin.password.length < 3 || admin.password2.length < 3) {
       this.setState({ result: 'Password must be at least 3 characters' });
       return;
     }
 
-    if (customer.password !== customer.password2) {
+    if (admin.password !== admin.password2) {
       this.setState({ result: 'Passwords do not match' });
       return;
     }
 
-    API.createCustomer(customer)
+    API.createAdmin(admin)
       .then(res => {
         if (res.data.success) {
           this.setState({ result: res.data.success });
@@ -77,14 +70,13 @@ export default class CreateCustomer extends Component {
             this.props.checkAuth(true);
           }
         } else {
-          this.setState({
-            result: err.data ? err.data.error : null
-          });
+          this.setState({ result: err.data ? err.data.error : null });
         }
       });
   };
 
   render() {
+    console.log(this.state);
     return (
       <Fragment>
         <div className="hideIcon">
@@ -93,7 +85,7 @@ export default class CreateCustomer extends Component {
         <Container>
           <Row>
             <div style={styles.h2}>
-              <h2>Create a new customer</h2>
+              <h2>Create a new Admin</h2>
             </div>
             <Col md="8" className="offset-md-2">
               <form>
@@ -105,7 +97,7 @@ export default class CreateCustomer extends Component {
                     group
                     type="text"
                     value={this.state.firstName}
-                    onChange={this.handleInputChange}
+                    onChange={handleInputChange.bind(this)}
                   />
                   <Input
                     name="lastName"
@@ -114,34 +106,26 @@ export default class CreateCustomer extends Component {
                     group
                     type="text"
                     value={this.state.lastName}
-                    onChange={this.handleInputChange}
+                    onChange={handleInputChange.bind(this)}
                   />
-                  <Input
-                    name="company"
-                    label="Company Name"
-                    icon="pencil"
-                    group
-                    type="text"
-                    value={this.state.company}
-                    onChange={this.handleInputChange}
-                  />
+
                   <Input
                     name="email"
-                    label="Your email"
+                    label="Email"
                     icon="envelope"
                     group
                     type="email"
                     value={this.state.email}
-                    onChange={this.handleInputChange}
+                    onChange={handleInputChange.bind(this)}
                   />
                   <Input
                     name="password"
-                    label="New Password"
+                    label="Password"
                     icon="lock"
                     group
                     type="password"
                     value={this.state.password}
-                    onChange={this.handleInputChange}
+                    onChange={handleInputChange.bind(this)}
                   />
                   <Input
                     name="password2"
@@ -150,12 +134,12 @@ export default class CreateCustomer extends Component {
                     group
                     type="password"
                     value={this.state.password2}
-                    onChange={this.handleInputChange}
+                    onChange={handleInputChange.bind(this)}
                   />
                 </div>
                 <div>
                   <Button color="primary" name="update-profile" onClick={this.onSubmit}>
-                    Create Customer
+                    Create Admin
                   </Button>
                   {this.state.result && <p>{this.state.result}</p>}
                 </div>

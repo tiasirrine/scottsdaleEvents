@@ -11,7 +11,13 @@ module.exports = function(sequelize, DataTypes) {
       },
       firstName: { type: DataTypes.STRING, allowNull: false },
       lastName: { type: DataTypes.STRING, allowNull: false },
-      password: { type: DataTypes.STRING, allowNull: false }
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: { args: [3], msg: 'Password must be at least 3 characters' }
+        }
+      }
     },
     { timestamps: false }
   );

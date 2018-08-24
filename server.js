@@ -32,8 +32,8 @@ app.use(routes);
 // when deployed, if a page refreshes it tries to make a request to the server for that page
 // since this is react our pages are routed dynamically
 // re-directs all requests to serve the home page which will properly load the page
-app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname, '/client/public'), function(err) {
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, '/client/public/index.html'), function(err) {
     if (err) {
       res.status(500).send(err);
     }

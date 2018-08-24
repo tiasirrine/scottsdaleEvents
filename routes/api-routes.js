@@ -9,7 +9,6 @@ const passport = require('passport');
 
 // creates a new customer
 router.post('/create/customer', passport.authenticate('jwt', { session: false }), (req, res) => {
-  console.log(req.body);
   user
     .createCustomer(req.body)
     .then(result => {
@@ -28,13 +27,15 @@ router.post('/create/admin', (req, res) => {
     .createAdmin(req.body)
     .then(result => {
       delete result.dataValues.password;
-      res.json(result);
+      res.json({ success: 'New admin created successfully' });
     })
-    .catch(err => res.send(err.errors[0].message));
+    .catch(err => {
+      console.log(err);
+      res.send({ error: 'An error occured' });
+    });
 });
 
 router.get('/create/cart', passport.authenticate('jwt', { session: false }), (req, res) => {
-  console.log(req.user.id);
   user
     .createCart(req.user.id)
     .then(result => res.json(result))
@@ -43,7 +44,6 @@ router.get('/create/cart', passport.authenticate('jwt', { session: false }), (re
 
 //route for nodemailer
 router.post('/create/email', (req, res) => {
-  console.log(req.body);
   nodemailer.createTestAccount((err, account) => {
     if (err) {
       console.error('Failed to create a testing account. ' + err.message);
@@ -92,7 +92,6 @@ router.post('/create/email', (req, res) => {
 });
 
 router.post('/update/admin', passport.authenticate('jwt', { session: false }), (req, res) => {
-  console.log(req.body);
   user
     .updateAdmin(req.body)
     .then(() => {
@@ -145,7 +144,6 @@ router.post('/delete/admin', (req, res) => {
 
 router.post('/delete/product', (req, res) => {
   const { cartProductId } = req.body;
-  console.log(req.body);
   db.CartProduct.destroy({ where: { id: cartProductId } })
     // res is either 1 or 0. 1 is a success, 0 is a fail.
     .then(result => {
@@ -290,7 +288,6 @@ router.get('/auth/customer', (req, res) => {
 // authentictes an admin and sets a token
 router.get('/auth/admin', (req, res) => {
   const { email, password } = req.query;
-  console.log(req.query);
   user
     .getAdmin(email, password)
     .then(result => {
@@ -306,7 +303,6 @@ router.get('/auth/admin', (req, res) => {
 });
 
 router.get('/auth/token', passport.authenticate('jwt', { session: false }), (req, res) => {
-  console.log(req.user);
   res.status(200).json({ isAdmin: req.user.isAdmin });
 });
 

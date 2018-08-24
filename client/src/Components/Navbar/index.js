@@ -61,7 +61,7 @@ export default class Nav extends Component {
       return null;
     }
     return (
-      <Navbar /*color="stylish-color"*/ dark expand="md" fixed="top" scrolling>
+      <Navbar color="stylish-color" dark expand="md" fixed="top" scrolling>
         <Container>
           <Link className="text-white navbar-brand" to="/">
             Scottsdale Event Dècor
@@ -83,18 +83,12 @@ export default class Nav extends Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink
-                  className={`${this.state.active === '/gallery' && 'activeTab'}`}
-                  to="/gallery"
-                >
+                <NavLink className={`${this.state.active === '/gallery' && 'activeTab'}`} to="/gallery">
                   <span>Gallery</span>
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink
-                  className={`${this.state.active === '/contact' && 'activeTab'}`}
-                  to="/contact"
-                >
+                <NavLink className={`${this.state.active === '/contact' && 'activeTab'}`} to="/contact">
                   <span>Contact Us</span>
                 </NavLink>
               </NavItem>
@@ -105,10 +99,7 @@ export default class Nav extends Component {
               </NavItem>
               {!this.checkLogIn() && (
                 <NavItem>
-                  <NavLink
-                    className={`${this.state.active === '/login' && 'activeTab'}`}
-                    to="/login"
-                  >
+                  <NavLink className={`${this.state.active === '/login' && 'activeTab'}`} to="/login">
                     <span>Login</span>
                   </NavLink>
                 </NavItem>

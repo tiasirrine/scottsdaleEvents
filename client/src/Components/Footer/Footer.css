@@ -1,8 +1,8 @@
 .footer-z {
   position: relative;
   z-index: 3;
-  /* background-color: #585d66; */
-  background-color: rgb(40, 44, 52);
+  background-color: #585d66;
+  /* background-color: rgb(40, 44, 52); */
 }
 
 .mv-footer {
