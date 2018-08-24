@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Container, Row, Col, Input, Button } from 'mdbreact';
 import API from '../../../api/API';
+import { checkEmail, checkNull, handleInputChange } from '../../../api/validate';
 
 const styles = {
   formTop: {
@@ -32,12 +33,6 @@ export default class Profile extends Component {
     window.scrollTo(0, 0);
   }
 
-  // attached to each input field to update the input value
-  handleInputChange = event => {
-    const { value, name } = event.target;
-    this.setState({ [name]: value });
-  };
-
   // updates a users profile and password.
   // each button has a 'name' attribute to determine what button was pressed
   // and to help identify what message to display to the user,
@@ -53,8 +48,28 @@ export default class Profile extends Component {
     // only grabs the necessary values for the button pressed
     if (name === 'update-password') {
       value = { id, password };
+
+      if (password.length < 3 || password2.length < 3) {
+        this.setState({ result: 'Password must be at least 3 characters', lastPressed: name });
+        return;
+      }
+
+      if (password !== password2) {
+        this.setState({ result: 'Passwords do not match', lastPressed: name });
+        return;
+      }
     } else {
       value = { id, firstName, lastName, email };
+    }
+
+    if (!checkNull(value)) {
+      this.setState({ result: 'All fields must be completed' });
+      return;
+    }
+
+    if (name !== 'update-password' && !checkEmail(value.email)) {
+      this.setState({ result: 'Please enter a valid email address' });
+      return;
     }
 
     // calls api function to update the user in the db
@@ -62,8 +77,7 @@ export default class Profile extends Component {
       .then(result => {
         // if passwords are being updated, set the password msg
         let passwordMsg;
-        if (name === 'update-password')
-          passwordMsg = 'Your password has been updated';
+        if (name === 'update-password') passwordMsg = 'Your password has been updated';
         this.setState({
           result: passwordMsg || result.data.success,
           lastPressed: name
@@ -108,7 +122,7 @@ export default class Profile extends Component {
                     group
                     type="text"
                     value={this.state.firstName}
-                    onChange={this.handleInputChange}
+                    onChange={handleInputChange.bind(this)}
                   />
                   <Input
                     name="lastName"
@@ -117,7 +131,7 @@ export default class Profile extends Component {
                     group
                     type="text"
                     value={this.state.lastName}
-                    onChange={this.handleInputChange}
+                    onChange={handleInputChange.bind(this)}
                   />
                   <Input
                     name="email"
@@ -126,15 +140,11 @@ export default class Profile extends Component {
                     group
                     type="email"
                     value={this.state.email}
-                    onChange={this.handleInputChange}
+                    onChange={handleInputChange.bind(this)}
                   />
                 </div>
                 <div>
-                  <Button
-                    color="primary"
-                    name="update-profile"
-                    onClick={this.updateAdmin}
-                  >
+                  <Button color="primary" name="update-profile" onClick={this.updateAdmin}>
                     Update Profile
                   </Button>
                 </div>
@@ -151,7 +161,7 @@ export default class Profile extends Component {
                     group
                     type="password"
                     value={this.state.password}
-                    onChange={this.handleInputChange}
+                    onChange={handleInputChange.bind(this)}
                   />
                   <Input
                     name="password2"
@@ -160,13 +170,9 @@ export default class Profile extends Component {
                     group
                     type="password"
                     value={this.state.password2}
-                    onChange={this.handleInputChange}
+                    onChange={handleInputChange.bind(this)}
                   />
-                  <Button
-                    color="primary"
-                    name="update-password"
-                    onClick={this.updateAdmin}
-                  >
+                  <Button color="primary" name="update-password" onClick={this.updateAdmin}>
                     Update Password
                   </Button>
                 </div>

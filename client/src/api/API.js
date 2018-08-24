@@ -86,6 +86,15 @@ export default {
     });
   },
 
+  createAdmin: function(user) {
+    return axios.post('/create/admin', user, {
+      timeout: 15000,
+      headers: {
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
+    });
+  },
+
   // used in Dashboard/CreateCustomer
   createCustomer: function(customer) {
     return axios.post('/create/customer', customer, {
