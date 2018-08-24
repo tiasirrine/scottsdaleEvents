@@ -17,11 +17,12 @@ router.post('/create/customer', passport.authenticate('jwt', { session: false })
     })
     .catch(err => {
       console.log('error:', err);
-      res.json({ error: err });
+      res.json({ error: 'An error occured' });
     });
 });
 
 // creates a new admin
+// TODO: secure this route
 router.post('/create/admin', (req, res) => {
   user
     .createAdmin(req.body)
@@ -116,17 +117,16 @@ router.post('/update/qty', passport.authenticate('jwt', { session: false }), (re
 });
 
 // updates any customer freeze
-router.post('/update/customer/freeze', (req, res) => {
-  const { bool, id } = req.body;
-  const convertedBool = bool === 'true' ? true : false;
+router.post('/update/customer', (req, res) => {
   user
-    .updateFreeze(convertedBool, id)
-    .then(result => res.status(201).send(result))
-    .catch(err => res.status(500).send(err));
-});
-
-router.post('/update/admin/freeze', (req, res) => {
-  //
+    .updateCustomer(req.body)
+    .then(() => {
+      res.json({ success: 'Success' });
+    })
+    .catch(err => {
+      console.log(err);
+      res.send({ error: 'An error occured' });
+    });
 });
 
 // deletes a customer
@@ -150,17 +150,21 @@ router.post('/delete/product', (req, res) => {
       if (result) res.status(200).send('Product removed');
       else res.status(500).send('Failed to remove product');
     })
-    .catch(() => {
+    .catch(err => {
+      console.log(err);
       throw res.status(500).send('Failed to remove product');
     });
 });
 
 // loads all customers
-router.get('/get/customers', (req, res) => {
+router.get('/get/customers', passport.authenticate('jwt', { session: false }), (req, res) => {
   user
     .getAllCustomers()
-    .then(result => res.status(200).send(result))
-    .catch(err => res.status(500).send(err));
+    .then(result => res.status(200).send({ success: result }))
+    .catch(err => {
+      console.log('error:', err);
+      res.status.send({ error: err });
+    });
 });
 
 // gets all the products. runs on first page load.

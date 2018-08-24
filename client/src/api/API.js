@@ -20,6 +20,15 @@ export default {
     });
   },
 
+  getCustomers: function() {
+    return axios.get('/get/customers', {
+      timeout: 15000,
+      headers: {
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
+    });
+  },
+
   // used to display the add to cart button and to check if the admin, login and cart page can be displayed
   checkToken: function() {
     return axios.get('/auth/token', {
@@ -79,6 +88,15 @@ export default {
 
   updateAdmin: function(user) {
     return axios.post('/update/admin', user, {
+      timeout: 15000,
+      headers: {
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
+    });
+  },
+
+  updateCustomer: function(user) {
+    return axios.post('/update/customer', user, {
       timeout: 15000,
       headers: {
         Authorization: 'Bearer ' + sessionStorage.getItem('token')
