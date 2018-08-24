@@ -2,7 +2,6 @@ import './Checkout.css';
 import React, { Component, Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import EventForm from './EventForm';
-import { Container } from 'mdbreact';
 import Cart from './Cart';
 import Summary from './Summary';
 
@@ -10,10 +9,6 @@ import Summary from './Summary';
 // Similiar to App.js. It routes requests to the appropriate component, and serves as a parent component
 
 class Checkout extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <Fragment>

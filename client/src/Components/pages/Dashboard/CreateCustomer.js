@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { Redirect } from 'react-router-dom';
 import { Container, Row, Col, Input, Button } from 'mdbreact';
 import API from '../../../api/API';
 

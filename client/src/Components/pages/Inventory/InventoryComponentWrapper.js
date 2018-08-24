@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Container } from 'mdbreact';
+
 import InventoryCard from './InventoryCard';
 
 const InventoryComponentWrapper = props => {

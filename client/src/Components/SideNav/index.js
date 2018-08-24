@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import Sidebar from 'react-sidebar';
 
 const mql = window.matchMedia(`(min-width: 800px)`);
@@ -30,8 +30,7 @@ export default class SideNav extends Component {
     }
   };
 
-  mediaQueryChanged = () =>
-    this.setState({ sidebarDocked: mql.matches, sidebarOpen: false });
+  mediaQueryChanged = () => this.setState({ sidebarDocked: mql.matches, sidebarOpen: false });
 
   render() {
     const MainContent = this.props.mainContent;
