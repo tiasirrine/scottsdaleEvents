@@ -8,13 +8,6 @@ export default class SideBarButton extends Component {
     this.state = { collapse: false, active: false };
   }
 
-  // toggle = () => {
-  //   this.setState({
-  //     collapse: !this.state.collapse,
-  //     active: !this.state.collapse && false
-  //   });
-  // };
-
   subCatLinkClick(index) {
     this.setState({ active: index });
   }

@@ -131,11 +131,15 @@ router.post('/update/customer', (req, res) => {
 
 // deletes a customer
 router.post('/delete/customer', (req, res) => {
-  const { email } = req.body;
+  const { id } = req.body;
+  console.log(req.body);
   user
     .deleteCustomer(id)
-    .then(result => res.status(201).send(result))
-    .catch(err => res.status(500).send(err));
+    .then(() => res.send({ result: 'Success' }))
+    .catch(err => {
+      console.log(err);
+      res.send({ result: 'An error occured' });
+    });
 });
 
 router.post('/delete/admin', (req, res) => {

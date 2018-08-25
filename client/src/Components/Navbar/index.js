@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import {
   Navbar,
   NavbarNav,
-  NavbarToggler,
-  Collapse,
   Container,
   NavItem,
   NavLink,
@@ -42,9 +40,9 @@ export default class Nav extends Component {
     }
   }
 
-  navbarToggler = () => this.setState({ collapse: !this.state.collapse });
+  // navbarToggler = () => this.setState({ collapse: !this.state.collapse });
 
-  toggle = () => this.setState({ dropdownOpen: !this.state.dropdownOpen });
+  // toggle = () => this.setState({ dropdownOpen: !this.state.dropdownOpen });
 
   // sets the active class to the clicked nav button
   onNavItemClick = e => this.setState({ active: e.target.name });
@@ -61,13 +59,14 @@ export default class Nav extends Component {
       return null;
     }
     return (
-      <Navbar color="stylish-color" dark expand="md" fixed="top" scrolling>
-        <Container>
-          <Link className="text-white navbar-brand" to="/">
-            Scottsdale Event Dècor
-          </Link>
-          {!this.state.isWideEnough && <NavbarToggler onClick={this.navbarToggler} />}
-          <Collapse isOpen={this.state.collapse} navbar>
+      <Navbar color="stylish-color" dark expand="xs" fixed="top" scrolling>
+        <Container className="nav-flex">
+          <div>
+            <Link className="text-white navbar-brand" to="/">
+              Scottsdale Event Dècor
+            </Link>
+          </div>
+          <div>
             <NavbarNav right>
               <NavItem>
                 <NavLink className={`${this.state.active === '/' && 'activeTab'}`} to="/">
@@ -128,7 +127,7 @@ export default class Nav extends Component {
                 </NavItem>
               )}
             </NavbarNav>
-          </Collapse>
+          </div>
         </Container>
       </Navbar>
     );

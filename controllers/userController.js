@@ -258,10 +258,13 @@ module.exports = {
       db.Customer.destroy({ where: { id: parseInt(id) } })
         .then(res => {
           // checks if 0 results were deleted
-          if (!res) reject('Failed to remove customer');
+          if (!res) {
+            console.log('ERROR: ', res);
+            reject('Failed to remove customer');
+          }
           resolve('Customer removed');
         })
-        .catch(() => reject('Failed to remove customer'));
+        .catch(err => reject(err));
     });
   },
 

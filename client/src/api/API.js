@@ -54,8 +54,12 @@ export default {
   },
 
   // called in Cart.js
-  deleteProduct: function(cartProductId) {
-    return axios.post('/delete/product', cartProductId, { timeout: 15000 });
+  deleteProduct: function(id) {
+    return axios.post('/delete/product', id, { timeout: 15000 });
+  },
+
+  deleteCustomer: function(id) {
+    return axios.post('/delete/customer', { id }, { timeout: 15000 });
   },
 
   // Called in the Login component

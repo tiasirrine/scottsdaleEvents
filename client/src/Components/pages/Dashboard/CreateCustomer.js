@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Container, Row, Col, Input, Button } from 'mdbreact';
 import API from '../../../api/API';
-import { checkEmail, checkNull } from '../../../api/validate';
+import { checkEmail, checkNull, handleInputChange } from '../../../api/validate';
 
 const styles = {
   h2: {
@@ -29,12 +29,6 @@ export default class CreateCustomer extends Component {
   componentDidMount() {
     window.scrollTo(0, 0);
   }
-
-  // attached to each input field to update the input value
-  handleInputChange = event => {
-    const { value, name } = event.target;
-    this.setState({ [name]: value });
-  };
 
   onSubmit = () => {
     const { result, unauthorized, ...customer } = this.state;
@@ -105,7 +99,7 @@ export default class CreateCustomer extends Component {
                     group
                     type="text"
                     value={this.state.firstName}
-                    onChange={this.handleInputChange}
+                    onChange={handleInputChange.bind(this)}
                   />
                   <Input
                     name="lastName"
@@ -114,7 +108,7 @@ export default class CreateCustomer extends Component {
                     group
                     type="text"
                     value={this.state.lastName}
-                    onChange={this.handleInputChange}
+                    onChange={handleInputChange.bind(this)}
                   />
                   <Input
                     name="company"
@@ -123,7 +117,7 @@ export default class CreateCustomer extends Component {
                     group
                     type="text"
                     value={this.state.company}
-                    onChange={this.handleInputChange}
+                    onChange={handleInputChange.bind(this)}
                   />
                   <Input
                     name="email"
@@ -132,7 +126,7 @@ export default class CreateCustomer extends Component {
                     group
                     type="email"
                     value={this.state.email}
-                    onChange={this.handleInputChange}
+                    onChange={handleInputChange.bind(this)}
                   />
                   <Input
                     name="password"
@@ -141,7 +135,7 @@ export default class CreateCustomer extends Component {
                     group
                     type="password"
                     value={this.state.password}
-                    onChange={this.handleInputChange}
+                    onChange={handleInputChange.bind(this)}
                   />
                   <Input
                     name="password2"
@@ -150,7 +144,7 @@ export default class CreateCustomer extends Component {
                     group
                     type="password"
                     value={this.state.password2}
-                    onChange={this.handleInputChange}
+                    onChange={handleInputChange.bind(this)}
                   />
                 </div>
                 <div>
