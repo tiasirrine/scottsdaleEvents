@@ -187,6 +187,21 @@ router.get('/get/customers', passport.authenticate('jwt', { session: false }), (
     });
 });
 
+// loads all customers
+router.get('/get/admins', passport.authenticate('jwt', { session: false }), (req, res) => {
+  if (!req.user.isAdmin) {
+    res.sendStatus(401);
+    return;
+  }
+  user
+    .getAllAdmins()
+    .then(result => res.status(200).send({ success: result }))
+    .catch(err => {
+      console.log('error:', err);
+      res.status.send({ error: err });
+    });
+});
+
 // gets all the products. runs on first page load.
 router.get('/get/products', (req, res) => {
   db.Product.findAll({})

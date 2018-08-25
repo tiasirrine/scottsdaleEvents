@@ -29,6 +29,15 @@ export default {
     });
   },
 
+  getAdmins: function() {
+    return axios.get('/get/admins', {
+      timeout: 15000,
+      headers: {
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
+    });
+  },
+
   // used to display the add to cart button and to check if the admin, login and cart page can be displayed
   checkToken: function() {
     return axios.get('/auth/token', {
