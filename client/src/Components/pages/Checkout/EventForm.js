@@ -6,25 +6,26 @@ import { Link } from 'react-router-dom';
 class EventForm extends Component {
   constructor(props) {
     super(props);
+    this.eventProps = this.props.location.state.eventProps;
 
     this.state = {
-      eventCustName: '',
-      eventGroupName: '',
-      eventVenue: '',
+      customerName: this.eventProps ? this.eventProps.customerName : '',
+      groupName: '',
+      venue: '',
       eventDate: '',
       eventStartTime: '',
       eventEndTime: '',
-      eventLocation: '',
-      eventComments: '',
+      location: '',
+      commentsOnEvent: '',
       loadIn: '',
       setByTime: '',
       strikeTime: '',
-      setupComments: '',
-      willCustName: '',
-      willPickupDate: '',
-      willPickupTime: '',
-      willReturnDate: '',
-      willReturnTime: ''
+      commentsOnSetup: '',
+      willCallCustomerName: '',
+      willCallPickupDate: '',
+      willCallPickupTime: '',
+      willCallReturnDate: '',
+      willCallReturnTime: ''
     };
   }
 
@@ -66,10 +67,9 @@ class EventForm extends Component {
                       <p className="h4 text-center py-4">Event Details</p>
                       <div className="grey-text">
                         <Input
-                          // value={this.props.location.state.eventProps.eventCustName}
+                          value={this.state.customerName}
                           label="Customer Name"
-                          name="eventCustName"
-                          className="disabled"
+                          name="customerName"
                           icon="user-circle"
                           onChange={this.handleChange}
                           group
@@ -80,7 +80,7 @@ class EventForm extends Component {
                         />
                         <Input
                           label="Group Name"
-                          name="eventGroupName"
+                          name="groupName"
                           icon="group"
                           onChange={this.handleChange}
                           group
@@ -91,7 +91,7 @@ class EventForm extends Component {
                         />
                         <Input
                           label="Venue"
-                          name="eventVenue"
+                          name="venue"
                           icon="building"
                           onChange={this.handleChange}
                           group
@@ -136,7 +136,7 @@ class EventForm extends Component {
                         />
                         <Input
                           label="Site/Room"
-                          name="eventLocation"
+                          name="location"
                           icon="group"
                           onChange={this.handleChange}
                           group
@@ -149,7 +149,7 @@ class EventForm extends Component {
                         <div className="md-form">
                           <i className="fa fa-pencil prefix" />
                           <textarea
-                            name="eventComments"
+                            name="commentsOnEvent"
                             onChange={this.handleChange}
                             type="text"
                             id="form10"
@@ -201,7 +201,7 @@ class EventForm extends Component {
                         <div className="md-form">
                           <i className="fa fa-pencil prefix" />
                           <textarea
-                            name="setupComments"
+                            name="commentsOnSetup"
                             onChange={this.handleChange}
                             type="text"
                             id="form10"
@@ -229,7 +229,7 @@ class EventForm extends Component {
                       <div className="grey-text">
                         <Input
                           label="Customer Name"
-                          name="willCustName"
+                          name="willCallCustomerName"
                           icon="user-circle"
                           onChange={this.handleChange}
                           group
@@ -240,7 +240,7 @@ class EventForm extends Component {
                         />
                         <Input
                           label="Pick Up Date"
-                          name="willPickupDate"
+                          name="willCallPickupDate"
                           icon="calendar"
                           onChange={this.handleChange}
                           group
@@ -251,7 +251,7 @@ class EventForm extends Component {
                         />
                         <Input
                           label="Pick Up Time"
-                          name="willPickupTime"
+                          name="willCallPickupTime"
                           icon="clock"
                           onChange={this.handleChange}
                           group
@@ -262,7 +262,7 @@ class EventForm extends Component {
                         />
                         <Input
                           label="Return Date"
-                          name="willReturnDate"
+                          name="willCallReturnDate"
                           icon="calendar"
                           onChange={this.handleChange}
                           group
@@ -273,7 +273,7 @@ class EventForm extends Component {
                         />
                         <Input
                           label="Return Time"
-                          name="willReturnTime"
+                          name="willCallReturnTime"
                           icon="clock"
                           onChange={this.handleChange}
                           group
@@ -295,7 +295,7 @@ class EventForm extends Component {
                       to={{
                         pathname: '/checkout/summary',
                         state: {
-                          cartProps: this.props.location.state,
+                          cartProps: this.props.location.state.cartProps,
                           eventProps: this.state
                         }
                       }}

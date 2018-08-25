@@ -1,0 +1,7 @@
+estimateId,sku,qty,customerName,groupName,venue,eventDate,eventStartTime,eventEndTime,location,commentsOnEvent,loadIn,setByTime,strikeTime,commentsOnSetup,willCallCustomerName,willCallPickupDate,willCallPickupTime,willCallReturnDate,willCallReturnTime
+1,1001-1001,3,,,,,,,,,,,,,,,,,
+1,1001-1002,3,,,,,,,,,,,,,,,,,
+1,1001-1009,1,,,,,,,,,,,,,,,,,
+1,1001-1004,3,,,,,,,,,,,,,,,,,
+1,1001-1005,2,,,,,,,,,,,,,,,,,
+1,1001-1010,2,,,,,,,,,,,,,,,,,
