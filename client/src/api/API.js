@@ -8,7 +8,12 @@ export default {
 
   // called in the shopping cart
   getEstimate: function(values) {
-    return axios.post('/get/estimate', values, { timeout: 15000 });
+    return axios.post('/get/estimate', values, {
+      timeout: 15000,
+      headers: {
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
+    });
   },
 
   loadCart: function() {
@@ -64,11 +69,45 @@ export default {
 
   // called in Cart.js
   deleteProduct: function(id) {
-    return axios.post('/delete/product', id, { timeout: 15000 });
+    return axios.post('/delete/product', id, {
+      timeout: 15000,
+      headers: {
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
+    });
   },
 
   deleteCustomer: function(id) {
-    return axios.post('/delete/customer', { id }, { timeout: 15000 });
+    return axios.post(
+      '/delete/customer',
+      { id },
+      {
+        timeout: 15000,
+        headers: {
+          Authorization: 'Bearer ' + sessionStorage.getItem('token')
+        }
+      }
+    );
+  },
+
+  deleteAdmin: function(id) {
+    return axios.post(
+      '/delete/admin',
+      { id },
+      {
+        timeout: 15000,
+        headers: {
+          Authorization: 'Bearer ' + sessionStorage.getItem('token')
+        }
+      }
+    );
+  },
+
+  deleteUser: function(id, user) {
+    if (user === 'customers') {
+      return this.deleteCustomer(id);
+    }
+    return this.deleteAdmin(id);
   },
 
   // Called in the Login component
@@ -115,6 +154,13 @@ export default {
         Authorization: 'Bearer ' + sessionStorage.getItem('token')
       }
     });
+  },
+
+  updateUser: function(id, user) {
+    if (user === 'customers') {
+      return this.updateCustomer(id);
+    }
+    return this.updateAdmin(id);
   },
 
   createAdmin: function(user) {

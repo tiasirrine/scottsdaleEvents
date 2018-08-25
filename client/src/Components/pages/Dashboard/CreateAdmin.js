@@ -21,7 +21,8 @@ export default class CreateCustomer extends Component {
       password: '',
       password2: '',
       result: null,
-      unauthorized: false
+      unauthorized: false,
+      superAdmin: false
     };
   }
 
@@ -29,13 +30,22 @@ export default class CreateCustomer extends Component {
     window.scrollTo(0, 0);
   }
 
+  checkSuperAdmin = () => this.setState({ superAdmin: !this.state.superAdmin });
+
   onSubmit = () => {
-    const { result, unauthorized, ...admin } = this.state;
+    const admin = {};
+    admin.firstName = this.state.firstName;
+    admin.lastName = this.state.lastName;
+    admin.email = this.state.email;
+    admin.password = this.state.password;
+    admin.password2 = this.state.password2;
 
     if (!checkNull(admin)) {
       this.setState({ result: 'All fields must be completed' });
       return;
     }
+
+    admin.superAdmin = this.state.superAdmin;
 
     if (!checkEmail(admin.email)) {
       this.setState({ result: 'Please enter a valid email address' });
@@ -134,6 +144,19 @@ export default class CreateCustomer extends Component {
                     value={this.state.password2}
                     onChange={handleInputChange.bind(this)}
                   />
+                  <div className="custom-control custom-checkbox mb-3">
+                    <input
+                      defaultChecked={this.state.superAdmin}
+                      onChange={this.checkSuperAdmin}
+                      type="checkbox"
+                      className="custom-control-input"
+                      id="super"
+                      required
+                    />
+                    <label className="custom-control-label" htmlFor="super">
+                      Super Admin
+                    </label>
+                  </div>
                 </div>
                 <div>
                   <Button color="primary" name="update-profile" onClick={this.onSubmit}>

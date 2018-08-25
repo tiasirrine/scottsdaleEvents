@@ -29,6 +29,7 @@ router.post('/create/customer', passport.authenticate('jwt', { session: false })
 // creates a new admin
 // TODO: secure this route
 router.post('/create/admin', (req, res) => {
+  console.log(req.body);
   user
     .createAdmin(req.body)
     .then(result => {
@@ -98,6 +99,7 @@ router.post('/create/email', (req, res) => {
 });
 
 router.post('/update/admin', passport.authenticate('jwt', { session: false }), (req, res) => {
+  console.log(req.body);
   user
     .updateAdmin(req.body)
     .then(() => {
@@ -144,18 +146,26 @@ router.post('/delete/customer', passport.authenticate('jwt', { session: false })
 
   user
     .deleteCustomer(id)
-    .then(() => res.send({ result: 'Success' }))
+    .then(() => res.send({ success: 'Success' }))
     .catch(err => {
       console.log(err);
-      res.send({ result: 'An error occured' });
+      res.send({ error: 'An error occured' });
     });
 });
 
 router.post('/delete/admin', passport.authenticate('jwt', { session: false }), (req, res) => {
+  const { id } = req.body;
   if (!req.user.isAdmin) {
     res.sendStatus(401);
     return;
   }
+  user
+    .deleteAdmin(id)
+    .then(() => res.send({ success: 'Success' }))
+    .catch(err => {
+      console.log(err);
+      res.send({ error: 'An error occured' });
+    });
 });
 
 router.post('/delete/product', passport.authenticate('jwt', { session: false }), (req, res) => {
