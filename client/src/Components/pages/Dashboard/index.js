@@ -19,7 +19,10 @@ class Dashboard extends Component {
   }
 
   // used to check if a user is authorized at any part of the admin dashboard
-  checkAuth = bool => this.setState({ unauthorized: bool });
+  checkAuth = bool => {
+    sessionStorage.clear();
+    this.setState({ unauthorized: bool });
+  };
 
   decodedToken = () => API.decodeToken();
 

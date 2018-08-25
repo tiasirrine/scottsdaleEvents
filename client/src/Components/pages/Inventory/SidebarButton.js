@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Collapse } from 'mdbreact';
 import { Link } from 'react-router-dom';
 
@@ -8,16 +8,20 @@ export default class SideBarButton extends Component {
     this.state = { collapse: false, active: false };
   }
 
+  // this is used to add the active class for a sub category
   subCatLinkClick(index) {
     this.setState({ active: index });
   }
 
+  // this is used to add the active class for a main category
   categoryFontWeight = () => {
     if (this.props.index === this.props.activeIndex) {
       return { fontWeight: '700', color: 'black' };
     }
   };
 
+  // styles for sub category active class
+  // also used to set and remove active class on a sub category
   subCatFontWeight = i => {
     const styles = {
       fontWeight: '700',
@@ -33,13 +37,15 @@ export default class SideBarButton extends Component {
     if (this.el) {
       if (!this.el.props.isOpen) {
         this.state.active = false;
-        // return styles;
       }
     }
   };
 
+  // used to determine if a main category can open or not.
+  // only 1 category is open at a time. Whenever a category is opened, the index of that category
+  // gets set in the state of Sidebar component.
+  // if the index value in Sidebar component matches the current index, then it can be opened
   canItOpen = () => {
-    // console.log(this.props.activeIndex, this.props.index);
     if (this.props.activeIndex === this.props.index) {
       return true;
     } else {

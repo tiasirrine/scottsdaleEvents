@@ -9,6 +9,11 @@ const passport = require('passport');
 
 // creates a new customer
 router.post('/create/customer', passport.authenticate('jwt', { session: false }), (req, res) => {
+  if (!req.user.isAdmin) {
+    res.sendStatus(401);
+    return;
+  }
+
   user
     .createCustomer(req.body)
     .then(result => {
@@ -117,7 +122,7 @@ router.post('/update/qty', passport.authenticate('jwt', { session: false }), (re
 });
 
 // updates any customer freeze
-router.post('/update/customer', (req, res) => {
+router.post('/update/customer', passport.authenticate('jwt', { session: false }), (req, res) => {
   user
     .updateCustomer(req.body)
     .then(() => {
@@ -130,9 +135,13 @@ router.post('/update/customer', (req, res) => {
 });
 
 // deletes a customer
-router.post('/delete/customer', (req, res) => {
+router.post('/delete/customer', passport.authenticate('jwt', { session: false }), (req, res) => {
   const { id } = req.body;
-  console.log(req.body);
+  if (!req.user.isAdmin) {
+    res.sendStatus(401);
+    return;
+  }
+
   user
     .deleteCustomer(id)
     .then(() => res.send({ result: 'Success' }))
@@ -142,11 +151,14 @@ router.post('/delete/customer', (req, res) => {
     });
 });
 
-router.post('/delete/admin', (req, res) => {
-  //
+router.post('/delete/admin', passport.authenticate('jwt', { session: false }), (req, res) => {
+  if (!req.user.isAdmin) {
+    res.sendStatus(401);
+    return;
+  }
 });
 
-router.post('/delete/product', (req, res) => {
+router.post('/delete/product', passport.authenticate('jwt', { session: false }), (req, res) => {
   const { cartProductId } = req.body;
   db.CartProduct.destroy({ where: { id: cartProductId } })
     // res is either 1 or 0. 1 is a success, 0 is a fail.
@@ -162,6 +174,10 @@ router.post('/delete/product', (req, res) => {
 
 // loads all customers
 router.get('/get/customers', passport.authenticate('jwt', { session: false }), (req, res) => {
+  if (!req.user.isAdmin) {
+    res.sendStatus(401);
+    return;
+  }
   user
     .getAllCustomers()
     .then(result => res.status(200).send({ success: result }))
@@ -196,7 +212,7 @@ router.get('/get/carts', passport.authenticate('jwt', { session: false }), (req,
 });
 
 // creates a csv file for a customers estimate
-router.post('/get/estimate', (req, res) => {
+router.post('/get/estimate', passport.authenticate('jwt', { session: false }), (req, res) => {
   // console.log('req.body', req.body);
   // creates the columns for the csv file
   const fields = ['estimateId', 'sku', 'qty'];
@@ -289,7 +305,7 @@ router.get('/auth/customer', (req, res) => {
     })
     .catch(err => {
       console.log('err', err);
-      res.status(403).send(err);
+      res.status(401).send(err);
     });
 });
 
