@@ -121,7 +121,7 @@ export default class CreateCustomer extends Component {
                   />
                   <Input
                     name="email"
-                    label="Your email"
+                    label="Email"
                     icon="envelope"
                     group
                     type="email"

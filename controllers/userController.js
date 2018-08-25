@@ -150,11 +150,16 @@ module.exports = {
           }
           this.checkPassword(password, returnedUser[0].password)
             .then(() => {
+              if (returnedUser[0].dataValues.suspend) {
+                reject('User is suspended');
+                return;
+              }
               const obj = {};
               obj.id = returnedUser[0].dataValues.id;
               obj.email = returnedUser[0].dataValues.email;
               obj.firstName = returnedUser[0].dataValues.firstName;
               obj.lastName = returnedUser[0].dataValues.lastName;
+              obj.suspend = returnedUser[0].dataValues.suspend;
               obj.isAdmin = true;
               resolve(obj);
             })
@@ -292,11 +297,28 @@ module.exports = {
     });
   },
 
-  //TODO: remove hash on results
   getAllCustomers: function() {
     return new Promise((resolve, reject) => {
       db.Customer.findAll({})
-        .then(result => resolve(result))
+        .then(result => {
+          result.forEach(a => {
+            delete a.dataValues.password;
+          });
+          resolve(result);
+        })
+        .catch(err => reject(err));
+    });
+  },
+
+  getAllAdmins: function() {
+    return new Promise((resolve, reject) => {
+      db.Admin.findAll({})
+        .then(result => {
+          result.forEach(a => {
+            delete a.dataValues.password;
+          });
+          resolve(result);
+        })
         .catch(err => reject(err));
     });
   }

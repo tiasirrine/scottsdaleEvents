@@ -14,11 +14,15 @@ const styles = {
 export default class ViewCustomers extends Component {
   constructor(props) {
     super(props);
-    this.state = { allCustomers: null };
+    this.state = { allCustomers: null, allAdmins: null };
   }
 
   componentDidMount() {
-    this.getAllCustomers();
+    if (this.props.location.pathname.includes('customers')) {
+      this.getAllCustomers();
+    } else {
+      this.getAllAdmins();
+    }
   }
 
   // this function gets passed down as a prop into the CustomerCard component
@@ -27,6 +31,25 @@ export default class ViewCustomers extends Component {
   deleteCustomer = id => {
     const updatedCustomers = this.state.allCustomers.filter(a => a.id !== id);
     this.setState({ allCustomers: updatedCustomers });
+  };
+
+  getAllAdmins = () => {
+    API.getAdmins()
+      .then(result => {
+        const { success } = result.data;
+        if (success) {
+          console.log(success);
+          // this.setState({allAdmins: success})
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        if (err.response) {
+          if (err.response.status === 401) {
+            this.props.checkAuth(true);
+          }
+        }
+      });
   };
 
   // loads all customers when the component mounts
@@ -49,6 +72,7 @@ export default class ViewCustomers extends Component {
   };
 
   render() {
+    console.log(this.state);
     if (this.state.allCustomers === null) {
       return <div className="loader" />;
     }
