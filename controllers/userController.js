@@ -120,6 +120,10 @@ module.exports = {
         .then(returnedUser => {
           this.checkPassword(password, returnedUser[0].password)
             .then(() => {
+              if (returnedUser[0].dataValues.suspend) {
+                reject('User is suspended');
+                return;
+              }
               const obj = {};
               obj.id = returnedUser[0].dataValues.id;
               obj.email = returnedUser[0].dataValues.email;

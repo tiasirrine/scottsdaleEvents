@@ -40,6 +40,11 @@ export default class ViewCustomers extends Component {
       })
       .catch(err => {
         console.log(err);
+        if (err.response) {
+          if (err.response.status === 401) {
+            this.props.checkAuth(true);
+          }
+        }
       });
   };
 
@@ -60,7 +65,12 @@ export default class ViewCustomers extends Component {
             <Col md="8" className="offset-md-2">
               {this.state.allCustomers &&
                 this.state.allCustomers.map(a => (
-                  <CustomerCard key={a.email} customer={a} deleteCustomer={this.deleteCustomer} />
+                  <CustomerCard
+                    key={a.email}
+                    customer={a}
+                    deleteCustomer={this.deleteCustomer}
+                    checkAuth={this.props.checkAuth}
+                  />
                 ))}
             </Col>
           </Row>

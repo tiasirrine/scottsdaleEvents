@@ -1,15 +1,5 @@
 import React from 'react';
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  ModalFooter,
-  Table
-} from 'mdbreact';
+import { Container, Row, Col, Button, Modal, ModalBody, ModalHeader, ModalFooter, Table } from 'mdbreact';
 import API from '../../../api/API';
 import { Link } from 'react-router-dom';
 import './Checkout.css';
@@ -51,8 +41,7 @@ class Summary extends React.Component {
   };
 
   handleCheck(event) {
-    this.state.isActive = event.target.checked;
-    this.setState({ isActive: this.state.isActive });
+    this.setState({ isActive: event.target.checked });
   }
 
   submitButton = () => {

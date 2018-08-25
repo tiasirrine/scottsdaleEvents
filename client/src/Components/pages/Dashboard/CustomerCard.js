@@ -37,6 +37,11 @@ export default class CustomerCard extends Component {
       })
       .catch(err => {
         console.log(err);
+        if (err.response.status) {
+          if (err.response.status === 401) {
+            this.props.checkAuth(true);
+          }
+        }
       });
   };
 
@@ -76,8 +81,13 @@ export default class CustomerCard extends Component {
           this.setState({ result: error });
         }
       })
-      .catch(error => {
-        console.log(error);
+      .catch(err => {
+        console.log(err.response);
+        if (err.response.status) {
+          if (err.response.status === 401) {
+            this.props.checkAuth(true);
+          }
+        }
         this.setState({ result: 'An error occured' });
       });
   };

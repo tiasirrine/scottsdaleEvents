@@ -40,10 +40,6 @@ export default class Nav extends Component {
     }
   }
 
-  // navbarToggler = () => this.setState({ collapse: !this.state.collapse });
-
-  // toggle = () => this.setState({ dropdownOpen: !this.state.dropdownOpen });
-
   // sets the active class to the clicked nav button
   onNavItemClick = e => this.setState({ active: e.target.name });
 
