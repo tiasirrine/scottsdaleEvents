@@ -14,28 +14,53 @@ export default class CustomerCard extends Component {
       email: this.props.customer.email,
       suspend: this.props.customer.suspend,
       result: null,
-      unauthorized: false
+      unauthorized: false,
+      confirmDelete: false
     };
   }
 
-  deleteClick = e => {
-    console.log(e);
-  };
-
+  // used to reveal a form to modify a customer
   modifyClick = () => this.setState({ modify: !this.state.modify });
 
-  suspendClick = () => this.setState({ suspend: this.state.suspend ? false : true });
+  // used to set the state.suspended value to true when updating a customer
+  suspendClick = () => this.setState({ suspend: !this.state.suspend });
 
+  // reveals a delete confirmation
+  firstDeleteClick = () => this.setState({ confirmDelete: true });
+
+  // deletes the user in the db, and removes the user from the state of the ViewCustomer component
+  secondDeleteClick = () => {
+    const { id } = this.props.customer;
+    API.deleteCustomer(id)
+      .then(result => {
+        this.props.deleteCustomer(id);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  // used to hide the delete confirmation
+  denyDeleteClick = () => this.setState({ confirmDelete: false });
+
+  // updates a customer
   submitClick = () => {
-    const { result, unauthorized, modify, suspend, ...customer } = this.state;
-
+    const customer = {};
+    customer.firstName = this.state.firstName;
+    customer.lastName = this.state.lastName;
+    customer.company = this.state.company;
+    customer.email = this.state.email;
     customer.id = this.props.customer.id;
+
+    // checks for null form values
     if (!checkNull(customer)) {
       this.setState({ result: 'All fields must be completed' });
       return;
     }
 
-    customer.suspend = suspend;
+    // set the suspended value here, since its ok for it to be false.
+    // if set above the checkNull function, checkNull will return false each time
+    customer.suspend = this.state.suspend;
 
     if (!checkEmail(customer.email)) {
       this.setState({ result: 'Please enter a valid email address' });
@@ -58,23 +83,42 @@ export default class CustomerCard extends Component {
   };
 
   render() {
-    const { customer } = this.props;
-    console.log(this.state);
     return (
-      <Card key={this.state.email}>
+      <Card>
         <CardBody>
           <CardTitle>
             Name: {this.state.firstName} {this.state.lastName}
           </CardTitle>
           <div className="d-flex flex-column flex-lg-row justify-content-between">
-            <p>Customer ID: {this.state.id}</p>
+            <p>Customer ID: {this.props.customer.id}</p>
             <p>Email: {this.state.email} </p>
             <p>Company: {this.state.company}</p>
           </div>
           <p>Status: {!this.state.suspend ? 'Active' : 'Suspended'}</p>
-          <div className="">
+          <div>
             <Button onClick={this.modifyClick}>{!this.state.modify ? 'Modify' : 'Hide'}</Button>
-            <Button onClick={this.deleteClick}>Delete</Button>
+            <Button onClick={this.firstDeleteClick}>Delete</Button>
+            {this.state.confirmDelete && (
+              <p>
+                Are you sure?{' '}
+                <span
+                  className="text-success p-2"
+                  style={{ cursor: 'pointer' }}
+                  onClick={this.secondDeleteClick}
+                >
+                  Yes{' '}
+                </span>{' '}
+                <span
+                  onClick={this.denyDeleteClick}
+                  className="text-danger p-2"
+                  style={{ cursor: 'pointer' }}
+                >
+                  No
+                  {}
+                </span>
+              </p>
+            )}
+            {this.deleteResult && <p>{this.deleteResult}</p>}
           </div>
           {this.state.modify && (
             <form>
@@ -108,7 +152,7 @@ export default class CustomerCard extends Component {
                 />
                 <Input
                   name="email"
-                  label="Your email"
+                  label="Email"
                   icon="envelope"
                   group
                   type="email"

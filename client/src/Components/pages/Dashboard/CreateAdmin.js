@@ -76,7 +76,6 @@ export default class CreateCustomer extends Component {
   };
 
   render() {
-    console.log(this.state);
     return (
       <Fragment>
         <div className="hideIcon">
@@ -108,7 +107,6 @@ export default class CreateCustomer extends Component {
                     value={this.state.lastName}
                     onChange={handleInputChange.bind(this)}
                   />
-
                   <Input
                     name="email"
                     label="Email"

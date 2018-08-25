@@ -20,21 +20,13 @@ class App extends Component {
     this.state = {
       inventoryObj: null,
       subCategories: null,
-      hideNavAndFooter: false,
-      hideNav: false
+      hideNavAndFooter: false
     };
   }
 
   componentDidMount() {
     window.scrollTo(0, 0);
-    // this attaches the click event to the main content area to close
-    // the navbar on an outside click, if the navbar is small and opened
-    document.addEventListener('click', this.closeNavbar, false);
     this.setState({ inventoryObj: this.loadProducts() });
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('click', this.closeNavbar);
   }
 
   loadProducts = () => {
@@ -88,34 +80,12 @@ class App extends Component {
       });
   };
 
-  // this is used to close the navbar when it is small, and expanded.
-  // closes the navbar when you click the main content area
-  closeNavbar = e => {
-    const target = e.target.getAttribute('class');
-    // const { href } = window.location;
-    // if (href.includes('/admin') || href.includes('/dashboard')) {
-    //   return false;
-    // }
-
-    if (target !== 'navbar navbar-dark fixed-top navbar-expand-md scrolling-navbar') {
-      this.setState({ hideNav: true });
-    }
-
-    // if (this.node.contains(e.target)) {
-    //   const el = document.getElementsByClassName('navbar-collapse')[0];
-    //   const testEl = el.classList.contains('show');
-    //   if (testEl) {
-    //     this.setState({ hideNav: true });
-    //   }
-    // }
-  };
-
   render() {
     const { categories, subCategories, inventoryObj } = this.state;
     return (
       <Router>
         <Fragment>
-          <Navbar collapse={this.state.hideNav && this.state.hideNav} />
+          <Navbar />
           <div className="main-height">
             <Switch>
               <Route exact path="/" component={Home} />

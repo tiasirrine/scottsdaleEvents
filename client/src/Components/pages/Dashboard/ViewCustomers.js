@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { Container, Row, Col, Input, Button, Card, CardBody, CardTitle } from 'mdbreact';
+import { Container, Row, Col } from 'mdbreact';
 import API from '../../../api/API';
 import CustomerCard from './CustomerCard';
-// import { checkEmail, checkNull, handleInputChange } from '../../../api/validate';
 
 const styles = {
   h2: {
@@ -15,17 +14,26 @@ const styles = {
 export default class ViewCustomers extends Component {
   constructor(props) {
     super(props);
-    this.state = { allCustomers: null, modify: false };
+    this.state = { allCustomers: null };
   }
 
   componentDidMount() {
     this.getAllCustomers();
   }
 
+  // this function gets passed down as a prop into the CustomerCard component
+  // to update the state of this component when a customer is deleted so that
+  // the customer is removed on the page right away
+  deleteCustomer = id => {
+    const updatedCustomers = this.state.allCustomers.filter(a => a.id !== id);
+    this.setState({ allCustomers: updatedCustomers });
+  };
+
+  // loads all customers when the component mounts
   getAllCustomers = () => {
     API.getCustomers()
       .then(result => {
-        const { success, error } = result.data;
+        const { success } = result.data;
         if (success) {
           this.setState({ allCustomers: success });
         }
@@ -35,14 +43,10 @@ export default class ViewCustomers extends Component {
       });
   };
 
-  deleteClick = e => {
-    console.log(e);
-  };
-
-  modifyClick = () => this.setState({ modify: !this.state.modify });
-
   render() {
-    console.log(this.state);
+    if (this.state.allCustomers === null) {
+      return <div className="loader" />;
+    }
     return (
       <Fragment>
         <div className="hideIcon">
@@ -55,7 +59,9 @@ export default class ViewCustomers extends Component {
             </div>
             <Col md="8" className="offset-md-2">
               {this.state.allCustomers &&
-                this.state.allCustomers.map(a => <CustomerCard key={a.email} customer={a} />)}
+                this.state.allCustomers.map(a => (
+                  <CustomerCard key={a.email} customer={a} deleteCustomer={this.deleteCustomer} />
+                ))}
             </Col>
           </Row>
         </Container>

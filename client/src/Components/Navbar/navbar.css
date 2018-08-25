@@ -1,5 +1,5 @@
 .navbar {
-  font-size: 14px;
+  font-size: 12px;
   min-height: 62px;
   width: 100%;
   position: fixed;
@@ -15,14 +15,26 @@
   background-color: rgb(55, 57, 64);
 }
 
-@media (min-width: 992px) {
-  .navbar {
-    font-size: 14px;
+.nav-flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+@media (min-width: 576px) {
+  .nav-flex {
+    flex-direction: row;
   }
 }
 
-@media (min-width: 1050px) {
+@media (min-width: 650px) {
   .navbar {
-    font-size: 17px;
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 850px) {
+  .navbar {
+    font-size: 15px;
   }
 }
