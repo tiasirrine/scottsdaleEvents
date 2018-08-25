@@ -160,6 +160,7 @@ module.exports = {
               obj.firstName = returnedUser[0].dataValues.firstName;
               obj.lastName = returnedUser[0].dataValues.lastName;
               obj.suspend = returnedUser[0].dataValues.suspend;
+              obj.superAdmin = returnedUser[0].dataValues.superAdmin;
               obj.isAdmin = true;
               resolve(obj);
             })
@@ -265,6 +266,21 @@ module.exports = {
   deleteCustomer: function(id) {
     return new Promise((resolve, reject) => {
       db.Customer.destroy({ where: { id: parseInt(id) } })
+        .then(res => {
+          // checks if 0 results were deleted
+          if (!res) {
+            console.log('ERROR: ', res);
+            reject('Failed to remove customer');
+          }
+          resolve('Customer removed');
+        })
+        .catch(err => reject(err));
+    });
+  },
+
+  deleteAdmin: function(id) {
+    return new Promise((resolve, reject) => {
+      db.Admin.destroy({ where: { id: parseInt(id) } })
         .then(res => {
           // checks if 0 results were deleted
           if (!res) {

@@ -14,7 +14,8 @@ module.exports = function(sequelize, DataTypes) {
         allowNull: false,
         validate: { len: { args: [3], msg: 'Password must be at least 3 characters' } }
       },
-      suspend: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false }
+      suspend: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
+      superAdmin: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false }
     },
     { timestamps: false }
   );

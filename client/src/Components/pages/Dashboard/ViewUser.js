@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Container, Row, Col } from 'mdbreact';
 import API from '../../../api/API';
-import CustomerCard from './CustomerCard';
+import UserCard from './UserCard';
 
 const styles = {
   h2: {
@@ -11,10 +11,11 @@ const styles = {
   }
 };
 
-export default class ViewCustomers extends Component {
+export default class ViewUser extends Component {
   constructor(props) {
     super(props);
-    this.state = { allCustomers: null, allAdmins: null };
+    this.state = { allUsers: null };
+    this.user = this.props.location.pathname.split('/')[3];
   }
 
   componentDidMount() {
@@ -25,21 +26,22 @@ export default class ViewCustomers extends Component {
     }
   }
 
-  // this function gets passed down as a prop into the CustomerCard component
+  // this function gets passed down as a prop into the UserCard component
   // to update the state of this component when a customer is deleted so that
   // the customer is removed on the page right away
-  deleteCustomer = id => {
-    const updatedCustomers = this.state.allCustomers.filter(a => a.id !== id);
-    this.setState({ allCustomers: updatedCustomers });
+  deleteUser = id => {
+    const updatedUsers = this.state.allUsers.filter(a => a.id !== id);
+    console.log(id);
+    this.setState({ allUsers: updatedUsers });
   };
 
   getAllAdmins = () => {
     API.getAdmins()
       .then(result => {
         const { success } = result.data;
+        const removeActiveUser = success.filter(a => a.id !== this.props.user.id);
         if (success) {
-          console.log(success);
-          // this.setState({allAdmins: success})
+          this.setState({ allUsers: removeActiveUser });
         }
       })
       .catch(err => {
@@ -58,7 +60,7 @@ export default class ViewCustomers extends Component {
       .then(result => {
         const { success } = result.data;
         if (success) {
-          this.setState({ allCustomers: success });
+          this.setState({ allUsers: success });
         }
       })
       .catch(err => {
@@ -73,7 +75,7 @@ export default class ViewCustomers extends Component {
 
   render() {
     console.log(this.state);
-    if (this.state.allCustomers === null) {
+    if (this.state.allUsers === null) {
       return <div className="loader" />;
     }
     return (
@@ -84,16 +86,17 @@ export default class ViewCustomers extends Component {
         <Container>
           <Row>
             <div style={styles.h2}>
-              <h2>View and modify your customers</h2>
+              <h2>View and modify your {this.user}</h2>
             </div>
             <Col md="8" className="offset-md-2">
-              {this.state.allCustomers &&
-                this.state.allCustomers.map(a => (
-                  <CustomerCard
+              {this.state.allUsers &&
+                this.state.allUsers.map(a => (
+                  <UserCard
                     key={a.email}
-                    customer={a}
-                    deleteCustomer={this.deleteCustomer}
+                    user={a}
+                    deleteUser={this.deleteUser}
                     checkAuth={this.props.checkAuth}
+                    userType={this.user}
                   />
                 ))}
             </Col>

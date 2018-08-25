@@ -3,37 +3,42 @@ import { Input, Button, Card, CardBody, CardTitle } from 'mdbreact';
 import { checkEmail, checkNull, handleInputChange } from '../../../api/validate';
 import API from '../../../api/API';
 
-export default class CustomerCard extends Component {
+export default class UserCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modify: false,
-      firstName: this.props.customer.firstName,
-      lastName: this.props.customer.lastName,
-      company: this.props.customer.company,
-      email: this.props.customer.email,
-      suspend: this.props.customer.suspend,
+      firstName: this.props.user.firstName,
+      lastName: this.props.user.lastName,
+      company: this.props.user.company,
+      email: this.props.user.email,
+      suspend: this.props.user.suspend,
+      superAdmin: this.props.user.superAdmin || false,
       result: null,
       unauthorized: false,
       confirmDelete: false
     };
   }
 
-  // used to reveal a form to modify a customer
+  checkSuperAdmin = () => this.setState({ superAdmin: !this.state.superAdmin });
+
+  // used to reveal a form to modify a user
   modifyClick = () => this.setState({ modify: !this.state.modify });
 
-  // used to set the state.suspended value to true when updating a customer
+  // used to set the state.suspended value to true when updating a user
   suspendClick = () => this.setState({ suspend: !this.state.suspend });
 
   // reveals a delete confirmation
   firstDeleteClick = () => this.setState({ confirmDelete: true });
 
-  // deletes the user in the db, and removes the user from the state of the ViewCustomer component
+  // deletes the user in the db, and removes the user from the state of the ViewUser component
   secondDeleteClick = () => {
-    const { id } = this.props.customer;
-    API.deleteCustomer(id)
+    const { id } = this.props.user;
+    API.deleteUser(id, this.props.userType)
       .then(result => {
-        this.props.deleteCustomer(id);
+        if (result.data.success) {
+          this.props.deleteUser(id);
+        }
       })
       .catch(err => {
         console.log(err);
@@ -48,35 +53,36 @@ export default class CustomerCard extends Component {
   // used to hide the delete confirmation
   denyDeleteClick = () => this.setState({ confirmDelete: false });
 
-  // updates a customer
+  // updates a user
   submitClick = () => {
-    const customer = {};
-    customer.firstName = this.state.firstName;
-    customer.lastName = this.state.lastName;
-    customer.company = this.state.company;
-    customer.email = this.state.email;
-    customer.id = this.props.customer.id;
+    const user = {};
+    user.firstName = this.state.firstName;
+    user.lastName = this.state.lastName;
+    user.company = this.state.company;
+    user.email = this.state.email;
+    user.id = this.props.user.id;
 
     // checks for null form values
-    if (!checkNull(customer)) {
+    if (!checkNull(user)) {
       this.setState({ result: 'All fields must be completed' });
       return;
     }
 
     // set the suspended value here, since its ok for it to be false.
     // if set above the checkNull function, checkNull will return false each time
-    customer.suspend = this.state.suspend;
+    user.suspend = this.state.suspend;
+    user.superAdmin = this.state.superAdmin;
 
-    if (!checkEmail(customer.email)) {
+    if (!checkEmail(user.email)) {
       this.setState({ result: 'Please enter a valid email address' });
       return;
     }
 
-    API.updateCustomer(customer)
+    API.updateUser(user, this.props.userType)
       .then(result => {
         const { success, error } = result.data;
         if (success) {
-          this.setState({ result: success, ...customer });
+          this.setState({ result: success, ...user });
         } else {
           this.setState({ result: error });
         }
@@ -100,9 +106,12 @@ export default class CustomerCard extends Component {
             Name: {this.state.firstName} {this.state.lastName}
           </CardTitle>
           <div className="d-flex flex-column flex-lg-row justify-content-between">
-            <p>Customer ID: {this.props.customer.id}</p>
+            <p>ID: {this.props.user.id}</p>
             <p>Email: {this.state.email} </p>
-            <p>Company: {this.state.company}</p>
+            {this.props.user.superAdmin !== undefined && (
+              <p>Super Admin: {this.state.superAdmin ? 'True' : 'False'}</p>
+            )}
+            {this.state.company && <p>Company: {this.state.company}</p>}
           </div>
           <p>Status: {!this.state.suspend ? 'Active' : 'Suspended'}</p>
           <div>
@@ -151,15 +160,17 @@ export default class CustomerCard extends Component {
                   value={this.state.lastName}
                   onChange={handleInputChange.bind(this)}
                 />
-                <Input
-                  name="company"
-                  label="Company Name"
-                  icon="pencil"
-                  group
-                  type="text"
-                  value={this.state.company}
-                  onChange={handleInputChange.bind(this)}
-                />
+                {this.state.company && (
+                  <Input
+                    name="company"
+                    label="Company Name"
+                    icon="pencil"
+                    group
+                    type="text"
+                    value={this.state.company}
+                    onChange={handleInputChange.bind(this)}
+                  />
+                )}
                 <Input
                   name="email"
                   label="Email"
@@ -175,17 +186,32 @@ export default class CustomerCard extends Component {
                     onChange={this.suspendClick}
                     type="checkbox"
                     className="custom-control-input"
-                    id="customControlValidation1"
+                    id="suspend"
                     required
                   />
-                  <label className="custom-control-label" htmlFor="customControlValidation1">
-                    Suspend Customer
+                  <label className="custom-control-label" htmlFor="suspend">
+                    Suspend User
                   </label>
                 </div>
+                {this.props.user.superAdmin !== undefined && (
+                  <div className="custom-control custom-checkbox mb-3">
+                    <input
+                      defaultChecked={this.state.superAdmin}
+                      onChange={this.checkSuperAdmin}
+                      type="checkbox"
+                      className="custom-control-input"
+                      id="super-admin"
+                      required
+                    />
+                    <label className="custom-control-label" htmlFor="super-admin">
+                      Super Admin
+                    </label>
+                  </div>
+                )}
               </div>
               <div>
                 <Button color="primary" name="update-profile" onClick={this.submitClick}>
-                  Update Customer
+                  Update User
                 </Button>
                 {this.state.result && <p>{this.state.result}</p>}
               </div>
