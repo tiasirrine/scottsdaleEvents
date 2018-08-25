@@ -127,6 +127,18 @@ class Cart extends Component {
     }
   };
 
+  createSelectItems() {
+    let items = [];
+    for (let i = 0; i <= this.props.maxValue; i++) {
+      items.push(
+        <option key={i} value={i}>
+          {i}
+        </option>
+      );
+    }
+    return items;
+  }
+
   render() {
     console.log('cart: ', this.state);
     const { activeCart } = this.state;
