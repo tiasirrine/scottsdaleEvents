@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Button, Input } from 'mdbreact';
+import { Button, Input, Row } from 'mdbreact';
 import './InventoryPage.css';
 import API from '../../../api/API';
 
@@ -34,10 +34,7 @@ class InventoryCard extends Component {
   // saves the product to the users cart.
   handleFormSubmit = event => {
     // prevents adding 0 items of something or too many
-    if (
-      this.state.quantity > 0 &&
-      this.state.quantity <= parseInt(this.props.cardQuantity)
-    ) {
+    if (this.state.quantity > 0 && this.state.quantity <= parseInt(this.props.cardQuantity)) {
       event.preventDefault();
       // grabs the values needed for the product to save to the cart
       const obj = {};
@@ -62,11 +59,7 @@ class InventoryCard extends Component {
     return (
       <div className="row my-5 pb-4 text-center text-md-left">
         <div className="col-md-5 mb-3 mb-sm-3">
-          <img
-            className="img-fluid product-img"
-            src={this.props.url}
-            alt={this.props.cardTitle}
-          />
+          <img className="img-fluid product-img" src={this.props.url} alt={this.props.cardTitle} />
         </div>
         <div className="col-md-7 border-bottom pb-3 pb-sm-3">
           <h3 className="mb-2">{this.props.cardTitle}</h3>
@@ -78,32 +71,33 @@ class InventoryCard extends Component {
                 <p>${this.props.cardPrice}</p>
                 <p>{this.props.cardQuantity} units in inventory</p>
 
-                {this.state.result && (
-                  <p className="my-2">{this.state.result}</p>
-                )}
-                <Input
-                  className="mx-auto mx-md-0"
-                  value={this.state.quantity.toString()}
-                  onChange={this.handleInputChange}
-                  data-id={this.props.id}
-                  type="number"
-                  name="quantity"
-                  id="item-quantity"
-                  max={this.props.cardQuantity}
-                  min="0"
-                  placeholder={'Quantity'}
-                />
-                <Button
-                  type="submit"
-                  value="Submit"
-                  onClick={this.handleFormSubmit}
-                  data-id={this.props.id}
-                  data-maxqty={this.props.cardQuantity}
-                  className="aButton"
-                >
+                {this.state.result && <p className="my-2">{this.state.result}</p>}
+                <Row>
                   {' '}
-                  Add To Cart
-                </Button>
+                  <Input
+                    className="mx-auto mx-md-0"
+                    value={this.state.quantity.toString()}
+                    onChange={this.handleInputChange}
+                    data-id={this.props.id}
+                    type="number"
+                    name="quantity"
+                    id="item-quantity"
+                    max={this.props.cardQuantity}
+                    min="0"
+                    placeholder={'Quantity'}
+                  />
+                  <Button
+                    type="submit"
+                    value="Submit"
+                    onClick={this.handleFormSubmit}
+                    data-id={this.props.id}
+                    data-maxqty={this.props.cardQuantity}
+                    className="aButton"
+                  >
+                    {' '}
+                    Add To Cart
+                  </Button>
+                </Row>
               </Fragment>
             )}
         </div>

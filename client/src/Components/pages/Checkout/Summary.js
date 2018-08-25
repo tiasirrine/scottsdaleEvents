@@ -71,6 +71,7 @@ class Summary extends React.Component {
   };
 
   render() {
+    const eventDetails = this.props.location.state;
     console.log(this.props);
     return (
       <Container className="mt-5">
@@ -92,7 +93,7 @@ class Summary extends React.Component {
                     <tr key={index}>
                       <td className="text-center">{obj.name}</td>
                       <td className="text-center">{obj.qty}</td>
-                      <td className="text-center">{obj.total}</td>
+                      <td className="text-center">${obj.total}</td>
                     </tr>
                   );
                 })}
@@ -112,15 +113,23 @@ class Summary extends React.Component {
             <Table>
               <thead className="blue-grey lighten-4">
                 <tr>
-                  <th className="text-center">Event</th>
+                  <th className="text-center">Event Details</th>
+                  <th className="text-center">Your Event</th>
                 </tr>
               </thead>
               <tbody>
-                {Object.keys(this.props.location.state.eventProps).map((obj, index) => {
+                {Object.keys(eventDetails.eventProps).map((obj, index) => {
                   console.log('obj: ', obj);
+                  const camelCase = obj
+                    .replace(/([A-Z])/g, ' $1')
+
+                    .replace(/^./, function(str) {
+                      return str.toUpperCase();
+                    });
                   return (
                     <tr key={index}>
-                      <td key={index}> {this.props.location.state.eventProps[obj]}</td>
+                      <td className="text-center">{camelCase}</td>
+                      <td className="text-center">{eventDetails.eventProps[obj]}</td>
                     </tr>
                   );
                 })}
@@ -149,8 +158,8 @@ class Summary extends React.Component {
                 to={{
                   pathname: '/checkout/event',
                   state: {
-                    cartPropsBack: this.props.location.state.cartProps,
-                    eventPropsback: this.props.location.state.eventProps
+                    cartProps: this.props.location.state.cartProps,
+                    eventProps: this.props.location.state.eventProps
                   }
                 }}
               >
@@ -158,11 +167,15 @@ class Summary extends React.Component {
                   Back
                 </Button>
               </Link>
-              {this.state.isActive ? (
-                <button className="btn btn-unique" onClick={this.submitButton}>
+              {
+                <button
+                  className="btn btn-unique"
+                  disabled={!this.state.isActive}
+                  onClick={this.submitButton}
+                >
                   Submit Order
                 </button>
-              ) : null}
+              }
             </form>
           </Col>
         </Row>
