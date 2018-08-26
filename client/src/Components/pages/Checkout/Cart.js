@@ -126,19 +126,22 @@ class Cart extends Component {
       this.onSubmit();
     }
   };
-
   createSelectItems() {
+    console.log('activecart', this.state.activeCart);
     let items = [];
-    for (let i = 0; i <= this.props.maxValue; i++) {
-      items.push(
-        <option key={i} value={i}>
-          {i}
-        </option>
-      );
-    }
-    return items;
+    this.state.activeCart.map((a, i) => {
+      for (let i = 0; i <= a.quantity; i++) {
+        items.push(
+          <option key={i} value={i}>
+            {i}
+          </option>
+        );
+      }
+      console.log('a: ', a);
+      console.log(items);
+      return items.key;
+    });
   }
-
   render() {
     console.log('cart: ', this.state);
     const { activeCart } = this.state;
@@ -163,14 +166,15 @@ class Cart extends Component {
               <small>{this.state.errorMsg}</small>
             </div>
           )}
-          <Table>
+          <Table hover>
             <thead className="blue-grey lighten-4">
               <tr>
                 <th>Product</th>
                 <th>Quantity</th>
-                <th>Total Quantity in Inventory</th>
+                <th className="text-center">Inventory</th>
                 <th>Price</th>
                 <th>Total</th>
+                <th>Remove</th>
               </tr>
             </thead>
             <tbody>
@@ -178,10 +182,29 @@ class Cart extends Component {
                 activeCart.map((a, i) => {
                   return (
                     <tr key={i}>
-                      <th scope="row">
-                        {a.name}
-                        <br />
-                        <br />
+                      <td scope="row">{a.name}</td>
+                      <td>
+                        {/* <Input
+                          data-id={a.id}
+                          type="number"
+                          onChange={this.onChange}
+                          name={a.name}
+                          value={activeCart[i].qty}
+                          size="sm"
+                          max={a.quantity}
+                          min="0"
+                        /> */}
+                        <label>Current:</label>
+                        <select className="browser-default" onChange={this.onChange} name={a.name}>
+                          <option value={activeCart[i].qty}>{activeCart[i].qty}</option>
+                          {this.createSelectItems()}
+                        </select>
+                      </td>
+                      <td className="text-center">{activeCart[i].quantity}</td>
+                      <td>${activeCart[i].price}</td>
+                      <td>${activeCart[i].total}</td>
+                      <td>
+                        {' '}
                         <a
                           name={a.name}
                           className={`text-danger`}
@@ -191,22 +214,7 @@ class Cart extends Component {
                         >
                           {a.err ? a.err : 'Remove'}
                         </a>
-                      </th>
-                      <td>
-                        <Input
-                          data-id={a.id}
-                          type="number"
-                          onChange={this.onChange}
-                          name={a.name}
-                          value={activeCart[i].qty}
-                          size="sm"
-                          max={a.quantity}
-                          min="0"
-                        />
                       </td>
-                      <td>{activeCart[i].quantity}</td>
-                      <td>${activeCart[i].price}</td>
-                      <td>${activeCart[i].total}</td>
                     </tr>
                   );
                 })}
