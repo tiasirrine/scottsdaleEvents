@@ -8,6 +8,9 @@ thead {
 tr:nth-child(even) {
   background: #ccc;
 }
+.est-sub {
+  font-weight: 900;
+}
 
 .md-form .prefix ~ label {
   transform: translateY(-120%);

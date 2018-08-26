@@ -19,11 +19,10 @@ class Cart extends Component {
 
     API.loadCart()
       .then(res => {
-        console.log('asdf', res.data);
         // only sorts the active cart if there are items already saved for it
         if (res.data.length) {
           const activeCart = res.data[0].CartProducts;
-          console.log(activeCart);
+
           // grabs the pertinent data from the cart
           const sortedActiveCart = activeCart.map(a => {
             // finds the total cost based on price and qty
@@ -50,6 +49,7 @@ class Cart extends Component {
     const { name } = e.target;
     // value is the quantity to update
     let { value } = e.target;
+    console.log('value', value);
     // this is the product id of the product to update
     const ProductId = e.target.getAttribute('data-id');
 
@@ -126,21 +126,18 @@ class Cart extends Component {
       this.onSubmit();
     }
   };
-  createSelectItems() {
-    console.log('activecart', this.state.activeCart);
+  createSelectItems(value) {
     let items = [];
-    this.state.activeCart.map((a, i) => {
-      for (let i = 0; i <= a.quantity; i++) {
-        items.push(
-          <option key={i} value={i}>
-            {i}
-          </option>
-        );
-      }
-      console.log('a: ', a);
-      console.log(items);
-      return items.key;
-    });
+
+    for (let i = 1; i <= value.quantity; i++) {
+      items.push(
+        <option key={i} value={i}>
+          {i}
+        </option>
+      );
+    }
+
+    return items;
   }
   render() {
     console.log('cart: ', this.state);
@@ -195,9 +192,14 @@ class Cart extends Component {
                           min="0"
                         /> */}
                         <label>Current:</label>
-                        <select className="browser-default" onChange={this.onChange} name={a.name}>
-                          <option value={activeCart[i].qty}>{activeCart[i].qty}</option>
-                          {this.createSelectItems()}
+                        <select
+                          data-id={a.id}
+                          className="browser-default"
+                          onChange={this.onChange}
+                          name={a.name}
+                        >
+                          <option>{activeCart[i].qty}</option>
+                          {this.createSelectItems(activeCart[i])}
                         </select>
                       </td>
                       <td className="text-center">{activeCart[i].quantity}</td>
@@ -220,7 +222,7 @@ class Cart extends Component {
                 })}
             </tbody>
           </Table>
-          <div className="text-right">
+          <div className="text-right est-sub">
             Est Subtotal: {'   '}${activeCart.sum('total')}
           </div>
 

@@ -55,6 +55,20 @@ class InventoryCard extends Component {
     }
   };
 
+  createSelectItems(value) {
+    let items = [];
+
+    for (let i = 1; i <= value.quantity; i++) {
+      items.push(
+        <option key={i} value={i}>
+          {i}
+        </option>
+      );
+    }
+
+    return items;
+  }
+
   render() {
     return (
       <div className="row my-5 pb-4 text-center text-md-left">
@@ -86,6 +100,17 @@ class InventoryCard extends Component {
                     min="0"
                     placeholder={'Quantity'}
                   />
+                  <label>Quantity</label>
+                  <select
+                    value={this.state.quantity.toString()}
+                    data-id={this.props.id}
+                    className="browser-default"
+                    onChange={this.handleInputChange}
+                    name="quantity"
+                  >
+                    <option>{this.props.cardQuantity}</option>
+                    {this.createSelectItems(this.props)}
+                  </select>
                   <Button
                     type="submit"
                     value="Submit"

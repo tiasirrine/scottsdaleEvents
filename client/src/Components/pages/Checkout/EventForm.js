@@ -25,7 +25,8 @@ class EventForm extends Component {
       willCallPickupDate: this.eventProps ? this.eventProps.willCallPickupDate : '',
       willCallPickupTime: this.eventProps ? this.eventProps.willCallPickupTime : '',
       willCallReturnDate: this.eventProps ? this.eventProps.willCallReturnDate : '',
-      willCallReturnTime: this.eventProps ? this.eventProps.willCallReturnTime : ''
+      willCallReturnTime: this.eventProps ? this.eventProps.willCallReturnTime : '',
+      isActive: false
     };
   }
 
@@ -54,7 +55,7 @@ class EventForm extends Component {
   };
 
   render() {
-    console.log(this.props);
+    const { isActive, ...stateEventProps } = this.state;
     return (
       <Container>
         <Row>
@@ -313,7 +314,7 @@ class EventForm extends Component {
                         pathname: '/checkout/summary',
                         state: {
                           cartProps: this.props.location.state.cartProps,
-                          eventProps: this.state
+                          eventProps: stateEventProps
                         }
                       }}
                     >

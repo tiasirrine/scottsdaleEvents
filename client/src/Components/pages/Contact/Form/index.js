@@ -51,11 +51,11 @@ class ContactPage extends Component {
     });
   }
   // allows the form to submit on enter.
-  handleKeyPress = e => {
-    if (e.key === 'Enter') {
-      this.handleSubmit();
-    }
-  };
+  // handleKeyPress = e => {
+  //   if (e.key === 'Enter') {
+  //     this.handleSubmit();
+  //   }
+  // };
 
   async handleSubmit(e) {
     //e.preventDefault();
@@ -71,6 +71,11 @@ class ContactPage extends Component {
       message
     });
   }
+
+  submitContactInfo = () => {
+    this.handleSubmit();
+    this.toggle();
+  };
 
   render() {
     return (
@@ -93,7 +98,6 @@ class ContactPage extends Component {
                         label="Your name"
                         name="name"
                         onChange={this.handleChange}
-                        onKeyPress={(this.handleKeyPress, this.toggle)}
                         value={this.state.resultName}
                       />
                     </div>
@@ -109,7 +113,6 @@ class ContactPage extends Component {
                         label="Company name"
                         name="companyName"
                         onChange={this.handleChange}
-                        onKeyPress={(this.handleKeyPress, this.toggle)}
                         required
                         value={this.state.resultCompany}
                       />
@@ -124,7 +127,6 @@ class ContactPage extends Component {
                         label="Your email"
                         name="contactEmail"
                         onChange={this.handleChange}
-                        onKeyPress={(this.handleKeyPress, this.toggle)}
                         value={this.state.resultEmail}
                       />
                     </div>
@@ -140,7 +142,6 @@ class ContactPage extends Component {
                         label="Contact Number"
                         name="number"
                         onChange={this.handleChange}
-                        onKeyPress={(this.handleKeyPress, this.toggle)}
                         value={this.state.resultNumber}
                       />
                     </div>
@@ -158,7 +159,6 @@ class ContactPage extends Component {
                         label="Your message"
                         name="message"
                         onChange={this.handleChange}
-                        onKeyPress={(this.handleKeyPress, this.toggle)}
                         value={this.state.resultMessage}
                       />
                     </div>
@@ -166,13 +166,7 @@ class ContactPage extends Component {
                 </Row>
               </form>
               <div className="text-center text-md-left">
-                <Button
-                  className="aButton"
-                  size="md"
-                  onClick={(this.handleSubmit, this.toggle)}
-                  onKeyPress={this.handleKeyPress}
-                  type="send"
-                >
+                <Button className="aButton" size="md" onClick={this.submitContactInfo} type="send">
                   Send
                 </Button>
               </div>
