@@ -318,8 +318,8 @@ router.post('/save/product', passport.authenticate('jwt', { session: false }), (
 });
 
 // authentictes a customer and sets a token
-router.get('/auth/customer', (req, res) => {
-  const { email, password } = req.query;
+router.post('/auth/customer', (req, res) => {
+  const { email, password } = req.body;
   user
     .getCustomer(email, password)
     .then(result => {
@@ -335,8 +335,8 @@ router.get('/auth/customer', (req, res) => {
 });
 
 // authentictes an admin and sets a token
-router.get('/auth/admin', (req, res) => {
-  const { email, password } = req.query;
+router.post('/auth/admin', (req, res) => {
+  const { email, password } = req.body;
   user
     .getAdmin(email, password)
     .then(result => {

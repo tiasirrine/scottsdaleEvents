@@ -22,6 +22,7 @@ export default class Nav extends Component {
       dropdownOpen: false,
       active: window.location.pathname
     };
+    this.isAdmin = sessionStorage.getItem('isAdmin');
   }
 
   // sets the current url route to state

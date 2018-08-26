@@ -13,6 +13,7 @@ import PrivateRoute from './PrivateRoute';
 import About from './pages/About';
 import Dashboard from './pages/Dashboard';
 import Checkout from './pages/Checkout';
+import Profile from './pages/Profile';
 
 class App extends Component {
   constructor(props) {
@@ -107,6 +108,7 @@ class App extends Component {
               <Route exact path="/admin" render={props => <Admin {...props} Component={Login} />} />
               <PrivateRoute path="/checkout" component={Checkout} />
               <PrivateRoute path="/dashboard" component={Dashboard} />
+              <PrivateRoute path="/profile" component={Profile} />
               <Route component={Home} />
             </Switch>
           </div>
