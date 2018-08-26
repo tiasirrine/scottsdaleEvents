@@ -113,9 +113,9 @@ export default {
   // Called in the Login component
   login: function(data, pathname) {
     if (pathname === '/admin') {
-      return axios.get('/auth/admin', { params: data }, { timeout: 15000 });
+      return axios.post('/auth/admin', data, { timeout: 15000 });
     }
-    return axios.get('/auth/customer', { params: data }, { timeout: 15000 });
+    return axios.post('/auth/customer', data, { timeout: 15000 });
   },
 
   // called in InventoryCard.js
