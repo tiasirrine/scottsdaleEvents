@@ -75,7 +75,18 @@ class InventoryCard extends Component {
     return (
       <div className="row my-5 pb-4 text-center text-md-left">
         <div className="col-md-5 mb-3 mb-sm-3">
-          <img className="img-fluid product-img" src={this.props.url} alt={this.props.cardTitle} />
+          <Link
+            to={{
+              pathname: `${this.props.cardTitle}`,
+              state: { inventoryProps: this.props }
+            }}
+          >
+            <img
+              className="img-fluid product-img"
+              src={this.props.url}
+              alt={this.props.cardTitle}
+            />
+          </Link>
         </div>
         <div className="col-md-7 border-bottom pb-3 pb-sm-3">
           <h3 className="mb-2">{this.props.cardTitle}</h3>

@@ -29,6 +29,7 @@ const SubCategoryComponentWrapper = props => {
 
   // contains individual inventory items if there are no sub categories
   const itemsToRender = subCategories.length ? subCategories : null;
+  console.log('SCCprops: ', props);
   return (
     <Fragment>
       <Row className="justify-content-md-center">
