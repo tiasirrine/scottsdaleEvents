@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Button, Input, Row } from 'mdbreact';
 import './InventoryPage.css';
 import API from '../../../api/API';
+import { Link } from 'react-router-dom';
 
 class InventoryCard extends Component {
   constructor(props) {
@@ -58,18 +59,19 @@ class InventoryCard extends Component {
   createSelectItems(value) {
     let items = [];
 
-    for (let i = 1; i <= value.quantity; i++) {
+    for (let i = 1; i <= value; i++) {
       items.push(
         <option key={i} value={i}>
           {i}
         </option>
       );
     }
-
+    console.log('items: ', items);
     return items;
   }
 
   render() {
+    console.log('props: ', this.props);
     return (
       <div className="row my-5 pb-4 text-center text-md-left">
         <div className="col-md-5 mb-3 mb-sm-3">
@@ -88,7 +90,7 @@ class InventoryCard extends Component {
                 {this.state.result && <p className="my-2">{this.state.result}</p>}
                 <Row>
                   {' '}
-                  <Input
+                  {/* <Input
                     className="mx-auto mx-md-0"
                     value={this.state.quantity.toString()}
                     onChange={this.handleInputChange}
@@ -99,7 +101,7 @@ class InventoryCard extends Component {
                     max={this.props.cardQuantity}
                     min="0"
                     placeholder={'Quantity'}
-                  />
+                  /> */}
                   <label>Quantity</label>
                   <select
                     value={this.state.quantity.toString()}
@@ -108,8 +110,8 @@ class InventoryCard extends Component {
                     onChange={this.handleInputChange}
                     name="quantity"
                   >
-                    <option>{this.props.cardQuantity}</option>
-                    {this.createSelectItems(this.props)}
+                    <option>0</option>
+                    {this.createSelectItems(this.props.cardQuantity)}
                   </select>
                   <Button
                     type="submit"
