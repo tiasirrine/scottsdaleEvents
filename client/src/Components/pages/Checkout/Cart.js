@@ -1,6 +1,6 @@
 import './Checkout.css';
 import React, { Component } from 'react';
-import { Container, Table, Input, Button } from 'mdbreact';
+import { Container, Table, Input, Button, Popover, PopoverBody, PopoverHeader } from 'mdbreact';
 import API from '../../../api/API';
 import { Link } from 'react-router-dom';
 
@@ -207,15 +207,26 @@ class Cart extends Component {
                       <td>${activeCart[i].total}</td>
                       <td>
                         {' '}
-                        <a
-                          name={a.name}
-                          className={`text-danger`}
-                          onClick={this.deleteProduct}
-                          data-cartproductid={a.CartProductId}
-                          data-index={i}
+                        <Popover
+                          component="button"
+                          placement="right"
+                          popoverBody="Remove"
+                          className="btn btn-danger"
                         >
-                          {a.err ? a.err : 'Remove'}
-                        </a>
+                          <PopoverHeader>Are you Sure?</PopoverHeader>
+                          <PopoverBody>
+                            {' '}
+                            <a
+                              name={a.name}
+                              className={`text-danger`}
+                              onClick={this.deleteProduct}
+                              data-cartproductid={a.CartProductId}
+                              data-index={i}
+                            >
+                              {a.err ? a.err : 'Remove'}
+                            </a>
+                          </PopoverBody>
+                        </Popover>
                       </td>
                     </tr>
                   );
