@@ -6,7 +6,7 @@ import SubCategoryComponentWrapper from './SubCategoryComponentWrapper';
 import InventoryComponentWrapper from './InventoryComponentWrapper';
 import Sidebar from './Sidebar';
 import { Container } from 'mdbreact';
-import ShowPage from './ShowPage';
+import ShowPageComponentWrapper from './ShowPageComponentWrapper';
 // import ReactDOM from 'react-dom';
 
 // The main functionality of this component is to render the specified routes for the inventory
@@ -100,8 +100,8 @@ class InventoryPage extends Component {
             />
             <Route
               exact
-              path={`${this.props.match.path}/:category/:subcategory/:name`}
-              render={props => <ShowPage {...props} inventory={inventoryObj} />}
+              path={`${this.props.match.path}/:name`}
+              render={props => <ShowPageComponentWrapper {...props} inventory={inventoryObj} />}
             />
           </Switch>
         </Container>
