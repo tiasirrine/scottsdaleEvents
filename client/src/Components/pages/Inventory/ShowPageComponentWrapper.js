@@ -12,13 +12,8 @@ class ShowPageComponentWrapper extends Component {
       quantity: 0,
       isAuthed: false,
       result: null,
-      isAdmin: null,
-      currentImage: 0
+      isAdmin: null
     };
-    this.closeLightbox = this.closeLightbox.bind(this);
-    this.openLightbox = this.openLightbox.bind(this);
-    this.gotoNext = this.gotoNext.bind(this);
-    this.gotoPrevious = this.gotoPrevious.bind(this);
   }
 
   // checks if a user is authed. If so, displays cart and qty.
@@ -85,56 +80,31 @@ class ShowPageComponentWrapper extends Component {
 
   pictureLooper = () => {
     if (this.props.location.state.inventoryProps.extra) {
+      const inventoryItem = this.props.location.state.inventoryProps;
+      const allImages = [];
+      allImages.push(inventoryItem.url);
+      allImages.push(...inventoryItem.extra.trim().split(' '));
+      console.log(allImages);
       const inventoryItemExtra = this.props.location.state.inventoryProps.extra.trim().split(' ');
       console.log(inventoryItemExtra);
-      return inventoryItemExtra;
+      return allImages;
     } else {
       return [];
     }
   };
 
-  openLightbox(event, obj) {
-    this.setState({
-      currentImage: obj.index,
-      lightboxIsOpen: true
-    });
-  }
-  closeLightbox() {
-    this.setState({
-      currentImage: 0,
-      lightboxIsOpen: false
-    });
-  }
-  gotoPrevious() {
-    this.setState({
-      currentImage: this.state.currentImage - 1
-    });
-  }
-  gotoNext() {
-    this.setState({
-      currentImage: this.state.currentImage + 1
-    });
-  }
   render() {
     console.log('SPCWprops: ', this.props.location.state);
     const inventoryItem = this.props.location.state.inventoryProps;
-    const lightImages = [];
-    lightImages.push(inventoryItem.url);
-    lightImages.push(...inventoryItem.extra.trim().split(' '));
-    console.log(lightImages);
+    const allImages = [];
+    allImages.push(inventoryItem.url);
+    allImages.push(...inventoryItem.extra.trim().split(' '));
+    console.log(allImages);
     return (
       <Container>
         <br />
 
         <Row>
-          <Lightbox
-            images={lightImages}
-            onClose={this.closeLightbox}
-            onClickPrev={this.gotoPrevious}
-            onClickNext={this.gotoNext}
-            currentImage={this.state.currentImage}
-            isOpen={this.state.lightboxIsOpen}
-          />
           <img
             src={inventoryItem.url}
             className=" mx-auto d-block img-fluid z-depth-1 main-show"
