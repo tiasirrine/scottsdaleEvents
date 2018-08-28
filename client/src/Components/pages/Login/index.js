@@ -41,6 +41,7 @@ class Login extends React.Component {
           } else if (res.data && !res.data.user.isAdmin) {
             isAdmin = false;
             sessionStorage.setItem('activeCart', res.data.user.carts[0].id);
+            sessionStorage.setItem('allCarts', JSON.stringify(res.data.user.carts));
             sessionStorage.setItem('isAdmin', false);
           }
           // common values between admins and customers
@@ -115,9 +116,7 @@ class Login extends React.Component {
                         Password?
                       </Link>
                     </p>
-                    {this.state.error && (
-                      <p className="text-danger text-center">{this.state.error}</p>
-                    )}
+                    {this.state.error && <p className="text-danger text-center">{this.state.error}</p>}
                     <div className="text-center mb-4 mt-5">
                       <Button
                         onClick={this.onSubmit}

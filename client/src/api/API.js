@@ -8,7 +8,16 @@ export default {
 
   // called in the shopping cart
   getEstimate: function(values) {
-    return axios.post('/get/estimate', values, {
+    return axios.post('/create/estimate', values, {
+      timeout: 15000,
+      headers: {
+        Authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
+    });
+  },
+
+  getAllCarts: function() {
+    return axios.get('/get/carts', {
       timeout: 15000,
       headers: {
         Authorization: 'Bearer ' + sessionStorage.getItem('token')

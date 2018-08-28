@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
 
   CartProduct.associate = function(models) {
     CartProduct.belongsTo(models.Product, {
-      foreignKey: { allowNull: false, unique: true }
+      foreignKey: { allowNull: false }
     });
   };
 

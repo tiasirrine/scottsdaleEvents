@@ -16,6 +16,14 @@ tr:nth-child(even) {
   transform: translateY(-120%);
 }
 
+#browse-btn {
+  font-size: 16px;
+}
+
+#browse-btn:hover {
+  color: rgb(0, 29, 126);
+}
+
 /*removes auto-placeholder for time/date */
 /* input::-webkit-datetime-edit {
   color: transparent;

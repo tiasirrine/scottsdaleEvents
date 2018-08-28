@@ -36,7 +36,9 @@ class Summary extends React.Component {
 
   handleSubmit = e => {
     API.getEstimate(this.props.location.state)
-      .then(result => console.log(result))
+      .then(result => {
+        sessionStorage.setItem('activeCart', result.data.activeCart);
+      })
       .catch(err => console.log(err));
   };
 
