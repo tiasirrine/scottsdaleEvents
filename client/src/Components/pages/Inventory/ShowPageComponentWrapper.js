@@ -84,13 +84,22 @@ class ShowPageComponentWrapper extends Component {
       const allImages = [];
       allImages.push(inventoryItem.url);
       allImages.push(...inventoryItem.extra.trim().split(' '));
-      console.log(allImages);
-      const inventoryItemExtra = this.props.location.state.inventoryProps.extra.trim().split(' ');
-      console.log(inventoryItemExtra);
       return allImages;
     } else {
       return [];
     }
+  };
+
+  pictureMover = e => {
+    const inventoryItem = this.props.location.state.inventoryProps;
+    const allImages = [];
+    allImages.push(inventoryItem.url);
+    allImages.push(...inventoryItem.extra.trim().split(' '));
+    // find index
+    console.log(allImages);
+    allImages.unshift(allImages.splice(allImages.findIndex(item => item.id === e.target), 1)[0]);
+    console.log(allImages);
+    this.pictureLooper();
   };
 
   render() {
@@ -106,7 +115,7 @@ class ShowPageComponentWrapper extends Component {
 
         <Row>
           <img
-            src={inventoryItem.url}
+            src={allImages[0]}
             className=" mx-auto d-block img-fluid z-depth-1 main-show"
             alt={inventoryItem.cardTitle}
             onClick={this.openLightbox}
@@ -121,6 +130,7 @@ class ShowPageComponentWrapper extends Component {
                   src={a}
                   alt={i}
                   className="img-thumbnail mx-auto d-block img-fluid z-depth-1"
+                  onClick={this.pictureMover}
                 />
               </div>
             );
