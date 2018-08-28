@@ -198,16 +198,6 @@ class Cart extends Component {
                     <tr key={i}>
                       <td scope="row">{a.name}</td>
                       <td>
-                        {/* <Input
-                          data-id={a.id}
-                          type="number"
-                          onChange={this.onChange}
-                          name={a.name}
-                          value={activeCart[i].qty}
-                          size="sm"
-                          max={a.quantity}
-                          min="0"
-                        /> */}
                         <label>Current:</label>
                         <select
                           data-id={a.id}
@@ -225,22 +215,25 @@ class Cart extends Component {
                       <td>
                         {' '}
                         <Popover
-                          component="button"
+                          component="div"
                           placement="right"
                           popoverBody="Remove"
-                          className="btn btn-danger"
+                          className="text-danger remove-pointer"
                         >
-                          <PopoverHeader>Are you Sure?</PopoverHeader>
-                          <PopoverBody>
+                          <PopoverHeader className="text-center remove-pointer text-primary">
+                            {' '}
+                            No
+                          </PopoverHeader>
+                          <PopoverBody className="text-center">
                             {' '}
                             <a
                               name={a.name}
-                              className={`text-danger`}
+                              className="text-danger text-center"
                               onClick={this.deleteProduct}
                               data-cartproductid={a.CartProductId}
                               data-index={i}
                             >
-                              {a.err ? a.err : 'Remove'}
+                              {a.err ? a.err : 'Yes'}
                             </a>
                           </PopoverBody>
                         </Popover>
