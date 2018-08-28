@@ -2,9 +2,16 @@ module.exports = function(sequelize, DataTypes) {
   const Cart = sequelize.define(
     'Cart',
     {
-      isActive: { type: DataTypes.BOOLEAN, allowNull: false }
+      isActive: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+      },
+      cartName: {
+        type: DataTypes.STRING,
+        allowNull: false
+      }
     },
-    { createdAt: false }
+    { timestamps: false }
   );
 
   Cart.associate = function(models) {

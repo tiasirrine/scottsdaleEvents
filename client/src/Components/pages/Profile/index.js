@@ -8,23 +8,49 @@ export default class Profile extends Component {
     super(props);
     this.state = {
       password: '',
-      password2: ''
+      password2: '',
+      carts: []
     };
     this.name = sessionStorage.getItem('firstName') + ' ' + sessionStorage.getItem('lastName');
     this.company = sessionStorage.getItem('company');
     this.email = sessionStorage.getItem('email');
   }
 
+  componentDidMount() {
+    API.getAllCarts()
+      .then(result => {
+        console.log(result);
+        this.setState({ carts: result.data });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   render() {
+    if (!this.state.carts.length) {
+      return <div className="loader" />;
+    }
     return (
-      <Container style={{ maxWidth: '900px' }}>
+      <Container>
         <Row>
           <div className="col-md-4">
             <Card style={{ width: '100%' }}>
               <CardBody>
                 <CardTitle>Your Carts</CardTitle>
-                <p>Active Cart: August Event</p>
-                <p>January 2018 Event</p>
+                {this.state.carts.length &&
+                  this.state.carts.map(
+                    (a, i) =>
+                      a.isActive ? (
+                        <p key={i} className="mb-0 p-2">
+                          Active Cart: {a.cartName}
+                        </p>
+                      ) : (
+                        <p key={i} className="mb-0 p-2">
+                          {a.cartName}
+                        </p>
+                      )
+                  )}
               </CardBody>
             </Card>
           </div>
@@ -38,7 +64,6 @@ export default class Profile extends Component {
                 <Input
                   name="password"
                   label="New Password"
-                  icon="lock"
                   group
                   type="password"
                   value={this.state.password}
@@ -47,7 +72,6 @@ export default class Profile extends Component {
                 <Input
                   name="password2"
                   label="Confirm Password"
-                  icon="lock"
                   group
                   type="password"
                   value={this.state.password2}

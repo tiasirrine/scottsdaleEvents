@@ -41,7 +41,7 @@ class InventoryCard extends Component {
       const obj = {};
       obj.ProductId = event.target.getAttribute('data-id');
       obj.qty = this.state.quantity;
-      obj.CartId = sessionStorage.activeCart;
+      obj.CartId = sessionStorage.getItem('activeCart');
       obj.maxQty = event.target.getAttribute('data-maxqty');
 
       API.saveProduct(obj)
