@@ -81,11 +81,7 @@ class InventoryCard extends Component {
               state: { inventoryProps: this.props }
             }}
           >
-            <img
-              className="img-fluid product-img"
-              src={this.props.url}
-              alt={this.props.cardTitle}
-            />
+            <img className="img-fluid product-img" src={this.props.url} alt={this.props.cardTitle} />
           </Link>
         </div>
         <div className="col-md-7 border-bottom pb-3 pb-sm-3">
@@ -97,11 +93,8 @@ class InventoryCard extends Component {
               <Fragment>
                 <p>${this.props.cardPrice}</p>
                 <p>{this.props.cardQuantity} units in inventory</p>
-
-                {this.state.result && <p className="my-2">{this.state.result}</p>}
-                <Row>
-                  {' '}
-                  {/* <Input
+                {this.state.result && <p className="my-2">{this.state.result}</p>}{' '}
+                {/* <Input
                     className="mx-auto mx-md-0"
                     value={this.state.quantity.toString()}
                     onChange={this.handleInputChange}
@@ -113,29 +106,29 @@ class InventoryCard extends Component {
                     min="0"
                     placeholder={'Quantity'}
                   /> */}
-                  <label>Quantity</label>
-                  <select
-                    value={this.state.quantity.toString()}
-                    data-id={this.props.id}
-                    className="browser-default"
-                    onChange={this.handleInputChange}
-                    name="quantity"
-                  >
-                    <option>0</option>
-                    {this.createSelectItems(this.props.cardQuantity)}
-                  </select>
-                  <Button
-                    type="submit"
-                    value="Submit"
-                    onClick={this.handleFormSubmit}
-                    data-id={this.props.id}
-                    data-maxqty={this.props.cardQuantity}
-                    className="aButton"
-                  >
-                    {' '}
-                    Add To Cart
-                  </Button>
-                </Row>
+                <label>Quantity</label>
+                <select
+                  value={this.state.quantity.toString()}
+                  data-id={this.props.id}
+                  className="browser-default"
+                  onChange={this.handleInputChange}
+                  name="quantity"
+                  style={{ margin: '0 10px 0 16px' }}
+                >
+                  <option>0</option>
+                  {this.createSelectItems(this.props.cardQuantity)}
+                </select>
+                <Button
+                  type="submit"
+                  value="Submit"
+                  onClick={this.handleFormSubmit}
+                  data-id={this.props.id}
+                  data-maxqty={this.props.cardQuantity}
+                  className="aButton"
+                >
+                  {' '}
+                  Add To Cart
+                </Button>
               </Fragment>
             )}
         </div>
