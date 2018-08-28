@@ -11,42 +11,22 @@ class CarouselPage extends Component {
           <CarouselInner>
             <CarouselItem itemId="1">
               <View>
-                <img
-                  className="d-block w-100"
-                  style={{ height: '628px' }}
-                  src={images[0]}
-                  alt="First slide"
-                />
+                <img className="d-block w-100" src={images[0]} alt="First slide" />
               </View>
             </CarouselItem>
             <CarouselItem itemId="2">
               <View>
-                <img
-                  className="d-block w-100"
-                  style={{ height: '628px' }}
-                  src={images[1]}
-                  alt="Second slide"
-                />
+                <img className="d-block w-100" src={images[1]} alt="Second slide" />
               </View>
             </CarouselItem>
             <CarouselItem itemId="3">
               <View>
-                <img
-                  className="d-block w-100"
-                  style={{ height: '628px' }}
-                  src={images[2]}
-                  alt="Third slide"
-                />
+                <img className="d-block w-100" src={images[2]} alt="Third slide" />
               </View>
             </CarouselItem>
             <CarouselItem itemId="4">
               <View>
-                <img
-                  className="d-block w-100"
-                  style={{ height: '628px' }}
-                  src={images[3]}
-                  alt="Mattonit's item"
-                />
+                <img className="d-block w-100" src={images[3]} alt="Mattonit's item" />
               </View>
             </CarouselItem>
           </CarouselInner>
