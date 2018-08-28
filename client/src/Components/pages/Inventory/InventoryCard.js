@@ -41,7 +41,7 @@ class InventoryCard extends Component {
       const obj = {};
       obj.ProductId = event.target.getAttribute('data-id');
       obj.qty = this.state.quantity;
-      obj.CartId = sessionStorage.activeCart;
+      obj.CartId = sessionStorage.getItem('activeCart');
       obj.maxQty = event.target.getAttribute('data-maxqty');
 
       API.saveProduct(obj)
@@ -76,6 +76,7 @@ class InventoryCard extends Component {
     return (
       <div className="row my-5 pb-4 text-center text-md-left">
         <div className="col-md-5 mb-3 mb-sm-3">
+
           <Card className="card card-cascade wider reverse my-4 animated fadeInUpBig w-300">
             <Link
               to={{
@@ -96,6 +97,7 @@ class InventoryCard extends Component {
               </div>
             </Link>
           </Card>
+
         </div>
         <div className="col-md-7 border-bottom pb-3 pb-sm-3">
           <h3 className="mb-2">{this.props.cardTitle}</h3>
@@ -106,6 +108,7 @@ class InventoryCard extends Component {
               <Fragment>
                 <p>${this.props.cardPrice}</p>
                 <p>{this.props.cardQuantity} units in inventory</p>
+
 
                 {this.state.result && <p className="my-2">{this.state.result}</p>}
                 <Row>
@@ -132,6 +135,7 @@ class InventoryCard extends Component {
                     Add To Cart
                   </Button>
                 </Row>
+
               </Fragment>
             )}
         </div>

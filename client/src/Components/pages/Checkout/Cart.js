@@ -19,6 +19,7 @@ class Cart extends Component {
 
     API.loadCart()
       .then(res => {
+        console.log('asdf', res);
         // only sorts the active cart if there are items already saved for it
         if (res.data.length) {
           const activeCart = res.data[0].CartProducts;
@@ -152,7 +153,23 @@ class Cart extends Component {
     };
 
     if (activeCart && !activeCart.length) {
-      return <h3>Your cart is empty</h3>;
+      return (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            height: '70vh'
+          }}
+        >
+          <h3>Your cart is empty</h3>
+          <br />
+          <Link id="browse-btn" to="/inventory">
+            Browse our inventory to get started!
+          </Link>
+        </div>
+      );
     } else if (!activeCart) {
       return <div className="loader" />;
     } else {

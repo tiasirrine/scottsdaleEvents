@@ -42,11 +42,64 @@ router.post('/create/admin', (req, res) => {
     });
 });
 
-router.get('/create/cart', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.post('/create/cart', (req, res) => {
   user
-    .createCart(req.user.id)
+    .createCart(req.body.id)
     .then(result => res.json(result))
     .catch(err => res.json(err));
+});
+
+// creates a csv file for a customers estimate
+router.post('/create/estimate', passport.authenticate('jwt', { session: false }), (req, res) => {
+  // console.log('req.body', req.body);
+  // creates the columns for the csv file
+  const fields = ['estimateId', 'sku', 'qty'];
+
+  // contains the rows for the csv file
+  const { eventProps, cartProps } = req.body;
+  Object.keys(eventProps).forEach(a => fields.push(a));
+
+  db.Estimate.create({ _id: '1' })
+    .then(result => {
+      const merged = cartProps.map(product => {
+        for (let info in eventProps) {
+          product[info] = eventProps[info];
+          product['estimateId'] = result.dataValues.id;
+        }
+        return product;
+      });
+
+      // creates the csv file. checks for errors.
+      try {
+        const parser = new Json2csvParser({ fields, quote: '' });
+        const csv = parser.parse(merged);
+        fs.writeFile('./csv/estimates/estimate.csv', csv, function(err) {
+          if (err) {
+            console.log(err);
+            return false;
+          } else {
+            user
+              .createCart(req.user.id)
+              .then(result => {
+                console.log(result);
+                console.log('File created.');
+                res.json({ activeCart: result.dataValues.id });
+                return;
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          }
+        });
+      } catch (err) {
+        console.log(err);
+        return false;
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      return false;
+    });
 });
 
 //route for nodemailer
@@ -226,72 +279,26 @@ router.get('/get/carts', passport.authenticate('jwt', { session: false }), (req,
   user
     .loadCarts(req.user.id)
     .then(result => {
+      console.log(result);
       // returns carts sorted by the isActive boolean value
       // ensures the active cart is at index 0
-      result.sort((x, y) => {
-        return x.isActive === y.isActive ? 0 : x ? 1 : -1;
+      const x = result.sort((x, y) => {
+        return x.isActive === y.isActive ? 0 : x.isActive ? 1 : 1;
       });
-      res.status(200).json(result);
+      res.status(200).json(x);
     })
     .catch(err => res.status(500).send(err));
 });
 
-// creates a csv file for a customers estimate
-router.post('/get/estimate', passport.authenticate('jwt', { session: false }), (req, res) => {
-  // console.log('req.body', req.body);
-  // creates the columns for the csv file
-  const fields = ['estimateId', 'sku', 'qty'];
-
-  // contains the rows for the csv file
-  const { eventProps, cartProps } = req.body;
-  Object.keys(eventProps).forEach(a => fields.push(a));
-
-  db.Estimate.create({ _id: '1' })
-    .then(result => {
-      const merged = cartProps.map(product => {
-        product.sku = product.id;
-        for (let info in eventProps) {
-          product[info] = eventProps[info];
-          product['estimateId'] = result.dataValues.id;
-        }
-        return product;
-      });
-
-      // creates the csv file. checks for errors.
-      try {
-        const parser = new Json2csvParser({ fields, quote: '' });
-        const csv = parser.parse(merged);
-        fs.writeFile('./csv/estimates/estimate.csv', csv, function(err) {
-          if (err) {
-            console.log(err);
-            return false;
-          } else {
-            console.log('File created.');
-            return true;
-          }
-        });
-      } catch (err) {
-        console.log(err);
-        return false;
-      }
-    })
-    .catch(error => {
-      console.log(error);
-      return false;
-    });
-});
-
 // saves a product to a customers cart
 router.post('/save/product', passport.authenticate('jwt', { session: false }), (req, res) => {
-  const { ProductId } = req.body;
+  const { ProductId, CartId } = req.body;
+  console.log(req.body);
   // this will either create a new product to save to a cart,
   // or it will update an already saved product
   // prevents a cart from having duplicate line items for the same product
-  db.CartProduct.find({
-    where: {
-      ProductId: ProductId
-    }
-  }).then(result => {
+  db.CartProduct.findOne({ where: { ProductId: ProductId, CartId: CartId } }).then(result => {
+    console.log(result);
     if (result) {
       const { qty, maxQty } = result.dataValues;
       if (Number(req.body.qty) + qty > maxQty) {

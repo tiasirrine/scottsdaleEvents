@@ -1,3 +1,4 @@
+const moment = require('moment');
 const db = require('../models');
 const bcrypt = require('bcryptjs');
 
@@ -31,15 +32,53 @@ module.exports = {
   },
 
   createCart: function(id) {
-    db.Cart.create({
-      isActive: false,
-      CustomerId: id
-    })
-      .then(res => {
-        console.log(res);
-        resolve(res);
+    console.log(id);
+    return new Promise((resolve, reject) => {
+      db.Cart.findOne({
+        where: { CustomerId: id, isActive: true }
       })
-      .catch(err => reject(err));
+        .then(result => {
+          const updated = { ...result };
+          // if (!result) reject('An error occured updating the active cart');
+          updated.isActive = false;
+          result
+            .update(updated)
+            .then(res => {
+              if (res) {
+                db.Cart.create({
+                  isActive: true,
+                  CustomerId: id,
+                  cartName: moment(Date.now()).format('MMM Do YY')
+                })
+                  .then(res => {
+                    resolve(res);
+                  })
+                  .catch(err => {
+                    console.log('54:', err);
+                    reject(err);
+                  });
+              }
+            })
+            .catch(err => {
+              console.log('60:', err);
+              reject(err);
+            });
+        })
+        .catch(err => {
+          console.log('65:', err);
+          reject(err);
+        });
+
+      // db.Cart.create({
+      //   isActive: false,
+      //   CustomerId: id
+      // })
+      //   .then(res => {
+      //     console.log(res);
+      //     resolve(res);
+      //   })
+      //   .catch(err => reject(err));
+    });
   },
 
   hashPassword: function(unhashedPassword) {
@@ -251,6 +290,7 @@ module.exports = {
                 // creates a cart for the customer
                 db.Cart.create({
                   isActive: true,
+                  cartName: moment(Date.now()).format('MMM Do YY'),
                   CustomerId: newCustomer.id
                 })
                   .then(() => resolve(newCustomer))
