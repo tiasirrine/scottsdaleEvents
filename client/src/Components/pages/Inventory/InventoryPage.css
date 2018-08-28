@@ -91,6 +91,12 @@ ul {
   font-weight: bolder;
 }
 
+.main-show {
+  width: 500x;
+  height: 400px;
+  margin-bottom: 25px;
+}
+
 @media (max-width: 768px) {
   .w-300 {
     max-width: 300px;

@@ -33,6 +33,7 @@ const InventoryComponentWrapper = props => {
                 cardQuantity={a.quantity}
                 id={a.id}
                 url={a.url}
+                extra={a.extraurl}
               />
             );
           })

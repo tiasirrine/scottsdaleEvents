@@ -16,6 +16,10 @@ tr:nth-child(even) {
   transform: translateY(-120%);
 }
 
+.remove-pointer {
+  cursor: pointer;
+}
+
 /*removes auto-placeholder for time/date */
 /* input::-webkit-datetime-edit {
   color: transparent;
