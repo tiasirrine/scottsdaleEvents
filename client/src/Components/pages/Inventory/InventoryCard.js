@@ -76,7 +76,6 @@ class InventoryCard extends Component {
     return (
       <div className="row my-5 pb-4 text-center text-md-left">
         <div className="col-md-5 mb-3 mb-sm-3">
-
           <Card className="card card-cascade wider reverse my-4 animated fadeInUpBig w-300">
             <Link
               to={{
@@ -97,7 +96,6 @@ class InventoryCard extends Component {
               </div>
             </Link>
           </Card>
-
         </div>
         <div className="col-md-7 border-bottom pb-3 pb-sm-3">
           <h3 className="mb-2">{this.props.cardTitle}</h3>
@@ -109,33 +107,30 @@ class InventoryCard extends Component {
                 <p>${this.props.cardPrice}</p>
                 <p>{this.props.cardQuantity} units in inventory</p>
 
-
                 {this.state.result && <p className="my-2">{this.state.result}</p>}
-                <Row>
-                  <label>Quantity</label>
-                  <select
-                    value={this.state.quantity.toString()}
-                    data-id={this.props.id}
-                    className="browser-default"
-                    onChange={this.handleInputChange}
-                    name="quantity"
-                  >
-                    <option>0</option>
-                    {this.createSelectItems(this.props.cardQuantity)}
-                  </select>
-                  <Button
-                    type="submit"
-                    value="Submit"
-                    onClick={this.handleFormSubmit}
-                    data-id={this.props.id}
-                    data-maxqty={this.props.cardQuantity}
-                    className="aButton"
-                  >
-                    {' '}
-                    Add To Cart
-                  </Button>
-                </Row>
 
+                <label>Quantity</label>
+                <select
+                  value={this.state.quantity.toString()}
+                  data-id={this.props.id}
+                  className="browser-default"
+                  onChange={this.handleInputChange}
+                  name="quantity"
+                >
+                  <option>0</option>
+                  {this.createSelectItems(this.props.cardQuantity)}
+                </select>
+                <Button
+                  type="submit"
+                  value="Submit"
+                  onClick={this.handleFormSubmit}
+                  data-id={this.props.id}
+                  data-maxqty={this.props.cardQuantity}
+                  className="aButton"
+                >
+                  {' '}
+                  Add To Cart
+                </Button>
               </Fragment>
             )}
         </div>

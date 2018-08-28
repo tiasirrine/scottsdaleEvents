@@ -1,16 +1,29 @@
 import React, { Component, Fragment } from 'react';
 import { Button, Col, Container, Row, CardBody } from 'mdbreact';
+import Gallery from 'react-photo-gallery';
+import Lightbox from 'react-images';
 import { Link } from 'react-router-dom';
 import API from '../../../api/API';
 
 class ShowPageComponentWrapper extends Component {
   constructor(props) {
     super(props);
-    this.state = { quantity: 0, isAuthed: false, result: null, isAdmin: null };
+    this.state = {
+      quantity: 0,
+      isAuthed: false,
+      result: null,
+      isAdmin: null,
+      currentImage: 0
+    };
+    this.closeLightbox = this.closeLightbox.bind(this);
+    this.openLightbox = this.openLightbox.bind(this);
+    this.gotoNext = this.gotoNext.bind(this);
+    this.gotoPrevious = this.gotoPrevious.bind(this);
   }
 
   // checks if a user is authed. If so, displays cart and qty.
   componentDidMount() {
+    window.scrollTo(0, 0);
     API.checkToken()
       .then(res => this.setState({ isAuthed: true, isAdmin: res.data.isAdmin }))
       .catch(err => {
@@ -71,22 +84,62 @@ class ShowPageComponentWrapper extends Component {
   }
 
   pictureLooper = () => {
-    const inventoryItemExtra = this.props.location.state.inventoryProps.extra.trim().split(' ');
-    console.log(inventoryItemExtra);
-    return inventoryItemExtra;
+    if (this.props.location.state.inventoryProps.extra) {
+      const inventoryItemExtra = this.props.location.state.inventoryProps.extra.trim().split(' ');
+      console.log(inventoryItemExtra);
+      return inventoryItemExtra;
+    } else {
+      return [];
+    }
   };
+
+  openLightbox(event, obj) {
+    this.setState({
+      currentImage: obj.index,
+      lightboxIsOpen: true
+    });
+  }
+  closeLightbox() {
+    this.setState({
+      currentImage: 0,
+      lightboxIsOpen: false
+    });
+  }
+  gotoPrevious() {
+    this.setState({
+      currentImage: this.state.currentImage - 1
+    });
+  }
+  gotoNext() {
+    this.setState({
+      currentImage: this.state.currentImage + 1
+    });
+  }
   render() {
     console.log('SPCWprops: ', this.props.location.state);
     const inventoryItem = this.props.location.state.inventoryProps;
+    const lightImages = [];
+    lightImages.push(inventoryItem.url);
+    lightImages.push(...inventoryItem.extra.trim().split(' '));
+    console.log(lightImages);
     return (
       <Container>
         <br />
 
         <Row>
+          <Lightbox
+            images={lightImages}
+            onClose={this.closeLightbox}
+            onClickPrev={this.gotoPrevious}
+            onClickNext={this.gotoNext}
+            currentImage={this.state.currentImage}
+            isOpen={this.state.lightboxIsOpen}
+          />
           <img
             src={inventoryItem.url}
             className=" mx-auto d-block img-fluid z-depth-1 main-show"
             alt={inventoryItem.cardTitle}
+            onClick={this.openLightbox}
           />
         </Row>
         <Row>
@@ -113,37 +166,35 @@ class ShowPageComponentWrapper extends Component {
                 inventoryItem.cardPrice > 0 &&
                 !this.state.isAdmin && (
                   <Fragment>
-                    <Row>
-                      <Col className="col-12">
-                        <p>${inventoryItem.cardPrice}</p>
-                        <p>{inventoryItem.cardQuantity} units in inventory</p>
+                    <Col className="col-12">
+                      <p>${inventoryItem.cardPrice}</p>
+                      <p>{inventoryItem.cardQuantity} units in inventory</p>
 
-                        {this.state.result && <p className="my-2">{this.state.result}</p>}
+                      {this.state.result && <p className="my-2">{this.state.result}</p>}
 
-                        <label>Quantity</label>
-                        <select
-                          value={this.state.quantity.toString()}
-                          data-id={inventoryItem.id}
-                          className="browser-default"
-                          onChange={this.handleInputChange}
-                          name="quantity"
-                        >
-                          <option>0</option>
-                          {this.createSelectItems(inventoryItem.cardQuantity)}
-                        </select>
-                        <Button
-                          type="submit"
-                          value="Submit"
-                          onClick={this.handleFormSubmit}
-                          data-id={inventoryItem.id}
-                          data-maxqty={inventoryItem.cardQuantity}
-                          className="aButton"
-                        >
-                          {' '}
-                          Add To Cart
-                        </Button>
-                      </Col>
-                    </Row>
+                      <label>Quantity</label>
+                      <select
+                        value={this.state.quantity.toString()}
+                        data-id={inventoryItem.id}
+                        className="browser-default"
+                        onChange={this.handleInputChange}
+                        name="quantity"
+                      >
+                        <option>0</option>
+                        {this.createSelectItems(inventoryItem.cardQuantity)}
+                      </select>
+                      <Button
+                        type="submit"
+                        value="Submit"
+                        onClick={this.handleFormSubmit}
+                        data-id={inventoryItem.id}
+                        data-maxqty={inventoryItem.cardQuantity}
+                        className="aButton"
+                      >
+                        {' '}
+                        Add To Cart
+                      </Button>
+                    </Col>
                   </Fragment>
                 )}
             </div>
