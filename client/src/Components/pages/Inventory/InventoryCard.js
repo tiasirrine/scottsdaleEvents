@@ -74,32 +74,32 @@ class InventoryCard extends Component {
     console.log('props: ', this.props);
     console.log(window.location);
     return (
-      <div className="row my-5 pb-4 text-center text-md-left">
-        <div className="col-md-5 mb-3 mb-sm-3">
-          <Card className="card card-cascade wider reverse my-4 animated fadeInUpBig w-300">
-            <Link
-              to={{
-                pathname: `${window.location.pathname}/${this.props.cardTitle}`,
-                state: { inventoryProps: this.props }
-              }}
-            >
-              <div className="view view-cascade overlay">
-                <View zoom>
-                  <CardImage
-                    cascade
-                    src={this.props.url}
-                    alt={this.props.cardTitle}
-                    className="card-image ind-card-image"
-                  />
-                  <div className="mask flex-center waves-effect waves-light cat-names text-justify" />
-                </View>
-              </div>
-            </Link>
-          </Card>
+      <div className="row my-5 pb-4 text-center text-md-left animated fadeInUpBig">
+        <div className="col-md-3 mb-3 mb-sm-3 inv-img">
+          <Link
+            to={{
+              pathname: `${window.location.pathname}/${this.props.cardTitle}`,
+              state: { inventoryProps: this.props }
+            }}
+          >
+            <div className="view view-cascade overlay">
+              <View zoom>
+                <img
+                  fluid
+                  cascade
+                  src={this.props.url}
+                  alt={this.props.cardTitle}
+                  className="card-image ind-card-image"
+                />
+                <div className="mask flex-center waves-effect waves-light cat-names text-justify" />
+              </View>
+            </div>
+          </Link>
         </div>
-        <div className="col-md-7 border-bottom pb-3 pb-sm-3">
+
+        <div className="col-md-5 border-bottom pb-3 pb-sm-3 float-right">
           <h3 className="mb-2">{this.props.cardTitle}</h3>
-          <p className="mb-2">{this.props.cardDesc}</p>
+          {/* <p className="mb-2">{this.props.cardDesc}</p> */}
           {this.state.isAuthed &&
             this.props.cardPrice > 0 &&
             !this.state.isAdmin && (
