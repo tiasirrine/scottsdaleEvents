@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import SidebarButton from './SidebarButton';
 // import { Link, NavLink } from 'react-router-dom';
@@ -29,29 +30,23 @@ class Sidebar extends Component {
     return (
       <div
         className="sidebar"
-        style={
-          this.props.sidebarOpen
-            ? { transform: 'translateX(0%)' }
-            : { transform: 'translateX(-100%)' }
-        }
+        style={this.props.sidebarOpen ? { transform: 'translateX(0%)' } : { transform: 'translateX(-100%)' }}
       >
         <div className="inner-scroll">
           <ul className="nav flex-column">
             {subCategories
-              ? Object.keys(subCategories).map(
-                  (category, index, categories) => {
-                    return (
-                      <SidebarButton
-                        key={category}
-                        category={category}
-                        subCategories={subCategories[category]}
-                        index={index}
-                        getActiveIndex={this.getActiveIndex}
-                        activeIndex={this.state.activeIndex}
-                      />
-                    );
-                  }
-                )
+              ? Object.keys(subCategories).map((category, index, categories) => {
+                  return (
+                    <SidebarButton
+                      key={category}
+                      category={category}
+                      subCategories={subCategories[category]}
+                      index={index}
+                      getActiveIndex={this.getActiveIndex}
+                      activeIndex={this.state.activeIndex}
+                    />
+                  );
+                })
               : null}
           </ul>
         </div>

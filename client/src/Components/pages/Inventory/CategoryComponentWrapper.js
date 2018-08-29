@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardImage, Col, Row, View } from 'mdbreact';
@@ -26,9 +27,7 @@ const CategoryComponentWrapper = props => {
                 </Link>
               </Card>
               <Link to={`/inventory/${a}`}>
-                <figcaption className="figure-caption text-center animated fadeInUpBig">
-                  {a}
-                </figcaption>
+                <figcaption className="figure-caption text-center animated fadeInUpBig">{a}</figcaption>
               </Link>
             </Col>
           ))

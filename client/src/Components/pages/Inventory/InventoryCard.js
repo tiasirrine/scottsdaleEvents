@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component, Fragment } from 'react';
 import { Button, Card, CardImage, Input, Row, View } from 'mdbreact';
 import './InventoryPage.css';

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component, Fragment } from 'react';
 import { Button, Col, Container, Row, CardBody } from 'mdbreact';
 import Gallery from 'react-photo-gallery';

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardImage, Col, Row, View } from 'mdbreact';
@@ -52,9 +53,7 @@ const SubCategoryComponentWrapper = props => {
                   </Link>
                 </Card>
                 <Link to={`${props.match.url}/${a}`}>
-                  <figcaption className="figure-caption text-center animated fadeInUpBig">
-                    {a}
-                  </figcaption>
+                  <figcaption className="figure-caption text-center animated fadeInUpBig">{a}</figcaption>
                 </Link>
               </Col>
             ))
