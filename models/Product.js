@@ -9,7 +9,8 @@ module.exports = function(sequelize, DataTypes) {
       description: { type: DataTypes.STRING },
       price: { type: DataTypes.INTEGER },
       quantity: { type: DataTypes.INTEGER },
-      url: { type: DataTypes.TEXT }
+      url: { type: DataTypes.TEXT },
+      extraurl: { type: DataTypes.TEXT }
     },
     { timestamps: false }
   );

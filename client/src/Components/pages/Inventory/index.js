@@ -96,7 +96,7 @@ class InventoryPage extends Component {
             />
             <Route
               exact
-              path={`${this.props.match.path}/:name`}
+              path={`${this.props.match.path}/:category/:subcategory/:name`}
               render={props => <ShowPageComponentWrapper {...props} inventory={inventoryObj} />}
             />
           </Switch>

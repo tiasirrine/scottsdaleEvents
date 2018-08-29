@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { Component, Fragment } from 'react';
-import { Button, Input, Row } from 'mdbreact';
+import { Button, Card, CardImage, Input, Row, View } from 'mdbreact';
 import './InventoryPage.css';
 import API from '../../../api/API';
 import { Link } from 'react-router-dom';
@@ -73,17 +73,30 @@ class InventoryCard extends Component {
 
   render() {
     console.log('props: ', this.props);
+    console.log(window.location);
     return (
       <div className="row my-5 pb-4 text-center text-md-left">
         <div className="col-md-5 mb-3 mb-sm-3">
-          <Link
-            to={{
-              pathname: `${this.props.cardTitle}`,
-              state: { inventoryProps: this.props }
-            }}
-          >
-            <img className="img-fluid product-img" src={this.props.url} alt={this.props.cardTitle} />
-          </Link>
+          <Card className="card card-cascade wider reverse my-4 animated fadeInUpBig w-300">
+            <Link
+              to={{
+                pathname: `${window.location.pathname}/${this.props.cardTitle}`,
+                state: { inventoryProps: this.props }
+              }}
+            >
+              <div className="view view-cascade overlay">
+                <View zoom>
+                  <CardImage
+                    cascade
+                    src={this.props.url}
+                    alt={this.props.cardTitle}
+                    className="card-image ind-card-image"
+                  />
+                  <div className="mask flex-center waves-effect waves-light cat-names text-justify" />
+                </View>
+              </div>
+            </Link>
+          </Card>
         </div>
         <div className="col-md-7 border-bottom pb-3 pb-sm-3">
           <h3 className="mb-2">{this.props.cardTitle}</h3>
@@ -94,19 +107,9 @@ class InventoryCard extends Component {
               <Fragment>
                 <p>${this.props.cardPrice}</p>
                 <p>{this.props.cardQuantity} units in inventory</p>
-                {this.state.result && <p className="my-2">{this.state.result}</p>}{' '}
-                {/* <Input
-                    className="mx-auto mx-md-0"
-                    value={this.state.quantity.toString()}
-                    onChange={this.handleInputChange}
-                    data-id={this.props.id}
-                    type="number"
-                    name="quantity"
-                    id="item-quantity"
-                    max={this.props.cardQuantity}
-                    min="0"
-                    placeholder={'Quantity'}
-                  /> */}
+
+                {this.state.result && <p className="my-2">{this.state.result}</p>}
+
                 <label>Quantity</label>
                 <select
                   value={this.state.quantity.toString()}
@@ -114,7 +117,6 @@ class InventoryCard extends Component {
                   className="browser-default"
                   onChange={this.handleInputChange}
                   name="quantity"
-                  style={{ margin: '0 10px 0 16px' }}
                 >
                   <option>0</option>
                   {this.createSelectItems(this.props.cardQuantity)}

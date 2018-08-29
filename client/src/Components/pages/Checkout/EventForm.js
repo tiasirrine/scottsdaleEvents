@@ -26,7 +26,11 @@ class EventForm extends Component {
       willCallPickupTime: this.eventProps ? this.eventProps.willCallPickupTime : '',
       willCallReturnDate: this.eventProps ? this.eventProps.willCallReturnDate : '',
       willCallReturnTime: this.eventProps ? this.eventProps.willCallReturnTime : '',
-      isActive: false
+      isActive: false,
+      lastPressed: null,
+      groupNameresult: null,
+      dateResult: null,
+      finalResult: null
     };
   }
 
@@ -47,6 +51,7 @@ class EventForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    this.requiredFieldsCheck(e);
     console.log('go to summary');
   };
 
@@ -54,8 +59,20 @@ class EventForm extends Component {
     console.log(value);
   };
 
+  requiredFieldsCheck = e => {
+    console.log(e.target);
+    const { name } = e.target;
+  };
+
   render() {
-    const { isActive, ...stateEventProps } = this.state;
+    const {
+      isActive,
+      lastPressed,
+      groupNameresult,
+      finalResult,
+      dateResult,
+      ...stateEventProps
+    } = this.state;
     return (
       <Container>
         <Row>
@@ -92,6 +109,7 @@ class EventForm extends Component {
                           error="wrong"
                           success="right"
                         />
+                        {<p>{this.state.groupNameresult}</p>}
                         <Input
                           value={this.state.venue}
                           label="Venue"
@@ -117,6 +135,7 @@ class EventForm extends Component {
                           error="wrong"
                           success="right"
                         />
+                        {<p>{this.state.groupNameresult}</p>}
                         <Input
                           value={this.state.eventStartTime}
                           label="Start Time of Event"
@@ -318,11 +337,17 @@ class EventForm extends Component {
                         }
                       }}
                     >
-                      <Button color="success" className="aButton" size="md">
+                      <Button
+                        color="success"
+                        className="aButton"
+                        size="md"
+                        name="event-form-submit"
+                      >
                         Go to Summary
                       </Button>
                     </Link>
                   </div>
+                  {<p>{this.state.groupNameresult}</p>}
                 </form>
               </CardBody>
             </Card>

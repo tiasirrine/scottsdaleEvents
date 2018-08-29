@@ -16,6 +16,9 @@ tr:nth-child(even) {
   transform: translateY(-120%);
 }
 
+.remove-pointer {
+  cursor: pointer;
+}
 #browse-btn {
   font-size: 16px;
 }
