@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Fragment } from 'react';
 
 import InventoryCard from './InventoryCard';

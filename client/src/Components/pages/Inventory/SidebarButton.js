@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { Collapse } from 'mdbreact';
 import { Link } from 'react-router-dom';

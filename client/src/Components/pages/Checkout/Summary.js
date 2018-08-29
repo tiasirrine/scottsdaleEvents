@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { Container, Row, Col, Button, Modal, ModalBody, ModalHeader, ModalFooter, Table } from 'mdbreact';
 import API from '../../../api/API';

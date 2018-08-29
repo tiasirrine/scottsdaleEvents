@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component, Fragment } from 'react';
 import { Input, Container, Row, Button, Card, CardBody, CardTitle } from 'mdbreact';
 import API from '../../../api/API';

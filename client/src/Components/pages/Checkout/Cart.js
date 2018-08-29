@@ -1,3 +1,4 @@
+/* eslint-disable */
 import './Checkout.css';
 import React, { Component } from 'react';
 import { Container, Table, Input, Button, Popover, PopoverBody, PopoverHeader } from 'mdbreact';

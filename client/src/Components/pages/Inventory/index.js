@@ -1,3 +1,4 @@
+/* eslint-disable */
 import './InventoryPage.css';
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
@@ -66,8 +67,7 @@ class InventoryPage extends Component {
   render() {
     const { categories, inventoryObj, subCategories } = this.props;
 
-    const categoryImgs =
-      categories && inventoryObj ? categories.map(a => inventoryObj[a][0].url) : null;
+    const categoryImgs = categories && inventoryObj ? categories.map(a => inventoryObj[a][0].url) : null;
 
     return (
       <div className="d-lg-flex">
@@ -81,11 +81,7 @@ class InventoryPage extends Component {
               exact
               path={this.props.match.path}
               render={props => (
-                <CategoryComponentWrapper
-                  {...props}
-                  categories={categories}
-                  images={categoryImgs}
-                />
+                <CategoryComponentWrapper {...props} categories={categories} images={categoryImgs} />
               )}
             />
             <Route
