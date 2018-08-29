@@ -96,6 +96,14 @@ ul {
   height: 400px;
   margin-bottom: 25px;
 }
+.extra-pointer {
+  cursor: pointer;
+}
+
+.inv-img {
+  margin-right: 10%;
+  margin-left: 5%;
+}
 
 @media (max-width: 768px) {
   .w-300 {
