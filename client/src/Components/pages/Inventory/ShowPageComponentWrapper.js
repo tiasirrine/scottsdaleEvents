@@ -13,7 +13,8 @@ class ShowPageComponentWrapper extends Component {
       quantity: 0,
       isAuthed: false,
       result: null,
-      isAdmin: null
+      isAdmin: null,
+      inventoryImages: []
     };
   }
 
@@ -25,6 +26,13 @@ class ShowPageComponentWrapper extends Component {
       .catch(err => {
         console.log(err);
       });
+    const inventoryItem = this.props.location.state.inventoryProps;
+    const allImages = [];
+    allImages.push(inventoryItem.url);
+    allImages.push(...inventoryItem.extra.trim().split(' '));
+    console.log('load images: ', allImages);
+    this.setState({ inventoryImages: allImages });
+    console.log(this.state);
   }
   // updates qty for a product
   handleInputChange = event => {
@@ -75,66 +83,55 @@ class ShowPageComponentWrapper extends Component {
         </option>
       );
     }
-    console.log('items: ', items);
     return items;
   }
 
   pictureLooper = () => {
     if (this.props.location.state.inventoryProps.extra) {
-      const inventoryItem = this.props.location.state.inventoryProps;
-      const allImages = [];
-      allImages.push(inventoryItem.url);
-      allImages.push(...inventoryItem.extra.trim().split(' '));
-      return allImages;
+      return this.state.inventoryImages;
     } else {
       return [];
     }
   };
 
-  pictureMover = e => {
-    const inventoryItem = this.props.location.state.inventoryProps;
-    const allImages = [];
-    allImages.push(inventoryItem.url);
-    allImages.push(...inventoryItem.extra.trim().split(' '));
-    // find index
-    console.log(allImages);
-    allImages.unshift(allImages.splice(allImages.findIndex(item => item.id === e.target), 1)[0]);
-    console.log(allImages);
-    this.pictureLooper();
+  pictureMover = (event, i) => {
+    const newImagesArray = [...this.state.inventoryImages];
+    const newVariable = newImagesArray.splice(i, 1);
+    newImagesArray.unshift(newVariable);
+    console.log(this.state.inventoryImages);
+    this.setState({ inventoryImages: newImagesArray });
+    console.log(this.state);
   };
 
   render() {
-    console.log('SPCWprops: ', this.props.location.state);
     const inventoryItem = this.props.location.state.inventoryProps;
-    const allImages = [];
-    allImages.push(inventoryItem.url);
-    allImages.push(...inventoryItem.extra.trim().split(' '));
-    console.log(allImages);
+
     return (
-      <Container>
+      <Container className="animated fadeInUpBig">
         <br />
 
         <Row>
           <img
-            src={allImages[0]}
+            src={this.state.inventoryImages[0]}
             className=" mx-auto d-block img-fluid z-depth-1 main-show"
             alt={inventoryItem.cardTitle}
-            onClick={this.openLightbox}
           />
         </Row>
         <Row>
           {' '}
-          {this.pictureLooper().map((a, i) => {
-            return (
-              <div key={i} className="col-xl-3 col-md-4 mb-3">
-                <img
-                  src={a}
-                  alt={i}
-                  className="img-thumbnail mx-auto d-block img-fluid z-depth-1"
-                  onClick={this.pictureMover}
-                />
-              </div>
-            );
+          {this.state.inventoryImages.map((a, i) => {
+            if (i != 0) {
+              return (
+                <div key={i} className="col-xl-3 col-md-4 mb-3">
+                  <img
+                    src={a}
+                    alt={i}
+                    className="img-thumbnail mx-auto d-block img-fluid z-depth-1 extra-pointer"
+                    onClick={event => this.pictureMover(event, i)}
+                  />
+                </div>
+              );
+            }
           })}
         </Row>
         <Row>

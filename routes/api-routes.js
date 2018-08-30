@@ -1,5 +1,4 @@
 require('isomorphic-fetch');
-const fs = require('fs');
 const { user } = require('../controllers');
 const router = require('express').Router();
 const nodemailer = require('nodemailer');
