@@ -184,12 +184,24 @@ class Cart extends Component {
           <Table hover>
             <thead className="blue-grey lighten-4">
               <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th className="text-center">Inventory</th>
-                <th>Price</th>
-                <th>Total</th>
-                <th>Remove</th>
+                <th>
+                  <b>Product</b>
+                </th>
+                <th>
+                  <b>Quantity</b>
+                </th>
+                <th className="text-center">
+                  <b>Inventory</b>
+                </th>
+                <th>
+                  <b>Price</b>
+                </th>
+                <th>
+                  <b>Total</b>
+                </th>
+                <th>
+                  <b>Remove</b>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -199,7 +211,7 @@ class Cart extends Component {
                     <tr key={i}>
                       <td scope="row">{a.name}</td>
                       <td>
-                        <label>Current:</label>
+                        <label className="mr-2">Current:</label>
                         <select
                           data-id={a.id}
                           className="browser-default"

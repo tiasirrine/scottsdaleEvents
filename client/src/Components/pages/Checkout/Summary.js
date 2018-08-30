@@ -12,45 +12,33 @@ class Summary extends React.Component {
     this.state = {
       modal: false,
       shippingCost: '',
-      isActive: false
+      isActive: false,
+      success: null
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.toggle = this.toggle.bind(this);
-    this.handleCheck = this.handleCheck.bind(this);
   }
 
   componentDidMount() {
     window.scrollTo(0, 0);
   }
 
-  handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+  toggle = result => {
+    this.setState({ modal: !this.state.modal, success: result });
   };
 
-  toggle() {
-    this.setState({
-      modal: !this.state.modal
-    });
-  }
-
-  handleSubmit = e => {
+  submitButton = () => {
     API.getEstimate(this.props.location.state)
       .then(result => {
         sessionStorage.setItem('activeCart', result.data.activeCart);
+        this.toggle(true);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        this.toggle(false);
+      });
   };
 
-  handleCheck(event) {
+  handleCheck = event => {
     this.setState({ isActive: event.target.checked });
-  }
-
-  submitButton = () => {
-    console.log('Button Pushed');
-    this.toggle();
-    this.handleSubmit();
   };
 
   submitHandler = event => {
@@ -67,16 +55,24 @@ class Summary extends React.Component {
     console.log(this.props);
     return (
       <Container className="mt-5">
-        <div className="text-center">Summary</div>
+        <h3 style={{ marginTop: '80px' }} className="text-center mb-3">
+          Summary
+        </h3>
         <Row>
           <Col md="6">
             {' '}
             <Table>
               <thead className="blue-grey lighten-4">
                 <tr>
-                  <th className="text-center">Items</th>
-                  <th className="text-center">Quantity</th>
-                  <th className="text-center">Price</th>
+                  <th className="text-center">
+                    <b>Items</b>
+                  </th>
+                  <th className="text-center">
+                    <b>Quantity</b>
+                  </th>
+                  <th className="text-center">
+                    <b>Price</b>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -93,8 +89,10 @@ class Summary extends React.Component {
                   <td className="text-center">{''} </td>
                   <td className="text-center">{''} </td>
                   <td className="text-center">
-                    Est. Subtotal: $
-                    {this.props.location.state.cartProps.reduce((a, b) => a + parseInt(b.total), 0)}{' '}
+                    <b style={{ fontWeight: '600' }}>
+                      Est. Subtotal: $
+                      {this.props.location.state.cartProps.reduce((a, b) => a + parseInt(b.total), 0)}{' '}
+                    </b>
                   </td>
                 </tr>
               </tbody>
@@ -105,8 +103,12 @@ class Summary extends React.Component {
             <Table>
               <thead className="blue-grey lighten-4">
                 <tr>
-                  <th className="text-center">Event Details</th>
-                  <th className="text-center">Your Event</th>
+                  <th className="text-center">
+                    <b>Event Details</b>
+                  </th>
+                  <th className="text-center">
+                    <b>Your Event</b>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -174,9 +176,13 @@ class Summary extends React.Component {
 
         <Modal isOpen={this.state.modal}>
           <Link to={`/`}>
-            <ModalHeader toggle={this.toggle}>Thank you!</ModalHeader>{' '}
+            <ModalHeader toggle={this.toggle}>{this.state.success ? 'Thank you!' : 'Uh oh...'}</ModalHeader>{' '}
           </Link>
-          <ModalBody>We will be contacting you soon.</ModalBody>
+          <ModalBody>
+            {this.state.success
+              ? 'We will be contacting you soon.'
+              : 'An error occured while submitting your estimate. Please contact us so we can resolve this issue.'}
+          </ModalBody>
           <ModalFooter>
             <Link to={`/`}>
               <Button className="aButton" onClick={this.toggle}>

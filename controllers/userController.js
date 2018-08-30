@@ -32,7 +32,6 @@ module.exports = {
   },
 
   createCart: function(id) {
-    console.log(id);
     return new Promise((resolve, reject) => {
       db.Cart.findOne({
         where: { CustomerId: id, isActive: true }
@@ -68,16 +67,6 @@ module.exports = {
           console.log('65:', err);
           reject(err);
         });
-
-      // db.Cart.create({
-      //   isActive: false,
-      //   CustomerId: id
-      // })
-      //   .then(res => {
-      //     console.log(res);
-      //     resolve(res);
-      //   })
-      //   .catch(err => reject(err));
     });
   },
 

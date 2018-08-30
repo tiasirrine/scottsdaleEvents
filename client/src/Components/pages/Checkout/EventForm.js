@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Card, CardBody, Button, Input } from 'mdbreact';
 import './Checkout.css';
 import { Link } from 'react-router-dom';
+import { handleInputChange } from '../../../api/validate';
 
 class EventForm extends Component {
   constructor(props) {
@@ -32,37 +33,12 @@ class EventForm extends Component {
       dateResult: null,
       finalResult: null
     };
+    this.handleChange = handleInputChange.bind(this);
   }
 
   componentDidMount() {
     window.scrollTo(0, 0);
   }
-
-  handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-  // allows the form to submit on enter.
-  // handleKeyPress = e => {
-  //   if (e.key === 'Enter') {
-  //     this.handleSubmit();
-  //   }
-  // };
-
-  handleSubmit = e => {
-    e.preventDefault();
-    this.requiredFieldsCheck(e);
-    console.log('go to summary');
-  };
-
-  getPickerValue = value => {
-    console.log(value);
-  };
-
-  requiredFieldsCheck = e => {
-    console.log(e.target);
-    const { name } = e.target;
-  };
 
   render() {
     const {
@@ -337,12 +313,7 @@ class EventForm extends Component {
                         }
                       }}
                     >
-                      <Button
-                        color="success"
-                        className="aButton"
-                        size="md"
-                        name="event-form-submit"
-                      >
+                      <Button color="success" className="aButton" size="md" name="event-form-submit">
                         Go to Summary
                       </Button>
                     </Link>

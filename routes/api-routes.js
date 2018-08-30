@@ -175,7 +175,6 @@ router.post('/update/qty', passport.authenticate('jwt', { session: false }), (re
   const { ProductId, qty } = req.body;
   db.CartProduct.update({ qty: qty }, { where: { ProductId: ProductId } })
     .then(result => {
-      console.log(result);
       res.send('success');
     })
     .catch(error => {
@@ -287,7 +286,6 @@ router.get('/get/carts', passport.authenticate('jwt', { session: false }), (req,
   user
     .loadCarts(req.user.id)
     .then(result => {
-      console.log(result);
       // returns carts sorted by the isActive boolean value
       // ensures the active cart is at index 0
       const x = result.sort((x, y) => {
@@ -301,12 +299,10 @@ router.get('/get/carts', passport.authenticate('jwt', { session: false }), (req,
 // saves a product to a customers cart
 router.post('/save/product', passport.authenticate('jwt', { session: false }), (req, res) => {
   const { ProductId, CartId } = req.body;
-  console.log(req.body);
   // this will either create a new product to save to a cart,
   // or it will update an already saved product
   // prevents a cart from having duplicate line items for the same product
   db.CartProduct.findOne({ where: { ProductId: ProductId, CartId: CartId } }).then(result => {
-    console.log(result);
     if (result) {
       const { qty, maxQty } = result.dataValues;
       if (Number(req.body.qty) + qty > maxQty) {

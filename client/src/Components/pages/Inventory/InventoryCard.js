@@ -76,29 +76,18 @@ class InventoryCard extends Component {
     console.log(window.location);
     return (
       <div className="row my-5 pb-4 text-center text-md-left animated fadeInUpBig">
-        <div className="col-md-3 mb-3 mb-sm-3 inv-img">
+        <div className="col-md-5 mb-3 mb-sm-3">
           <Link
             to={{
               pathname: `${window.location.pathname}/${this.props.cardTitle}`,
               state: { inventoryProps: this.props }
             }}
           >
-            <div className="view view-cascade overlay">
-              <View zoom>
-                <img
-                  fluid
-                  cascade
-                  src={this.props.url}
-                  alt={this.props.cardTitle}
-                  className="card-image ind-card-image"
-                />
-                <div className="mask flex-center waves-effect waves-light cat-names text-justify" />
-              </View>
-            </div>
+            <img className="img-fluid product-img" src={this.props.url} alt={this.props.cardTitle} />
           </Link>
         </div>
 
-        <div className="col-md-5 border-bottom pb-3 pb-sm-3 float-right">
+        <div className="col-md-7 border-bottom pb-3 pb-sm-3">
           <h3 className="mb-2">{this.props.cardTitle}</h3>
           {/* <p className="mb-2">{this.props.cardDesc}</p> */}
           {this.state.isAuthed &&
@@ -114,7 +103,7 @@ class InventoryCard extends Component {
                 <select
                   value={this.state.quantity.toString()}
                   data-id={this.props.id}
-                  className="browser-default"
+                  className="browser-default mx-2"
                   onChange={this.handleInputChange}
                   name="quantity"
                 >
