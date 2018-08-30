@@ -299,6 +299,8 @@ router.get('/get/carts', passport.authenticate('jwt', { session: false }), (req,
 // saves a product to a customers cart
 router.post('/save/product', passport.authenticate('jwt', { session: false }), (req, res) => {
   const { ProductId, CartId } = req.body;
+  const sm = { success: 'Product Saved' };
+  const em = { error: 'Failed to save product' };
   // this will either create a new product to save to a cart,
   // or it will update an already saved product
   // prevents a cart from having duplicate line items for the same product
@@ -306,23 +308,23 @@ router.post('/save/product', passport.authenticate('jwt', { session: false }), (
     if (result) {
       const { qty, maxQty } = result.dataValues;
       if (Number(req.body.qty) + qty > maxQty) {
-        res.send(`Max Quantity Exceeded. You already saved ${qty} items`);
+        res.json({ error: `Max Quantity Exceeded. You already saved ${qty} items` });
         return false;
       }
       req.body.qty = Number(req.body.qty) + qty;
       result
         .update(req.body)
-        .then(() => res.send('Product Saved'))
+        .then(() => res.json(sm))
         .catch(err => {
           console.log(err);
-          res.status(500).send('Failed to save product');
+          res.status(500).json(em);
         });
     } else {
       db.CartProduct.create(req.body)
-        .then(() => res.send('Product Saved'))
+        .then(() => res.json(sm))
         .catch(err => {
           console.log('eeeee', err);
-          res.status(500).send('Failed to save product');
+          res.status(500).json(em);
         });
     }
   });

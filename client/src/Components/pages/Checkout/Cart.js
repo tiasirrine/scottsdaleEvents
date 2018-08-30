@@ -20,7 +20,6 @@ class Cart extends Component {
 
     API.loadCart()
       .then(res => {
-        console.log('asdf', res);
         // only sorts the active cart if there are items already saved for it
         if (res.data.length) {
           const activeCart = res.data[0].CartProducts;
@@ -51,7 +50,6 @@ class Cart extends Component {
     const { name } = e.target;
     // value is the quantity to update
     let { value } = e.target;
-    console.log('value', value);
     // this is the product id of the product to update
     const ProductId = e.target.getAttribute('data-id');
 
@@ -60,30 +58,29 @@ class Cart extends Component {
       value = value.replace(/[^0-9]+/g, '');
     }
 
-    // updates the appropriate object with the new quantity and price
-    // loops through the active cart array
-    const updated = this.state.activeCart.map(a => {
-      // if the id of the current object matches the id of the saved object,
-      // then attempt to save the new quantity
-      if (a.id === ProductId) {
-        // does a check to make sure only a valid quantity gets saved to the db
-        if (value > 0 && value <= a.quantity) {
-          a.qty = value;
-          a.total = Number(a.price) * Number(value);
-          API.updateQty({ ProductId, qty: Number(value) })
-            .then(result => {
-              console.log(result);
-            })
-            .catch(err => {
-              console.log(err.response.data);
-              this.setState({ errorMsg: err.response.data });
-            });
-        }
-      }
-      return a;
-    });
+    API.updateQty({ ProductId, qty: Number(value) })
+      .then(result => {
+        // updates the appropriate object with the new quantity and price
+        // loops through the active cart array
+        const updated = this.state.activeCart.map(a => {
+          // if the id of the current object matches the id of the saved object,
+          // then attempt to save the new quantity
+          if (a.id === ProductId) {
+            // does a check to make sure only a valid quantity gets saved to the db
+            if (value > 0 && value <= a.quantity) {
+              a.qty = value;
+              a.total = Number(a.price) * Number(value);
+            }
+          }
+          return a;
+        });
 
-    this.setState({ products: updated });
+        this.setState({ products: updated });
+      })
+      .catch(err => {
+        console.log(err.response.data);
+        this.setState({ errorMsg: err.response.data });
+      });
   };
 
   // deletes a product from the cart.
@@ -142,7 +139,6 @@ class Cart extends Component {
     return items;
   }
   render() {
-    console.log('cart: ', this.state);
     const { activeCart } = this.state;
 
     Array.prototype.sum = function(prop) {

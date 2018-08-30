@@ -30,9 +30,7 @@ class ShowPageComponentWrapper extends Component {
     const allImages = [];
     allImages.push(inventoryItem.url);
     allImages.push(...inventoryItem.extra.trim().split(' '));
-    console.log('load images: ', allImages);
     this.setState({ inventoryImages: allImages });
-    console.log(this.state);
   }
   // updates qty for a product
   handleInputChange = event => {
@@ -65,7 +63,7 @@ class ShowPageComponentWrapper extends Component {
         .then(result => {
           this.setState({ result: result.data });
         })
-        .catch(err => {
+        .catch(() => {
           this.setState({ result: 'Failed to save product' });
         });
     } else {
@@ -86,21 +84,11 @@ class ShowPageComponentWrapper extends Component {
     return items;
   }
 
-  pictureLooper = () => {
-    if (this.props.location.state.inventoryProps.extra) {
-      return this.state.inventoryImages;
-    } else {
-      return [];
-    }
-  };
-
-  pictureMover = (event, i) => {
+  pictureMover = i => {
     const newImagesArray = [...this.state.inventoryImages];
     const newVariable = newImagesArray.splice(i, 1);
     newImagesArray.unshift(newVariable);
-    console.log(this.state.inventoryImages);
     this.setState({ inventoryImages: newImagesArray });
-    console.log(this.state);
   };
 
   render() {
@@ -154,7 +142,7 @@ class ShowPageComponentWrapper extends Component {
                       <select
                         value={this.state.quantity.toString()}
                         data-id={inventoryItem.id}
-                        className="browser-default"
+                        className="browser-default mx-2"
                         onChange={this.handleInputChange}
                         name="quantity"
                       >

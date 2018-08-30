@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 class InventoryCard extends Component {
   constructor(props) {
     super(props);
-    this.state = { quantity: 0, isAuthed: false, result: null, isAdmin: null };
+    this.state = { quantity: 0, isAuthed: false, success: null, error: null, isAdmin: null };
   }
 
   // checks if a user is authed. If so, displays cart and qty.
@@ -33,6 +33,8 @@ class InventoryCard extends Component {
     });
   };
 
+  reset = () => setTimeout(() => this.setState({ success: null, error: null, quantity: 0 }), 3000);
+
   // saves the product to the users cart.
   handleFormSubmit = event => {
     // prevents adding 0 items of something or too many
@@ -47,13 +49,20 @@ class InventoryCard extends Component {
 
       API.saveProduct(obj)
         .then(result => {
-          this.setState({ result: result.data });
+          if (result.data.error) {
+            this.setState({ error: result.data.error });
+          } else {
+            this.setState({ success: result.data.success });
+          }
+          this.reset();
         })
-        .catch(err => {
-          this.setState({ result: 'Failed to save product' });
+        .catch(error => {
+          this.setState({ error: error.response.data.error });
+          this.reset();
         });
     } else {
-      this.setState({ result: 'Please choose a valid quantity' });
+      this.setState({ error: 'Please choose a valid quantity' });
+      this.reset();
     }
   };
 
@@ -67,13 +76,11 @@ class InventoryCard extends Component {
         </option>
       );
     }
-    console.log('items: ', items);
+
     return items;
   }
 
   render() {
-    console.log('props: ', this.props);
-    console.log(window.location);
     return (
       <div className="row my-5 pb-4 text-center text-md-left animated fadeInUpBig">
         <div className="col-md-5 mb-3 mb-sm-3">
@@ -97,7 +104,8 @@ class InventoryCard extends Component {
                 <p>${this.props.cardPrice}</p>
                 <p>{this.props.cardQuantity} units in inventory</p>
 
-                {this.state.result && <p className="my-2">{this.state.result}</p>}
+                {this.state.success && <p className="my-2 text-success">{this.state.success}</p>}
+                {this.state.error && <p className="my-2 text-danger">{this.state.error}</p>}
 
                 <label>Quantity</label>
                 <select

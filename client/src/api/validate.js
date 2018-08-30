@@ -17,3 +17,9 @@ export function handleInputChange(event) {
   const { value, name } = event.target;
   this.setState({ [name]: value });
 }
+
+// export function handleKeyPress(e) {
+//   if (e.key === 'Enter') {
+//     this.onSubmit();
+//   }
+// };
