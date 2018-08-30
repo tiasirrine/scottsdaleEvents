@@ -1,3 +1,4 @@
+require('isomorphic-fetch');
 const fs = require('fs');
 const { user } = require('../controllers');
 const router = require('express').Router();
@@ -6,6 +7,8 @@ const db = require('../models');
 const Json2csvParser = require('json2csv').Parser;
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
+const Dropbox = require('dropbox').Dropbox;
+const dbx = new Dropbox({ accessToken: process.env.DROPBOX });
 
 // creates a new customer
 router.post('/create/customer', passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -51,9 +54,10 @@ router.post('/create/cart', (req, res) => {
 
 // creates a csv file for a customers estimate
 router.post('/create/estimate', passport.authenticate('jwt', { session: false }), (req, res) => {
-  // console.log('req.body', req.body);
+  const msg = 'An error occured while generating your estimate';
   // creates the columns for the csv file
-  const fields = ['estimateId', 'sku', 'qty'];
+  const fields = ['estimateId', 'id', 'qty'];
+  let estimateId;
 
   // contains the rows for the csv file
   const { eventProps, cartProps } = req.body;
@@ -61,6 +65,7 @@ router.post('/create/estimate', passport.authenticate('jwt', { session: false })
 
   db.Estimate.create({ _id: '1' })
     .then(result => {
+      estimateId = result.dataValues.id;
       const merged = cartProps.map(product => {
         for (let info in eventProps) {
           product[info] = eventProps[info];
@@ -73,32 +78,36 @@ router.post('/create/estimate', passport.authenticate('jwt', { session: false })
       try {
         const parser = new Json2csvParser({ fields, quote: '' });
         const csv = parser.parse(merged);
-        fs.writeFile('./csv/estimates/estimate.csv', csv, function(err) {
-          if (err) {
-            console.log(err);
-            return false;
-          } else {
+
+        dbx
+          .filesUpload({ contents: csv, path: `/estimate-${estimateId}` })
+          .then(() => {
             user
               .createCart(req.user.id)
               .then(result => {
-                console.log(result);
                 console.log('File created.');
                 res.json({ activeCart: result.dataValues.id });
-                return;
               })
               .catch(err => {
                 console.log(err);
+                res.json({ err: msg });
               });
-          }
-        });
+          })
+          .catch(err => {
+            console.log(err);
+            res.json({ err: msg });
+            return;
+          });
       } catch (err) {
         console.log(err);
-        return false;
+        res.json({ err: msg });
+        return;
       }
     })
     .catch(error => {
       console.log(error);
-      return false;
+      res.json({ err: msg });
+      return;
     });
 });
 
