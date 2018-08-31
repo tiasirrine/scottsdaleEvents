@@ -121,7 +121,7 @@ class ShowPageComponentWrapper extends Component {
           {this.state.inventoryImages.map((a, i) => {
             if (i != 0) {
               return (
-                <div key={i} className="col-xl-3 col-md-4 mb-3">
+                <div key={i} className="col-xl-3 col-md-4 mb-3 mx-auto d-block img-fluid z-depth-1">
                   <img
                     src={a}
                     alt={i}
