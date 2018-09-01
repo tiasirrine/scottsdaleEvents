@@ -47,7 +47,7 @@ module.exports = {
                 db.Cart.create({
                   isActive: true,
                   CustomerId: id,
-                  cartName: moment(Date.now()).format('MMM Do YY')
+                  cartName: 'Unnamed Cart'
                 })
                   .then(res => {
                     resolve(res);
@@ -71,6 +71,7 @@ module.exports = {
   },
 
   hashPassword: function(unhashedPassword) {
+    unhashedPassword = unhashedPassword.trim();
     return new Promise((resolve, reject) => {
       bcrypt.genSalt(10, function(err, salt) {
         // sends an error if there is one
@@ -279,7 +280,7 @@ module.exports = {
                 // creates a cart for the customer
                 db.Cart.create({
                   isActive: true,
-                  cartName: moment(Date.now()).format('MMM Do YY'),
+                  cartName: 'Unnamed Cart',
                   CustomerId: newCustomer.id
                 })
                   .then(() => resolve(newCustomer))

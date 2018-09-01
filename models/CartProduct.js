@@ -11,6 +11,9 @@ module.exports = function(sequelize, DataTypes) {
               throw new Error(`Max quantity exceeded`);
             }
           }
+        },
+        set(val) {
+          this.setDataValue('qty', Number(val));
         }
       },
       maxQty: {

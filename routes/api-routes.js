@@ -183,7 +183,7 @@ router.post('/update/qty', passport.authenticate('jwt', { session: false }), (re
     });
 });
 
-// updates any customer freeze
+// updates any customer suspension
 router.post('/update/customer', passport.authenticate('jwt', { session: false }), (req, res) => {
   user
     .updateCustomer(req.body)
@@ -193,6 +193,18 @@ router.post('/update/customer', passport.authenticate('jwt', { session: false })
     .catch(err => {
       console.log(err);
       res.send({ error: 'An error occured' });
+    });
+});
+
+router.post('/update/cart', passport.authenticate('jwt', { session: false }), (req, res) => {
+  const { name, id } = req.body;
+  db.Cart.update({ cartName: name }, { where: { id: id } })
+    .then(result => {
+      res.json({ success: result });
+    })
+    .catch(err => {
+      console.log(err);
+      res.json({ error: err });
     });
 });
 
@@ -305,13 +317,14 @@ router.post('/save/product', passport.authenticate('jwt', { session: false }), (
   // or it will update an already saved product
   // prevents a cart from having duplicate line items for the same product
   db.CartProduct.findOne({ where: { ProductId: ProductId, CartId: CartId } }).then(result => {
+    const bodyQty = Number(req.body.qty);
     if (result) {
       const { qty, maxQty } = result.dataValues;
-      if (Number(req.body.qty) + qty > maxQty) {
+      if (bodyQty + qty > maxQty) {
         res.json({ error: `Max Quantity Exceeded. You already saved ${qty} items` });
         return false;
       }
-      req.body.qty = Number(req.body.qty) + qty;
+      req.body.qty = bodyQty + qty;
       result
         .update(req.body)
         .then(() => res.json(sm))

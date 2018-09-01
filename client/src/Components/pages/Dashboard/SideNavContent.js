@@ -17,7 +17,6 @@ const styles = {
 const logout = () => sessionStorage.clear();
 
 const SideNavContent = ({ user }) => {
-  console.log(user);
   return (
     <div style={styles.mainDiv}>
       <div style={styles.btnContainer}>

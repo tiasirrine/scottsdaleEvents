@@ -4,14 +4,17 @@ import React, { Component } from 'react';
 import { Container, Table, Input, Button, Popover, PopoverBody, PopoverHeader } from 'mdbreact';
 import API from '../../../api/API';
 import { Link } from 'react-router-dom';
+import { handleInputChange } from '../../../api/validate';
 
 class Cart extends Component {
   constructor(props) {
     super(props);
     this.state = {
       activeCart: null,
-      errorMsg: null
+      errorMsg: null,
+      cartName: ''
     };
+    this.handleInputChange = handleInputChange.bind(this);
   }
 
   // gets active cart for a customer
@@ -140,7 +143,7 @@ class Cart extends Component {
   }
   render() {
     const { activeCart } = this.state;
-
+    console.log(this.state);
     Array.prototype.sum = function(prop) {
       var totalPrice = 0;
       for (var i = 0, _len = this.length; i < _len; i++) {
@@ -177,6 +180,15 @@ class Cart extends Component {
               <small>{this.state.errorMsg}</small>
             </div>
           )}
+          <Input
+            value={this.state.cartName}
+            label="Cart Name"
+            name="cartName"
+            onChange={this.handleInputChange}
+            group
+            type="text"
+            className="w-25"
+          />
           <Table hover>
             <thead className="blue-grey lighten-4">
               <tr>
@@ -256,11 +268,14 @@ class Cart extends Component {
             Est Subtotal: {'   '}${activeCart.sum('total')}
           </div>
 
-          <Link to={{ pathname: '/checkout/event', state: { cartProps: this.state.activeCart } }}>
-            <Button color="success" className="aButton">
+          <Button color="success" className="aButton text-white" disabled={!this.state.cartName}>
+            <Link
+              className="text-white"
+              to={{ pathname: '/checkout/event', state: { cartProps: this.state.activeCart } }}
+            >
               Next
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </Container>
       );
     }

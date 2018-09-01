@@ -32,6 +32,7 @@ export default class Profile extends Component {
     if (!this.state.carts.length) {
       return <div className="loader" />;
     }
+    console.log(this.state);
     return (
       <Container>
         <Row>

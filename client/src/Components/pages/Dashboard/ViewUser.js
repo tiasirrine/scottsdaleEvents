@@ -74,7 +74,6 @@ export default class ViewUser extends Component {
   };
 
   render() {
-    console.log(this.state);
     if (this.state.allUsers === null) {
       return <div className="loader" />;
     }

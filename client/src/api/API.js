@@ -16,6 +16,8 @@ export default {
     });
   },
 
+  //TODO: these 2 routes have the same name.
+
   getAllCarts: function() {
     return axios.get('/get/carts', {
       timeout: 15000,
@@ -145,6 +147,10 @@ export default {
         Authorization: 'Bearer ' + sessionStorage.getItem('token')
       }
     });
+  },
+
+  updateCartName: function(cartId, name) {
+    return axios.post('/update/cart');
   },
 
   updateAdmin: function(user) {
