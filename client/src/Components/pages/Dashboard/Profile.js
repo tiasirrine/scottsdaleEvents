@@ -54,7 +54,7 @@ export default class Profile extends Component {
         return;
       }
 
-      if (password !== password2) {
+      if (password.trim() !== password2.trim()) {
         this.setState({ result: 'Passwords do not match', lastPressed: name });
         return;
       }

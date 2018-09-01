@@ -87,6 +87,7 @@ class App extends Component {
       <Router>
         <Fragment>
           <Navbar />
+          <p>{this.props.location && this.props.location.state.welcomeMsg}</p>
           <div className="main-height">
             <Switch>
               <Route exact path="/" component={Home} />

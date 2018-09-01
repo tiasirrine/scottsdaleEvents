@@ -12,3 +12,7 @@
   -webkit-box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15);
   box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15);
 }
+
+.link-home:hover {
+  color: rgb(37, 108, 200) !important;
+}

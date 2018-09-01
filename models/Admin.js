@@ -5,10 +5,28 @@ module.exports = function(sequelize, DataTypes) {
       email: {
         type: DataTypes.STRING,
         unique: { msg: 'This email is already in use' },
-        validate: { isEmail: { args: true, msg: 'Please enter a valid email address' } }
+        validate: { isEmail: { args: true, msg: 'Please enter a valid email address' } },
+        set(val) {
+          val.trim();
+          this.setDataValue('email', val.toLowerCase());
+        }
       },
-      firstName: { type: DataTypes.STRING, allowNull: false },
-      lastName: { type: DataTypes.STRING, allowNull: false },
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        set(val) {
+          val.trim();
+          this.setDataValue('firstName', val.charAt(0).toUpperCase() + val.slice(1));
+        }
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        set(val) {
+          val.trim();
+          this.setDataValue('lastName', val.charAt(0).toUpperCase() + val.slice(1));
+        }
+      },
       password: {
         type: DataTypes.STRING,
         allowNull: false,

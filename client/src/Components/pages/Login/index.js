@@ -116,6 +116,13 @@ class Login extends React.Component {
                         Password?
                       </Link>
                     </p>
+                    {this.props.location.pathname === '/admin' && (
+                      <p className="font-small mb-0 d-flex justify-content-end">
+                        <Link className="link-home  grey-text" to="/">
+                          Back to home page
+                        </Link>
+                      </p>
+                    )}
                     {this.state.error && <p className="text-danger text-center">{this.state.error}</p>}
                     <div className="text-center mb-4 mt-5">
                       <Button
