@@ -7,5 +7,11 @@ module.exports = function(sequelize, DataTypes) {
     { timestamps: false }
   );
 
+  Estimate.associate = function(models) {
+    Estimate.belongsTo(models.Cart, {
+      foreignKey: { allowNull: false }
+    });
+  };
+
   return Estimate;
 };

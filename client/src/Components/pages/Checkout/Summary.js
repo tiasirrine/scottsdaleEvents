@@ -13,7 +13,9 @@ class Summary extends React.Component {
       modal: false,
       shippingCost: '',
       isActive: false,
-      success: null
+      success: null,
+      estimateId: null,
+      loading: false
     };
   }
 
@@ -21,15 +23,26 @@ class Summary extends React.Component {
     window.scrollTo(0, 0);
   }
 
-  toggle = result => {
-    this.setState({ modal: !this.state.modal, success: result });
+  toggle = (result, id = null) => {
+    this.setState({
+      modal: !this.state.modal,
+      success: result,
+      estimateId: id,
+      loading: false
+    });
   };
 
   submitButton = () => {
+    this.setState({ loading: true });
     API.getEstimate(this.props.location.state)
       .then(result => {
+        console.log(result.data);
+        if (result.data.error) {
+          this.toggle(false);
+          return;
+        }
         sessionStorage.setItem('activeCart', result.data.activeCart);
-        this.toggle(true);
+        this.toggle(true, result.data.estimateId);
       })
       .catch(err => {
         console.log(err);
@@ -52,7 +65,6 @@ class Summary extends React.Component {
 
   render() {
     const eventDetails = this.props.location.state;
-    console.log(this.props);
     return (
       <Container className="mt-5">
         <h3 style={{ marginTop: '80px' }} className="text-center mb-3">
@@ -113,7 +125,6 @@ class Summary extends React.Component {
               </thead>
               <tbody>
                 {Object.keys(eventDetails.eventProps).map((obj, index) => {
-                  console.log('obj: ', obj);
                   const camelCase = obj
                     .replace(/([A-Z])/g, ' $1')
 
@@ -161,15 +172,13 @@ class Summary extends React.Component {
                   Back
                 </Button>
               </Link>
-              {
-                <button
-                  className="btn btn-unique"
-                  disabled={!this.state.isActive}
-                  onClick={this.submitButton}
-                >
-                  Submit Order
-                </button>
-              }
+              <button
+                className="btn btn-unique"
+                disabled={!this.state.isActive || this.state.loading}
+                onClick={this.submitButton}
+              >
+                {this.state.loading ? <i class="fa fa-spinner fa-spin" /> : 'Submit Order'}
+              </button>
             </form>
           </Col>
         </Row>
@@ -180,7 +189,7 @@ class Summary extends React.Component {
           </Link>
           <ModalBody>
             {this.state.success
-              ? 'We will be contacting you soon.'
+              ? `We will be contacting you soon. Your estimate ID is: ${this.state.estimateId}`
               : 'An error occured while submitting your estimate. Please contact us so we can resolve this issue.'}
           </ModalBody>
           <ModalFooter>

@@ -51,18 +51,32 @@ router.post('/create/cart', (req, res) => {
     .catch(err => res.json(err));
 });
 
+// router.get('/load/estimate', (req, res) => {
+//   user
+//     .getEstimate(1)
+//     .then(result => {
+//       console.log(result);
+//       res.send({ success: result });
+//     })
+//     .catch(err => {
+//       console.log(err);
+//       res.send({ error: error });
+//     });
+// });
+
 // creates a csv file for a customers estimate
 router.post('/create/estimate', passport.authenticate('jwt', { session: false }), (req, res) => {
-  const msg = 'An error occured while generating your estimate';
+  const msg = 'An error occured.';
   // creates the columns for the csv file
   const fields = ['estimateId', 'id', 'qty'];
   let estimateId;
 
   // contains the rows for the csv file
   const { eventProps, cartProps } = req.body;
+  const CartId = cartProps[0].CartId;
   Object.keys(eventProps).forEach(a => fields.push(a));
 
-  db.Estimate.create({ _id: '1' })
+  db.Estimate.create({ _id: '1', CartId: CartId })
     .then(result => {
       estimateId = result.dataValues.id;
       const merged = cartProps.map(product => {
@@ -85,27 +99,27 @@ router.post('/create/estimate', passport.authenticate('jwt', { session: false })
               .createCart(req.user.id)
               .then(result => {
                 console.log('File created.');
-                res.json({ activeCart: result.dataValues.id });
+                res.json({ estimateId: estimateId, activeCart: result.dataValues.id });
               })
               .catch(err => {
-                console.log(err);
-                res.json({ err: msg });
+                console.log('ERROR:', err);
+                res.json({ error: msg });
               });
           })
           .catch(err => {
-            console.log(err);
-            res.json({ err: msg });
+            console.log('ERROR:', err);
+            res.json({ error: msg });
             return;
           });
       } catch (err) {
-        console.log(err);
-        res.json({ err: msg });
+        console.log('ERROR:', err);
+        res.json({ error: msg });
         return;
       }
     })
     .catch(error => {
-      console.log(error);
-      res.json({ err: msg });
+      console.log('ERROR:', error);
+      res.json({ error: msg });
       return;
     });
 });
