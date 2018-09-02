@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { handleInputChange } from '../../../../api/validate';
+import API from '../../../../api/API';
+
 import {
   Container,
   Row,
@@ -11,7 +14,6 @@ import {
   ModalHeader,
   ModalFooter
 } from 'mdbreact';
-import axios from 'axios';
 import './Form.css';
 
 class ContactPage extends Component {
@@ -19,62 +21,46 @@ class ContactPage extends Component {
     super(props);
 
     this.state = {
-      name: '',
-      companyName: '',
-      contactEmail: '',
-      number: '',
-      message: '',
+      error: false,
+      loading: false,
       modal: false,
-      resultName: '',
-      resultCompany: '',
-      resultEmail: '',
-      resultNumber: '',
-      resultMessage: ''
+      message: '',
+      name: '',
+      company: '',
+      email: '',
+      number: ''
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.toggle = this.toggle.bind(this);
+    this.handleChange = handleInputChange.bind(this);
   }
 
   componentDidMount() {
     window.scrollTo(0, 0);
   }
 
-  handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+  toggle = () => this.setState({ modal: !this.state.modal, loading: false });
+
+  setErr = () => {
+    this.setState({ loading: false, error: true });
+    setTimeout(() => this.setState({ error: false }), 3000);
   };
 
-  toggle() {
-    this.setState({
-      modal: !this.state.modal
-    });
-  }
-  // allows the form to submit on enter.
-  // handleKeyPress = e => {
-  //   if (e.key === 'Enter') {
-  //     this.handleSubmit();
-  //   }
-  // };
-
-  async handleSubmit(e) {
-    //e.preventDefault();
-    console.log();
-
-    const { name, companyName, contactEmail, number, message } = this.state;
-
-    await axios.post('/create/email', {
-      name,
-      companyName,
-      contactEmail,
-      number,
-      message
-    });
-  }
-
-  submitContactInfo = () => {
-    this.handleSubmit();
-    this.toggle();
+  sendEmail = () => {
+    const { error, modal, loading, ...info } = this.state;
+    this.setState({ loading: true });
+    API.contactEmail(info)
+      .then(result => {
+        console.log(result);
+        if (result.data.error) {
+          this.setErr();
+          return;
+        }
+        console.log(result.data);
+        this.toggle();
+      })
+      .catch(error => {
+        console.log(error);
+        this.setErr();
+      });
   };
 
   render() {
@@ -83,7 +69,8 @@ class ContactPage extends Component {
         <section className="my-5">
           <h2 className="h1-responsive font-weight-bold text-center">Contact us</h2>
           <p className="text-center w-responsive mx-auto pb-5">
-            Please fill out the form below and we will get back to you as quickly as possible!
+            Please fill out the form below and we will get back to you as quickly as
+            possible!
           </p>
           <Row>
             <Col md="9" className="md-0 mb-5">
@@ -91,43 +78,35 @@ class ContactPage extends Component {
                 <Row>
                   <Col md="12">
                     <div className="md-form mb-0">
-                      {this.state.resultName && <p className="my-2">{this.state.resultName}</p>}
                       <Input
                         type="text"
-                        id="name"
                         label="Your name"
                         name="name"
                         onChange={this.handleChange}
-                        value={this.state.resultName}
+                        value={this.state.name}
                       />
                     </div>
                   </Col>
                   <Col md="12">
                     <div className="md-form mb-0">
-                      {this.state.resultCompany && (
-                        <p className="my-2">{this.state.resultCompany}</p>
-                      )}
                       <Input
                         type="text"
-                        id="companyName"
                         label="Company name"
-                        name="companyName"
+                        name="company"
                         onChange={this.handleChange}
                         required
-                        value={this.state.resultCompany}
+                        value={this.state.company}
                       />
                     </div>
                   </Col>
                   <Col md="12">
                     <div className="md-form mb-0">
-                      {this.state.resultEmail && <p className="my-2">{this.state.resultEmail}</p>}
                       <Input
                         type="text"
-                        id="contactEmail"
                         label="Your email"
-                        name="contactEmail"
+                        name="email"
                         onChange={this.handleChange}
-                        value={this.state.resultEmail}
+                        value={this.state.email}
                       />
                     </div>
                   </Col>
@@ -135,14 +114,12 @@ class ContactPage extends Component {
                 <Row>
                   <Col md="12">
                     <div className="md-form mb-0">
-                      {this.state.resultNumber && <p className="my-2">{this.state.resultNumber}</p>}
                       <Input
                         type="text"
-                        id="number"
                         label="Contact Number"
                         name="number"
                         onChange={this.handleChange}
-                        value={this.state.resultNumber}
+                        value={this.state.number}
                       />
                     </div>
                   </Col>
@@ -150,25 +127,35 @@ class ContactPage extends Component {
                 <Row>
                   <Col md="12">
                     <div className="md-form mb-0">
-                      {this.state.resultMessage && (
-                        <p className="my-2">{this.state.resultMessage}</p>
-                      )}
                       <Input
                         type="textarea"
-                        id="message"
                         label="Your message"
                         name="message"
                         onChange={this.handleChange}
-                        value={this.state.resultMessage}
+                        value={this.state.message}
                       />
                     </div>
                   </Col>
                 </Row>
               </form>
               <div className="text-center text-md-left">
-                <Button className="aButton" size="md" onClick={this.submitContactInfo} type="send">
-                  Send
+                <Button
+                  className="aButton"
+                  size="md"
+                  onClick={this.sendEmail}
+                  type="send"
+                >
+                  {this.state.loading ? (
+                    <i className="fa fa-spinner fa-spin" />
+                  ) : (
+                    'Send'
+                  )}
                 </Button>
+                {this.state.error && (
+                  <p className="text-danger">
+                    An error occured. Please call us so we can resolve this issue.
+                  </p>
+                )}
               </div>
             </Col>
             <Col md="3" className="text-center">
@@ -179,7 +166,7 @@ class ContactPage extends Component {
                 </li>
                 <li>
                   <Fa icon="phone" size="2x" className="grey-text mt-4" />
-                  <p>(480)699-9381</p>
+                  <p>(480) 699-9381</p>
                 </li>
                 <li>
                   <Fa icon="envelope" size="2x" className="grey-text mt-4" />
@@ -191,7 +178,7 @@ class ContactPage extends Component {
         </section>
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Thank you!</ModalHeader>
-          <ModalBody>We will be contacting you soon.</ModalBody>
+          <ModalBody>Thank you! We will be contacting you soon.</ModalBody>
           <ModalFooter>
             <Button className="aButton" onClick={this.toggle}>
               Close

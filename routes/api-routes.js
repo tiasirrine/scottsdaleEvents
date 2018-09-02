@@ -1,7 +1,7 @@
 require('isomorphic-fetch');
 const { user } = require('../controllers');
 const router = require('express').Router();
-const nodemailer = require('nodemailer');
+const mailer = require('../util/mailer');
 const db = require('../models');
 const Json2csvParser = require('json2csv').Parser;
 const jwt = require('jsonwebtoken');
@@ -120,51 +120,37 @@ router.post(
 
 //route for nodemailer
 router.post('/create/email', (req, res) => {
-  nodemailer.createTestAccount((err, account) => {
-    if (err) {
-      console.error('Failed to create a testing account. ' + err.message);
-      return process.exit(1);
+  const m = req.body;
+  mailer(
+    m.email,
+    'Information Request',
+    'confirmationEmail',
+    m,
+    (error, success) => {
+      if (error) {
+        console.log(error);
+        res.send({ error: true });
+      }
+      if (success) {
+        res.send({ success: true });
+        mailer(
+          m.email,
+          'Scottsdale Event Decor Confirmation Email',
+          'contactEmailForSED',
+          m,
+          (error, success) => {
+            if (error) {
+              console.log(error);
+              res.send({ error: true });
+            }
+            if (success) {
+              res.send({ success: true });
+            }
+          }
+        );
+      }
     }
-
-    console.log('Credentials obtained, sending message...');
-
-    const htmlEmail = `
-      <h3>Contact Details</h3>
-      <ul>
-        <li>Name: ${req.body.name}</li>
-        <li>CompanyName: ${req.body.companyName}</li>
-        <li>Contact Number: ${req.body.number}</li>
-        <li>Contact Email: ${req.body.contactEmail}</li
-        <li>Message to Scottsdale Event Decor: ${req.body.email}</li>
-      </ul>
-    `;
-
-    let transporter = nodemailer.createTransport({
-      host: 'smtp.ethereal.email',
-      port: 587,
-      auth: {
-        user: 'h5i4kjohpp6onalz@ethereal.email',
-        pass: 'ephpes6sVk62fgzwNR'
-      }
-    });
-
-    let mailOptions = {
-      from: 'tesxt@testaccount.com',
-      to: 'h5i4kjohpp6onalz@ethereal.email',
-      replyTo: 'test@testaccount.com',
-      subject: ' New Message ',
-      text: req.body.message,
-      html: htmlEmail
-    };
-
-    transporter.sendMail(mailOptions, (err, info) => {
-      if (err) {
-        return console.log(err);
-      }
-      console.log('message sent: %s', info.message);
-      console.log('Message URL: %s', nodemailer.getTestMessageUrl(info));
-    });
-  });
+  );
 });
 
 router.post(
