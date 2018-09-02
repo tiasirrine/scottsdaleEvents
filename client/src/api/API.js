@@ -117,5 +117,9 @@ export default {
   // used in Dashboard/CreateCustomer
   createCustomer: function(customer) {
     return axios.post('/create/customer', customer, setOptions());
+  },
+
+  contactEmail: function(content) {
+    return axios.post('/create/email', content, timeout);
   }
 };
