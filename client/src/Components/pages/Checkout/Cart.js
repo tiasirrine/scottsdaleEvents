@@ -21,7 +21,7 @@ class Cart extends Component {
   componentDidMount() {
     window.scrollTo(0, 0);
 
-    API.loadCart()
+    API.getCarts()
       .then(res => {
         console.log(res.data);
         // only sorts the active cart if there are items already saved for it
@@ -38,10 +38,7 @@ class Cart extends Component {
             return a.Product;
           });
 
-          this.setState({
-            activeCart: sortedActiveCart,
-            cartName: res.data[0].cartName
-          });
+          this.setState({ activeCart: sortedActiveCart, cartName: res.data[0].cartName });
         }
       })
       .catch(err => {
