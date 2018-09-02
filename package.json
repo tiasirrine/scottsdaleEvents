@@ -27,6 +27,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
+    "compression": "^1.7.3",
     "cors": "^2.8.4",
     "dotenv": "^6.0.0",
     "dropbox": "^4.0.9",
