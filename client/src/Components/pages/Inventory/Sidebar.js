@@ -26,7 +26,6 @@ class Sidebar extends Component {
   getActiveIndex = i => this.setState({ activeIndex: i });
 
   render() {
-    console.log(this.props);
     const { subCategories } = this.state;
     return (
       <div

@@ -9,6 +9,22 @@ export default class SideBarButton extends Component {
     this.state = { collapse: false, active: false };
   }
 
+  // this is used to auto open the sidebar cat and subcat if a user does not interact with the sidebar,
+  // and instead opens the them up by pressing the image
+  componentDidUpdate(prevProps) {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      let activeC;
+      let activeS;
+      const lc = this.props.location.pathname.split('/')[2];
+      const ls = this.props.location.pathname.split('/')[3];
+      const { categories, getActiveIndex, subCategories } = this.props;
+      categories.forEach((a, i) => (a === lc ? (activeC = i) : null));
+      getActiveIndex(activeC);
+      subCategories.forEach((a, i) => (a === ls ? (activeS = i) : null));
+      this.setState({ active: activeS });
+    }
+  }
+
   // this is used to add the active class for a sub category
   subCatLinkClick(index) {
     this.setState({ active: index });
