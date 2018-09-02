@@ -7,8 +7,9 @@
   position: fixed;
   width: 250px;
   height: 100vh;
-  background-color: rgb(247, 247, 247);
-  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  background-color: #323a4b;
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
+    0 2px 10px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   transition: -webkit-transform 0.3s ease-out 0s;
   overflow-x: hidden;
@@ -29,6 +30,16 @@
 .sidenav-btn-hover:hover {
   color: rgb(109, 109, 109);
 }
+
+.fig-size {
+  font-size: 1.2rem;
+}
+
+/* .shadows {
+  -moz-box-shadow: inset 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: inset 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+} */
 
 .dropdown-toggle::after {
   right: 20px;

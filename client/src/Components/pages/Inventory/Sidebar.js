@@ -26,11 +26,16 @@ class Sidebar extends Component {
   getActiveIndex = i => this.setState({ activeIndex: i });
 
   render() {
+    console.log(this.props);
     const { subCategories } = this.state;
     return (
       <div
         className="sidebar"
-        style={this.props.sidebarOpen ? { transform: 'translateX(0%)' } : { transform: 'translateX(-100%)' }}
+        style={
+          this.props.sidebarOpen
+            ? { transform: 'translateX(0%)' }
+            : { transform: 'translateX(-100%)' }
+        }
       >
         <div className="inner-scroll">
           <ul className="nav flex-column">
@@ -38,6 +43,7 @@ class Sidebar extends Component {
               ? Object.keys(subCategories).map((category, index, categories) => {
                   return (
                     <SidebarButton
+                      {...this.props}
                       key={category}
                       category={category}
                       subCategories={subCategories[category]}

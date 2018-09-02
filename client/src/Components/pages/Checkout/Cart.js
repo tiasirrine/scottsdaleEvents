@@ -1,7 +1,15 @@
 /* eslint-disable */
 import './Checkout.css';
 import React, { Component } from 'react';
-import { Container, Table, Input, Button, Popover, PopoverBody, PopoverHeader } from 'mdbreact';
+import {
+  Container,
+  Table,
+  Input,
+  Button,
+  Popover,
+  PopoverBody,
+  PopoverHeader
+} from 'mdbreact';
 import API from '../../../api/API';
 import { Link } from 'react-router-dom';
 import { handleInputChange } from '../../../api/validate';
@@ -38,7 +46,10 @@ class Cart extends Component {
             return a.Product;
           });
 
-          this.setState({ activeCart: sortedActiveCart, cartName: res.data[0].cartName });
+          this.setState({
+            activeCart: sortedActiveCart,
+            cartName: res.data[0].cartName
+          });
         }
       })
       .catch(err => {
@@ -269,7 +280,10 @@ class Cart extends Component {
 
           <Link
             className="text-white"
-            to={{ pathname: '/checkout/event', state: { cartProps: this.state.activeCart } }}
+            to={{
+              pathname: '/checkout/event',
+              state: { cartProps: this.state.activeCart }
+            }}
           >
             <Button color="success" className="aButton text-white">
               Next

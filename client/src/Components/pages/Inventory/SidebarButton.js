@@ -17,7 +17,7 @@ export default class SideBarButton extends Component {
   // this is used to add the active class for a main category
   categoryFontWeight = () => {
     if (this.props.index === this.props.activeIndex) {
-      return { fontWeight: '700', color: 'black' };
+      return { fontWeight: '700', fontSize: '22px', letterSpacing: '1px' };
     }
   };
 
@@ -58,13 +58,15 @@ export default class SideBarButton extends Component {
   render() {
     const { category, subCategories } = this.props;
     return (
-      <div style={{ margin: '1rem', marginLeft: '2rem' }}>
+      <div>
         <Link to={`/inventory/${category}`}>
           <p
-            className="mb-0 mr-2 d-flex justify-content-between sidenav-btn-hover"
+            className="mb-0 mr-2 d-flex justify-content-between shadow main-btn"
             style={{
               fontSize: '19px',
               cursor: 'pointer',
+              color: 'white',
+              padding: '1rem',
               ...this.categoryFontWeight()
             }}
             onClick={() => {
@@ -76,7 +78,15 @@ export default class SideBarButton extends Component {
           </p>
         </Link>
         {!subCategories.includes('') && (
-          <Collapse ref={el => (this.el = el)} isOpen={this.canItOpen()}>
+          <Collapse
+            style={{
+              backgroundColor: 'white',
+              padding: '1rem',
+              paddingLeft: '2rem'
+            }}
+            ref={el => (this.el = el)}
+            isOpen={this.canItOpen()}
+          >
             {subCategories &&
               subCategories.map((a, i) => (
                 <Link key={i} to={`/inventory/${category}/${a}`}>

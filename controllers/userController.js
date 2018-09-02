@@ -1,4 +1,3 @@
-const moment = require('moment');
 const db = require('../models');
 const bcrypt = require('bcryptjs');
 

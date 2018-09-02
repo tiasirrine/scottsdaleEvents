@@ -26,53 +26,56 @@ const SubCategoryComponentWrapper = props => {
     : null;
 
   // checks if there are no sub categories. if not, gets the inventory items.
-  const getInvItems = subCategories.includes('') ? inventory[param].map(a => a) : null;
+  const getInvItems = subCategories.includes('')
+    ? inventory[param].map(a => a)
+    : null;
 
   // contains individual inventory items if there are no sub categories
   const itemsToRender = subCategories.length ? subCategories : null;
   console.log('SCCprops: ', props);
   return (
     <Fragment>
-      <Row className="justify-content-md-center">
-        {itemsToRender && !getInvItems
-          ? itemsToRender.map((a, i) => (
-              <Col md="6" lg="4" xl="3" key={a} className="ind-card-col">
-                <Card className="card card-cascade wider reverse my-4 animated fadeInUpBig w-300">
-                  <Link to={`${props.match.url}/${a}`}>
-                    <div className="view view-cascade overlay">
-                      <View zoom>
-                        <CardImage
-                          cascade
-                          src={subImgs[i]}
-                          className="card-image ind-card-image"
-                          alt="Category Image"
-                        />
-                        <div className="mask flex-center waves-effect waves-light cat-names text-justify" />
-                      </View>
-                    </div>
-                  </Link>
-                </Card>
+      <Row>
+        {itemsToRender &&
+          !getInvItems &&
+          itemsToRender.map((a, i) => (
+            <Col md="6" lg="4" xl="3" key={a}>
+              <Card className="card card-cascade wider reverse mt-4 mb-2 animated fadeInUpBig w-300">
                 <Link to={`${props.match.url}/${a}`}>
-                  <figcaption className="figure-caption text-center animated fadeInUpBig">{a}</figcaption>
+                  <div className="view view-cascade overlay">
+                    <View zoom>
+                      <CardImage
+                        cascade
+                        src={subImgs[i]}
+                        className="card-image"
+                        alt="Category Image"
+                      />
+                      <div className="mask flex-center waves-effect waves-light cat-names text-justify" />
+                    </View>
+                  </div>
                 </Link>
-              </Col>
-            ))
-          : null}
+              </Card>
+              <Link to={`${props.match.url}/${a}`}>
+                <figcaption className="figure-caption text-center animated fadeInUpBig fig-size">
+                  {a}
+                </figcaption>
+              </Link>
+            </Col>
+          ))}
       </Row>
-      {getInvItems
-        ? getInvItems.map((a, i) => {
-            return (
-              <InventoryCard
-                key={i}
-                cardTitle={a.name}
-                cardDesc={a.description}
-                cardPrice={a.price}
-                id={a.id}
-                url={a.url}
-              />
-            );
-          })
-        : null}
+      {getInvItems &&
+        getInvItems.map((a, i) => {
+          return (
+            <InventoryCard
+              key={i}
+              cardTitle={a.name}
+              cardDesc={a.description}
+              cardPrice={a.price}
+              id={a.id}
+              url={a.url}
+            />
+          );
+        })}
     </Fragment>
   );
 };
