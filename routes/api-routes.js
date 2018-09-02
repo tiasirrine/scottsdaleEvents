@@ -297,7 +297,7 @@ router.get('/get/products', (req, res) => {
 
 router.get('/get/carts', passport.authenticate('jwt', { session: false }), (req, res) => {
   user
-    .loadCarts(req.user.id)
+    .getCarts(req.user.id)
     .then(result => {
       // returns carts sorted by the isActive boolean value
       // ensures the active cart is at index 0

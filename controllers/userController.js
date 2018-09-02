@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 
 module.exports = {
   // loads all products for a user, for their active cart
-  loadCarts: function(id) {
+  getCarts: function(id) {
     return new Promise((resolve, reject) => {
       db.Customer.findAll({
         where: { id: id },

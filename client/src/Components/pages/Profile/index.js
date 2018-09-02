@@ -18,7 +18,7 @@ export default class Profile extends Component {
   }
 
   componentDidMount() {
-    API.getAllCarts()
+    API.getCarts()
       .then(result => {
         console.log(result);
         this.setState({ carts: result.data });

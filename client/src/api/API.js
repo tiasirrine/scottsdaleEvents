@@ -1,67 +1,42 @@
 import axios from 'axios';
 
+const setOptions = () => {
+  return {
+    timeout,
+    headers: {
+      Authorization: 'Bearer ' + sessionStorage.getItem('token')
+    }
+  };
+};
+
+const timeout = { timeout: 15000 };
+
 export default {
   // called in App.js
   getProducts: function() {
-    return axios.get('/get/products', { timeout: 15000 });
+    return axios.get('/get/products', timeout);
   },
 
   // called in the shopping cart
   getEstimate: function(values) {
-    return axios.post('/create/estimate', values, {
-      timeout: 15000,
-      headers: {
-        Authorization: 'Bearer ' + sessionStorage.getItem('token')
-      }
-    });
+    return axios.post('/create/estimate', values, setOptions());
   },
 
-  //TODO: these 2 routes have the same name.
-
-  getAllCarts: function() {
-    return axios.get('/get/carts', {
-      timeout: 15000,
-      headers: {
-        Authorization: 'Bearer ' + sessionStorage.getItem('token')
-      }
-    });
-  },
-
-  loadCart: function() {
-    return axios.get('/get/carts', {
-      timeout: 15000,
-      headers: {
-        Authorization: 'Bearer ' + sessionStorage.getItem('token')
-      }
-    });
+  getCarts: function() {
+    return axios.get('/get/carts', setOptions());
   },
 
   getCustomers: function() {
-    return axios.get('/get/customers', {
-      timeout: 15000,
-      headers: {
-        Authorization: 'Bearer ' + sessionStorage.getItem('token')
-      }
-    });
+    return axios.get('/get/customers', setOptions());
   },
 
   getAdmins: function() {
-    return axios.get('/get/admins', {
-      timeout: 15000,
-      headers: {
-        Authorization: 'Bearer ' + sessionStorage.getItem('token')
-      }
-    });
+    return axios.get('/get/admins', setOptions());
   },
 
   // used to display the add to cart button and to check if the admin, login and cart page can be displayed
   checkToken: function() {
-    return axios.get('/auth/token', {
-      timeout: 15000,
-      headers: {
-        Authorization: 'Bearer ' + sessionStorage.getItem('token')
-      }
-    });
+    return axios.get('/auth/token', setOptions());
   },
 
   // used to get info about the user from the token
@@ -80,38 +55,15 @@ export default {
 
   // called in Cart.js
   deleteProduct: function(id) {
-    return axios.post('/delete/product', id, {
-      timeout: 15000,
-      headers: {
-        Authorization: 'Bearer ' + sessionStorage.getItem('token')
-      }
-    });
+    return axios.post('/delete/product', id, setOptions());
   },
 
   deleteCustomer: function(id) {
-    return axios.post(
-      '/delete/customer',
-      { id },
-      {
-        timeout: 15000,
-        headers: {
-          Authorization: 'Bearer ' + sessionStorage.getItem('token')
-        }
-      }
-    );
+    return axios.post('/delete/customer', { id }, setOptions());
   },
 
   deleteAdmin: function(id) {
-    return axios.post(
-      '/delete/admin',
-      { id },
-      {
-        timeout: 15000,
-        headers: {
-          Authorization: 'Bearer ' + sessionStorage.getItem('token')
-        }
-      }
-    );
+    return axios.post('/delete/admin', { id }, setOptions());
   },
 
   deleteUser: function(id, user) {
@@ -124,29 +76,19 @@ export default {
   // Called in the Login component
   login: function(data, pathname) {
     if (pathname === '/admin') {
-      return axios.post('/auth/admin', data, { timeout: 15000 });
+      return axios.post('/auth/admin', data, timeout);
     }
-    return axios.post('/auth/customer', data, { timeout: 15000 });
+    return axios.post('/auth/customer', data, timeout);
   },
 
   // called in InventoryCard.js
   saveProduct: function(data) {
-    return axios.post('/save/product', data, {
-      timeout: 15000,
-      headers: {
-        Authorization: 'Bearer ' + sessionStorage.getItem('token')
-      }
-    });
+    return axios.post('/save/product', data, setOptions());
   },
 
   // called in Cart.js to update the new quantity for a product
   updateQty: function(data) {
-    return axios.post('/update/qty', data, {
-      timeout: 15000,
-      headers: {
-        Authorization: 'Bearer ' + sessionStorage.getItem('token')
-      }
-    });
+    return axios.post('/update/qty', data, setOptions());
   },
 
   updateCartName: function(cartId, name) {
@@ -154,21 +96,11 @@ export default {
   },
 
   updateAdmin: function(user) {
-    return axios.post('/update/admin', user, {
-      timeout: 15000,
-      headers: {
-        Authorization: 'Bearer ' + sessionStorage.getItem('token')
-      }
-    });
+    return axios.post('/update/admin', user, setOptions());
   },
 
   updateCustomer: function(user) {
-    return axios.post('/update/customer', user, {
-      timeout: 15000,
-      headers: {
-        Authorization: 'Bearer ' + sessionStorage.getItem('token')
-      }
-    });
+    return axios.post('/update/customer', user, setOptions());
   },
 
   updateUser: function(id, user) {
@@ -179,21 +111,11 @@ export default {
   },
 
   createAdmin: function(user) {
-    return axios.post('/create/admin', user, {
-      timeout: 15000,
-      headers: {
-        Authorization: 'Bearer ' + sessionStorage.getItem('token')
-      }
-    });
+    return axios.post('/create/admin', user, setOptions());
   },
 
   // used in Dashboard/CreateCustomer
   createCustomer: function(customer) {
-    return axios.post('/create/customer', customer, {
-      timeout: 15000,
-      headers: {
-        Authorization: 'Bearer ' + sessionStorage.getItem('token')
-      }
-    });
+    return axios.post('/create/customer', customer, setOptions());
   }
 };
