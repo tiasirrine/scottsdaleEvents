@@ -23,6 +23,7 @@ class Cart extends Component {
 
     API.loadCart()
       .then(res => {
+        console.log(res.data);
         // only sorts the active cart if there are items already saved for it
         if (res.data.length) {
           const activeCart = res.data[0].CartProducts;
@@ -38,7 +39,8 @@ class Cart extends Component {
           });
 
           this.setState({
-            activeCart: sortedActiveCart
+            activeCart: sortedActiveCart,
+            cartName: res.data[0].cartName
           });
         }
       })
@@ -268,14 +270,14 @@ class Cart extends Component {
             Est Subtotal: {'   '}${activeCart.sum('total')}
           </div>
 
-          <Button color="success" className="aButton text-white" disabled={!this.state.cartName}>
-            <Link
-              className="text-white"
-              to={{ pathname: '/checkout/event', state: { cartProps: this.state.activeCart } }}
-            >
+          <Link
+            className="text-white"
+            to={{ pathname: '/checkout/event', state: { cartProps: this.state.activeCart } }}
+          >
+            <Button color="success" className="aButton text-white">
               Next
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </Container>
       );
     }

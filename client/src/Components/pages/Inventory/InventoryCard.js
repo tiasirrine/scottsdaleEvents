@@ -20,6 +20,10 @@ class InventoryCard extends Component {
       });
   }
 
+  componentWillUnmount() {
+    clearTimeout(this.reset);
+  }
+
   // updates qty for a product
   handleInputChange = event => {
     const { name } = event.target;

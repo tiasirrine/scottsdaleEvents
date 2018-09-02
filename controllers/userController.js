@@ -31,6 +31,25 @@ module.exports = {
     });
   },
 
+  // getEstimate: function(id) {
+  //   return new Promise((resolve, reject) => {
+  //     db.Estimate.findAll({
+  //       where: { id: id },
+  //       include: [
+  //         {
+  //           model: db.Cart
+  //         }
+  //       ]
+  //     })
+  //       .then(result => {
+  //         resolve(result);
+  //       })
+  //       .catch(err => {
+  //         reject(err);
+  //       });
+  //   });
+  // },
+
   createCart: function(id) {
     return new Promise((resolve, reject) => {
       db.Cart.findOne({
