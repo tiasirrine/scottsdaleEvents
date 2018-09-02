@@ -10,11 +10,11 @@ const Dropbox = require('dropbox').Dropbox;
 const dbx = new Dropbox({ accessToken: process.env.DROPBOX });
 
 // creates a new customer
-router.post('/create/customer', passport.authenticate('jwt', { session: false }), (req, res) => {
-  if (!req.user.isAdmin) {
-    res.sendStatus(401);
-    return;
-  }
+router.post('/create/customer', (req, res) => {
+  // if (!req.user.isAdmin) {
+  //   res.sendStatus(401);
+  //   return;
+  // }
 
   user
     .createCustomer(req.body)
@@ -50,19 +50,6 @@ router.post('/create/cart', (req, res) => {
     .then(result => res.json(result))
     .catch(err => res.json(err));
 });
-
-// router.get('/load/estimate', (req, res) => {
-//   user
-//     .getEstimate(1)
-//     .then(result => {
-//       console.log(result);
-//       res.send({ success: result });
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       res.send({ error: error });
-//     });
-// });
 
 // creates a csv file for a customers estimate
 router.post('/create/estimate', passport.authenticate('jwt', { session: false }), (req, res) => {

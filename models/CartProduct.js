@@ -25,9 +25,7 @@ module.exports = function(sequelize, DataTypes) {
   );
 
   CartProduct.associate = function(models) {
-    CartProduct.belongsTo(models.Product, {
-      foreignKey: { allowNull: false }
-    });
+    CartProduct.belongsTo(models.Product, { onDelete: 'cascade' });
   };
 
   return CartProduct;
