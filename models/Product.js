@@ -15,9 +15,5 @@ module.exports = function(sequelize, DataTypes) {
     { timestamps: false }
   );
 
-  // Product.associate = function(models) {
-  //   Product.hasMany(models.CartProduct, { onDelete: 'cascade' });
-  // };
-
   return Product;
 };

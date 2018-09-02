@@ -6,11 +6,13 @@ const routes = require('./routes/api-routes');
 const db = require('./models');
 const passport = require('passport');
 const cors = require('cors');
+const compression = require('compression');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors());
+app.use(compression());
 
 // Define middleware here
 app.use(bodyParser.urlencoded({ extended: true }));

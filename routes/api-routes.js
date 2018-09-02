@@ -118,7 +118,7 @@ router.post(
   }
 );
 
-//route for nodemailer
+// contact form email
 router.post('/create/email', (req, res) => {
   const m = req.body;
   mailer(
@@ -132,7 +132,6 @@ router.post('/create/email', (req, res) => {
         res.send({ error: true });
       }
       if (success) {
-        res.send({ success: true });
         mailer(
           m.email,
           'Scottsdale Event Decor Confirmation Email',

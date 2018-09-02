@@ -144,6 +144,7 @@ class ContactPage extends Component {
                   size="md"
                   onClick={this.sendEmail}
                   type="send"
+                  disabled={this.state.loading}
                 >
                   {this.state.loading ? (
                     <i className="fa fa-spinner fa-spin" />
