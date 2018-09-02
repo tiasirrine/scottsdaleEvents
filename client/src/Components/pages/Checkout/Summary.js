@@ -177,7 +177,7 @@ class Summary extends React.Component {
                 disabled={!this.state.isActive || this.state.loading}
                 onClick={this.submitButton}
               >
-                {this.state.loading ? <i class="fa fa-spinner fa-spin" /> : 'Submit Order'}
+                {this.state.loading ? <i className="fa fa-spinner fa-spin" /> : 'Submit Order'}
               </button>
             </form>
           </Col>

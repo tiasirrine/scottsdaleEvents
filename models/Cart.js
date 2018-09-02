@@ -16,6 +16,7 @@ module.exports = function(sequelize, DataTypes) {
 
   Cart.associate = function(models) {
     Cart.hasMany(models.CartProduct, { onDelete: 'cascade' });
+    Cart.hasMany(models.Estimate, { onDelete: 'cascade' });
   };
 
   return Cart;
