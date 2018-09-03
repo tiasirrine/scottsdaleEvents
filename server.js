@@ -63,24 +63,24 @@ app.use(function(error, req, res, next) {
   const status = error.status || 500;
   const message = error.message || 'An unknown error occured';
 
+  debugError(error);
+  debugRoute('Error occured at: ' + req.originalUrl);
   // only write errors to console.log in dev mode
-  if (process.env.NODE_ENV !== 'production') {
-    debugError(error);
-    debugRoute('Error occured at: ' + req.originalUrl);
-  } else {
-    if (req.body) {
-      delete req.body.password;
-    }
-    const log = {
-      REQ: req.originalUrl,
-      status: status,
-      method: req.method,
-      query: req.query,
-      body: req.body,
-      error: error.stack
-    };
-    logger.error(log);
-  }
+  // if (process.env.NODE_ENV !== 'production') {
+  // } else {
+  //   if (req.body) {
+  //     delete req.body.password;
+  //   }
+  //   const log = {
+  //     REQ: req.originalUrl,
+  //     status: status,
+  //     method: req.method,
+  //     query: req.query,
+  //     body: req.body,
+  //     error: error.stack
+  //   };
+  //   logger.error(log);
+  // }
   res.status(status).json({ message: message });
 });
 
