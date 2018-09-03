@@ -13,6 +13,7 @@ const debugRoute = debug('express:route');
 const app = express();
 const PORT = process.env.PORT || 3001;
 const logger = require('./util/logger');
+console.log('aaaaaaaaaaaaasdfasdfasdfasdfadsfadfasdf');
 
 app.use(cors());
 app.use(compression());
@@ -31,18 +32,18 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 }
 
-const logRoute = (req, res, next) => {
-  logger.debug('REQ:', {
-    route: req.originalUrl,
-    method: req.method,
-    query: req.query,
-    body: req.body,
-    headers: req.headers
-  });
-  next();
-};
+// const logRoute = (req, res, next) => {
+//   logger.debug('REQ:', {
+//     route: req.originalUrl,
+//     method: req.method,
+//     query: req.query,
+//     body: req.body,
+//     headers: req.headers
+//   });
+//   next();
+// };
 
-app.use(logRoute);
+// app.use(logRoute);
 
 // Add routes, both API and view
 app.use(routes);
