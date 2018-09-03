@@ -10,9 +10,12 @@ export default class Profile extends Component {
     this.state = {
       password: '',
       password2: '',
-      carts: []
+      carts: [],
+      //TODO: handle errors
+      error: null
     };
-    this.name = sessionStorage.getItem('firstName') + ' ' + sessionStorage.getItem('lastName');
+    this.name =
+      sessionStorage.getItem('firstName') + ' ' + sessionStorage.getItem('lastName');
     this.company = sessionStorage.getItem('company');
     this.email = sessionStorage.getItem('email');
   }
@@ -23,8 +26,11 @@ export default class Profile extends Component {
         console.log(result);
         this.setState({ carts: result.data });
       })
-      .catch(err => {
-        console.log(err);
+      .catch(error => {
+        const err = error.message
+          ? 'Connection timed out'
+          : error.response.data.message;
+        this.setState({ error: err });
       });
   }
 

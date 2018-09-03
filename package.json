@@ -34,6 +34,7 @@
     "dotenv": "^6.0.0",
     "dropbox": "^4.0.9",
     "express": "^4.15.4",
+    "ftp": "^0.3.10",
     "if-env": "^1.0.4",
     "isomorphic-fetch": "^2.2.1",
     "json2csv": "^4.1.6",

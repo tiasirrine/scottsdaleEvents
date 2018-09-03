@@ -1,15 +1,16 @@
 import axios from 'axios';
 
+const wait = 2000;
+const timeout = { timeout: wait };
+
 const setOptions = () => {
   return {
-    timeout,
+    timeout: wait,
     headers: {
       Authorization: 'Bearer ' + sessionStorage.getItem('token')
     }
   };
 };
-
-const timeout = { timeout: 15000 };
 
 export default {
   // called in App.js
@@ -22,14 +23,17 @@ export default {
     return axios.post('/create/estimate', values, setOptions());
   },
 
+  // called in Profile, and Cart.js
   getCarts: function() {
     return axios.get('/get/carts', setOptions());
   },
 
+  // Called in Dashboard/ViewUser
   getCustomers: function() {
     return axios.get('/get/customers', setOptions());
   },
 
+  // Called in Dashboard/ViewUser
   getAdmins: function() {
     return axios.get('/get/admins', setOptions());
   },
@@ -95,6 +99,7 @@ export default {
     return axios.post('/update/cart');
   },
 
+  // called in Dashboard/Profile.js
   updateAdmin: function(user) {
     return axios.post('/update/admin', user, setOptions());
   },

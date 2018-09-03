@@ -41,12 +41,14 @@ export default class ViewUser extends Component {
         const removeActiveUser = success.filter(a => a.id !== this.props.user.id);
         this.setState({ allUsers: removeActiveUser });
       })
-      .catch(err => {
-        const { message } = err.response.data;
-        if (err.response.status === 401) {
+      .catch(error => {
+        const err = error.message
+          ? 'Connection timed out'
+          : error.response.data.message;
+        if (err.response && err.response.status === 401) {
           this.props.checkAuth(true);
         } else {
-          this.setState({ error: message });
+          this.setState({ error: err });
         }
       });
   };
@@ -60,12 +62,14 @@ export default class ViewUser extends Component {
           this.setState({ allUsers: success });
         }
       })
-      .catch(err => {
-        const { message } = err.response.data;
-        if (err.response.status === 401) {
+      .catch(error => {
+        const err = error.message
+          ? 'Connection timed out'
+          : error.response.data.message;
+        if (err.response && err.response.status === 401) {
           this.props.checkAuth(true);
         } else {
-          this.setState({ error: message });
+          this.setState({ error: err });
         }
       });
   };

@@ -76,8 +76,12 @@ class App extends Component {
 
         return this.setState({ inventoryObj, subCategories, categories });
       })
-      .catch(err => {
-        this.setState({ error: err.response.data.message });
+      .catch(error => {
+        console.log(error);
+        const err = error.message
+          ? 'Connection timed out'
+          : error.response.data.message;
+        this.setState({ error: err });
       });
   };
 

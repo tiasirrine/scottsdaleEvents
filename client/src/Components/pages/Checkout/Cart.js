@@ -52,8 +52,11 @@ class Cart extends Component {
           });
         }
       })
-      .catch(err => {
-        this.setState({ error: err.response.data.message });
+      .catch(error => {
+        const err = error.message
+          ? 'Connection timed out'
+          : error.response.data.message;
+        this.setState({ error: err });
       });
   }
 
@@ -90,9 +93,12 @@ class Cart extends Component {
 
         this.setState({ products: updated, error: null });
       })
-      .catch(err => {
-        console.log(err);
-        this.setState({ error: err.response.data.message });
+      .catch(error => {
+        console.log(error);
+        const err = error.message
+          ? 'Connection timed out'
+          : error.response.data.message;
+        this.setState({ error: err });
       });
   };
 
@@ -123,9 +129,11 @@ class Cart extends Component {
           .filter(a => a !== undefined);
         this.setState({ activeCart: updated });
       })
-      .catch(err => {
-        console.log(err);
-        this.setState({ error: err.response.data.message });
+      .catch(error => {
+        const err = error.message
+          ? 'Connection timed out'
+          : error.response.data.message;
+        this.setState({ error: err });
       });
   };
 

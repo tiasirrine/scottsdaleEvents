@@ -52,8 +52,10 @@ class ContactPage extends Component {
         this.toggle();
       })
       .catch(error => {
-        console.log(error);
-        this.setErr(error.response.data.message);
+        const err = error.message
+          ? 'Connection timed out'
+          : error.response.data.message;
+        this.setErr(err);
       });
   };
 

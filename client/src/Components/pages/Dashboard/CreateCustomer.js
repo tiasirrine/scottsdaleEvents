@@ -65,13 +65,15 @@ export default class CreateCustomer extends Component {
       .then(res => {
         this.timeout({ result: res.data.success });
       })
-      .catch(err => {
-        console.log(err.response.status);
-        const { message } = err.response.data;
-        if (err.response.status === 401) {
+      .catch(error => {
+        console.log(error);
+        if (error.response && error.response.status === 401) {
           this.props.checkAuth(true);
         } else {
-          this.timeout({ error: message });
+          const err = error.message
+            ? 'Connection timed out'
+            : error.response.data.message;
+          this.timeout({ error: err });
         }
       });
   };

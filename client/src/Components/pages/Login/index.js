@@ -57,7 +57,10 @@ class Login extends React.Component {
         }
       })
       .catch(error => {
-        this.setState({ error: error.response.data.message });
+        const err = error.message
+          ? 'Connection timed out'
+          : error.response.data.message;
+        this.setState({ error: err });
       });
   };
 

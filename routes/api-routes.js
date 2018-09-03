@@ -1,4 +1,5 @@
-require('isomorphic-fetch');
+// require('isomorphic-fetch');
+const fs = require('fs');
 const { user } = require('../controllers');
 const router = require('express').Router();
 const mailer = require('../util/mailer');
@@ -6,11 +7,11 @@ const db = require('../models');
 const Json2csvParser = require('json2csv').Parser;
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const Dropbox = require('dropbox').Dropbox;
-const dbx = new Dropbox({ accessToken: process.env.DROPBOX });
 const debug = require('debug');
-
 const dCheck = debug('express:log');
+
+const Client = require('ftp');
+const ftpConfig = require('../config/ftpConfig');
 
 const unAuthedErr = {
   message: 'Unauthorized',
@@ -68,12 +69,11 @@ router.post(
     // creates the columns for the csv file
     const fields = ['estimateId', 'id', 'qty'];
     let estimateId;
-
     // contains the rows for the csv file
     const { eventProps, cartProps } = req.body;
     const CartId = cartProps[0].CartId;
+    // adds each event info field into a field for the csv file
     Object.keys(eventProps).forEach(a => fields.push(a));
-
     db.Estimate.create({ _id: '1', CartId: CartId })
       .then(result => {
         estimateId = result.dataValues.id;
@@ -84,15 +84,21 @@ router.post(
           }
           return product;
         });
-
         // creates the csv file. checks for errors.
         try {
+          const client = new Client();
           const parser = new Json2csvParser({ fields, quote: '' });
           const csv = parser.parse(merged);
-
-          dbx
-            .filesUpload({ contents: csv, path: `/estimate-${estimateId}` })
-            .then(() => {
+          client.on('error', err =>
+            next({
+              error: err,
+              message:
+                'An error occured while creating your estimate. Please contact us'
+            })
+          );
+          client.on('ready', () => {
+            client.put(csv, `estimate-${estimateId}.csv`, err => {
+              if (err) next(err);
               user
                 .createCart(req.user.id)
                 .then(result => {
@@ -102,8 +108,10 @@ router.post(
                   });
                 })
                 .catch(next);
-            })
-            .catch(next);
+              client.end();
+            });
+          });
+          client.connect(ftpConfig);
         } catch (err) {
           next(err);
         }

@@ -70,7 +70,11 @@ class InventoryCard extends Component {
           this.reset();
         })
         .catch(error => {
-          this.setState({ error: error.response.data.message });
+          console.log(error);
+          const err = error.message
+            ? 'Connection timed out'
+            : error.response.data.message;
+          this.setState({ error: err });
           this.reset();
         });
     } else {

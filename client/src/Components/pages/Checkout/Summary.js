@@ -51,9 +51,12 @@ class Summary extends React.Component {
         sessionStorage.setItem('activeCart', result.data.activeCart);
         this.toggle(true, result.data.estimateId);
       })
-      .catch(err => {
-        console.log(err.response.data.message);
-        this.toggle(false, null, err.response.data.message);
+      .catch(error => {
+        console.log(error.message);
+        const err = error.message
+          ? 'Connection timed out'
+          : error.response.data.message;
+        this.toggle(false, null, err);
       });
   };
 
