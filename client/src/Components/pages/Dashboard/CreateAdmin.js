@@ -1,7 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { Container, Row, Col, Input, Button } from 'mdbreact';
 import API from '../../../api/API';
-import { checkEmail, checkNull, handleInputChange } from '../../../api/validate';
+import {
+  checkEmail,
+  checkNull,
+  handleInputChange,
+  timeout
+} from '../../../api/validate';
 
 const styles = {
   h2: {
@@ -22,8 +27,10 @@ export default class CreateCustomer extends Component {
       password2: '',
       result: null,
       unauthorized: false,
-      superAdmin: false
+      superAdmin: false,
+      error: null
     };
+    this.timeout = timeout.bind(this);
   }
 
   componentDidMount() {
@@ -41,46 +48,39 @@ export default class CreateCustomer extends Component {
     admin.password2 = this.state.password2;
 
     if (!checkNull(admin)) {
-      this.setState({ result: 'All fields must be completed' });
+      this.timeout({ error: 'All fields must be completed' });
       return;
     }
 
     admin.superAdmin = this.state.superAdmin;
 
     if (!checkEmail(admin.email)) {
-      this.setState({ result: 'Please enter a valid email address' });
+      this.timeout({ error: 'Please enter a valid email address' });
       return;
     }
 
     if (admin.password.length < 3 || admin.password2.length < 3) {
-      this.setState({ result: 'Password must be at least 3 characters' });
+      this.timeout({ error: 'Password must be at least 3 characters' });
       return;
     }
 
     if (admin.password !== admin.password2) {
-      this.setState({ result: 'Passwords do not match' });
+      this.timeout({ error: 'Passwords do not match' });
       return;
     }
 
+    // this.props.checkAuth will update the state of index.js to re-direct to /admin if there is a 401
     API.createAdmin(admin)
       .then(res => {
-        if (res.data.success) {
-          this.setState({ result: res.data.success });
-        }
-        if (res.data.error) {
-          this.setState({ result: res.data.error });
-        }
+        this.timeout({ result: res.data.success });
       })
       .catch(err => {
-        console.log(err);
-        // err.response exists when the server throws a 401. a 401 occurs when a token is rejected
-        // this.props.checkAuth will update the state of index.js to re-direct to /admin if there is a 401s
-        if (err.response) {
-          if (err.response.status === 401) {
-            this.props.checkAuth(true);
-          }
+        const { message } = err.response.data;
+        console.log(message);
+        if (err.response.status === 401) {
+          this.props.checkAuth(true);
         } else {
-          this.setState({ result: err.data ? err.data.error : null });
+          this.timeout({ error: message });
         }
       });
   };
@@ -159,10 +159,19 @@ export default class CreateCustomer extends Component {
                   </div>
                 </div>
                 <div>
-                  <Button color="primary" name="update-profile" onClick={this.onSubmit}>
+                  <Button
+                    color="primary"
+                    name="update-profile"
+                    onClick={this.onSubmit}
+                  >
                     Create Admin
                   </Button>
-                  {this.state.result && <p>{this.state.result}</p>}
+                  {this.state.result && (
+                    <p className="text-success">{this.state.result}</p>
+                  )}
+                  {this.state.error && (
+                    <p className="text-danger">{this.state.error}</p>
+                  )}
                 </div>
               </form>
             </Col>

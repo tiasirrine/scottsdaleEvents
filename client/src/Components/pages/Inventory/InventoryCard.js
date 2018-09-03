@@ -8,7 +8,13 @@ import { Link } from 'react-router-dom';
 class InventoryCard extends Component {
   constructor(props) {
     super(props);
-    this.state = { quantity: 0, isAuthed: false, success: null, error: null, isAdmin: null };
+    this.state = {
+      quantity: 0,
+      isAuthed: false,
+      success: null,
+      error: null,
+      isAdmin: null
+    };
   }
 
   // checks if a user is authed. If so, displays cart and qty.
@@ -37,12 +43,19 @@ class InventoryCard extends Component {
     });
   };
 
-  reset = () => setTimeout(() => this.setState({ success: null, error: null, quantity: 0 }), 3000);
+  reset = () =>
+    setTimeout(
+      () => this.setState({ success: null, error: null, quantity: 0 }),
+      3000
+    );
 
   // saves the product to the users cart.
   handleFormSubmit = event => {
     // prevents adding 0 items of something or too many
-    if (this.state.quantity > 0 && this.state.quantity <= parseInt(this.props.cardQuantity)) {
+    if (
+      this.state.quantity > 0 &&
+      this.state.quantity <= parseInt(this.props.cardQuantity)
+    ) {
       event.preventDefault();
       // grabs the values needed for the product to save to the cart
       const obj = {};
@@ -53,15 +66,11 @@ class InventoryCard extends Component {
 
       API.saveProduct(obj)
         .then(result => {
-          if (result.data.error) {
-            this.setState({ error: result.data.error });
-          } else {
-            this.setState({ success: result.data.success });
-          }
+          this.setState({ success: result.data.success });
           this.reset();
         })
         .catch(error => {
-          this.setState({ error: error.response.data.error });
+          this.setState({ error: error.response.data.message });
           this.reset();
         });
     } else {
@@ -94,7 +103,11 @@ class InventoryCard extends Component {
               state: { inventoryProps: this.props }
             }}
           >
-            <img className="img-fluid product-img" src={this.props.url} alt={this.props.cardTitle} />
+            <img
+              className="img-fluid product-img"
+              src={this.props.url}
+              alt={this.props.cardTitle}
+            />
           </Link>
         </div>
 
@@ -108,8 +121,12 @@ class InventoryCard extends Component {
                 <p>${this.props.cardPrice}</p>
                 <p>{this.props.cardQuantity} units in inventory</p>
 
-                {this.state.success && <p className="my-2 text-success">{this.state.success}</p>}
-                {this.state.error && <p className="my-2 text-danger">{this.state.error}</p>}
+                {this.state.success && (
+                  <p className="my-2 text-success">{this.state.success}</p>
+                )}
+                {this.state.error && (
+                  <p className="my-2 text-danger">{this.state.error}</p>
+                )}
 
                 <label>Quantity</label>
                 <select

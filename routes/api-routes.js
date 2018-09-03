@@ -8,55 +8,63 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const Dropbox = require('dropbox').Dropbox;
 const dbx = new Dropbox({ accessToken: process.env.DROPBOX });
+const debug = require('debug');
+
+const dCheck = debug('express:log');
+
+const unAuthedErr = {
+  message: 'Unauthorized',
+  status: 401
+};
 
 // creates a new customer
-router.post('/create/customer', (req, res) => {
-  // if (!req.user.isAdmin) {
-  //   res.sendStatus(401);
-  //   return;
-  // }
+router.post(
+  '/create/customer',
+  passport.authenticate('jwt', { session: false }),
+  (req, res, next) => {
+    if (!req.user.isAdmin) {
+      next(unAuthedErr);
+      return;
+    }
 
-  user
-    .createCustomer(req.body)
-    .then(result => {
-      delete result.dataValues.password;
-      res.json({ success: 'New customer created successfully' });
-    })
-    .catch(err => {
-      console.log('error:', err);
-      res.json({ error: 'An error occured' });
-    });
-});
+    user
+      .createCustomer(req.body)
+      .then(result => {
+        delete result.dataValues.password;
+        res.json({ success: 'New customer created successfully' });
+      })
+      .catch(next);
+  }
+);
 
 // creates a new admin
 // TODO: secure this route
-router.post('/create/admin', (req, res) => {
-  console.log(req.body);
+router.post('/create/admin', (req, res, next) => {
+  // if (!req.user.isAdmin) {
+  //   next(unAuthedErr);
+  //   return;
+  // }
   user
     .createAdmin(req.body)
     .then(result => {
       delete result.dataValues.password;
       res.json({ success: 'New admin created successfully' });
     })
-    .catch(err => {
-      console.log(err);
-      res.send({ error: 'An error occured' });
-    });
+    .catch(next);
 });
 
-router.post('/create/cart', (req, res) => {
-  user
-    .createCart(req.body.id)
-    .then(result => res.json(result))
-    .catch(err => res.json(err));
-});
+// router.post('/create/cart', (req, res, next) => {
+//   user
+//     .createCart(req.body.id)
+//     .then(result => res.json(result))
+//     .catch(next);
+// });
 
 // creates a csv file for a customers estimate
 router.post(
   '/create/estimate',
   passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    const msg = 'An error occured.';
+  (req, res, next) => {
     // creates the columns for the csv file
     const fields = ['estimateId', 'id', 'qty'];
     let estimateId;
@@ -94,32 +102,19 @@ router.post(
                     activeCart: result.dataValues.id
                   });
                 })
-                .catch(err => {
-                  console.log('ERROR:', err);
-                  res.json({ error: msg });
-                });
+                .catch(next);
             })
-            .catch(err => {
-              console.log('ERROR:', err);
-              res.json({ error: msg });
-              return;
-            });
+            .catch(next);
         } catch (err) {
-          console.log('ERROR:', err);
-          res.json({ error: msg });
-          return;
+          next(err);
         }
       })
-      .catch(error => {
-        console.log('ERROR:', error);
-        res.json({ error: msg });
-        return;
-      });
+      .catch(next);
   }
 );
 
 // contact form email
-router.post('/create/email', (req, res) => {
+router.post('/create/email', (req, res, next) => {
   const m = req.body;
   mailer(
     m.email,
@@ -128,8 +123,7 @@ router.post('/create/email', (req, res) => {
     m,
     (error, success) => {
       if (error) {
-        console.log(error);
-        res.send({ error: true });
+        next(error);
       }
       if (success) {
         mailer(
@@ -139,8 +133,7 @@ router.post('/create/email', (req, res) => {
           m,
           (error, success) => {
             if (error) {
-              console.log(error);
-              res.send({ error: true });
+              next(error);
             }
             if (success) {
               res.send({ success: true });
@@ -155,65 +148,57 @@ router.post('/create/email', (req, res) => {
 router.post(
   '/update/admin',
   passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    console.log(req.body);
+  (req, res, next) => {
+    if (!req.user.isAdmin) {
+      next(unAuthedErr);
+      return;
+    }
     user
       .updateAdmin(req.body)
       .then(() => {
         res.json({ success: 'Your profile has been updated' });
       })
-      .catch(err => {
-        res.json(err);
-      });
+      .catch(next);
   }
 );
 
 router.post(
   '/update/qty',
   passport.authenticate('jwt', { session: false }),
-  (req, res) => {
+  (req, res, next) => {
     const { ProductId, qty } = req.body;
     db.CartProduct.update({ qty: qty }, { where: { ProductId: ProductId } })
-      .then(result => {
-        res.send('success');
+      .then(() => {
+        res.json({ success: 'success' });
       })
-      .catch(error => {
-        console.log(error);
-        res.send(error);
-      });
+      .catch(next);
   }
 );
 
-// updates any customer suspension
+// updates any customer
 router.post(
   '/update/customer',
   passport.authenticate('jwt', { session: false }),
-  (req, res) => {
+  (req, res, next) => {
     user
       .updateCustomer(req.body)
       .then(() => {
         res.json({ success: 'Success' });
       })
-      .catch(err => {
-        console.log(err);
-        res.send({ error: 'An error occured' });
-      });
+      .catch(next);
   }
 );
 
 router.post(
   '/update/cart',
   passport.authenticate('jwt', { session: false }),
-  (req, res) => {
+  (req, res, next) => {
     const { name, id } = req.body;
     db.Cart.update({ cartName: name }, { where: { id: id } })
       .then(result => {
         res.json({ success: result });
       })
-      .catch(err => {
-        console.log(err);
-        res.json({ error: err });
-      });
+      .catch(next);
   }
 );
 
@@ -221,13 +206,12 @@ router.post(
 router.post(
   '/delete/customer',
   passport.authenticate('jwt', { session: false }),
-  (req, res) => {
+  (req, res, next) => {
     const { id } = req.body;
     if (!req.user.isAdmin) {
-      res.sendStatus(401);
+      next(unAuthedErr);
       return;
     }
-
     user
       .deleteCustomer(id)
       .then(() => res.send({ success: 'Success' }))
@@ -241,37 +225,31 @@ router.post(
 router.post(
   '/delete/admin',
   passport.authenticate('jwt', { session: false }),
-  (req, res) => {
+  (req, res, next) => {
     const { id } = req.body;
     if (!req.user.isAdmin) {
-      res.sendStatus(401);
+      next(unAuthedErr);
       return;
     }
     user
       .deleteAdmin(id)
       .then(() => res.send({ success: 'Success' }))
-      .catch(err => {
-        console.log(err);
-        res.send({ error: 'An error occured' });
-      });
+      .catch(next);
   }
 );
 
 router.post(
   '/delete/product',
   passport.authenticate('jwt', { session: false }),
-  (req, res) => {
+  (req, res, next) => {
     const { cartProductId } = req.body;
     db.CartProduct.destroy({ where: { id: cartProductId } })
       // res is either 1 or 0. 1 is a success, 0 is a fail.
       .then(result => {
         if (result) res.status(200).send('Product removed');
-        else res.status(500).send('Failed to remove product');
+        else next({ message: 'Failed to remove product' });
       })
-      .catch(err => {
-        console.log(err);
-        throw res.status(500).send('Failed to remove product');
-      });
+      .catch(next);
   }
 );
 
@@ -279,18 +257,15 @@ router.post(
 router.get(
   '/get/customers',
   passport.authenticate('jwt', { session: false }),
-  (req, res) => {
+  (req, res, next) => {
     if (!req.user.isAdmin) {
-      res.sendStatus(401);
+      next(unAuthedErr);
       return;
     }
     user
       .getAllCustomers()
       .then(result => res.status(200).send({ success: result }))
-      .catch(err => {
-        console.log('error:', err);
-        res.status.send({ error: err });
-      });
+      .catch(next);
   }
 );
 
@@ -298,35 +273,35 @@ router.get(
 router.get(
   '/get/admins',
   passport.authenticate('jwt', { session: false }),
-  (req, res) => {
+  (req, res, next) => {
     if (!req.user.isAdmin) {
-      res.sendStatus(401);
+      next(unAuthedErr);
       return;
     }
     user
       .getAllAdmins()
       .then(result => res.status(200).send({ success: result }))
-      .catch(err => {
-        console.log('error:', err);
-        res.status.send({ error: err });
-      });
+      .catch(next);
   }
 );
 
 // gets all the products. runs on first page load.
-router.get('/get/products', (req, res) => {
+router.get('/get/products', (req, res, next) => {
   db.Product.findAll({})
-    .then(result => res.status(200).send(result))
-    .catch(error => {
-      console.log(error);
-      res.status(500).send(error);
-    });
+    .then(result => {
+      if (!result.length) {
+        next({ message: 'Failed to load inventory. Please contact us.' });
+      } else {
+        res.status(200).send(result);
+      }
+    })
+    .catch(next);
 });
 
 router.get(
   '/get/carts',
   passport.authenticate('jwt', { session: false }),
-  (req, res) => {
+  (req, res, next) => {
     user
       .getCarts(req.user.id)
       .then(result => {
@@ -337,7 +312,7 @@ router.get(
         });
         res.status(200).json(x);
       })
-      .catch(err => res.status(500).send(err));
+      .catch(next);
   }
 );
 
@@ -345,21 +320,21 @@ router.get(
 router.post(
   '/save/product',
   passport.authenticate('jwt', { session: false }),
-  (req, res) => {
+  (req, res, next) => {
     const { ProductId, CartId } = req.body;
     const sm = { success: 'Product Saved' };
     const em = { error: 'Failed to save product' };
     // this will either create a new product to save to a cart,
     // or it will update an already saved product
     // prevents a cart from having duplicate line items for the same product
-    db.CartProduct.findOne({ where: { ProductId: ProductId, CartId: CartId } }).then(
-      result => {
+    db.CartProduct.findOne({ where: { ProductId: ProductId, CartId: CartId } })
+      .then(result => {
         const bodyQty = Number(req.body.qty);
         if (result) {
           const { qty, maxQty } = result.dataValues;
           if (bodyQty + qty > maxQty) {
-            res.json({
-              error: `Max Quantity Exceeded. You already saved ${qty} items`
+            next({
+              message: `Max Quantity Exceeded. You already saved ${qty} items`
             });
             return false;
           }
@@ -367,55 +342,43 @@ router.post(
           result
             .update(req.body)
             .then(() => res.json(sm))
-            .catch(err => {
-              console.log(err);
-              res.status(500).json(em);
-            });
+            .catch(next);
         } else {
           db.CartProduct.create(req.body)
             .then(() => res.json(sm))
-            .catch(err => {
-              console.log('eeeee', err);
-              res.status(500).json(em);
-            });
+            .catch(next);
         }
-      }
-    );
+      })
+      .catch(next);
   }
 );
 
 // authentictes a customer and sets a token
-router.post('/auth/customer', (req, res) => {
+router.post('/auth/customer', (req, res, next) => {
   const { email, password } = req.body;
   user
     .getCustomer(email, password)
     .then(result => {
       jwt.sign({ result }, 'secretkey', { expiresIn: '1w' }, (err, token) => {
-        if (err) res.send(err);
+        if (err) next(err);
         res.send({ token, user: result });
       });
     })
-    .catch(err => {
-      console.log('err', err);
-      res.status(401).send(err);
-    });
+    .catch(next);
 });
 
 // authentictes an admin and sets a token
-router.post('/auth/admin', (req, res) => {
+router.post('/auth/admin', (req, res, next) => {
   const { email, password } = req.body;
   user
     .getAdmin(email, password)
     .then(result => {
       jwt.sign({ result }, 'secretkey', { expiresIn: '1w' }, (err, token) => {
-        if (err) res.send(err);
+        if (err) next(err);
         res.send({ token, user: result });
       });
     })
-    .catch(err => {
-      console.log('err', err);
-      res.status(403).send(err);
-    });
+    .catch(next);
 });
 
 router.get(

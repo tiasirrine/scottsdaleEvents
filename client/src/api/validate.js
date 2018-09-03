@@ -18,6 +18,14 @@ export function handleInputChange(event) {
   this.setState({ [name]: value });
 }
 
+export function timeout(state) {
+  this.setState({ ...state });
+  for (let val in state) {
+    state[val] = null;
+  }
+  setTimeout(() => this.setState({ ...state }), 3000);
+}
+
 // export function handleKeyPress(e) {
 //   if (e.key === 'Enter') {
 //     this.onSubmit();

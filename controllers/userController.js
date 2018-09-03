@@ -21,7 +21,7 @@ module.exports = {
       })
         .then(result => {
           if (result.length) resolve(result[0].Carts);
-          else reject('No carts found for this user');
+          else reject({ message: 'No carts found for this user' });
         })
         .catch(err => {
           console.log('err:', err);
@@ -37,7 +37,6 @@ module.exports = {
       })
         .then(result => {
           const updated = { ...result };
-          // if (!result) reject('An error occured updating the active cart');
           updated.isActive = false;
           result
             .update(updated)
@@ -52,18 +51,15 @@ module.exports = {
                     resolve(res);
                   })
                   .catch(err => {
-                    console.log('54:', err);
                     reject(err);
                   });
               }
             })
             .catch(err => {
-              console.log('60:', err);
               reject(err);
             });
         })
         .catch(err => {
-          console.log('65:', err);
           reject(err);
         });
     });
@@ -94,7 +90,7 @@ module.exports = {
         if (res === true) {
           resolve(res);
         } else {
-          reject('Passwords do not match');
+          reject({ message: 'Passwords do not match', status: 401 });
         }
       });
     });
@@ -146,10 +142,13 @@ module.exports = {
         ]
       })
         .then(returnedUser => {
+          if (!returnedUser.length) {
+            reject({ message: 'User not found', status: 401 });
+          }
           this.checkPassword(password, returnedUser[0].password)
             .then(() => {
               if (returnedUser[0].dataValues.suspend) {
-                reject('User is suspended');
+                reject({ message: 'User is suspended', status: 401 });
                 return;
               }
               const obj = {};
@@ -164,7 +163,7 @@ module.exports = {
             })
             .catch(err => reject(err));
         })
-        .catch(() => reject('User not found'));
+        .catch(err => reject(err));
     });
   },
 
@@ -174,12 +173,12 @@ module.exports = {
       db.Admin.findAll({ where: { email: email } })
         .then(returnedUser => {
           if (!returnedUser.length) {
-            return reject('User not found');
+            return reject({ message: 'User not found', status: 401 });
           }
           this.checkPassword(password, returnedUser[0].password)
             .then(() => {
               if (returnedUser[0].dataValues.suspend) {
-                reject('User is suspended');
+                reject({ message: 'User is suspended', status: 401 });
                 return;
               }
               const obj = {};
@@ -198,8 +197,8 @@ module.exports = {
             });
         })
         .catch(err => {
-          console.log('asdfa', err);
-          reject('User not found');
+          console.log(err);
+          reject(err);
         });
     });
   },
@@ -211,7 +210,7 @@ module.exports = {
     // hashes password
     return new Promise((resolve, reject) => {
       if (password.length < 3) {
-        reject('Password must be at least 3 characters');
+        reject({ message: 'Password must be at least 3 characters' });
       } else {
         this.hashPassword(password)
           .then(hashedPassword => {
@@ -250,12 +249,12 @@ module.exports = {
               resolve(result.update(userObj));
             }
           } else {
-            reject({ error: 'An error occured during the update' });
+            reject({ message: 'An error occured during the update' });
           }
         })
         .catch(err => {
           console.log('err:', err);
-          reject({ error: 'An error occured during the update' });
+          reject(err);
         });
     });
   },
@@ -267,7 +266,7 @@ module.exports = {
     // hashes password
     return new Promise((resolve, reject) => {
       if (password.length < 3) {
-        reject('Password must be at least 3 characters');
+        reject({ message: 'Password must be at least 3 characters' });
       } else {
         this.hashPassword(password)
           .then(hashedPassword => {
@@ -299,7 +298,7 @@ module.exports = {
           // checks if 0 results were deleted
           if (!res) {
             console.log('ERROR: ', res);
-            reject('Failed to remove customer');
+            reject({ message: 'Failed to remove customer' });
           }
           resolve('Customer removed');
         })
@@ -314,7 +313,7 @@ module.exports = {
           // checks if 0 results were deleted
           if (!res) {
             console.log('ERROR: ', res);
-            reject('Failed to remove customer');
+            reject({ message: 'Failed to remove customer' });
           }
           resolve('Customer removed');
         })
@@ -335,7 +334,7 @@ module.exports = {
             result
               .update(user)
               .then(() => resolve('Success'))
-              .catch(() => reject('An error occured'));
+              .catch(err => reject(err));
           }
         })
         .catch(err => reject(err));

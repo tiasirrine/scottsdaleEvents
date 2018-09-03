@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { Input, Button, Card, CardBody, CardTitle } from 'mdbreact';
-import { checkEmail, checkNull, handleInputChange } from '../../../api/validate';
+import {
+  checkEmail,
+  checkNull,
+  handleInputChange,
+  timeout
+} from '../../../api/validate';
 import API from '../../../api/API';
 
 export default class UserCard extends Component {
@@ -16,8 +21,10 @@ export default class UserCard extends Component {
       superAdmin: this.props.user.superAdmin || false,
       result: null,
       unauthorized: false,
-      confirmDelete: false
+      confirmDelete: false,
+      error: null
     };
+    this.timeout = timeout.bind(this);
   }
 
   checkSuperAdmin = () => this.setState({ superAdmin: !this.state.superAdmin });
@@ -35,17 +42,15 @@ export default class UserCard extends Component {
   secondDeleteClick = () => {
     const { id } = this.props.user;
     API.deleteUser(id, this.props.userType)
-      .then(result => {
-        if (result.data.success) {
-          this.props.deleteUser(id);
-        }
+      .then(() => {
+        this.props.deleteUser(id);
       })
       .catch(err => {
-        console.log(err);
-        if (err.response.status) {
-          if (err.response.status === 401) {
-            this.props.checkAuth(true);
-          }
+        const { message } = err.response.data;
+        if (err.response.status === 401) {
+          this.props.checkAuth(true);
+        } else {
+          this.timeout({ error: message });
         }
       });
   };
@@ -64,7 +69,7 @@ export default class UserCard extends Component {
 
     // checks for null form values
     if (!checkNull(user)) {
-      this.setState({ result: 'All fields must be completed' });
+      this.timeout({ error: 'All fields must be completed' });
       return;
     }
 
@@ -74,27 +79,23 @@ export default class UserCard extends Component {
     user.superAdmin = this.state.superAdmin;
 
     if (!checkEmail(user.email)) {
-      this.setState({ result: 'Please enter a valid email address' });
+      this.timeout({ error: 'Please enter a valid email address' });
       return;
     }
 
     API.updateUser(user, this.props.userType)
       .then(result => {
-        const { success, error } = result.data;
-        if (success) {
-          this.setState({ result: success, ...user });
-        } else {
-          this.setState({ result: error });
-        }
+        const { success } = result.data;
+        this.setState({ result: success, ...user });
+        setTimeout(() => this.setState({ result: null }), 3000);
       })
       .catch(err => {
-        console.log(err.response);
-        if (err.response.status) {
-          if (err.response.status === 401) {
-            this.props.checkAuth(true);
-          }
+        const { message } = err.response.data;
+        if (err.response.status === 401) {
+          this.props.checkAuth(true);
+        } else {
+          this.timeout({ error: message });
         }
-        this.setState({ result: 'An error occured' });
       });
   };
 
@@ -115,7 +116,9 @@ export default class UserCard extends Component {
           </div>
           <p>Status: {!this.state.suspend ? 'Active' : 'Suspended'}</p>
           <div>
-            <Button onClick={this.modifyClick}>{!this.state.modify ? 'Modify' : 'Hide'}</Button>
+            <Button onClick={this.modifyClick}>
+              {!this.state.modify ? 'Modify' : 'Hide'}
+            </Button>
             <Button onClick={this.firstDeleteClick}>Delete</Button>
             {this.state.confirmDelete && (
               <p>
@@ -210,10 +213,19 @@ export default class UserCard extends Component {
                 )}
               </div>
               <div>
-                <Button color="primary" name="update-profile" onClick={this.submitClick}>
+                <Button
+                  color="primary"
+                  name="update-profile"
+                  onClick={this.submitClick}
+                >
                   Update User
                 </Button>
-                {this.state.result && <p>{this.state.result}</p>}
+                {this.state.result && (
+                  <p className="text-success">{this.state.result}</p>
+                )}
+                {this.state.error && (
+                  <p className="text-danger">{this.state.error}</p>
+                )}
               </div>
             </form>
           )}

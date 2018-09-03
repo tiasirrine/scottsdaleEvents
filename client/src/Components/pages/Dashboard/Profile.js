@@ -1,7 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { Container, Row, Col, Input, Button } from 'mdbreact';
 import API from '../../../api/API';
-import { checkEmail, checkNull, handleInputChange } from '../../../api/validate';
+import {
+  checkEmail,
+  checkNull,
+  handleInputChange,
+  timeout
+} from '../../../api/validate';
 
 const styles = {
   formTop: {
@@ -25,8 +30,10 @@ export default class Profile extends Component {
       password: '',
       password2: '',
       result: null,
-      lastPressed: null
+      lastPressed: null,
+      error: null
     };
+    this.timeout = timeout.bind(this);
   }
 
   componentDidMount() {
@@ -38,7 +45,6 @@ export default class Profile extends Component {
   // and to help identify what message to display to the user,
   // as well as where to display the message
   updateAdmin = e => {
-    console.log(e.target);
     const { name } = e.target;
     const { firstName, lastName, email, id, password, password2 } = this.state;
     // will hold the value that needs to be updated
@@ -50,12 +56,15 @@ export default class Profile extends Component {
       value = { id, password };
 
       if (password.length < 3 || password2.length < 3) {
-        this.setState({ result: 'Password must be at least 3 characters', lastPressed: name });
+        this.timeout({
+          error: 'Password must be at least 3 characters',
+          lastPressed: name
+        });
         return;
       }
 
       if (password.trim() !== password2.trim()) {
-        this.setState({ result: 'Passwords do not match', lastPressed: name });
+        this.timeout({ error: 'Passwords do not match', lastPressed: name });
         return;
       }
     } else {
@@ -63,12 +72,15 @@ export default class Profile extends Component {
     }
 
     if (!checkNull(value)) {
-      this.setState({ result: 'All fields must be completed' });
+      this.timeout({ error: 'All fields must be completed', lastPressed: name });
       return;
     }
 
     if (name !== 'update-password' && !checkEmail(value.email)) {
-      this.setState({ result: 'Please enter a valid email address' });
+      this.timeout({
+        error: 'Please enter a valid email address',
+        lastPressed: name
+      });
       return;
     }
 
@@ -77,25 +89,20 @@ export default class Profile extends Component {
       .then(result => {
         // if passwords are being updated, set the password msg
         let passwordMsg;
-        if (name === 'update-password') passwordMsg = 'Your password has been updated';
-        this.setState({
+        if (name === 'update-password')
+          passwordMsg = 'Your password has been updated';
+
+        this.timeout({
           result: passwordMsg || result.data.success,
           lastPressed: name
         });
       })
       .catch(err => {
-        console.log(err);
-        // err.response exists when the server throws a 401. a 401 occurs when a token is rejected
-        // this.props.checkAuth will update the state of index.js to re-direct to /admin if there is a 401
-        if (err.response) {
-          if (err.response.status === 401) {
-            this.props.checkAuth(true);
-          }
+        const { message } = err.response.data;
+        if (err.response.status === 401) {
+          this.props.checkAuth(true);
         } else {
-          this.setState({
-            result: err.data ? err.data.error : null,
-            lastPressed: name
-          });
+          this.timeout({ error: message, lastPressed: name });
         }
       });
   };
@@ -144,12 +151,22 @@ export default class Profile extends Component {
                   />
                 </div>
                 <div>
-                  <Button color="primary" name="update-profile" onClick={this.updateAdmin}>
+                  <Button
+                    color="primary"
+                    name="update-profile"
+                    onClick={this.updateAdmin}
+                  >
                     Update Profile
                   </Button>
                 </div>
                 {this.state.lastPressed === 'update-profile' &&
-                  this.state.result && <p>{this.state.result}</p>}
+                  this.state.result && (
+                    <p className="text-success">{this.state.result}</p>
+                  )}
+                {this.state.lastPressed === 'update-profile' &&
+                  this.state.error && (
+                    <p className="text-danger">{this.state.error}</p>
+                  )}
               </form>
               <form>
                 <p className="h5 text-center mb-4">Change Your Password</p>
@@ -172,12 +189,22 @@ export default class Profile extends Component {
                     value={this.state.password2}
                     onChange={handleInputChange.bind(this)}
                   />
-                  <Button color="primary" name="update-password" onClick={this.updateAdmin}>
+                  <Button
+                    color="primary"
+                    name="update-password"
+                    onClick={this.updateAdmin}
+                  >
                     Update Password
                   </Button>
                 </div>
                 {this.state.lastPressed === 'update-password' &&
-                  this.state.result && <p>{this.state.result}</p>}
+                  this.state.result && (
+                    <p className="text-success">{this.state.result}</p>
+                  )}
+                {this.state.lastPressed === 'update-password' &&
+                  this.state.error && (
+                    <p className="text-danger">{this.state.error}</p>
+                  )}
               </form>
             </Col>
           </Row>

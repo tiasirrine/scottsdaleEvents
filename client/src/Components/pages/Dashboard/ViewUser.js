@@ -14,7 +14,7 @@ const styles = {
 export default class ViewUser extends Component {
   constructor(props) {
     super(props);
-    this.state = { allUsers: null };
+    this.state = { allUsers: null, error: null };
     this.user = this.props.location.pathname.split('/')[3];
   }
 
@@ -31,7 +31,6 @@ export default class ViewUser extends Component {
   // the customer is removed on the page right away
   deleteUser = id => {
     const updatedUsers = this.state.allUsers.filter(a => a.id !== id);
-    console.log(id);
     this.setState({ allUsers: updatedUsers });
   };
 
@@ -40,16 +39,14 @@ export default class ViewUser extends Component {
       .then(result => {
         const { success } = result.data;
         const removeActiveUser = success.filter(a => a.id !== this.props.user.id);
-        if (success) {
-          this.setState({ allUsers: removeActiveUser });
-        }
+        this.setState({ allUsers: removeActiveUser });
       })
       .catch(err => {
-        console.log(err);
-        if (err.response) {
-          if (err.response.status === 401) {
-            this.props.checkAuth(true);
-          }
+        const { message } = err.response.data;
+        if (err.response.status === 401) {
+          this.props.checkAuth(true);
+        } else {
+          this.setState({ error: message });
         }
       });
   };
@@ -64,19 +61,20 @@ export default class ViewUser extends Component {
         }
       })
       .catch(err => {
-        console.log(err);
-        if (err.response) {
-          if (err.response.status === 401) {
-            this.props.checkAuth(true);
-          }
+        const { message } = err.response.data;
+        if (err.response.status === 401) {
+          this.props.checkAuth(true);
+        } else {
+          this.setState({ error: message });
         }
       });
   };
 
   render() {
-    if (this.state.allUsers === null) {
+    if (this.state.allUsers === null && this.state.error === null) {
       return <div className="loader" />;
     }
+
     return (
       <Fragment>
         <div className="hideIcon">
@@ -86,6 +84,7 @@ export default class ViewUser extends Component {
           <Row>
             <div style={styles.h2}>
               <h2>View and modify your {this.user}</h2>
+              <h3 className="text-danger text-center">{this.state.error}</h3>
             </div>
             <Col md="8" className="offset-md-2">
               {this.state.allUsers &&
