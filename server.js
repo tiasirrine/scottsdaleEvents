@@ -7,7 +7,8 @@ const db = require('./models');
 const passport = require('passport');
 const cors = require('cors');
 const compression = require('compression');
-
+const debug = require('debug');
+const dError = debug('express:error');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -28,6 +29,12 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 }
 
+// if (app.get('env') === 'development') {
+//   app.use(function(err, req, res, next) {
+//     res.status(err.status || 500).json({ error: err, message: err.message });
+//   });
+// }
+
 // Add routes, both API and view
 app.use(routes);
 
@@ -40,6 +47,14 @@ app.get('/*', function(req, res) {
       res.status(500).send(err);
     }
   });
+});
+
+// error handling middleware for all routes
+app.use(function(error, req, res, next) {
+  dError(error);
+  res
+    .status(error.status || 500)
+    .json({ message: error.message || 'An error occured, please contact us.' });
 });
 
 // Start the API server

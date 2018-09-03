@@ -1,6 +1,16 @@
 /* eslint-disable */
 import React from 'react';
-import { Container, Row, Col, Button, Modal, ModalBody, ModalHeader, ModalFooter, Table } from 'mdbreact';
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  ModalFooter,
+  Table
+} from 'mdbreact';
 import API from '../../../api/API';
 import { Link } from 'react-router-dom';
 import './Checkout.css';
@@ -15,7 +25,8 @@ class Summary extends React.Component {
       isActive: false,
       success: null,
       estimateId: null,
-      loading: false
+      loading: false,
+      errorMsg: null
     };
   }
 
@@ -23,12 +34,13 @@ class Summary extends React.Component {
     window.scrollTo(0, 0);
   }
 
-  toggle = (result, id = null) => {
+  toggle = (result, id = null, errorMsg = null) => {
     this.setState({
       modal: !this.state.modal,
       success: result,
       estimateId: id,
-      loading: false
+      loading: false,
+      errorMsg: errorMsg
     });
   };
 
@@ -36,17 +48,12 @@ class Summary extends React.Component {
     this.setState({ loading: true });
     API.getEstimate(this.props.location.state)
       .then(result => {
-        console.log(result.data);
-        if (result.data.error) {
-          this.toggle(false);
-          return;
-        }
         sessionStorage.setItem('activeCart', result.data.activeCart);
         this.toggle(true, result.data.estimateId);
       })
       .catch(err => {
-        console.log(err);
-        this.toggle(false);
+        console.log(err.response.data.message);
+        this.toggle(false, null, err.response.data.message);
       });
   };
 
@@ -103,7 +110,10 @@ class Summary extends React.Component {
                   <td className="text-center">
                     <b style={{ fontWeight: '600' }}>
                       Est. Subtotal: $
-                      {this.props.location.state.cartProps.reduce((a, b) => a + parseInt(b.total), 0)}{' '}
+                      {this.props.location.state.cartProps.reduce(
+                        (a, b) => a + parseInt(b.total),
+                        0
+                      )}{' '}
                     </b>
                   </td>
                 </tr>
@@ -145,7 +155,11 @@ class Summary extends React.Component {
 
         <Row className="mt-6">
           <Col md="">
-            <form className="needs-validation" onSubmit={this.submitHandler} noValidate>
+            <form
+              className="needs-validation"
+              onSubmit={this.submitHandler}
+              noValidate
+            >
               <div className="custom-control custom-checkbox animated jello mb-3">
                 <input
                   type="checkbox"
@@ -154,10 +168,15 @@ class Summary extends React.Component {
                   onChange={event => this.handleCheck(event)}
                   required
                 />
-                <label className="custom-control-label" htmlFor="customControlValidation1">
+                <label
+                  className="custom-control-label"
+                  htmlFor="customControlValidation1"
+                >
                   Agree To Terms and Conditions
                 </label>
-                <div className="invalid-feedback">You must agree before submitting.</div>
+                <div className="invalid-feedback">
+                  You must agree before submitting.
+                </div>
               </div>
               <Link
                 to={{
@@ -177,7 +196,11 @@ class Summary extends React.Component {
                 disabled={!this.state.isActive || this.state.loading}
                 onClick={this.submitButton}
               >
-                {this.state.loading ? <i className="fa fa-spinner fa-spin" /> : 'Submit Order'}
+                {this.state.loading ? (
+                  <i className="fa fa-spinner fa-spin" />
+                ) : (
+                  'Submit Order'
+                )}
               </button>
             </form>
           </Col>
@@ -185,12 +208,16 @@ class Summary extends React.Component {
 
         <Modal isOpen={this.state.modal}>
           <Link to={`/`}>
-            <ModalHeader toggle={this.toggle}>{this.state.success ? 'Thank you!' : 'Uh oh...'}</ModalHeader>{' '}
+            <ModalHeader toggle={this.toggle}>
+              {this.state.success ? 'Thank you!' : 'Uh oh...'}
+            </ModalHeader>{' '}
           </Link>
           <ModalBody>
             {this.state.success
-              ? `We will be contacting you soon. Your estimate ID is: ${this.state.estimateId}`
-              : 'An error occured while submitting your estimate. Please contact us so we can resolve this issue.'}
+              ? `We will be contacting you soon. Your estimate ID is: ${
+                  this.state.estimateId
+                }`
+              : this.state.errorMsg}
           </ModalBody>
           <ModalFooter>
             <Link to={`/`}>

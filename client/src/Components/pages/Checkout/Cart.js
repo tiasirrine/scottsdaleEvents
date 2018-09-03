@@ -19,7 +19,7 @@ class Cart extends Component {
     super(props);
     this.state = {
       activeCart: null,
-      errorMsg: null,
+      error: null,
       cartName: ''
     };
     this.handleInputChange = handleInputChange.bind(this);
@@ -53,7 +53,7 @@ class Cart extends Component {
         }
       })
       .catch(err => {
-        console.log(err);
+        this.setState({ error: err.response.data.message });
       });
   }
 
@@ -88,11 +88,11 @@ class Cart extends Component {
           return a;
         });
 
-        this.setState({ products: updated });
+        this.setState({ products: updated, error: null });
       })
       .catch(err => {
-        console.log(err.response.data);
-        this.setState({ errorMsg: err.response.data });
+        console.log(err);
+        this.setState({ error: err.response.data.message });
       });
   };
 
@@ -124,11 +124,8 @@ class Cart extends Component {
         this.setState({ activeCart: updated });
       })
       .catch(err => {
-        // copies the current state value to make changes
-        const copy = [...this.state.activeCart];
-        // the .err value is checked at render to display the err message
-        copy[i].err = err.response.data;
-        this.setState({ products: copy });
+        console.log(err);
+        this.setState({ error: err.response.data.message });
       });
   };
 
@@ -185,9 +182,9 @@ class Cart extends Component {
     } else {
       return (
         <Container className="cart-top">
-          {this.state.errorMsg && (
+          {this.state.error && (
             <div className="text-center text-danger mb-2">
-              <small>{this.state.errorMsg}</small>
+              <p>{this.state.error}</p>
             </div>
           )}
           <Input

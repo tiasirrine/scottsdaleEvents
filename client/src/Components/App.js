@@ -77,7 +77,7 @@ class App extends Component {
         return this.setState({ inventoryObj, subCategories, categories });
       })
       .catch(err => {
-        console.log(err.response.data);
+        this.setState({ error: err.response.data.message });
       });
   };
 
@@ -87,8 +87,10 @@ class App extends Component {
       <Router>
         <Fragment>
           <Navbar />
-          <p>{this.props.location && this.props.location.state.welcomeMsg}</p>
           <div className="main-height">
+            {this.state.error && (
+              <p className="text-center text-danger">{this.state.error}</p>
+            )}
             <Switch>
               <Route exact path="/" component={Home} />
               <Route
@@ -106,7 +108,11 @@ class App extends Component {
               <Route exact path="/contact" component={ContactPage} />
               <Route exact path="/about" component={About} />
               <Route exact path="/login" component={Login} />
-              <Route exact path="/admin" render={props => <Admin {...props} Component={Login} />} />
+              <Route
+                exact
+                path="/admin"
+                render={props => <Admin {...props} Component={Login} />}
+              />
               <PrivateRoute path="/checkout" component={Checkout} />
               <PrivateRoute path="/dashboard" component={Dashboard} />
               <PrivateRoute path="/profile" component={Profile} />

@@ -21,7 +21,7 @@ class ContactPage extends Component {
     super(props);
 
     this.state = {
-      error: false,
+      error: null,
       loading: false,
       modal: false,
       message: '',
@@ -39,9 +39,9 @@ class ContactPage extends Component {
 
   toggle = () => this.setState({ modal: !this.state.modal, loading: false });
 
-  setErr = () => {
-    this.setState({ loading: false, error: true });
-    setTimeout(() => this.setState({ error: false }), 3000);
+  setErr = msg => {
+    this.setState({ loading: false, error: msg });
+    setTimeout(() => this.setState({ error: null }), 3000);
   };
 
   sendEmail = () => {
@@ -49,17 +49,11 @@ class ContactPage extends Component {
     this.setState({ loading: true });
     API.contactEmail(info)
       .then(result => {
-        console.log(result);
-        if (result.data.error) {
-          this.setErr();
-          return;
-        }
-        console.log(result.data);
         this.toggle();
       })
       .catch(error => {
         console.log(error);
-        this.setErr();
+        this.setErr(error.response.data.message);
       });
   };
 
@@ -153,9 +147,7 @@ class ContactPage extends Component {
                   )}
                 </Button>
                 {this.state.error && (
-                  <p className="text-danger">
-                    An error occured. Please call us so we can resolve this issue.
-                  </p>
+                  <p className="text-danger">An error occured: {this.state.error}</p>
                 )}
               </div>
             </Col>

@@ -56,10 +56,8 @@ class Login extends React.Component {
           this.setState({ error: 'error' });
         }
       })
-      .catch(err => {
-        console.log(err.response);
-        const error = err.response ? err.response.data : 'Connection timed out';
-        this.setState({ error: error });
+      .catch(error => {
+        this.setState({ error: error.response.data.message });
       });
   };
 
@@ -111,7 +109,10 @@ class Login extends React.Component {
                     />
                     <p className="font-small grey-text d-flex justify-content-end">
                       Forgot{' '}
-                      <Link className="dark-grey-text font-weight-bold ml-1" to="/contact">
+                      <Link
+                        className="dark-grey-text font-weight-bold ml-1"
+                        to="/contact"
+                      >
                         {' '}
                         Password?
                       </Link>
@@ -123,7 +124,9 @@ class Login extends React.Component {
                         </Link>
                       </p>
                     )}
-                    {this.state.error && <p className="text-danger text-center">{this.state.error}</p>}
+                    {this.state.error && (
+                      <p className="text-danger text-center">{this.state.error}</p>
+                    )}
                     <div className="text-center mb-4 mt-5">
                       <Button
                         onClick={this.onSubmit}
