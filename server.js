@@ -8,9 +8,11 @@ const passport = require('passport');
 const cors = require('cors');
 const compression = require('compression');
 const debug = require('debug');
-const dError = debug('express:error');
+const debugError = debug('express:error');
+const debugRoute = debug('express:route');
 const app = express();
 const PORT = process.env.PORT || 3001;
+const logger = require('./util/logger');
 
 app.use(cors());
 app.use(compression());
@@ -29,11 +31,18 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 }
 
-// if (app.get('env') === 'development') {
-//   app.use(function(err, req, res, next) {
-//     res.status(err.status || 500).json({ error: err, message: err.message });
-//   });
-// }
+const logRoute = (req, res, next) => {
+  logger.debug('REQ:', {
+    route: req.originalUrl,
+    method: req.method,
+    query: req.query,
+    body: req.body,
+    headers: req.headers
+  });
+  next();
+};
+
+app.use(logRoute);
 
 // Add routes, both API and view
 app.use(routes);
@@ -51,10 +60,28 @@ app.get('/*', function(req, res) {
 
 // error handling middleware for all routes
 app.use(function(error, req, res, next) {
-  dError(error);
-  res
-    .status(error.status || 500)
-    .json({ message: error.message || 'An error occured, please contact us.' });
+  const status = error.status || 500;
+  const message = error.message || 'An unknown error occured';
+
+  // only write errors to console.log in dev mode
+  if (process.env.NODE_ENV !== 'production') {
+    debugError(error);
+    debugRoute('Error occured at: ' + req.originalUrl);
+  } else {
+    if (req.body) {
+      delete req.body.password;
+    }
+    const log = {
+      REQ: req.originalUrl,
+      status: status,
+      method: req.method,
+      query: req.query,
+      body: req.body,
+      error: error.stack
+    };
+    logger.error(log);
+  }
+  res.status(status).json({ message: message });
 });
 
 // Start the API server

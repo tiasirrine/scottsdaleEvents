@@ -24,7 +24,6 @@ module.exports = {
           else reject({ message: 'No carts found for this user' });
         })
         .catch(err => {
-          console.log('err:', err);
           reject(err);
         });
     });
@@ -111,7 +110,6 @@ module.exports = {
           resolve(result);
         })
         .catch(err => {
-          console.log('err', err);
           reject(err);
         });
     });
@@ -122,7 +120,6 @@ module.exports = {
       db.Admin.findAll({ where: { id: id } })
         .then(result => resolve(result))
         .catch(err => {
-          console.log(err);
           reject(err);
         });
     });
@@ -192,12 +189,10 @@ module.exports = {
               resolve(obj);
             })
             .catch(err => {
-              console.log(err);
               reject(err);
             });
         })
         .catch(err => {
-          console.log(err);
           reject(err);
         });
     });
@@ -242,7 +237,6 @@ module.exports = {
                   resolve(result.update(userObj));
                 })
                 .catch(err => {
-                  console.log(err);
                   reject(err);
                 });
             } else {
@@ -253,7 +247,6 @@ module.exports = {
           }
         })
         .catch(err => {
-          console.log('err:', err);
           reject(err);
         });
     });
@@ -297,7 +290,6 @@ module.exports = {
         .then(res => {
           // checks if 0 results were deleted
           if (!res) {
-            console.log('ERROR: ', res);
             reject({ message: 'Failed to remove customer' });
           }
           resolve('Customer removed');
@@ -312,7 +304,6 @@ module.exports = {
         .then(res => {
           // checks if 0 results were deleted
           if (!res) {
-            console.log('ERROR: ', res);
             reject({ message: 'Failed to remove customer' });
           }
           resolve('Customer removed');

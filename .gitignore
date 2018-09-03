@@ -4,6 +4,7 @@
 /node_modules
 /client/node_modules
 /client/build
+/logs/
 test.js
 
 # testing

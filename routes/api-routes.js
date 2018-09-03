@@ -96,7 +96,6 @@ router.post(
               user
                 .createCart(req.user.id)
                 .then(result => {
-                  console.log('File created.');
                   res.json({
                     estimateId: estimateId,
                     activeCart: result.dataValues.id
@@ -215,10 +214,7 @@ router.post(
     user
       .deleteCustomer(id)
       .then(() => res.send({ success: 'Success' }))
-      .catch(err => {
-        console.log(err);
-        res.send({ error: 'An error occured' });
-      });
+      .catch(next);
   }
 );
 
