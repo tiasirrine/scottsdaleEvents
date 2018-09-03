@@ -12,6 +12,7 @@ module.exports = {
     database: process.env.JAWSDB_DB,
     host: process.env.JAWSDB_HOST,
     operatorsAliases: false,
+    logging: false,
     dialect: 'mysql'
   },
   development: {

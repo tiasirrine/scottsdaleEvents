@@ -12,8 +12,7 @@ const debugError = debug('express:error');
 const debugRoute = debug('express:route');
 const app = express();
 const PORT = process.env.PORT || 3001;
-const logger = require('./util/logger');
-console.log('aaaaaaaaaaaaasdfasdfasdfasdfadsfadfasdf');
+// const logger = require('./util/logger');
 
 app.use(cors());
 app.use(compression());
@@ -63,9 +62,9 @@ app.get('/*', function(req, res) {
 app.use(function(error, req, res, next) {
   const status = error.status || 500;
   const message = error.message || 'An unknown error occured';
-
   debugError(error);
   debugRoute('Error occured at: ' + req.originalUrl);
+  res.status(status).json({ message: message });
   // only write errors to console.log in dev mode
   // if (process.env.NODE_ENV !== 'production') {
   // } else {
@@ -82,7 +81,6 @@ app.use(function(error, req, res, next) {
   //   };
   //   logger.error(log);
   // }
-  res.status(status).json({ message: message });
 });
 
 // Start the API server
