@@ -27,11 +27,7 @@ class EventForm extends Component {
       willCallPickupTime: this.eventProps ? this.eventProps.willCallPickupTime : '',
       willCallReturnDate: this.eventProps ? this.eventProps.willCallReturnDate : '',
       willCallReturnTime: this.eventProps ? this.eventProps.willCallReturnTime : '',
-      isActive: false,
-      lastPressed: null,
-      groupNameresult: null,
-      dateResult: null,
-      finalResult: null
+      isActive: false
     };
     this.handleChange = handleInputChange.bind(this);
   }
@@ -40,22 +36,20 @@ class EventForm extends Component {
     window.scrollTo(0, 0);
   }
 
+  submitHandler = event => {
+    event.preventDefault();
+    event.target.className += ' was-validated';
+  };
+
   render() {
-    const {
-      isActive,
-      lastPressed,
-      groupNameresult,
-      finalResult,
-      dateResult,
-      ...stateEventProps
-    } = this.state;
+    const { isActive, ...stateEventProps } = this.state;
     return (
       <Container>
         <Row>
           <Col md="12">
             <Card>
               <CardBody>
-                <form>
+                <form onSubmit={this.submitHandler}>
                   <Row>
                     <Col md="6">
                       <p className="h4 text-center py-4">Event Details</p>
@@ -84,6 +78,7 @@ class EventForm extends Component {
                           validate
                           error="wrong"
                           success="right"
+                          required
                         />
                         {<p>{this.state.groupNameresult}</p>}
                         <Input
@@ -97,6 +92,7 @@ class EventForm extends Component {
                           validate
                           error="wrong"
                           success="right"
+                          required
                         />
                         <Input
                           value={this.state.eventDate}
@@ -110,6 +106,7 @@ class EventForm extends Component {
                           validate
                           error="wrong"
                           success="right"
+                          required
                         />
                         {<p>{this.state.groupNameresult}</p>}
                         <Input
@@ -313,12 +310,16 @@ class EventForm extends Component {
                         }
                       }}
                     >
-                      <Button color="success" className="aButton" size="md" name="event-form-submit">
+                      <Button
+                        color="success"
+                        className="aButton"
+                        size="md"
+                        name="event-form-submit"
+                      >
                         Go to Summary
                       </Button>
                     </Link>
                   </div>
-                  {<p>{this.state.groupNameresult}</p>}
                 </form>
               </CardBody>
             </Card>
