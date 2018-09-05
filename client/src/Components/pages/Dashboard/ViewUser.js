@@ -42,9 +42,10 @@ export default class ViewUser extends Component {
         this.setState({ allUsers: removeActiveUser });
       })
       .catch(error => {
-        const err = error.message
-          ? 'Connection timed out'
-          : error.response.data.message;
+        const err =
+          error.message && error.message.includes('timeout')
+            ? 'Connection timed out'
+            : error.response.data.message;
         if (err.response && err.response.status === 401) {
           this.props.checkAuth(true);
         } else {
@@ -63,9 +64,10 @@ export default class ViewUser extends Component {
         }
       })
       .catch(error => {
-        const err = error.message
-          ? 'Connection timed out'
-          : error.response.data.message;
+        const err =
+          error.message && error.message.includes('timeout')
+            ? 'Connection timed out'
+            : error.response.data.message;
         if (err.response && err.response.status === 401) {
           this.props.checkAuth(true);
         } else {

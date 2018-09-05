@@ -50,9 +50,10 @@ export default class UserCard extends Component {
         if (error.response && error.response.status === 401) {
           this.props.checkAuth(true);
         } else {
-          const err = error.message
-            ? 'Connection timed out'
-            : error.response.data.message;
+          const err =
+            error.message && error.message.includes('timeout')
+              ? 'Connection timed out'
+              : error.response.data.message;
           this.timeout({ error: err });
         }
       });
@@ -92,12 +93,15 @@ export default class UserCard extends Component {
         this.setState({ result: success, ...user });
         setTimeout(() => this.setState({ result: null }), 3000);
       })
-      .catch(err => {
-        const { message } = err.response.data;
+      .catch(error => {
+        const err =
+          error.message && error.message.includes('timeout')
+            ? 'Connection timed out'
+            : error.response.data.message;
         if (err.response.status === 401) {
           this.props.checkAuth(true);
         } else {
-          this.timeout({ error: message });
+          this.timeout({ error: err });
         }
       });
   };

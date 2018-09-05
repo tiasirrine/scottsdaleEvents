@@ -27,7 +27,6 @@ router.post(
       next(unAuthedErr);
       return;
     }
-
     user
       .createCustomer(req.body)
       .then(result => {
@@ -327,7 +326,6 @@ router.post(
   (req, res, next) => {
     const { ProductId, CartId } = req.body;
     const sm = { success: 'Product Saved' };
-    const em = { error: 'Failed to save product' };
     // this will either create a new product to save to a cart,
     // or it will update an already saved product
     // prevents a cart from having duplicate line items for the same product
