@@ -2,7 +2,7 @@
 import React, { Component, Fragment } from 'react';
 import { Input, Container, Row, Button, Card, CardBody, CardTitle } from 'mdbreact';
 import API from '../../../api/API';
-import { checkNull, handleInputChange } from '../../../api/validate';
+import { checkNull, handleInputChange, timeout } from '../../../api/validate';
 
 export default class Profile extends Component {
   constructor(props) {
@@ -18,27 +18,65 @@ export default class Profile extends Component {
       sessionStorage.getItem('firstName') + ' ' + sessionStorage.getItem('lastName');
     this.company = sessionStorage.getItem('company');
     this.email = sessionStorage.getItem('email');
+    this.id = sessionStorage.getItem('userId');
+    this.handleInputChange = handleInputChange.bind(this);
+    this.timeout = timeout.bind(this);
   }
 
   componentDidMount() {
+    this.getCarts();
+  }
+
+  componentWillUnmount() {}
+
+  getCarts = () => {
     API.getCarts()
       .then(result => {
         console.log(result);
         this.setState({ carts: result.data });
       })
       .catch(error => {
-        const err = error.message
-          ? 'Connection timed out'
-          : error.response.data.message;
+        const err =
+          error.message && error.message.includes('timeout')
+            ? 'Connection timed out'
+            : error.response.data.message;
         this.setState({ error: err });
       });
-  }
+  };
+
+  updatePassword = () => {
+    const { password, password2 } = this.state;
+    if (password.length < 3 || password2.length < 3) {
+      this.timeout({
+        error: 'Password must be at least 3 characters'
+      });
+      return;
+    }
+
+    if (password.trim() !== password2.trim()) {
+      this.timeout({
+        error: 'Passwords do not match'
+      });
+      return;
+    }
+
+    API.updateCustomer({ id: this.id, password })
+      .then(result => {
+        this.timeout({ result: result.data.success });
+      })
+      .catch(error => {
+        const err =
+          error.message && error.message.includes('timeout')
+            ? 'Connection timed out'
+            : error.response.data.message;
+        this.timeout({ error: err });
+      });
+  };
 
   render() {
     if (!this.state.carts.length) {
       return <div className="loader" />;
     }
-    console.log(this.state);
     return (
       <Container>
         <Row>
@@ -75,7 +113,7 @@ export default class Profile extends Component {
                   group
                   type="password"
                   value={this.state.password}
-                  onChange={handleInputChange.bind(this)}
+                  onChange={this.handleInputChange}
                 />
                 <Input
                   name="password2"
@@ -83,8 +121,15 @@ export default class Profile extends Component {
                   group
                   type="password"
                   value={this.state.password2}
-                  onChange={handleInputChange.bind(this)}
+                  onChange={this.handleInputChange}
                 />
+                <Button onClick={this.updatePassword}>Submit</Button>
+                {this.state.error && (
+                  <p className="text-danger">{this.state.error}</p>
+                )}
+                {this.state.result && (
+                  <p className="text-success">{this.state.result}</p>
+                )}
               </CardBody>
             </Card>
           </div>

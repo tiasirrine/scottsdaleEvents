@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const wait = 2000;
+const wait = 15000;
 const timeout = { timeout: wait };
 
 const setOptions = () => {
@@ -95,8 +95,8 @@ export default {
     return axios.post('/update/qty', data, setOptions());
   },
 
-  updateCartName: function(cartId, name) {
-    return axios.post('/update/cart');
+  updateCartName: function(id, name) {
+    return axios.post('/update/cart', { id, name }, setOptions());
   },
 
   // called in Dashboard/Profile.js

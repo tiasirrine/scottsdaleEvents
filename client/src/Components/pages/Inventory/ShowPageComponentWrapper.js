@@ -5,6 +5,7 @@ import Gallery from 'react-photo-gallery';
 import Lightbox from 'react-images';
 import { Link } from 'react-router-dom';
 import API from '../../../api/API';
+import { timeout, handleInputChange } from '../../../api/validate';
 
 class ShowPageComponentWrapper extends Component {
   constructor(props) {
@@ -14,8 +15,11 @@ class ShowPageComponentWrapper extends Component {
       isAuthed: false,
       result: null,
       isAdmin: null,
-      inventoryImages: []
+      inventoryImages: [],
+      error: null
     };
+    this.timeout = timeout.bind(this);
+    this.handleInputChange = handleInputChange.bind(this);
   }
 
   // checks if a user is authed. If so, displays cart and qty.
@@ -37,24 +41,14 @@ class ShowPageComponentWrapper extends Component {
       this.setState({ inventoryImages: allImages });
     }
   }
-  // updates qty for a product
-  handleInputChange = event => {
-    const { name } = event.target;
-    let { value } = event.target;
-    // ensures only numbers are passed in
-    if (isNaN(value.slice(-1))) {
-      value = value.replace(/[^0-9]+/g, '');
-    }
-    this.setState({
-      [name]: value
-    });
-  };
+
   // saves the product to the users cart.
   handleFormSubmit = event => {
     // prevents adding 0 items of something or too many
     if (
       this.state.quantity > 0 &&
-      this.state.quantity <= parseInt(this.props.location.state.inventoryProps.cardQuantity)
+      this.state.quantity <=
+        parseInt(this.props.location.state.inventoryProps.cardQuantity)
     ) {
       event.preventDefault();
       // grabs the values needed for the product to save to the cart
@@ -66,13 +60,18 @@ class ShowPageComponentWrapper extends Component {
 
       API.saveProduct(obj)
         .then(result => {
-          this.setState({ result: result.data });
+          this.timeout({ result: result.data.success });
         })
-        .catch(() => {
-          this.setState({ result: 'Failed to save product' });
+        .catch(error => {
+          console.log(error);
+          const err =
+            error.message && error.message.includes('timeout')
+              ? 'Connection timed out'
+              : error.response.data.message;
+          this.timeout({ error: err });
         });
     } else {
-      this.setState({ result: 'Please choose a valid quantity' });
+      this.timeout({ error: 'Please choose a valid quantity' });
     }
   };
 
@@ -147,8 +146,12 @@ class ShowPageComponentWrapper extends Component {
                       <p>${inventoryItem.cardPrice}</p>
                       <p>{inventoryItem.cardQuantity} units in inventory</p>
 
-                      {this.state.result && <p className="my-2">{this.state.result}</p>}
-
+                      {this.state.result && (
+                        <p className="text-success my-2">{this.state.result}</p>
+                      )}
+                      {this.state.error && (
+                        <p className="text-danger">{this.state.error}</p>
+                      )}
                       <label>Quantity</label>
                       <select
                         value={this.state.quantity.toString()}

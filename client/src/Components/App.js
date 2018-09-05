@@ -78,9 +78,10 @@ class App extends Component {
       })
       .catch(error => {
         console.log(error);
-        const err = error.message
-          ? 'Connection timed out'
-          : error.response.data.message;
+        const err =
+          error.message && error.message.includes('timeout')
+            ? 'Connection timed out'
+            : error.response.data.message;
         this.setState({ error: err });
       });
   };

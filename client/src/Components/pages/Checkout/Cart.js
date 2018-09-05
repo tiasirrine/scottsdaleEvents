@@ -12,7 +12,6 @@ import {
 } from 'mdbreact';
 import API from '../../../api/API';
 import { Link } from 'react-router-dom';
-import { handleInputChange } from '../../../api/validate';
 
 class Cart extends Component {
   constructor(props) {
@@ -22,7 +21,7 @@ class Cart extends Component {
       error: null,
       cartName: ''
     };
-    this.handleInputChange = handleInputChange.bind(this);
+    this.getCartId = () => this.state.activeCart[0].CartId;
   }
 
   // gets active cart for a customer
@@ -31,7 +30,6 @@ class Cart extends Component {
 
     API.getCarts()
       .then(res => {
-        console.log(res.data);
         // only sorts the active cart if there are items already saved for it
         if (res.data.length) {
           const activeCart = res.data[0].CartProducts;
@@ -53,12 +51,29 @@ class Cart extends Component {
         }
       })
       .catch(error => {
-        const err = error.message
-          ? 'Connection timed out'
-          : error.response.data.message;
+        const err =
+          error.message && error.message.includes('timeout')
+            ? 'Connection timed out'
+            : error.response.data.message;
         this.setState({ error: err });
       });
   }
+
+  nameCart = e => {
+    const id = this.getCartId();
+    const { value, name } = e.target;
+    this.setState({ [name]: value });
+    API.updateCartName(id, e.target.value)
+      .then()
+      .catch(error => {
+        console.log(error);
+        const err =
+          error.message && error.message.includes('timeout')
+            ? 'Connection timed out'
+            : error.response.data.message;
+        this.setState({ error: err });
+      });
+  };
 
   // used to update the quantity to checkout
   onChange = e => {
@@ -95,9 +110,10 @@ class Cart extends Component {
       })
       .catch(error => {
         console.log(error);
-        const err = error.message
-          ? 'Connection timed out'
-          : error.response.data.message;
+        const err =
+          error.message && error.message.includes('timeout')
+            ? 'Connection timed out'
+            : error.response.data.message;
         this.setState({ error: err });
       });
   };
@@ -130,9 +146,10 @@ class Cart extends Component {
         this.setState({ activeCart: updated });
       })
       .catch(error => {
-        const err = error.message
-          ? 'Connection timed out'
-          : error.response.data.message;
+        const err =
+          error.message && error.message.includes('timeout')
+            ? 'Connection timed out'
+            : error.response.data.message;
         this.setState({ error: err });
       });
   };
@@ -199,7 +216,7 @@ class Cart extends Component {
             value={this.state.cartName}
             label="Cart Name"
             name="cartName"
-            onChange={this.handleInputChange}
+            onChange={this.nameCart}
             group
             type="text"
             className="w-25"
