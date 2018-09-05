@@ -32,9 +32,14 @@ class ShowPageComponentWrapper extends Component {
       });
     const inventoryItem = this.props.location.state.inventoryProps;
     const allImages = [];
-    allImages.push(inventoryItem.url);
-    allImages.push(...inventoryItem.extra.trim().split(' '));
-    this.setState({ inventoryImages: allImages });
+    if (inventoryItem.extra) {
+      allImages.push(inventoryItem.url);
+      allImages.push(...inventoryItem.extra.trim().split(' '));
+      this.setState({ inventoryImages: allImages });
+    } else {
+      allImages.push(inventoryItem.url);
+      this.setState({ inventoryImages: allImages });
+    }
   }
 
   // saves the product to the users cart.
@@ -83,7 +88,7 @@ class ShowPageComponentWrapper extends Component {
     return items;
   }
 
-  pictureMover = i => {
+  pictureMover = (event, i) => {
     const newImagesArray = [...this.state.inventoryImages];
     const newVariable = newImagesArray.splice(i, 1);
     newImagesArray.unshift(newVariable);
@@ -98,31 +103,34 @@ class ShowPageComponentWrapper extends Component {
         <br />
 
         <Row>
-          <img
-            src={this.state.inventoryImages[0]}
-            className=" mx-auto d-block img-fluid z-depth-1 main-show"
-            alt={inventoryItem.cardTitle}
-          />
-        </Row>
-        <Row>
-          {' '}
-          {this.state.inventoryImages.map((a, i) => {
-            if (i != 0) {
-              return (
-                <div
-                  key={i}
-                  className="col-xl-3 col-md-4 mb-3 mx-auto d-block img-fluid z-depth-1"
-                >
-                  <img
-                    src={a}
-                    alt={i}
-                    className="img-thumbnail mx-auto d-block img-fluid z-depth-1 extra-pointer"
-                    onClick={event => this.pictureMover(event, i)}
-                  />
-                </div>
-              );
-            }
-          })}
+          <Col>
+            <img
+              src={this.state.inventoryImages[0]}
+              className=" mx-auto d-block img-fluid z-depth-1 main-show"
+              alt={inventoryItem.cardTitle}
+            />{' '}
+          </Col>
+          <Col>
+            {this.state.inventoryImages.map((a, i) => {
+              if (i != 0) {
+                return (
+                  <Row>
+                    <div
+                      key={i}
+                      className="col-xl-3 col-md-4 mb-3 mx-auto d-block img-fluid z-depth-1"
+                    >
+                      <img
+                        src={a}
+                        alt={i}
+                        className="img-thumbnail mx-auto d-block img-fluid z-depth-1 extra-pointer"
+                        onClick={event => this.pictureMover(event, i)}
+                      />
+                    </div>
+                  </Row>
+                );
+              }
+            })}
+          </Col>
         </Row>
         <Row>
           <CardBody className="text-center col-12">
