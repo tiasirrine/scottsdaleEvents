@@ -1,5 +1,4 @@
-// require('isomorphic-fetch');
-const fs = require('fs');
+require('isomorphic-fetch');
 const { user } = require('../controllers');
 const router = require('express').Router();
 const mailer = require('../util/mailer');
@@ -9,9 +8,8 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const debug = require('debug');
 const dCheck = debug('express:log');
-
-const Client = require('ftp');
-const ftpConfig = require('../config/ftpConfig');
+const Dropbox = require('dropbox').Dropbox;
+const dbx = new Dropbox({ accessToken: process.env.DROPBOX });
 
 const unAuthedErr = {
   message: 'Unauthorized',
@@ -40,10 +38,10 @@ router.post(
 // creates a new admin
 // TODO: secure this route
 router.post('/create/admin', (req, res, next) => {
-  // if (!req.user.isAdmin) {
-  //   next(unAuthedErr);
-  //   return;
-  // }
+  if (!req.user.isAdmin) {
+    next(unAuthedErr);
+    return;
+  }
   user
     .createAdmin(req.body)
     .then(result => {
@@ -53,25 +51,32 @@ router.post('/create/admin', (req, res, next) => {
     .catch(next);
 });
 
-// router.post('/create/cart', (req, res, next) => {
-//   user
-//     .createCart(req.body.id)
-//     .then(result => res.json(result))
-//     .catch(next);
-// });
-
 // creates a csv file for a customers estimate
 router.post(
   '/create/estimate',
   passport.authenticate('jwt', { session: false }),
   (req, res, next) => {
-    // creates the columns for the csv file
-    const fields = ['estimateId', 'id', 'qty'];
     let estimateId;
-    // contains the rows for the csv file
+    const fields = ['estimateId', 'id', 'qty'];
     const { eventProps, cartProps } = req.body;
     const CartId = cartProps[0].CartId;
     // adds each event info field into a field for the csv file
+
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1; //January is 0!
+    const yyyy = today.getFullYear();
+
+    if (dd < 10) {
+      dd = '0' + dd;
+    }
+
+    if (mm < 10) {
+      mm = '0' + mm;
+    }
+
+    today = mm + '-' + dd + '-' + yyyy;
+
     Object.keys(eventProps).forEach(a => fields.push(a));
     db.Estimate.create({ _id: '1', CartId: CartId })
       .then(result => {
@@ -83,34 +88,26 @@ router.post(
           }
           return product;
         });
-        // creates the csv file. checks for errors.
         try {
-          const client = new Client();
           const parser = new Json2csvParser({ fields, quote: '' });
           const csv = parser.parse(merged);
-          client.on('error', err =>
-            next({
-              error: err,
-              message:
-                'An error occured while creating your estimate. Please contact us'
+
+          dbx
+            .filesUpload({
+              contents: csv,
+              path: `/${estimateId}-${today}-${eventProps.customerName}.csv`
             })
-          );
-          client.on('ready', () => {
-            client.put(csv, `estimate-${estimateId}.csv`, err => {
-              if (err) next(err);
+            .then(() => {
               user
                 .createCart(req.user.id)
                 .then(result => {
-                  res.json({
-                    estimateId: estimateId,
-                    activeCart: result.dataValues.id
-                  });
+                  res.json({ activeCart: result.dataValues.id, estimateId });
                 })
-                .catch(next);
-              client.end();
-            });
-          });
-          client.connect(ftpConfig);
+                .catch(err => {
+                  next(err);
+                });
+            })
+            .catch(next);
         } catch (err) {
           next(err);
         }
