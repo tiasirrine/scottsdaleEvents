@@ -39,10 +39,10 @@ router.post(
 // creates a new admin
 // TODO: secure this route
 router.post('/create/admin', (req, res, next) => {
-  if (!req.user.isAdmin) {
-    next(unAuthedErr);
-    return;
-  }
+  // if (!req.user.isAdmin) {
+  //   next(unAuthedErr);
+  //   return;
+  // }
   user
     .createAdmin(req.body)
     .then(result => {
