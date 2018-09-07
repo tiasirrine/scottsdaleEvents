@@ -14,6 +14,7 @@ import About from './pages/About';
 import Dashboard from './pages/Dashboard';
 import Checkout from './pages/Checkout';
 import Profile from './pages/Profile';
+import Carts from './pages/Carts';
 
 class App extends Component {
   constructor(props) {
@@ -121,6 +122,7 @@ class App extends Component {
               <PrivateRoute path="/checkout" component={Checkout} />
               <PrivateRoute path="/dashboard" component={Dashboard} />
               <PrivateRoute path="/profile" component={Profile} />
+              <PrivateRoute path="/carts" component={Carts} />
               <Route component={Home} />
             </Switch>
           </div>
