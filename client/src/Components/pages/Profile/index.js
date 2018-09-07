@@ -1,4 +1,5 @@
 /* eslint-disable */
+import './index.css';
 import React, { Component, Fragment } from 'react';
 import { Input, Container, Row, Button, Card, CardBody, CardTitle } from 'mdbreact';
 import API from '../../../api/API';
@@ -80,27 +81,20 @@ export default class Profile extends Component {
     return (
       <Container>
         <Row>
-          <div className="col-md-4">
-            <Card style={{ width: '100%' }}>
+          <div className="col-lg-5">
+            <Card>
               <CardBody>
                 <CardTitle>Your Carts</CardTitle>
                 {this.state.carts.length &&
-                  this.state.carts.map(
-                    (a, i) =>
-                      a.isActive ? (
-                        <p key={i} className="mb-0 p-2">
-                          Active Cart: {a.cartName}
-                        </p>
-                      ) : (
-                        <p key={i} className="mb-0 p-2">
-                          {a.cartName}
-                        </p>
-                      )
-                  )}
+                  this.state.carts.map((a, i) => (
+                    <p key={i} className="mb-0 p-2 view-cart">
+                      {a.isActive && 'Active: '} {a.cartName}
+                    </p>
+                  ))}
               </CardBody>
             </Card>
           </div>
-          <div className="col-md-8">
+          <div className="col-lg-7">
             <Card>
               <CardBody>
                 <CardTitle>{this.name}</CardTitle>

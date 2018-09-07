@@ -99,6 +99,10 @@ export default {
     return axios.post('/update/cart', { id, name }, setOptions());
   },
 
+  updateActiveCart: function(oldCartId, newCartId) {
+    return axios.post('/update/active-cart', { oldCartId, newCartId }, setOptions());
+  },
+
   // called in Dashboard/Profile.js
   updateAdmin: function(user) {
     return axios.post('/update/admin', user, setOptions());

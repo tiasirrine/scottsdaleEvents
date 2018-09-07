@@ -47,6 +47,8 @@ class PrivateRoute extends Component {
       return <Route {...rest} render={props => <Component {...props} />} />;
     } else if (this.props.path === '/profile' && !this.state.isAdmin) {
       return <Route {...rest} render={props => <Component {...props} />} />;
+    } else if (this.props.path === '/carts' && !this.state.isAdmin) {
+      return <Route {...rest} render={props => <Component {...props} />} />;
     } else {
       return <Redirect to="/" />;
     }

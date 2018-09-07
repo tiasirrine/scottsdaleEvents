@@ -1,3 +1,4 @@
+const date = require('../util/getDate');
 const db = require('../models');
 const bcrypt = require('bcryptjs');
 
@@ -44,7 +45,8 @@ module.exports = {
                 db.Cart.create({
                   isActive: true,
                   CustomerId: id,
-                  cartName: 'Unnamed Cart'
+                  cartName: 'Unnamed Cart',
+                  date: date()
                 })
                   .then(res => {
                     resolve(res);
@@ -272,7 +274,8 @@ module.exports = {
                 db.Cart.create({
                   isActive: true,
                   cartName: 'Unnamed Cart',
-                  CustomerId: newCustomer.id
+                  CustomerId: newCustomer.id,
+                  date: date()
                 })
                   .then(() => resolve(newCustomer))
                   .catch(err => reject(err));

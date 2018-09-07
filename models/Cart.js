@@ -9,6 +9,10 @@ module.exports = function(sequelize, DataTypes) {
       cartName: {
         type: DataTypes.STRING,
         allowNull: false
+      },
+      date: {
+        type: DataTypes.STRING,
+        allowNull: false
       }
     },
     { timestamps: false }

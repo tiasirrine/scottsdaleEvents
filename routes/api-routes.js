@@ -10,6 +10,7 @@ const debug = require('debug');
 const dCheck = debug('express:log');
 const Dropbox = require('dropbox').Dropbox;
 const dbx = new Dropbox({ accessToken: process.env.DROPBOX });
+const date = require('../util/getDate');
 
 const unAuthedErr = {
   message: 'Unauthorized',
@@ -19,12 +20,12 @@ const unAuthedErr = {
 // creates a new customer
 router.post(
   '/create/customer',
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res, next) => {
-    if (!req.user.isAdmin) {
-      next(unAuthedErr);
-      return;
-    }
+    // if (!req.user.isAdmin) {
+    //   next(unAuthedErr);
+    //   return;
+    // }
     user
       .createCustomer(req.body)
       .then(result => {
@@ -62,21 +63,6 @@ router.post(
     const CartId = cartProps[0].CartId;
     // adds each event info field into a field for the csv file
 
-    let today = new Date();
-    let dd = today.getDate();
-    let mm = today.getMonth() + 1; //January is 0!
-    const yyyy = today.getFullYear();
-
-    if (dd < 10) {
-      dd = '0' + dd;
-    }
-
-    if (mm < 10) {
-      mm = '0' + mm;
-    }
-
-    today = mm + '-' + dd + '-' + yyyy;
-
     Object.keys(eventProps).forEach(a => fields.push(a));
     db.Estimate.create({ _id: '1', CartId: CartId })
       .then(result => {
@@ -95,7 +81,7 @@ router.post(
           dbx
             .filesUpload({
               contents: csv,
-              path: `/${estimateId}-${today}-${eventProps.customerName}.csv`
+              path: `/${estimateId}-${date()}-${eventProps.customerName}.csv`
             })
             .then(() => {
               user
@@ -200,6 +186,25 @@ router.post(
     db.Cart.update({ cartName: name }, { where: { id: id } })
       .then(result => {
         res.json({ success: result });
+      })
+      .catch(next);
+  }
+);
+
+// sets new active cart. sets old active cart to inactive
+router.post(
+  '/update/active-cart',
+  passport.authenticate('jwt', { session: false }),
+  (req, res, next) => {
+    const { oldCartId, newCartId } = req.body;
+
+    db.Cart.update({ isActive: true }, { where: { id: newCartId } })
+      .then(result => {
+        db.Cart.update({ isActive: false }, { where: { id: oldCartId } })
+          .then(result => {
+            res.json({ success: result });
+          })
+          .catch(next);
       })
       .catch(next);
   }
@@ -322,6 +327,7 @@ router.post(
   passport.authenticate('jwt', { session: false }),
   (req, res, next) => {
     const { ProductId, CartId } = req.body;
+    req.body.date = date();
     const sm = { success: 'Product Saved' };
     // this will either create a new product to save to a cart,
     // or it will update an already saved product

@@ -66,36 +66,52 @@ export default class Nav extends Component {
           <div>
             <NavbarNav right>
               <NavItem>
-                <NavLink className={`${this.state.active === '/' && 'activeTab'}`} to="/">
+                <NavLink
+                  className={`${this.state.active === '/' && 'activeTab'}`}
+                  to="/"
+                >
                   <span>Home</span>
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink
-                  className={`${this.state.active.includes('inventory') && 'activeTab'}`}
+                  className={`${this.state.active.includes('inventory') &&
+                    'activeTab'}`}
                   to="/inventory"
                 >
                   <span>Inventory</span>
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink className={`${this.state.active === '/gallery' && 'activeTab'}`} to="/gallery">
+                <NavLink
+                  className={`${this.state.active === '/gallery' && 'activeTab'}`}
+                  to="/gallery"
+                >
                   <span>Gallery</span>
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink className={`${this.state.active === '/contact' && 'activeTab'}`} to="/contact">
+                <NavLink
+                  className={`${this.state.active === '/contact' && 'activeTab'}`}
+                  to="/contact"
+                >
                   <span>Contact Us</span>
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink className={`${this.state.active === '/about' && 'activeTab'}`} to="/about">
+                <NavLink
+                  className={`${this.state.active === '/about' && 'activeTab'}`}
+                  to="/about"
+                >
                   <span>About</span>
                 </NavLink>
               </NavItem>
               {!this.checkLogIn() && (
                 <NavItem>
-                  <NavLink className={`${this.state.active === '/login' && 'activeTab'}`} to="/login">
+                  <NavLink
+                    className={`${this.state.active === '/login' && 'activeTab'}`}
+                    to="/login"
+                  >
                     <span>Login</span>
                   </NavLink>
                 </NavItem>
@@ -111,7 +127,10 @@ export default class Nav extends Component {
                         <Link to="/profile">Profile</Link>
                       </DropdownItem>
                       <DropdownItem>
-                        <Link to="/checkout/cart">Cart</Link>
+                        <Link to="/carts">My Carts</Link>
+                      </DropdownItem>
+                      <DropdownItem>
+                        <Link to="/checkout/cart">Checkout</Link>
                       </DropdownItem>
                       <div className="dropdown-divider" />
                       <DropdownItem>
