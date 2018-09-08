@@ -24,26 +24,7 @@ export default class Profile extends Component {
     this.timeout = timeout.bind(this);
   }
 
-  componentDidMount() {
-    this.getCarts();
-  }
-
   componentWillUnmount() {}
-
-  getCarts = () => {
-    API.getCarts()
-      .then(result => {
-        console.log(result);
-        this.setState({ carts: result.data });
-      })
-      .catch(error => {
-        const err =
-          error.message && error.message.includes('timeout')
-            ? 'Connection timed out'
-            : error.response.data.message;
-        this.setState({ error: err });
-      });
-  };
 
   updatePassword = () => {
     const { password, password2 } = this.state;
@@ -75,26 +56,10 @@ export default class Profile extends Component {
   };
 
   render() {
-    if (!this.state.carts.length) {
-      return <div className="loader" />;
-    }
     return (
       <Container>
         <Row>
-          <div className="col-lg-5">
-            <Card>
-              <CardBody>
-                <CardTitle>Your Carts</CardTitle>
-                {this.state.carts.length &&
-                  this.state.carts.map((a, i) => (
-                    <p key={i} className="mb-0 p-2 view-cart">
-                      {a.isActive && 'Active: '} {a.cartName}
-                    </p>
-                  ))}
-              </CardBody>
-            </Card>
-          </div>
-          <div className="col-lg-7">
+          <div className="col-lg-8 offset-lg-2">
             <Card>
               <CardBody>
                 <CardTitle>{this.name}</CardTitle>

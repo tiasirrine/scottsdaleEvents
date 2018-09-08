@@ -186,7 +186,7 @@ router.post(
   passport.authenticate('jwt', { session: false }),
   (req, res, next) => {
     const { name, id } = req.body;
-    db.Cart.update({ cartName: name }, { where: { id: id } })
+    db.Cart.update({ cartName: name, date: date() }, { where: { id: id } })
       .then(result => {
         res.json({ success: result });
       })
@@ -201,8 +201,8 @@ router.post(
   (req, res, next) => {
     const { oldCartId, newCartId } = req.body;
 
-    db.Cart.update({ isActive: true }, { where: { id: newCartId } })
-      .then(result => {
+    db.Cart.update({ isActive: true, date: date() }, { where: { id: newCartId } })
+      .then(() => {
         db.Cart.update({ isActive: false }, { where: { id: oldCartId } })
           .then(result => {
             res.json({ success: result });
