@@ -28,7 +28,7 @@ class Cart extends Component {
   componentDidMount() {
     window.scrollTo(0, 0);
 
-    if (!this.props.location.state.viewCart) {
+    if (!this.props.location.state) {
       API.getCarts()
         .then(res => {
           this.setState({
