@@ -28,36 +28,45 @@ class Cart extends Component {
   componentDidMount() {
     window.scrollTo(0, 0);
 
-    API.getCarts()
-      .then(res => {
-        // only sorts the active cart if there are items already saved for it
-        if (res.data.length) {
-          const activeCart = res.data[0].CartProducts;
-
-          // grabs the pertinent data from the cart
-          const sortedActiveCart = activeCart.map(a => {
-            // finds the total cost based on price and qty
-            a.Product.total = (a.qty * Number(a.Product.price)).toString();
-            a.Product.qty = a.qty.toString();
-            a.Product.CartId = a.CartId;
-            a.Product.CartProductId = a.id;
-            return a.Product;
-          });
-
+    if (!this.props.location.state.viewCart) {
+      API.getCarts()
+        .then(res => {
           this.setState({
-            activeCart: sortedActiveCart,
+            activeCart: this.sortCart(res.data),
             cartName: res.data[0].cartName
           });
-        }
-      })
-      .catch(error => {
-        const err =
-          error.message && error.message.includes('timeout')
-            ? 'Connection timed out'
-            : error.response.data.message;
-        this.setState({ error: err });
+        })
+        .catch(error => {
+          const err =
+            error.message && error.message.includes('timeout')
+              ? 'Connection timed out'
+              : error.response.data.message;
+          this.setState({ error: err });
+        });
+    } else {
+      console.log(this.props);
+      this.setState({
+        activeCart: this.sortCart(this.props.location.state.viewCart),
+        cartName: this.props.location.state.viewCart[0].cartName
       });
+    }
   }
+
+  sortCart = data => {
+    if (data.length) {
+      const activeCart = data[0].CartProducts;
+
+      // grabs the pertinent data from the cart
+      return activeCart.map(a => {
+        // finds the total cost based on price and qty
+        a.Product.total = (a.qty * Number(a.Product.price)).toString();
+        a.Product.qty = a.qty.toString();
+        a.Product.CartId = a.CartId;
+        a.Product.CartProductId = a.id;
+        return a.Product;
+      });
+    }
+  };
 
   nameCart = e => {
     const id = this.getCartId();
@@ -160,9 +169,9 @@ class Cart extends Component {
       this.onSubmit();
     }
   };
+
   createSelectItems(value) {
     let items = [];
-
     for (let i = 1; i <= value.quantity; i++) {
       items.push(
         <option key={i} value={i}>
@@ -170,12 +179,11 @@ class Cart extends Component {
         </option>
       );
     }
-
     return items;
   }
+
   render() {
     const { activeCart } = this.state;
-    console.log(this.state);
     Array.prototype.sum = function(prop) {
       var totalPrice = 0;
       for (var i = 0, _len = this.length; i < _len; i++) {

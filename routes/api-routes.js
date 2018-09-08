@@ -155,8 +155,11 @@ router.post(
   '/update/qty',
   passport.authenticate('jwt', { session: false }),
   (req, res, next) => {
-    const { ProductId, qty } = req.body;
-    db.CartProduct.update({ qty: qty }, { where: { ProductId: ProductId } })
+    const { ProductId, qty, CartId } = req.body;
+    db.CartProduct.update(
+      { qty: qty },
+      { where: { ProductId: ProductId, CartId: CartId } }
+    )
       .then(() => {
         res.json({ success: 'success' });
       })

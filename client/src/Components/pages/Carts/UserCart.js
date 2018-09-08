@@ -3,6 +3,7 @@ import React, { Component, Fragment } from 'react';
 import { Container, Row, Button, Card, CardBody, CardTitle, Input } from 'mdbreact';
 import API from '../../../api/API';
 import { handleInputChange, timeout } from '../../../api/validate';
+import { Link } from 'react-router-dom';
 
 export default class UserCart extends Component {
   constructor(props) {
@@ -77,9 +78,17 @@ export default class UserCart extends Component {
             )}
             <div className="mt-2" style={{ paddingLeft: '1.25rem' }}>
               <p className="mb-1">Last Modified: {this.cart.date}</p>
-              <Button size="md" className="text-white w-100 mx-0">
-                View
-              </Button>
+              <Link
+                className="text-white"
+                to={{
+                  pathname: '/checkout/cart',
+                  state: { viewCart: [this.cart] }
+                }}
+              >
+                <Button size="md" className="text-white w-100 mx-0">
+                  View
+                </Button>
+              </Link>
               <Button
                 onClick={() => this.props.setActiveCart(this.props.index)}
                 size="md"
