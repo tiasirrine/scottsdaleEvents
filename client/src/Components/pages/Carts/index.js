@@ -38,6 +38,7 @@ export default class Carts extends Component {
     });
 
     mapped[i].isActive = true;
+    sessionStorage.setItem('activeCart', mapped[i].id);
 
     // oldCart, newCart
 
@@ -55,7 +56,6 @@ export default class Carts extends Component {
   getCarts = () => {
     API.getCarts()
       .then(result => {
-        console.log(result);
         this.setState({ carts: result.data });
       })
       .catch(error => {

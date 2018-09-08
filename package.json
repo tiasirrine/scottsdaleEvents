@@ -27,7 +27,6 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
-    "bunyan": "^1.8.12",
     "compression": "^1.7.3",
     "cors": "^2.8.4",
     "debug": "^3.1.0",
