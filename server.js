@@ -30,13 +30,13 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use(routes);
 
-// app.get('/*', function(req, res) {
-//   res.sendFile(path.join(__dirname, '/client/public/index.html'), function(err) {
-//     if (err) {
-//       res.status(500).send(err);
-//     }
-//   });
-// });
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, '/client/build/index.html'), function(err) {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
+});
 
 // error handling middleware for all routes
 app.use(function(error, req, res, next) {

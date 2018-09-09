@@ -1,5 +1,4 @@
 .navbar {
-  font-size: 12px;
   min-height: 62px;
   width: 100%;
   position: fixed;
@@ -7,6 +6,8 @@
   top: 0;
   left: 0;
   background-color: #20232a;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .activeTab {
@@ -21,20 +22,8 @@
   justify-content: space-between;
 }
 
-@media (min-width: 576px) {
+@media (min-width: 768px) {
   .nav-flex {
     flex-direction: row;
-  }
-}
-
-@media (min-width: 650px) {
-  .navbar {
-    font-size: 13px;
-  }
-}
-
-@media (min-width: 850px) {
-  .navbar {
-    font-size: 15px;
   }
 }

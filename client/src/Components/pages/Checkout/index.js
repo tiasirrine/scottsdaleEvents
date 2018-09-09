@@ -13,9 +13,17 @@ class Checkout extends Component {
     return (
       <Fragment>
         <Switch>
-          <Route exact path="/checkout/event" render={props => <EventForm {...props} />} />
+          <Route
+            exact
+            path="/checkout/event"
+            render={props => <EventForm {...props} />}
+          />
           <Route exact path="/checkout/cart" render={props => <Cart {...props} />} />
-          <Route exact path="/checkout/summary" render={props => <Summary {...props} />} />
+          <Route
+            exact
+            path="/checkout/summary"
+            render={props => <Summary {...props} />}
+          />
         </Switch>
       </Fragment>
     );
