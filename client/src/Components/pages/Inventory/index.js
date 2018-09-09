@@ -54,11 +54,7 @@ class InventoryPage extends Component {
   // used to close the sidebar when an event click occurs outside of it while it is undocked, and opened
   closeSideNavClick = e => {
     const target = e.target.getAttribute('class');
-    if (
-      target !== 'fa fa-bars icon' &&
-      this.state.sidebarOpen &&
-      !this.state.docked
-    ) {
+    if (target !== 'fa fa-bars' && this.state.sidebarOpen && !this.state.docked) {
       this.setState({ sidebarOpen: false });
     }
   };
@@ -79,42 +75,48 @@ class InventoryPage extends Component {
         />
         <Container fluid className="ml-270">
           <div className="open-sidebar">
-            <i onClick={this.openSidebarOverlay} className="fa fa-bars icon" />
+            <i
+              onClick={this.openSidebarOverlay}
+              className="fa fa-bars"
+              style={{ fontSize: '24px', cursor: 'pointer' }}
+            />
           </div>
-          <Switch>
-            <Route
-              exact
-              path={this.props.match.path}
-              render={props => (
-                <CategoryComponentWrapper
-                  {...props}
-                  categories={categories}
-                  images={categoryImgs}
-                />
-              )}
-            />
-            <Route
-              exact
-              path={`${this.props.match.path}/:category`}
-              render={props => (
-                <SubCategoryComponentWrapper {...props} inventory={inventoryObj} />
-              )}
-            />
-            <Route
-              exact
-              path={`${this.props.match.path}/:category/:subcategory`}
-              render={props => (
-                <InventoryComponentWrapper {...props} inventory={inventoryObj} />
-              )}
-            />
-            <Route
-              exact
-              path={`${this.props.match.path}/:category/:subcategory/:name`}
-              render={props => (
-                <ShowPageComponentWrapper {...props} inventory={inventoryObj} />
-              )}
-            />
-          </Switch>
+          <div className="inv-wrapper">
+            <Switch>
+              <Route
+                exact
+                path={this.props.match.path}
+                render={props => (
+                  <CategoryComponentWrapper
+                    {...props}
+                    categories={categories}
+                    images={categoryImgs}
+                  />
+                )}
+              />
+              <Route
+                exact
+                path={`${this.props.match.path}/:category`}
+                render={props => (
+                  <SubCategoryComponentWrapper {...props} inventory={inventoryObj} />
+                )}
+              />
+              <Route
+                exact
+                path={`${this.props.match.path}/:category/:subcategory`}
+                render={props => (
+                  <InventoryComponentWrapper {...props} inventory={inventoryObj} />
+                )}
+              />
+              <Route
+                exact
+                path={`${this.props.match.path}/:category/:subcategory/:name`}
+                render={props => (
+                  <ShowPageComponentWrapper {...props} inventory={inventoryObj} />
+                )}
+              />
+            </Switch>
+          </div>
         </Container>
       </div>
     );

@@ -4,6 +4,7 @@
 }
 
 .sidebar {
+  margin-top: -56px;
   position: fixed;
   width: 250px;
   height: 100%;
@@ -79,6 +80,11 @@ ul {
   height: 165px;
 }
 
+.inv-wrapper {
+  margin-left: 50px;
+  margin-top: 120px;
+}
+
 .product-img {
   width: 100% !important;
   max-width: 300px !important;
@@ -104,6 +110,11 @@ ul {
   margin-left: 5%;
 }
 
+.open-sidebar {
+  position: fixed;
+  z-index: 3;
+}
+
 @media (max-width: 768px) {
   .w-300 {
     max-width: 300px;
@@ -114,11 +125,19 @@ ul {
 @media (min-width: 992px) {
   .sidebar {
     display: block;
+    margin-top: 0px;
   }
   .ml-270 {
     margin-left: 270px;
   }
   .open-sidebar {
     display: none;
+  }
+}
+
+@media (min-width: 992px) {
+  .inv-wrapper {
+    margin-top: 0px;
+    margin-left: 0px;
   }
 }

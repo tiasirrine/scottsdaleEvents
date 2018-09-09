@@ -22,7 +22,7 @@ const InventoryComponentWrapper = props => {
     : null;
 
   return (
-    <Fragment>
+    <div>
       {getInvItems
         ? getInvItems.map((a, i) => {
             return (
@@ -39,7 +39,7 @@ const InventoryComponentWrapper = props => {
             );
           })
         : null}
-    </Fragment>
+    </div>
   );
 };
 

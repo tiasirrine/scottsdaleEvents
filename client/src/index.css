@@ -20,11 +20,11 @@ a:hover {
 }
 
 .main-height {
-  min-height: calc(100vh - 62px);
-  margin-top: 62px;
+  min-height: calc(100vh - 89.26px);
+  margin-top: 89.26px;
 }
 
-.m120 {
+.margintop-100 {
   margin-top: 100px;
 }
 
@@ -61,5 +61,12 @@ a:hover {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@media (min-width: 768px) {
+  .main-height {
+    min-height: calc(100vh - 62px);
+    margin-top: 62px;
   }
 }
