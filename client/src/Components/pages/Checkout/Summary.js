@@ -2,6 +2,7 @@
 import React from 'react';
 import {
   Container,
+  Collapse,
   Row,
   Col,
   Button,
@@ -21,6 +22,7 @@ class Summary extends React.Component {
 
     this.state = {
       modal: false,
+      collapse: false,
       shippingCost: '',
       isActive: false,
       success: null,
@@ -28,6 +30,7 @@ class Summary extends React.Component {
       loading: false,
       errorMsg: null
     };
+    this.toggleCollapse = this.toggleCollapse.bind(this);
   }
 
   componentDidMount() {
@@ -43,6 +46,9 @@ class Summary extends React.Component {
       errorMsg: errorMsg
     });
   };
+  toggleCollapse() {
+    this.setState({ collapse: !this.state.collapse });
+  }
 
   submitButton = () => {
     this.setState({ loading: true });
@@ -76,6 +82,15 @@ class Summary extends React.Component {
 
   render() {
     const eventDetails = this.props.location.state;
+    const detailsFirst = Object.keys(eventDetails.eventProps).slice(0, 6);
+    const detailsSecond = Object.keys(eventDetails.eventProps).slice(6, 12);
+    const detailsWill = Object.keys(eventDetails.eventProps).slice(12, 17);
+    const detailsWillOBJ = Object.keys(eventDetails.eventProps)
+      .slice(12, 17)
+      .map((obj, index) => {
+        return eventDetails.eventProps[obj];
+      });
+    console.log(detailsWillOBJ);
     return (
       <Container className="mt-5">
         <h3 style={{ marginTop: '80px' }} className="text-center mb-3">
@@ -125,6 +140,7 @@ class Summary extends React.Component {
             </Table>
           </Col>
         </Row>
+        <h3 className="text-center mb-3">Event Details</h3>
         <Row>
           <Col md="6">
             {' '}
@@ -139,8 +155,41 @@ class Summary extends React.Component {
                   </th>
                 </tr>
               </thead>
+
               <tbody>
-                {Object.keys(eventDetails.eventProps).map((obj, index) => {
+                {detailsFirst.map((obj, index) => {
+                  const camelCase = obj
+                    .replace(/([A-Z])/g, ' $1')
+
+                    .replace(/^./, function(str) {
+                      return str.toUpperCase();
+                    });
+                  return (
+                    <tr key={index}>
+                      <td className="text-center">{camelCase}</td>
+                      <td className="text-center">{eventDetails.eventProps[obj]}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+          </Col>
+          <Col md="6">
+            {' '}
+            <Table>
+              <thead className="blue-grey lighten-4">
+                <tr>
+                  <th className="text-center">
+                    <b>Event Details</b>
+                  </th>
+                  <th className="text-center">
+                    <b>Your Event</b>
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {detailsSecond.map((obj, index) => {
                   const camelCase = obj
                     .replace(/([A-Z])/g, ' $1')
 
@@ -158,9 +207,63 @@ class Summary extends React.Component {
             </Table>
           </Col>
         </Row>
+        {detailsWillOBJ[0] != '' && (
+          <div>
+            <h3 className="text-center mb-3">Will Call Details</h3>
 
-        <Row className="mt-6">
+            <Row>
+              <Col md="12">
+                <Table>
+                  <thead className="blue-grey lighten-4">
+                    <tr>
+                      <th className="text-center">
+                        <b>Event Details</b>
+                      </th>
+                      <th className="text-center">
+                        <b>Your Event</b>
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {detailsWill.map((obj, index) => {
+                      const camelCase = obj
+                        .replace(/([A-Z])/g, ' $1')
+
+                        .replace(/^./, function(str) {
+                          return str.toUpperCase();
+                        });
+                      return (
+                        <tr key={index}>
+                          <td className="text-center">{camelCase}</td>
+                          <td className="text-center">{eventDetails.eventProps[obj]}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </Table>
+              </Col>
+            </Row>
+          </div>
+        )}
+
+        <Row className="mt-6 text-center">
           <Col md="">
+            <Button
+              outline
+              color="warning"
+              onClick={this.toggleCollapse}
+              style={{ marginBottom: '1rem' }}
+            >
+              Terms & Conditions
+            </Button>
+            <Collapse isOpen={this.state.collapse}>
+              <p>
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson
+                cred nesciunt sapiente ea proident.
+              </p>
+            </Collapse>
             <form className="needs-validation" onSubmit={this.submitHandler} noValidate>
               <div className="custom-control custom-checkbox animated jello mb-3">
                 <input
