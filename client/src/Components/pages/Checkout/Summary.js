@@ -82,7 +82,7 @@ class Summary extends React.Component {
           Summary
         </h3>
         <Row>
-          <Col md="6">
+          <Col md="12">
             {' '}
             <Table>
               <thead className="blue-grey lighten-4">
@@ -124,6 +124,8 @@ class Summary extends React.Component {
               </tbody>
             </Table>
           </Col>
+        </Row>
+        <Row>
           <Col md="6">
             {' '}
             <Table>
@@ -159,11 +161,7 @@ class Summary extends React.Component {
 
         <Row className="mt-6">
           <Col md="">
-            <form
-              className="needs-validation"
-              onSubmit={this.submitHandler}
-              noValidate
-            >
+            <form className="needs-validation" onSubmit={this.submitHandler} noValidate>
               <div className="custom-control custom-checkbox animated jello mb-3">
                 <input
                   type="checkbox"
@@ -172,15 +170,10 @@ class Summary extends React.Component {
                   onChange={event => this.handleCheck(event)}
                   required
                 />
-                <label
-                  className="custom-control-label"
-                  htmlFor="customControlValidation1"
-                >
+                <label className="custom-control-label" htmlFor="customControlValidation1">
                   Agree To Terms and Conditions
                 </label>
-                <div className="invalid-feedback">
-                  You must agree before submitting.
-                </div>
+                <div className="invalid-feedback">You must agree before submitting.</div>
               </div>
               <Link
                 to={{
@@ -200,11 +193,7 @@ class Summary extends React.Component {
                 disabled={!this.state.isActive || this.state.loading}
                 onClick={this.submitButton}
               >
-                {this.state.loading ? (
-                  <i className="fa fa-spinner fa-spin" />
-                ) : (
-                  'Submit Order'
-                )}
+                {this.state.loading ? <i className="fa fa-spinner fa-spin" /> : 'Submit Order'}
               </button>
             </form>
           </Col>
@@ -218,9 +207,7 @@ class Summary extends React.Component {
           </Link>
           <ModalBody>
             {this.state.success
-              ? `We will be contacting you soon. Your estimate ID is: ${
-                  this.state.estimateId
-                }`
+              ? `We will be contacting you soon. Your estimate ID is: ${this.state.estimateId}`
               : this.state.errorMsg}
           </ModalBody>
           <ModalFooter>

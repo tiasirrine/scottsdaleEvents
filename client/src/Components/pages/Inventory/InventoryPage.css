@@ -8,8 +8,7 @@
   width: 250px;
   height: 100%;
   background-color: #323a4b;
-  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
-    0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   transition: -webkit-transform 0.3s ease-out 0s;
   overflow-x: hidden;
@@ -94,7 +93,13 @@ ul {
   width: 500x;
   height: 400px;
   margin-bottom: 25px;
+  margin-top: 10px;
 }
+
+.thumb-images {
+  margin-top: 50px;
+}
+
 .extra-pointer {
   cursor: pointer;
 }

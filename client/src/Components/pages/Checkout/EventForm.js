@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Card, CardBody, Button, Input } from 'mdbreact';
+import { Container, Row, Col, Card, CardBody, CardHeader, Button, Collapse, Input } from 'mdbreact';
 import './Checkout.css';
 import { Link } from 'react-router-dom';
 import { handleInputChange } from '../../../api/validate';
@@ -27,9 +27,10 @@ class EventForm extends Component {
       willCallPickupTime: this.eventProps ? this.eventProps.willCallPickupTime : '',
       willCallReturnDate: this.eventProps ? this.eventProps.willCallReturnDate : '',
       willCallReturnTime: this.eventProps ? this.eventProps.willCallReturnTime : '',
-      isActive: false
+      collapse: false
     };
     this.handleChange = handleInputChange.bind(this);
+    this.toggle = this.toggle.bind(this);
   }
 
   componentDidMount() {
@@ -41,8 +42,12 @@ class EventForm extends Component {
     event.target.className += ' was-validated';
   };
 
+  toggle() {
+    this.setState({ collapse: !this.state.collapse });
+  }
+
   render() {
-    const { isActive, ...stateEventProps } = this.state;
+    const { collapse, ...stateEventProps } = this.state;
     return (
       <Container>
         <Row>
@@ -51,119 +56,133 @@ class EventForm extends Component {
               <CardBody>
                 <form onSubmit={this.submitHandler}>
                   <Row>
-                    <Col md="6">
+                    <Col md="8">
                       <p className="h4 text-center py-4">Event Details</p>
-                      <div className="grey-text">
-                        <Input
-                          value={sessionStorage.getItem('company')}
-                          disabled
-                          label="Customer Name"
-                          name="customerName"
-                          icon="user-circle"
-                          onChange={this.handleChange}
-                          group
-                          type="text"
-                          validate
-                          error="wrong"
-                          success="right"
-                        />
-                        <Input
-                          value={this.state.groupName}
-                          label="Group Name"
-                          name="groupName"
-                          icon="group"
-                          onChange={this.handleChange}
-                          group
-                          type="text"
-                          validate
-                          error="wrong"
-                          success="right"
-                          required
-                        />
-                        {<p>{this.state.groupNameresult}</p>}
-                        <Input
-                          value={this.state.venue}
-                          label="Venue"
-                          name="venue"
-                          icon="building"
-                          onChange={this.handleChange}
-                          group
-                          type="text"
-                          validate
-                          error="wrong"
-                          success="right"
-                          required
-                        />
-                        <Input
-                          value={this.state.eventDate}
-                          label="Date of Event"
-                          name="eventDate"
-                          icon="calendar"
-                          onChange={this.handleChange}
-                          group
-                          type="date"
-                          placeholder=""
-                          validate
-                          error="wrong"
-                          success="right"
-                          required
-                        />
-                        {<p>{this.state.groupNameresult}</p>}
-                        <Input
-                          value={this.state.eventStartTime}
-                          label="Start Time of Event"
-                          name="eventStartTime"
-                          icon="lock"
-                          onChange={this.handleChange}
-                          group
-                          type="time"
-                          validate
-                          error="wrong"
-                          success="right"
-                        />
-                        <Input
-                          value={this.state.eventEndTime}
-                          label="End Time of Event"
-                          name="eventEndTime"
-                          icon="lock"
-                          onChange={this.handleChange}
-                          group
-                          type="time"
-                          validate
-                          error="wrong"
-                          success="right"
-                        />
-                        <Input
-                          value={this.state.location}
-                          label="Site/Room"
-                          name="location"
-                          icon="group"
-                          onChange={this.handleChange}
-                          group
-                          type="text"
-                          validate
-                          error="wrong"
-                          success="right"
-                        />
+                      <Row>
+                        <Col md="6">
+                          <div className="grey-text">
+                            <Input
+                              value={sessionStorage.getItem('company')}
+                              disabled
+                              label="Customer Name"
+                              name="customerName"
+                              icon="user-circle"
+                              onChange={this.handleChange}
+                              group
+                              type="text"
+                              validate
+                              error="wrong"
+                              success="right"
+                              className="h-75"
+                            />
+                            <Input
+                              value={this.state.groupName}
+                              label="Group Name"
+                              name="groupName"
+                              icon="group"
+                              onChange={this.handleChange}
+                              group
+                              type="text"
+                              validate
+                              error="wrong"
+                              success="right"
+                              required
+                              className="h-25"
+                            />
+                            {<p>{this.state.groupNameresult}</p>}
+                            <Input
+                              value={this.state.venue}
+                              label="Venue"
+                              name="venue"
+                              icon="building"
+                              onChange={this.handleChange}
+                              group
+                              type="text"
+                              validate
+                              error="wrong"
+                              success="right"
+                              required
+                              className="h-25"
+                            />
+                            <Input
+                              value={this.state.eventDate}
+                              label="Date of Event"
+                              name="eventDate"
+                              icon="calendar"
+                              onChange={this.handleChange}
+                              group
+                              type="date"
+                              placeholder=""
+                              validate
+                              error="wrong"
+                              success="right"
+                              required
+                              className="h-25"
+                            />
+                          </div>
+                        </Col>
+                        <Col md="6">
+                          <div className="grey-text">
+                            {<p>{this.state.groupNameresult}</p>}
+                            <Input
+                              value={this.state.eventStartTime}
+                              label="Start Time of Event"
+                              name="eventStartTime"
+                              icon="lock"
+                              onChange={this.handleChange}
+                              group
+                              type="time"
+                              validate
+                              error="wrong"
+                              success="right"
+                              className="h-25"
+                            />
+                            <Input
+                              value={this.state.eventEndTime}
+                              label="End Time of Event"
+                              name="eventEndTime"
+                              icon="lock"
+                              onChange={this.handleChange}
+                              group
+                              type="time"
+                              validate
+                              error="wrong"
+                              success="right"
+                              className="h-25"
+                            />
+                            <Input
+                              value={this.state.location}
+                              label="Site/Room"
+                              name="location"
+                              icon="group"
+                              onChange={this.handleChange}
+                              group
+                              type="text"
+                              validate
+                              error="wrong"
+                              success="right"
+                              className="h-25"
+                            />
 
-                        <div className="md-form">
-                          <i className="fa fa-pencil prefix" />
-                          <textarea
-                            value={this.state.commentsOnEvent}
-                            name="commentsOnEvent"
-                            onChange={this.handleChange}
-                            type="text"
-                            id="form10"
-                            className="md-textarea form-control"
-                            rows="3"
-                          />
-                          <label htmlFor="form10">
-                            Comments/Note/File addition (blueprints,designs..etc)
-                          </label>
-                        </div>
-                      </div>
+                            <div className="md-form">
+                              <i className="fa fa-pencil prefix" />
+                              <textarea
+                                value={this.state.commentsOnEvent}
+                                name="commentsOnEvent"
+                                onChange={this.handleChange}
+                                type="text"
+                                id="form10"
+                                className="md-textarea form-control h-25"
+                                rows="1"
+                              />
+                              <label htmlFor="form10">Venue Comments/Notes</label>
+                            </div>
+                          </div>
+                        </Col>
+                      </Row>
                     </Col>
-                    <Col md="6">
+
+                    <Col md="4">
                       <p className="h4 text-center py-4">Event Setup & Strike</p>
                       <div className="grey-text">
                         <Input
@@ -177,6 +196,7 @@ class EventForm extends Component {
                           validate
                           error="wrong"
                           success="right"
+                          className="h-25"
                         />
                         <Input
                           value={this.state.setByTime}
@@ -189,6 +209,7 @@ class EventForm extends Component {
                           validate
                           error="wrong"
                           success="right"
+                          className="h-25"
                         />
                         <Input
                           value={this.state.strikeTime}
@@ -201,6 +222,7 @@ class EventForm extends Component {
                           validate
                           error="wrong"
                           success="right"
+                          className="h-25"
                         />
                         <div className="md-form">
                           <i className="fa fa-pencil prefix" />
@@ -210,92 +232,94 @@ class EventForm extends Component {
                             onChange={this.handleChange}
                             type="text"
                             id="form10"
-                            className="md-textarea form-control"
-                            rows="3"
+                            className="md-textarea form-control h-25"
+                            rows="1"
                           />
-                          <label htmlFor="form10">Comments/Notes</label>
+                          <label htmlFor="form10">Set/Strike Comments/Notes</label>
                         </div>
-                      </div>
-                      <div className="custom-control custom-radio">
-                        <input
-                          type="radio"
-                          className="custom-control-input"
-                          id="defaultUnchecked"
-                          name="defaultExampleRadios"
-                        />
-                        <label
-                          className="custom-control-label h4 text-center py-4"
-                          htmlFor="defaultUnchecked"
-                        >
-                          Will-Call Order
-                        </label>
-                      </div>
-
-                      <div className="grey-text">
-                        <Input
-                          value={this.state.willCallCustomerName}
-                          label="Customer Name"
-                          name="willCallCustomerName"
-                          icon="user-circle"
-                          onChange={this.handleChange}
-                          group
-                          type="text"
-                          validate
-                          error="wrong"
-                          success="right"
-                        />
-                        <Input
-                          value={this.state.willCallPickupDate}
-                          label="Pick Up Date"
-                          name="willCallPickupDate"
-                          icon="calendar"
-                          onChange={this.handleChange}
-                          group
-                          type="date"
-                          validate
-                          error="wrong"
-                          success="right"
-                        />
-                        <Input
-                          value={this.state.willCallPickupTime}
-                          label="Pick Up Time"
-                          name="willCallPickupTime"
-                          icon="clock"
-                          onChange={this.handleChange}
-                          group
-                          type="time"
-                          validate
-                          error="wrong"
-                          success="right"
-                        />
-                        <Input
-                          value={this.state.willCallReturnDate}
-                          label="Return Date"
-                          name="willCallReturnDate"
-                          icon="calendar"
-                          onChange={this.handleChange}
-                          group
-                          type="date"
-                          validate
-                          error="wrong"
-                          success="right"
-                        />
-                        <Input
-                          value={this.state.willCallReturnTime}
-                          label="Return Time"
-                          name="willCallReturnTime"
-                          icon="clock"
-                          onChange={this.handleChange}
-                          group
-                          type="time"
-                          validate
-                          error="wrong"
-                          success="right"
-                        />
                       </div>
                     </Col>
                   </Row>
+
                   <div className="text-center py-4 mt-3">
+                    <Button
+                      color="success"
+                      className="aButton"
+                      size="md"
+                      onClick={this.toggle}
+                      // style={{ marginBottom: '1rem' }}
+                    >
+                      Will Call Order
+                    </Button>
+                    <Collapse isOpen={this.state.collapse}>
+                      <div className="grey-text">
+                        <Row className="justify-content-center">
+                          <Col md="4">
+                            <Input
+                              value={this.state.willCallCustomerName}
+                              label="Customer Name"
+                              name="willCallCustomerName"
+                              onChange={this.handleChange}
+                              group
+                              type="text"
+                              validate
+                              error="wrong"
+                              success="right"
+                            />
+                          </Col>
+                        </Row>
+                        <Row className="justify-content-center">
+                          <Col md="3">
+                            <Input
+                              value={this.state.willCallPickupDate}
+                              label="Pick Up Date"
+                              name="willCallPickupDate"
+                              onChange={this.handleChange}
+                              group
+                              type="date"
+                              validate
+                              error="wrong"
+                              success="right"
+                            />
+                            <Input
+                              value={this.state.willCallPickupTime}
+                              label="Pick Up Time"
+                              name="willCallPickupTime"
+                              onChange={this.handleChange}
+                              group
+                              type="time"
+                              validate
+                              error="wrong"
+                              success="right"
+                            />
+                          </Col>
+                          <Col md="3">
+                            <Input
+                              value={this.state.willCallReturnDate}
+                              label="Return Date"
+                              name="willCallReturnDate"
+                              onChange={this.handleChange}
+                              group
+                              type="date"
+                              validate
+                              error="wrong"
+                              success="right"
+                            />
+                            <Input
+                              value={this.state.willCallReturnTime}
+                              label="Return Time"
+                              name="willCallReturnTime"
+                              onChange={this.handleChange}
+                              group
+                              type="time"
+                              validate
+                              error="wrong"
+                              success="right"
+                            />
+                          </Col>
+                        </Row>
+                      </div>
+                    </Collapse>
                     <Link to="/checkout/cart">
                       <Button color="success" className="aButton" size="md">
                         Back to Cart
