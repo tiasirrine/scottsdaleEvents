@@ -259,6 +259,7 @@ class EventForm extends Component {
                               value={this.state.willCallCustomerName}
                               label="Customer Name"
                               name="willCallCustomerName"
+                              icon="clock"
                               onChange={this.handleChange}
                               group
                               type="text"
@@ -274,6 +275,7 @@ class EventForm extends Component {
                               value={this.state.willCallPickupDate}
                               label="Pick Up Date"
                               name="willCallPickupDate"
+                              icon="clock"
                               onChange={this.handleChange}
                               group
                               type="date"
@@ -285,6 +287,7 @@ class EventForm extends Component {
                               value={this.state.willCallPickupTime}
                               label="Pick Up Time"
                               name="willCallPickupTime"
+                              icon="clock"
                               onChange={this.handleChange}
                               group
                               type="time"
@@ -298,6 +301,7 @@ class EventForm extends Component {
                               value={this.state.willCallReturnDate}
                               label="Return Date"
                               name="willCallReturnDate"
+                              icon="clock"
                               onChange={this.handleChange}
                               group
                               type="date"
@@ -309,6 +313,7 @@ class EventForm extends Component {
                               value={this.state.willCallReturnTime}
                               label="Return Time"
                               name="willCallReturnTime"
+                              icon="clock"
                               onChange={this.handleChange}
                               group
                               type="time"
