@@ -3,6 +3,8 @@ import React from 'react';
 import {
   Container,
   Collapse,
+  Card,
+  CardBody,
   Row,
   Col,
   Button,
@@ -97,153 +99,165 @@ class Summary extends React.Component {
           Summary
         </h3>
         <Row>
-          <Col md="12">
-            {' '}
-            <Table>
-              <thead className="blue-grey lighten-4">
-                <tr>
-                  <th className="text-center">
-                    <b>Items</b>
-                  </th>
-                  <th className="text-center">
-                    <b>Quantity</b>
-                  </th>
-                  <th className="text-center">
-                    <b>Price</b>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.props.location.state.cartProps.map((obj, index) => {
-                  return (
-                    <tr key={index}>
-                      <td className="text-center">{obj.name}</td>
-                      <td className="text-center">{obj.qty}</td>
-                      <td className="text-center">${obj.total}</td>
+          <Col md="5">
+            <Card>
+              <CardBody>
+                {' '}
+                <h3 className="text-center mb-3">Cart</h3>{' '}
+                <Table>
+                  <thead className="blue-grey lighten-4">
+                    <tr>
+                      <th className="text-left">
+                        <b>Items</b>
+                      </th>
+                      <th className="text-center">
+                        <b>Quantity</b>
+                      </th>
+                      <th className="text-center">
+                        <b>Price</b>
+                      </th>
                     </tr>
-                  );
-                })}
-                <tr>
-                  <td className="text-center">{''} </td>
-                  <td className="text-center">{''} </td>
-                  <td className="text-center">
-                    <b style={{ fontWeight: '600' }}>
-                      Est. Subtotal: $
-                      {this.props.location.state.cartProps.reduce(
-                        (a, b) => a + parseInt(b.total),
-                        0
-                      )}{' '}
-                    </b>
-                  </td>
-                </tr>
-              </tbody>
-            </Table>
+                  </thead>
+                  <tbody>
+                    {this.props.location.state.cartProps.map((obj, index) => {
+                      return (
+                        <tr key={index}>
+                          <td className="text-left">{obj.name}</td>
+                          <td className="text-center">{obj.qty}</td>
+                          <td className="text-center">${obj.total}</td>
+                        </tr>
+                      );
+                    })}
+                    <tr>
+                      <td className="text-center">{''} </td>
+                      <td className="text-center">{''} </td>
+                      <td className="text-center">
+                        <b style={{ fontWeight: '600' }}>
+                          Est. Subtotal: $
+                          {this.props.location.state.cartProps.reduce(
+                            (a, b) => a + parseInt(b.total),
+                            0
+                          )}{' '}
+                        </b>
+                      </td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Card>
           </Col>
-        </Row>
-        <h3 className="text-center mb-3">Event Details</h3>
-        <Row>
-          <Col md="6">
-            {' '}
-            <Table>
-              <thead className="blue-grey lighten-4">
-                <tr>
-                  <th className="text-center">
-                    <b>Event Details</b>
-                  </th>
-                  <th className="text-center">
-                    <b>Your Event</b>
-                  </th>
-                </tr>
-              </thead>
 
-              <tbody>
-                {detailsFirst.map((obj, index) => {
-                  const camelCase = obj
-                    .replace(/([A-Z])/g, ' $1')
+          <Col md="7">
+            <Card>
+              <CardBody>
+                <h3 className="text-center mb-3">Event Details</h3>{' '}
+                <Row>
+                  <Col md="6">
+                    <Table>
+                      <thead className="blue-grey lighten-4">
+                        <tr>
+                          <th className="text-center">
+                            <b>Event Details</b>
+                          </th>
+                          <th className="text-center">
+                            <b>Your Event</b>
+                          </th>
+                        </tr>
+                      </thead>
 
-                    .replace(/^./, function(str) {
-                      return str.toUpperCase();
-                    });
-                  return (
-                    <tr key={index}>
-                      <td className="text-center">{camelCase}</td>
-                      <td className="text-center">{eventDetails.eventProps[obj]}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </Table>
-          </Col>
-          <Col md="6">
-            {' '}
-            <Table>
-              <thead className="blue-grey lighten-4">
-                <tr>
-                  <th className="text-center">
-                    <b>Event Details</b>
-                  </th>
-                  <th className="text-center">
-                    <b>Your Event</b>
-                  </th>
-                </tr>
-              </thead>
+                      <tbody>
+                        {detailsFirst.map((obj, index) => {
+                          const camelCase = obj
+                            .replace(/([A-Z])/g, ' $1')
 
-              <tbody>
-                {detailsSecond.map((obj, index) => {
-                  const camelCase = obj
-                    .replace(/([A-Z])/g, ' $1')
+                            .replace(/^./, function(str) {
+                              return str.toUpperCase();
+                            });
+                          return (
+                            <tr key={index}>
+                              <td className="text-center">{camelCase}</td>
+                              <td className="text-center">{eventDetails.eventProps[obj]}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </Table>
+                  </Col>
+                  <Col md="6">
+                    {' '}
+                    <Table>
+                      <thead className="blue-grey lighten-4">
+                        <tr>
+                          <th className="text-center">
+                            <b>Event Details</b>
+                          </th>
+                          <th className="text-center">
+                            <b>Your Event</b>
+                          </th>
+                        </tr>
+                      </thead>
 
-                    .replace(/^./, function(str) {
-                      return str.toUpperCase();
-                    });
-                  return (
-                    <tr key={index}>
-                      <td className="text-center">{camelCase}</td>
-                      <td className="text-center">{eventDetails.eventProps[obj]}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </Table>
+                      <tbody>
+                        {detailsSecond.map((obj, index) => {
+                          const camelCase = obj
+                            .replace(/([A-Z])/g, ' $1')
+
+                            .replace(/^./, function(str) {
+                              return str.toUpperCase();
+                            });
+                          return (
+                            <tr key={index}>
+                              <td className="text-center">{camelCase}</td>
+                              <td className="text-center">{eventDetails.eventProps[obj]}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </Table>
+                  </Col>
+                </Row>
+              </CardBody>
+            </Card>
           </Col>
         </Row>
         {detailsWillOBJ[0] != '' && (
           <div>
             <h3 className="text-center mb-3">Will Call Details</h3>
+            <Card>
+              <Row>
+                <Col md="12">
+                  <Table>
+                    <thead className="blue-grey lighten-4">
+                      <tr>
+                        <th className="text-center">
+                          <b>Event Details</b>
+                        </th>
+                        <th className="text-center">
+                          <b>Your Event</b>
+                        </th>
+                      </tr>
+                    </thead>
 
-            <Row>
-              <Col md="12">
-                <Table>
-                  <thead className="blue-grey lighten-4">
-                    <tr>
-                      <th className="text-center">
-                        <b>Event Details</b>
-                      </th>
-                      <th className="text-center">
-                        <b>Your Event</b>
-                      </th>
-                    </tr>
-                  </thead>
+                    <tbody>
+                      {detailsWill.map((obj, index) => {
+                        const camelCase = obj
+                          .replace(/([A-Z])/g, ' $1')
 
-                  <tbody>
-                    {detailsWill.map((obj, index) => {
-                      const camelCase = obj
-                        .replace(/([A-Z])/g, ' $1')
-
-                        .replace(/^./, function(str) {
-                          return str.toUpperCase();
-                        });
-                      return (
-                        <tr key={index}>
-                          <td className="text-center">{camelCase}</td>
-                          <td className="text-center">{eventDetails.eventProps[obj]}</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </Table>
-              </Col>
-            </Row>
+                          .replace(/^./, function(str) {
+                            return str.toUpperCase();
+                          });
+                        return (
+                          <tr key={index}>
+                            <td className="text-center">{camelCase}</td>
+                            <td className="text-center">{eventDetails.eventProps[obj]}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </Table>
+                </Col>
+              </Row>
+            </Card>
           </div>
         )}
 
