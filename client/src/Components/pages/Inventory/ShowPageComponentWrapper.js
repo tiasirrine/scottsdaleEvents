@@ -102,12 +102,12 @@ class ShowPageComponentWrapper extends Component {
         <br />
 
         <Row>
-          <Col>
+          <Col className="col-sm-3 col-xs-3 col-md-3 thumb-images">
             {this.state.inventoryImages.map((a, i) => {
               if (i != 0) {
                 return (
                   <Row key={i}>
-                    <div className="col-xl-3 col-md-4 mb-3 mx-auto d-block img-fluid z-depth-1">
+                    <div className="col-xl-6 col-md-6 mb-3 d-block img-fluid z-depth-1">
                       <img
                         src={a}
                         alt={i}
@@ -120,20 +120,22 @@ class ShowPageComponentWrapper extends Component {
               }
             })}
           </Col>
-          <Col>
-            <img
-              src={this.state.inventoryImages[0]}
-              className=" mx-auto d-block img-fluid z-depth-1 main-show"
-              alt={inventoryItem.cardTitle}
-            />{' '}
+          <Col className="col-9">
+            <Col className="col-8 text-center">
+              <h3>{inventoryItem.cardTitle}</h3>
+              <img
+                src={this.state.inventoryImages[0]}
+                className="d-block img-fluid z-depth-1 main-show"
+                alt={inventoryItem.cardTitle}
+              />{' '}
+              <p>{inventoryItem.cardDesc}</p>
+            </Col>
           </Col>
         </Row>
         <Row>
           <CardBody className="text-center col-12">
             {' '}
             <div className="col-md-12 border-bottom pb-3 pb-sm-3">
-              <h3 className="mb-2">{inventoryItem.cardTitle}</h3>
-              <p className="mb-2">{inventoryItem.cardDesc}</p>
               {this.state.isAuthed &&
                 inventoryItem.cardPrice > 0 &&
                 !this.state.isAdmin && (

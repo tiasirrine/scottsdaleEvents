@@ -1,15 +1,7 @@
 /* eslint-disable */
 import './Checkout.css';
 import React, { Component } from 'react';
-import {
-  Container,
-  Table,
-  Input,
-  Button,
-  Popover,
-  PopoverBody,
-  PopoverHeader
-} from 'mdbreact';
+import { Container, Table, Input, Button, Popover, PopoverBody, PopoverHeader } from 'mdbreact';
 import API from '../../../api/API';
 import { Link } from 'react-router-dom';
 
@@ -283,7 +275,7 @@ class Cart extends Component {
                         >
                           <PopoverHeader className="text-center remove-pointer text-primary">
                             {' '}
-                            No
+                            Are You Sure?
                           </PopoverHeader>
                           <PopoverBody className="text-center">
                             {' '}
