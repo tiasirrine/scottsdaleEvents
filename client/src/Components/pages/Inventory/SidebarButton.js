@@ -74,10 +74,10 @@ export default class SideBarButton extends Component {
   render() {
     const { category, subCategories } = this.props;
     return (
-      <div>
+      <div style={{ width: '250px', marginRight: '0px' }}>
         <Link to={`/inventory/${category}`}>
           <p
-            className="mb-0 mr-2 d-flex justify-content-between shadow main-btn"
+            className="mb-0 d-flex justify-content-between shadow main-btn"
             style={{
               fontSize: '19px',
               cursor: 'pointer',
