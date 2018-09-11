@@ -4,10 +4,10 @@
 }
 
 .sidebar {
-  margin-top: -56px;
+  margin-top: -35px;
   position: fixed;
   width: 250px;
-  height: 100%;
+  height: calc(100% - 89.26px);
   background-color: #323a4b;
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
@@ -124,6 +124,13 @@ ul {
   .w-300 {
     max-width: 300px;
     margin: 0 auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    margin-top: -56px;
+    height: calc(100% - 62px);
   }
 }
 

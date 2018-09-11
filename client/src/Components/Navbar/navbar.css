@@ -8,6 +8,7 @@
   background-color: #20232a;
   padding-left: 0px;
   padding-right: 0px;
+  font-size: 13px;
 }
 
 .activeTab {
@@ -25,5 +26,9 @@
 @media (min-width: 768px) {
   .nav-flex {
     flex-direction: row;
+  }
+
+  .navbar {
+    font-size: 16px;
   }
 }
