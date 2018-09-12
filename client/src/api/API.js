@@ -119,6 +119,10 @@ export default {
     return this.updateAdmin(id);
   },
 
+  createCart: function(id) {
+    return axios.post('/create/cart', { id }, setOptions());
+  },
+
   createAdmin: function(user) {
     return axios.post('/create/admin', user, setOptions());
   },
@@ -130,5 +134,9 @@ export default {
 
   contactEmail: function(content) {
     return axios.post('/create/email', content, timeout);
+  },
+
+  deleteCart: function(cartId) {
+    return axios.post('/delete/cart', { cartId }, setOptions());
   }
 };

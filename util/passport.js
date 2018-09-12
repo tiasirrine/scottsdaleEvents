@@ -29,6 +29,7 @@ module.exports = function(passport) {
         // runs for normal customers
         User.getUserById(jwt_payload.result.id)
           .then(res => {
+            // console.log(res);
             const userObj = {
               id: res[0].id,
               email: res[0].email,

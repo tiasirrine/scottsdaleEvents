@@ -92,7 +92,7 @@ class Summary extends React.Component {
       .map((obj, index) => {
         return eventDetails.eventProps[obj];
       });
-    console.log(detailsWillOBJ);
+
     return (
       <Container className="mt-5">
         <h3 style={{ marginTop: '80px' }} className="text-center mb-3">
@@ -176,7 +176,9 @@ class Summary extends React.Component {
                           return (
                             <tr key={index}>
                               <td className="text-center">{camelCase}</td>
-                              <td className="text-center">{eventDetails.eventProps[obj]}</td>
+                              <td className="text-center">
+                                {eventDetails.eventProps[obj]}
+                              </td>
                             </tr>
                           );
                         })}
@@ -208,7 +210,9 @@ class Summary extends React.Component {
                           return (
                             <tr key={index}>
                               <td className="text-center">{camelCase}</td>
-                              <td className="text-center">{eventDetails.eventProps[obj]}</td>
+                              <td className="text-center">
+                                {eventDetails.eventProps[obj]}
+                              </td>
                             </tr>
                           );
                         })}
@@ -249,7 +253,9 @@ class Summary extends React.Component {
                         return (
                           <tr key={index}>
                             <td className="text-center">{camelCase}</td>
-                            <td className="text-center">{eventDetails.eventProps[obj]}</td>
+                            <td className="text-center">
+                              {eventDetails.eventProps[obj]}
+                            </td>
                           </tr>
                         );
                       })}
@@ -273,12 +279,16 @@ class Summary extends React.Component {
             </Button>
             <Collapse isOpen={this.state.collapse}>
               <p>
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson
-                cred nesciunt sapiente ea proident.
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus
+                terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer
+                labore wes anderson cred nesciunt sapiente ea proident.
               </p>
             </Collapse>
-            <form className="needs-validation" onSubmit={this.submitHandler} noValidate>
+            <form
+              className="needs-validation"
+              onSubmit={this.submitHandler}
+              noValidate
+            >
               <div className="custom-control custom-checkbox animated jello mb-3">
                 <input
                   type="checkbox"
@@ -287,10 +297,15 @@ class Summary extends React.Component {
                   onChange={event => this.handleCheck(event)}
                   required
                 />
-                <label className="custom-control-label" htmlFor="customControlValidation1">
+                <label
+                  className="custom-control-label"
+                  htmlFor="customControlValidation1"
+                >
                   Agree To Terms and Conditions
                 </label>
-                <div className="invalid-feedback">You must agree before submitting.</div>
+                <div className="invalid-feedback">
+                  You must agree before submitting.
+                </div>
               </div>
               <Link
                 to={{
@@ -310,7 +325,11 @@ class Summary extends React.Component {
                 disabled={!this.state.isActive || this.state.loading}
                 onClick={this.submitButton}
               >
-                {this.state.loading ? <i className="fa fa-spinner fa-spin" /> : 'Submit Order'}
+                {this.state.loading ? (
+                  <i className="fa fa-spinner fa-spin" />
+                ) : (
+                  'Submit Order'
+                )}
               </button>
             </form>
           </Col>
@@ -324,7 +343,9 @@ class Summary extends React.Component {
           </Link>
           <ModalBody>
             {this.state.success
-              ? `We will be contacting you soon. Your estimate ID is: ${this.state.estimateId}`
+              ? `We will be contacting you soon. Your estimate ID is: ${
+                  this.state.estimateId
+                }`
               : this.state.errorMsg}
           </ModalBody>
           <ModalFooter>

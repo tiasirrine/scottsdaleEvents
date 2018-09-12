@@ -9,8 +9,7 @@ export default class Carts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      carts: [],
-      //TODO: handle errors
+      carts: null,
       error: null,
       changeName: false,
       activeCart: null
@@ -41,12 +40,11 @@ export default class Carts extends Component {
     sessionStorage.setItem('activeCart', mapped[i].id);
 
     // oldCart, newCart
+    this.setState({ carts: mapped, activeCart: null });
 
     if (oldCart.id !== mapped[i].id) {
       API.updateActiveCart(oldCart.id, mapped[i].id)
-        .then(() => {
-          this.setState({ carts: mapped, activeCart: null });
-        })
+        .then(() => {})
         .catch(error => {
           console.log(error);
         });
@@ -63,30 +61,83 @@ export default class Carts extends Component {
           error.message && error.message.includes('timeout')
             ? 'Connection timed out'
             : error.response.data.message;
+        console.log(err);
         this.setState({ error: err });
       });
   };
 
+  createCart = () => {
+    API.createCart(this.id)
+      .then(() => {
+        this.getCarts();
+      })
+      .catch(error => {
+        const err =
+          error.message && error.message.includes('timeout')
+            ? 'Connection timed out'
+            : error.response.data.message;
+        console.log(err);
+        this.setState({ error: err });
+      });
+  };
+
+  deleteCart = (cartId, index) => {
+    const carts = [...this.state.carts];
+    carts.splice(index, 1);
+
+    API.deleteCart(cartId)
+      .then(() => {
+        this.setState({ carts });
+      })
+      .catch(error => {
+        const err =
+          error.message && error.message.includes('timeout')
+            ? 'Connection timed out'
+            : error.response.data.message;
+        console.log(err);
+        this.setState({ error: err });
+      });
+  };
+
+  changeName = (index, newName) => {
+    const carts = [...this.state.carts];
+    carts[index].cartName = newName;
+    this.setState({ carts });
+  };
+
   render() {
-    if (!this.state.carts.length) {
+    if (!this.state.carts && !this.state.error) {
       return <div className="loader" />;
+    } else {
+      return (
+        <Container className="margintop-100">
+          <Row>
+            <div className="col-lg-6 text-center text-lg-left">
+              <h2>My Carts</h2>
+              <p className="text-center text-danger">
+                {this.state.error && this.state.error}
+              </p>
+            </div>
+            <div className="col-lg-6 text-center text-lg-right">
+              <Button onClick={this.createCart}>Create Cart</Button>
+            </div>
+          </Row>
+          <Row>
+            {this.state.carts &&
+              this.state.carts.map((a, i) => (
+                <UserCart
+                  key={i}
+                  cart={a}
+                  changeName={this.changeName}
+                  cartName={a.cartName}
+                  setActiveCart={this.setActiveCart}
+                  index={i}
+                  deleteCart={this.deleteCart}
+                />
+              ))}
+          </Row>
+        </Container>
+      );
     }
-    return (
-      <Container className="margintop-100">
-        <h2>My Carts</h2>
-        <Row>
-          {this.state.carts.length &&
-            this.state.carts.map((a, i) => (
-              <UserCart
-                key={i}
-                cart={a}
-                cartName={a.cartName}
-                setActiveCart={this.setActiveCart}
-                index={i}
-              />
-            ))}
-        </Row>
-      </Container>
-    );
   }
 }

@@ -11,13 +11,26 @@ export default class UserCart extends Component {
     this.state = {
       error: null,
       changeName: false,
-      cartName: this.props.cartName
+      cartName: null,
+      cart: null
     };
 
     this.id = sessionStorage.getItem('userId');
     this.handleInputChange = handleInputChange.bind(this);
     this.timeout = timeout.bind(this);
-    this.cart = this.props.cart;
+    this.cart = () => this.props.cart;
+    this.index = this.props.index;
+    this.cartId = this.props.cart.id;
+  }
+
+  componentDidMount() {
+    this.setState({ cartName: this.props.cartName, cart: this.props.cart });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.cart.id !== this.props.cart.id) {
+      this.setState({ cartName: this.props.cartName, cart: this.props.cart });
+    }
   }
 
   nameBtnClick = () => (this.state.changeName ? this.saveName() : this.changeName());
@@ -26,8 +39,8 @@ export default class UserCart extends Component {
 
   saveName = () => {
     this.setState({ changeName: false });
-    API.updateCartName(this.cart.id, this.state.cartName)
-      .then()
+    API.updateCartName(this.cart().id, this.state.cartName)
+      .then(() => this.props.changeName(this.props.index, this.state.cartName))
       .catch(error => {
         console.log(error);
         const err =
@@ -66,7 +79,7 @@ export default class UserCart extends Component {
                 />
               </div>
             )}
-            {this.cart.isActive ? (
+            {this.cart().isActive ? (
               <span
                 style={{ padding: '.25rem 1.25rem' }}
                 className="bg-success text-white rounded-right"
@@ -77,12 +90,12 @@ export default class UserCart extends Component {
               <br />
             )}
             <div className="mt-2" style={{ paddingLeft: '1.25rem' }}>
-              <p className="mb-1">Last Modified: {this.cart.date}</p>
+              <p className="mb-1">Last Modified: {this.cart().date}</p>
               <Link
                 className="text-white"
                 to={{
                   pathname: '/checkout/cart',
-                  state: { viewCart: [this.cart] }
+                  state: { viewCart: [this.cart()] }
                 }}
               >
                 <Button size="md" className="text-white w-100 mx-0">
@@ -103,6 +116,15 @@ export default class UserCart extends Component {
               >
                 {this.state.changeName ? 'Save' : 'Change Name'}
               </Button>
+              {!this.props.cart.isActive && (
+                <Button
+                  onClick={() => this.props.deleteCart(this.cartId, this.index)}
+                  className="text-white w-100 mx-0"
+                  size="md"
+                >
+                  Delete
+                </Button>
+              )}
             </div>
           </CardBody>
         </Card>

@@ -52,6 +52,19 @@ router.post('/create/admin', (req, res, next) => {
     .catch(next);
 });
 
+router.post(
+  '/create/cart',
+  passport.authenticate('jwt', { session: false }),
+  (req, res, next) => {
+    const { id: CustomerId } = req.body;
+    db.Cart.create({ CustomerId, isActive: false })
+      .then(result => {
+        res.send({ success: result });
+      })
+      .catch(next);
+  }
+);
+
 // creates a csv file for a customers estimate
 router.post(
   '/create/estimate',
@@ -60,11 +73,13 @@ router.post(
     let estimateId;
     const fields = ['estimateId', 'id', 'qty'];
     const { eventProps, cartProps } = req.body;
-    const CartId = cartProps[0].CartId;
-    // adds each event info field into a field for the csv file
+    const { CartId } = cartProps[0];
+    const { id: CustomerId } = req.user;
 
+    // adds each event info field into a field for the csv file
     Object.keys(eventProps).forEach(a => fields.push(a));
-    db.Estimate.create({ _id: '1', CartId: CartId })
+
+    db.Estimate.create({ CartId, CustomerId, ...eventProps })
       .then(result => {
         estimateId = result.dataValues.id;
         const merged = cartProps.map(product => {
@@ -85,13 +100,11 @@ router.post(
             })
             .then(() => {
               user
-                .createCart(req.user.id)
+                .createCart(CustomerId)
                 .then(result => {
                   res.json({ activeCart: result.dataValues.id, estimateId });
                 })
-                .catch(err => {
-                  next(err);
-                });
+                .catch(next);
             })
             .catch(next);
         } catch (err) {
@@ -256,6 +269,19 @@ router.post(
       .then(result => {
         if (result) res.status(200).send('Product removed');
         else next({ message: 'Failed to remove product' });
+      })
+      .catch(next);
+  }
+);
+
+router.post(
+  '/delete/cart',
+  passport.authenticate('jwt', { session: false }),
+  (req, res, next) => {
+    db.Cart.destroy({ where: { id: req.body.cartId } })
+      .then(result => {
+        if (result) res.send({ succes: 'Product removed' });
+        else next({ message: result });
       })
       .catch(next);
   }
