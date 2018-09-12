@@ -11,6 +11,7 @@ module.exports = {
         include: [
           {
             model: db.Cart,
+            where: { didCheckout: false },
             include: [
               {
                 model: db.CartProduct,
@@ -30,7 +31,7 @@ module.exports = {
     });
   },
 
-  createCart: function(id) {
+  createCart: function(id, didCheckOut = true) {
     return new Promise((resolve, reject) => {
       db.Cart.findOne({
         where: { CustomerId: id, isActive: true }
@@ -38,16 +39,12 @@ module.exports = {
         .then(result => {
           const updated = { ...result };
           updated.isActive = false;
+          updated.didCheckOut = didCheckOut;
           result
             .update(updated)
             .then(res => {
               if (res) {
-                db.Cart.create({
-                  isActive: true,
-                  CustomerId: id,
-                  cartName: 'Unnamed Cart',
-                  date: date()
-                })
+                db.Cart.create({ CustomerId: id })
                   .then(res => {
                     resolve(res);
                   })
@@ -271,12 +268,7 @@ module.exports = {
               // sends result back to client
               .then(newCustomer => {
                 // creates a cart for the customer
-                db.Cart.create({
-                  isActive: true,
-                  cartName: 'Unnamed Cart',
-                  CustomerId: newCustomer.id,
-                  date: date()
-                })
+                db.Cart.create({ CustomerId: newCustomer.id })
                   .then(() => resolve(newCustomer))
                   .catch(err => reject(err));
               })

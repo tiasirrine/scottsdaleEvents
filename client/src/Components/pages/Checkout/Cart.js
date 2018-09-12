@@ -1,7 +1,15 @@
 /* eslint-disable */
 import './Checkout.css';
 import React, { Component } from 'react';
-import { Container, Table, Input, Button, Popover, PopoverBody, PopoverHeader } from 'mdbreact';
+import {
+  Container,
+  Table,
+  Input,
+  Button,
+  Popover,
+  PopoverBody,
+  PopoverHeader
+} from 'mdbreact';
 import API from '../../../api/API';
 import { Link } from 'react-router-dom';
 
@@ -36,7 +44,6 @@ class Cart extends Component {
           this.setState({ error: err });
         });
     } else {
-      console.log(this.props);
       this.setState({
         activeCart: this.sortCart(this.props.location.state.viewCart),
         cartName: this.props.location.state.viewCart[0].cartName
