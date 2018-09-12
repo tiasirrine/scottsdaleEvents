@@ -34,8 +34,15 @@ export default class Estimates extends Component {
   };
 
   render() {
+    if (!this.state.estimates && !this.state.error) {
+      return <div className="loader" />;
+    }
     return (
-      <Container>
+      <Container className="margintop-100">
+        <h2 className="text-center">Past Estimates</h2>
+        <p className="text-center text-danger">
+          {this.state.error && 'An error occured while loading your estimates'}
+        </p>
         <Row>
           {this.state.estimates &&
             this.state.estimates.map((estimate, i) => (

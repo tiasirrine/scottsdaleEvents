@@ -20,7 +20,7 @@ export default class UserCart extends Component {
     this.timeout = timeout.bind(this);
     this.cart = () => this.props.cart;
     this.index = this.props.index;
-    this.cartId = this.props.cart.id;
+    this.cartId = () => this.props.cart.id;
   }
 
   componentDidMount() {
@@ -118,7 +118,7 @@ export default class UserCart extends Component {
               </Button>
               {!this.props.cart.isActive && (
                 <Button
-                  onClick={() => this.props.deleteCart(this.cartId, this.index)}
+                  onClick={() => this.props.deleteCart(this.cartId(), this.index)}
                   className="text-white w-100 mx-0"
                   size="md"
                 >

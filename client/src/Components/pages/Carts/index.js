@@ -85,7 +85,8 @@ export default class Carts extends Component {
   deleteCart = (cartId, index) => {
     const carts = [...this.state.carts];
     carts.splice(index, 1);
-
+    console.log('cartId', cartId);
+    console.log('index', index);
     API.deleteCart(cartId)
       .then(() => {
         this.setState({ carts });
@@ -107,6 +108,7 @@ export default class Carts extends Component {
   };
 
   render() {
+    console.log(this.state.carts);
     if (!this.state.carts && !this.state.error) {
       return <div className="loader" />;
     } else {
