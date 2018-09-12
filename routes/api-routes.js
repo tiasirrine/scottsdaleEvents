@@ -278,6 +278,7 @@ router.post(
   '/delete/cart',
   passport.authenticate('jwt', { session: false }),
   (req, res, next) => {
+    console.log(req.body.cartId);
     db.Cart.destroy({ where: { id: req.body.cartId } })
       .then(result => {
         if (result) res.send({ succes: 'Product removed' });
