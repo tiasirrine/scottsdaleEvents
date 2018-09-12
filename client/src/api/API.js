@@ -28,6 +28,11 @@ export default {
     return axios.get('/get/carts', setOptions());
   },
 
+  // called in Profile, and Cart.js
+  getCart: function(cartId) {
+    return axios.post('/get/cart', { cartId }, setOptions());
+  },
+
   // Called in Dashboard/ViewUser
   getCustomers: function() {
     return axios.get('/get/customers', setOptions());

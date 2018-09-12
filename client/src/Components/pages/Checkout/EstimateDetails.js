@@ -24,17 +24,20 @@ export default class EstimateDetails extends React.Component {
                 </thead>
 
                 <tbody>
-                  {this.props.detailsCol1.map((obj, index) => {
-                    const camelCase = obj
-                      .replace(/([A-Z])/g, ' $1')
-                      .replace(/^./, str => str.toUpperCase());
-                    return (
-                      <tr key={index}>
-                        <td className="text-center">{camelCase}</td>
-                        <td className="text-center">{this.props.realValues[obj]}</td>
-                      </tr>
-                    );
-                  })}
+                  {this.props.detailsCol1 &&
+                    this.props.detailsCol1.map((obj, index) => {
+                      const camelCase = obj
+                        .replace(/([A-Z])/g, ' $1')
+                        .replace(/^./, str => str.toUpperCase());
+                      return (
+                        <tr key={index}>
+                          <td className="text-center">{camelCase}</td>
+                          <td className="text-center">
+                            {this.props.realValues[obj]}
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </Table>
             </Col>
@@ -53,17 +56,20 @@ export default class EstimateDetails extends React.Component {
                 </thead>
 
                 <tbody>
-                  {this.props.detailsCol2.map((obj, index) => {
-                    const camelCase = obj
-                      .replace(/([A-Z])/g, ' $1')
-                      .replace(/^./, str => str.toUpperCase());
-                    return (
-                      <tr key={index}>
-                        <td className="text-center">{camelCase}</td>
-                        <td className="text-center">{this.props.realValues[obj]}</td>
-                      </tr>
-                    );
-                  })}
+                  {this.props.detailsCol2 &&
+                    this.props.detailsCol2.map((obj, index) => {
+                      const camelCase = obj
+                        .replace(/([A-Z])/g, ' $1')
+                        .replace(/^./, str => str.toUpperCase());
+                      return (
+                        <tr key={index}>
+                          <td className="text-center">{camelCase}</td>
+                          <td className="text-center">
+                            {this.props.realValues[obj]}
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </Table>
             </Col>

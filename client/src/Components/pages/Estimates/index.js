@@ -13,6 +13,7 @@ export default class Estimates extends Component {
   }
 
   componentDidMount() {
+    window.scrollTo(0, 0);
     this.getEstimates();
   }
 
@@ -37,8 +38,8 @@ export default class Estimates extends Component {
       <Container>
         <Row>
           {this.state.estimates &&
-            this.state.estimates.map(estimate => (
-              <EstimateCard estimate={estimate} />
+            this.state.estimates.map((estimate, i) => (
+              <EstimateCard key={i} estimate={estimate} />
             ))}
         </Row>
       </Container>

@@ -30,10 +30,8 @@ export default class EstimateCard extends Component {
                 to={{
                   pathname: `/estimates/${this.state.estimate.id}`,
                   state: {
-                    eventDetails: {
-                      eventProps: this.state.estimate,
-                      cartProps: this.state.estimate.Cart
-                    }
+                    event: this.state.estimate,
+                    cart: this.state.estimate.Cart
                   }
                 }}
               >

@@ -25,22 +25,27 @@ export default class EstimateCart extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.props.cart.map((obj, index) => {
-                return (
-                  <tr key={index}>
-                    <td className="text-left">{obj.name}</td>
-                    <td className="text-center">{obj.qty}</td>
-                    <td className="text-center">${obj.total}</td>
-                  </tr>
-                );
-              })}
+              {this.props.cart &&
+                this.props.cart.map((obj, index) => {
+                  return (
+                    <tr key={index}>
+                      <td className="text-left">{obj.name}</td>
+                      <td className="text-center">{obj.qty}</td>
+                      <td className="text-center">${obj.total}</td>
+                    </tr>
+                  );
+                })}
               <tr>
                 <td className="text-center">{''} </td>
                 <td className="text-center">{''} </td>
                 <td className="text-center">
                   <b style={{ fontWeight: '600' }}>
                     Est. Subtotal: $
-                    {this.props.cart.reduce((a, b) => a + parseInt(b.total), 0)}{' '}
+                    {this.props.cart &&
+                      this.props.cart.reduce(
+                        (a, b) => a + parseInt(b.total),
+                        0
+                      )}{' '}
                   </b>
                 </td>
               </tr>

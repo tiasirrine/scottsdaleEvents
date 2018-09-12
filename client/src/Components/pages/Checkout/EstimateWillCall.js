@@ -5,7 +5,6 @@ import './Checkout.css';
 
 export default class EstimateWillCall extends React.Component {
   render() {
-    console.log(this.props.realValues);
     return (
       <div>
         <h3 className="text-center mb-3">Will Call Details</h3>
@@ -25,18 +24,21 @@ export default class EstimateWillCall extends React.Component {
                 </thead>
 
                 <tbody>
-                  {this.props.details.map((obj, index) => {
-                    const camelCase = obj
-                      .replace(/([A-Z])/g, ' $1')
+                  {this.props.details &&
+                    this.props.details.map((obj, index) => {
+                      const camelCase = obj
+                        .replace(/([A-Z])/g, ' $1')
 
-                      .replace(/^./, str => str.toUpperCase());
-                    return (
-                      <tr key={index}>
-                        <td className="text-center">{camelCase}</td>
-                        <td className="text-center">{this.props.realValues[obj]}</td>
-                      </tr>
-                    );
-                  })}
+                        .replace(/^./, str => str.toUpperCase());
+                      return (
+                        <tr key={index}>
+                          <td className="text-center">{camelCase}</td>
+                          <td className="text-center">
+                            {this.props.realValues[obj]}
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </Table>
             </Col>

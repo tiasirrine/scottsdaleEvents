@@ -368,6 +368,27 @@ router.get(
   }
 );
 
+router.post(
+  '/get/cart',
+  passport.authenticate('jwt', { session: false }),
+  (req, res, next) => {
+    const { cartId } = req.body;
+    db.Cart.findOne({
+      where: { id: cartId },
+      include: [
+        {
+          model: db.CartProduct,
+          include: [{ model: db.Product }]
+        }
+      ]
+    })
+      .then(result => {
+        res.send({ success: result });
+      })
+      .catch(next);
+  }
+);
+
 // saves a product to a customers cart
 router.post(
   '/save/product',
