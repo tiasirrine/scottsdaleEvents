@@ -38,6 +38,10 @@ export default {
     return axios.get('/get/admins', setOptions());
   },
 
+  getEstimates: function(CustomerId) {
+    return axios.post('/get/estimates', { CustomerId }, setOptions());
+  },
+
   // used to display the add to cart button and to check if the admin, login and cart page can be displayed
   checkToken: function() {
     return axios.get('/auth/token', setOptions());

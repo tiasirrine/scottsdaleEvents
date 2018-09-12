@@ -130,7 +130,7 @@ export default class Nav extends Component {
                         <Link to="/carts">My Carts</Link>
                       </DropdownItem>
                       <DropdownItem>
-                        <Link to="/carts">Past Estimates</Link>
+                        <Link to="/estimates">Past Estimates</Link>
                       </DropdownItem>
                       <DropdownItem>
                         <Link to="/checkout/cart">Checkout</Link>

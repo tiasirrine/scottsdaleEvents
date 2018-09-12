@@ -4,7 +4,6 @@ import API from '../../api/API';
 
 // PrivateRoute is a component that accepts another component as a prop.
 // Returns that component based on some condition.
-// Used to hide access to the cart page if not authed, and login page if authed.
 
 class PrivateRoute extends Component {
   constructor(props) {
@@ -48,6 +47,10 @@ class PrivateRoute extends Component {
     } else if (this.props.path === '/profile' && !this.state.isAdmin) {
       return <Route {...rest} render={props => <Component {...props} />} />;
     } else if (this.props.path === '/carts' && !this.state.isAdmin) {
+      return <Route {...rest} render={props => <Component {...props} />} />;
+    } else if (this.props.path === '/estimates' && !this.state.isAdmin) {
+      return <Route {...rest} render={props => <Component {...props} />} />;
+    } else if (this.props.path === '/estimates/:id' && !this.state.isAdmin) {
       return <Route {...rest} render={props => <Component {...props} />} />;
     } else {
       return <Redirect to="/" />;

@@ -15,6 +15,8 @@ import Dashboard from './pages/Dashboard';
 import Checkout from './pages/Checkout';
 import Profile from './pages/Profile';
 import Carts from './pages/Carts';
+import Estimates from './pages/Estimates';
+import Summary from './pages/Checkout/Summary';
 
 class App extends Component {
   constructor(props) {
@@ -123,6 +125,8 @@ class App extends Component {
               <PrivateRoute path="/dashboard" component={Dashboard} />
               <PrivateRoute path="/profile" component={Profile} />
               <PrivateRoute path="/carts" component={Carts} />
+              <PrivateRoute exact path="/estimates" component={Estimates} />
+              <PrivateRoute exact path="/estimates/:id" component={Summary} />
               <Route component={Home} />
             </Switch>
           </div>

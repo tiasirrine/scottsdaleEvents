@@ -287,6 +287,24 @@ router.post(
   }
 );
 
+router.post(
+  '/get/estimates',
+  // passport.authenticate('jwt', { session: false }),
+  (req, res, next) => {
+    const { CustomerId } = req.body;
+    db.Estimate.findAll({
+      where: {
+        CustomerId: CustomerId
+      },
+      include: [{ model: db.Cart }]
+    })
+      .then(result => {
+        res.send({ success: result });
+      })
+      .catch(next);
+  }
+);
+
 // loads all customers
 router.get(
   '/get/customers',
