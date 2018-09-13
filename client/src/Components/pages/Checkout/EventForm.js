@@ -14,9 +14,10 @@ class EventForm extends Component {
       groupName: this.eventProps ? this.eventProps.groupName : '',
       venue: this.eventProps ? this.eventProps.venue : '',
       eventDate: this.eventProps ? this.eventProps.eventDate : '',
+      operationsManager: this.eventProps ? this.eventProps.operationsManager : '',
       eventStartTime: this.eventProps ? this.eventProps.eventStartTime : '',
       eventEndTime: this.eventProps ? this.eventProps.eventEndTime : '',
-      location: this.eventProps ? this.eventProps.location : '',
+      room: this.eventProps ? this.eventProps.location : '',
       commentsOnEvent: this.eventProps ? this.eventProps.commentsOnEvent : '',
       loadIn: this.eventProps ? this.eventProps.loadIn : '',
       setByTime: this.eventProps ? this.eventProps.setByTime : '',
@@ -73,28 +74,13 @@ class EventForm extends Component {
                               validate
                               error="wrong"
                               success="right"
-                              className="h-75"
+                              className="h-25"
                             />
                             <Input
                               value={this.state.groupName}
                               label="Group Name"
                               name="groupName"
                               icon="group"
-                              onChange={this.handleChange}
-                              group
-                              type="text"
-                              validate
-                              error="wrong"
-                              success="right"
-                              required
-                              className="h-25"
-                            />
-                            {<p>{this.state.groupNameresult}</p>}
-                            <Input
-                              value={this.state.venue}
-                              label="Venue"
-                              name="venue"
-                              icon="building"
                               onChange={this.handleChange}
                               group
                               type="text"
@@ -113,6 +99,36 @@ class EventForm extends Component {
                               group
                               type="date"
                               placeholder=""
+                              validate
+                              error="wrong"
+                              success="right"
+                              required
+                              className="h-25"
+                            />
+
+                            <Input
+                              value={this.state.operationsManager}
+                              disabled
+                              label="Operation's Manager"
+                              name="operationsManager"
+                              icon="user-circle"
+                              onChange={this.handleChange}
+                              group
+                              type="text"
+                              validate
+                              error="wrong"
+                              success="right"
+                              className="h-25"
+                            />
+                            {<p>{this.state.groupNameresult}</p>}
+                            <Input
+                              value={this.state.venue}
+                              label="Venue"
+                              name="venue"
+                              icon="building"
+                              onChange={this.handleChange}
+                              group
+                              type="text"
                               validate
                               error="wrong"
                               success="right"
@@ -151,9 +167,9 @@ class EventForm extends Component {
                               className="h-25"
                             />
                             <Input
-                              value={this.state.location}
+                              value={this.state.room}
                               label="Site/Room"
-                              name="location"
+                              name="room"
                               icon="group"
                               onChange={this.handleChange}
                               group
@@ -173,7 +189,7 @@ class EventForm extends Component {
                                 type="text"
                                 id="form10"
                                 className="md-textarea form-control h-25"
-                                rows="1"
+                                rows="3"
                               />
                               <label htmlFor="form10">Venue Comments/Notes</label>
                             </div>
@@ -233,7 +249,7 @@ class EventForm extends Component {
                             type="text"
                             id="form10"
                             className="md-textarea form-control h-25"
-                            rows="1"
+                            rows="3"
                           />
                           <label htmlFor="form10">Set/Strike Comments/Notes</label>
                         </div>
@@ -254,7 +270,7 @@ class EventForm extends Component {
                     <Collapse isOpen={this.state.collapse}>
                       <div className="grey-text">
                         <Row className="justify-content-center">
-                          <Col md="4">
+                          <Col md="3">
                             <Input
                               value={this.state.willCallCustomerName}
                               label="Customer Name"
@@ -268,9 +284,8 @@ class EventForm extends Component {
                               success="right"
                             />
                           </Col>
-                        </Row>
-                        <Row className="justify-content-center">
-                          <Col md="3">
+
+                          <Col md="2">
                             <Input
                               value={this.state.willCallPickupDate}
                               label="Pick Up Date"
@@ -283,6 +298,8 @@ class EventForm extends Component {
                               error="wrong"
                               success="right"
                             />
+                          </Col>
+                          <Col md="2">
                             <Input
                               value={this.state.willCallPickupTime}
                               label="Pick Up Time"
@@ -296,7 +313,7 @@ class EventForm extends Component {
                               success="right"
                             />
                           </Col>
-                          <Col md="3">
+                          <Col md="2">
                             <Input
                               value={this.state.willCallReturnDate}
                               label="Return Date"
@@ -309,6 +326,8 @@ class EventForm extends Component {
                               error="wrong"
                               success="right"
                             />
+                          </Col>
+                          <Col md="2">
                             <Input
                               value={this.state.willCallReturnTime}
                               label="Return Time"
