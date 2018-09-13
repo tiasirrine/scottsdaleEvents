@@ -107,7 +107,7 @@ class ShowPageComponentWrapper extends Component {
               if (i != 0) {
                 return (
                   <Row key={i}>
-                    <div className="col-xl-6 col-md-6 mb-3 d-block img-fluid z-depth-1">
+                    <div className="col-xl-6 col-md-6 mb-3 d-block img-fluid">
                       <img
                         src={a}
                         alt={i}
