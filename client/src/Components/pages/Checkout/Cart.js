@@ -55,6 +55,7 @@ class Cart extends Component {
         a.Product.qty = a.qty.toString();
         a.Product.CartId = a.CartId;
         a.Product.CartProductId = a.id;
+
         return a.Product;
       });
     }
@@ -176,6 +177,8 @@ class Cart extends Component {
 
   render() {
     const { activeCart } = this.state;
+    console.log(activeCart);
+
     Array.prototype.sum = function(prop) {
       var totalPrice = 0;
       for (var i = 0, _len = this.length; i < _len; i++) {
@@ -299,13 +302,24 @@ class Cart extends Component {
           <div className="text-right est-sub">
             Est Subtotal: {'   '}${activeCart.sum('total')}
           </div>
+          <div className="text-right est-sub">
+            Labor(15%): {'   '}${activeCart.sum('total') * 0.15}
+          </div>
+          <div className="text-right est-sub">
+            Taxes(8.5%): {'   '}${activeCart.sum('total') * 0.085}
+          </div>
+          <div className="text-right est-sub"> Shipping: $285 {'   '}</div>
+          <div className="text-right est-sub">
+            Total: {'   '}$
+            {activeCart.sum('total') +
+              activeCart.sum('total') * 0.15 +
+              activeCart.sum('total') * 0.085 +
+              285}
+          </div>
 
           <Link
             className="text-white"
-            to={{
-              pathname: '/checkout/event',
-              state: { cartProps: this.state.activeCart }
-            }}
+            to={{ pathname: '/checkout/event', state: { cartProps: this.state.activeCart } }}
           >
             <Button color="success" className="aButton text-white">
               Next
