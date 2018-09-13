@@ -314,8 +314,8 @@ class Cart extends Component {
             {' '}
             Shipping: {'   '}${parseFloat(Math.round(285 * 100) / 100).toFixed(2)}
           </div>
-          <div className="text-right est-sub">______________________________</div>
-          <div className="text-right est-sub">
+          <div className="text-right est-sub2">______________________________</div>
+          <div className="text-right est-sub2">
             Est Total: {'         '}$
             {parseFloat(
               Math.round(

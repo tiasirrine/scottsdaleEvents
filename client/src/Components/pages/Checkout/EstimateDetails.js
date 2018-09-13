@@ -6,7 +6,7 @@ import './Checkout.css';
 export default class EstimateDetails extends React.Component {
   render() {
     return (
-      <Card>
+      <Card className="border-dark mb-3">
         <CardBody>
           <h3 className="text-center mb-3">Event Details</h3>{' '}
           <Row>
@@ -32,9 +32,7 @@ export default class EstimateDetails extends React.Component {
                       return (
                         <tr key={index}>
                           <td className="text-center">{camelCase}</td>
-                          <td className="text-center">
-                            {this.props.realValues[obj]}
-                          </td>
+                          <td className="text-center">{this.props.realValues[obj]}</td>
                         </tr>
                       );
                     })}
@@ -64,9 +62,7 @@ export default class EstimateDetails extends React.Component {
                       return (
                         <tr key={index}>
                           <td className="text-center">{camelCase}</td>
-                          <td className="text-center">
-                            {this.props.realValues[obj]}
-                          </td>
+                          <td className="text-center">{this.props.realValues[obj]}</td>
                         </tr>
                       );
                     })}
