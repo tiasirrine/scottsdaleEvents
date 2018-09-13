@@ -290,7 +290,7 @@ router.post(
 
 router.post(
   '/get/estimates',
-  // passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   (req, res, next) => {
     const { CustomerId } = req.body;
     db.Estimate.findAll({

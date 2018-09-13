@@ -144,6 +144,8 @@ class Login extends React.Component {
                       >
                         Log in
                       </Button>
+                      <p>Username: user@test.com</p>
+                      <p>Password: test</p>
                       {this.props.location.state && (
                         <p className="text-danger">
                           {this.props.location.state.msg}
