@@ -38,16 +38,16 @@ export default class EstimateCart extends React.Component {
               <tr>
                 <td className="text-right">
                   <tr style={{ background: 'transparent' }}>
-                    <b style={{ fontWeight: '600' }}>Est. Subtotal:</b>
+                    <b style={{ fontWeight: '300' }}>Est. Subtotal:</b>
                   </tr>
                   <tr style={{ background: 'transparent' }}>
-                    <b style={{ fontWeight: '600' }}>Labor:</b>
+                    <b style={{ fontWeight: '300' }}>Labor:</b>
                   </tr>
                   <tr style={{ background: 'transparent' }}>
-                    <b style={{ fontWeight: '600' }}>Tax:</b>
+                    <b style={{ fontWeight: '300' }}>Tax:</b>
                   </tr>
                   <tr style={{ background: 'transparent' }}>
-                    <b style={{ fontWeight: '600' }}>Trucking:</b>
+                    <b style={{ fontWeight: '300' }}>Trucking:</b>
                   </tr>
                   <tr>_______________</tr>
                   <tr style={{ background: 'transparent' }}>
@@ -56,7 +56,7 @@ export default class EstimateCart extends React.Component {
                 </td>
                 <td className="text-right">
                   <tr style={{ background: 'transparent' }}>
-                    <b style={{ fontWeight: '600' }}>
+                    <b style={{ fontWeight: '300' }}>
                       $
                       {this.props.cart &&
                         parseFloat(
@@ -67,7 +67,7 @@ export default class EstimateCart extends React.Component {
                     </b>
                   </tr>
                   <tr style={{ background: 'transparent' }}>
-                    <b style={{ fontWeight: '600' }}>
+                    <b style={{ fontWeight: '300' }}>
                       $
                       {this.props.cart &&
                         parseFloat(
@@ -78,7 +78,7 @@ export default class EstimateCart extends React.Component {
                     </b>
                   </tr>
                   <tr style={{ background: 'transparent' }}>
-                    <b style={{ fontWeight: '600' }}>
+                    <b style={{ fontWeight: '300' }}>
                       $
                       {this.props.cart &&
                         parseFloat(
@@ -89,7 +89,7 @@ export default class EstimateCart extends React.Component {
                     </b>
                   </tr>
                   <tr style={{ background: 'transparent' }}>
-                    <b style={{ fontWeight: '600' }}>
+                    <b style={{ fontWeight: '300' }}>
                       ${this.props.cart && parseFloat(Math.round(285 * 100) / 100).toFixed(2)}{' '}
                     </b>
                   </tr>
