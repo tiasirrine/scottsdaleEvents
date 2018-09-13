@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react';
-import { Card, CardBody, Table } from 'mdbreact';
+import { Card, CardBody, Table, Row } from 'mdbreact';
 import './Checkout.css';
 
 export default class EstimateCart extends React.Component {
@@ -36,18 +36,81 @@ export default class EstimateCart extends React.Component {
                   );
                 })}
               <tr>
-                <td className="text-center">{''} </td>
-                <td className="text-center">{''} </td>
-                <td className="text-center">
-                  <b style={{ fontWeight: '600' }}>
-                    Est. Subtotal: $
-                    {this.props.cart &&
-                      this.props.cart.reduce(
-                        (a, b) => a + parseInt(b.total),
-                        0
-                      )}{' '}
-                  </b>
+                <td className="text-right">
+                  <tr style={{ background: 'transparent' }}>
+                    <b style={{ fontWeight: '600' }}>Est. Subtotal:</b>
+                  </tr>
+                  <tr style={{ background: 'transparent' }}>
+                    <b style={{ fontWeight: '600' }}>Labor:</b>
+                  </tr>
+                  <tr style={{ background: 'transparent' }}>
+                    <b style={{ fontWeight: '600' }}>Tax:</b>
+                  </tr>
+                  <tr style={{ background: 'transparent' }}>
+                    <b style={{ fontWeight: '600' }}>Trucking:</b>
+                  </tr>
+                  <tr>_______________</tr>
+                  <tr style={{ background: 'transparent' }}>
+                    <b style={{ fontWeight: '600' }}>Est. Total:</b>
+                  </tr>
                 </td>
+                <td className="text-right">
+                  <tr style={{ background: 'transparent' }}>
+                    <b style={{ fontWeight: '600' }}>
+                      $
+                      {this.props.cart &&
+                        parseFloat(
+                          Math.round(
+                            this.props.cart.reduce((a, b) => a + parseInt(b.total), 0) * 100
+                          ) / 100
+                        ).toFixed(2)}{' '}
+                    </b>
+                  </tr>
+                  <tr style={{ background: 'transparent' }}>
+                    <b style={{ fontWeight: '600' }}>
+                      $
+                      {this.props.cart &&
+                        parseFloat(
+                          Math.round(
+                            this.props.cart.reduce((a, b) => a + parseInt(b.total), 0) * 0.15 * 100
+                          ) / 100
+                        ).toFixed(2)}{' '}
+                    </b>
+                  </tr>
+                  <tr style={{ background: 'transparent' }}>
+                    <b style={{ fontWeight: '600' }}>
+                      $
+                      {this.props.cart &&
+                        parseFloat(
+                          Math.round(
+                            this.props.cart.reduce((a, b) => a + parseInt(b.total), 0) * 0.085 * 100
+                          ) / 100
+                        ).toFixed(2)}{' '}
+                    </b>
+                  </tr>
+                  <tr style={{ background: 'transparent' }}>
+                    <b style={{ fontWeight: '600' }}>
+                      ${this.props.cart && parseFloat(Math.round(285 * 100) / 100).toFixed(2)}{' '}
+                    </b>
+                  </tr>
+                  <tr>_______________</tr>
+                  <tr style={{ background: 'transparent' }}>
+                    <b style={{ fontWeight: '600' }}>
+                      $
+                      {this.props.cart &&
+                        parseFloat(
+                          Math.round(
+                            (this.props.cart.reduce((a, b) => a + parseInt(b.total), 0) +
+                              this.props.cart.reduce((a, b) => a + parseInt(b.total), 0) * 0.15 +
+                              this.props.cart.reduce((a, b) => a + parseInt(b.total), 0) * 0.085 +
+                              285) *
+                              100
+                          ) / 100
+                        ).toFixed(2)}{' '}
+                    </b>
+                  </tr>
+                </td>
+                <td className="text-center">{''} </td>
               </tr>
             </tbody>
           </Table>
@@ -56,3 +119,4 @@ export default class EstimateCart extends React.Component {
     );
   }
 }
+// parseFloat(Math.round(this.props.cart.reduce((a, b) => a + parseInt(b.total), 0) * 100) / 100).toFixed(2);
