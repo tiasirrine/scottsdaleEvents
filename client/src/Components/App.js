@@ -17,14 +17,14 @@ import Profile from './pages/Profile';
 import Carts from './pages/Carts';
 import Estimates from './pages/Estimates';
 import ViewEstimate from './pages/Estimates/ViewEstimate';
+import PrivateReset from './pages/ResetPass/PrivateReset';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       inventoryObj: null,
-      subCategories: null,
-      hideNavAndFooter: false
+      subCategories: null
     };
   }
 
@@ -127,6 +127,7 @@ class App extends Component {
               <PrivateRoute path="/carts" component={Carts} />
               <PrivateRoute exact path="/estimates" component={Estimates} />
               <PrivateRoute exact path="/estimates/:id" component={ViewEstimate} />
+              <PrivateReset exact path="/reset/:token" />
               <Route component={Home} />
             </Switch>
           </div>

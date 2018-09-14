@@ -3,14 +3,57 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { Container, Row, Col, Input, Button, Card, CardBody } from 'mdbreact';
 import API from '../../../api/API';
+import { checkEmail, checkNull, timeout } from '../../../api/validate';
 import { Link } from 'react-router-dom';
 
 class Login extends React.Component {
-  state = { email: '', password: '' };
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+      showEmailInput: false,
+      resetEmail: '',
+      resetSuccess: null,
+      loading: false
+    };
+    this.timeout = timeout.bind(this);
+  }
 
   componentDidMount() {
     window.scrollTo(0, 0);
   }
+
+  resetPassBtn = () => this.setState({ showEmailInput: !this.state.showEmailInput });
+
+  resetEmailSubmit = () => {
+    const { resetEmail } = this.state;
+    const { pathname } = this.props.location;
+
+    if (!checkEmail(resetEmail)) {
+      this.timeout({ error: 'Please enter a valid email address' });
+      return;
+    }
+
+    if (!checkNull({ resetEmail })) {
+      this.timeout({ error: 'Please enter a valid email address' });
+      return;
+    }
+
+    this.setState({ loading: true });
+
+    API.sendResetEmail(resetEmail, pathname)
+      .then(result => {
+        this.timeout({ resetSuccess: result.data.success, loading: false });
+      })
+      .catch(error => {
+        const err =
+          error.message && error.message.includes('timeout')
+            ? 'Connection timed out'
+            : error.response.data.message;
+        this.timeout({ error: err, loading: false });
+      });
+  };
 
   // tracks user input
   onChange = e => {
@@ -24,9 +67,19 @@ class Login extends React.Component {
     sessionStorage.clear();
     const { pathname } = this.props.location;
     const { email, password } = this.state;
+
+    if (!checkEmail(email)) {
+      this.timeout({ error: 'Please enter a valid email address' });
+      return;
+    }
+
+    if (!checkNull({ email, password })) {
+      this.timeout({ error: 'Please fill out all fields' });
+      return;
+    }
+
     API.login({ email, password }, pathname)
       .then(res => {
-        // console.log(res);
         // tracks if the user is an admin or not for setting state
         // to determine where to re-direct too
         let isAdmin;
@@ -114,13 +167,13 @@ class Login extends React.Component {
                     />
                     <p className="font-small grey-text d-flex justify-content-end">
                       Forgot{' '}
-                      <Link
+                      <span
+                        style={{ cursor: 'pointer' }}
                         className="dark-grey-text font-weight-bold ml-1"
-                        to="/contact"
+                        onClick={this.resetPassBtn}
                       >
-                        {' '}
                         Password?
-                      </Link>
+                      </span>
                     </p>
                     {this.props.location.pathname === '/admin' && (
                       <p className="font-small mb-0 d-flex justify-content-end">
@@ -133,17 +186,19 @@ class Login extends React.Component {
                       <p className="text-danger text-center">{this.state.error}</p>
                     )}
                     <div className="text-center mb-4 mt-5">
-                      <Button
-                        onClick={this.onSubmit}
-                        onKeyPress={this.handleKeyPress}
-                        color="danger"
-                        type="submit"
-                        value="Submit"
-                        id="onSubmit-button"
-                        className="btn-block z-depth-2 aButton"
-                      >
-                        Log in
-                      </Button>
+                      {!this.state.showEmailInput && (
+                        <Button
+                          onClick={this.onSubmit}
+                          onKeyPress={this.handleKeyPress}
+                          color="danger"
+                          type="submit"
+                          value="Submit"
+                          id="onSubmit-button"
+                          className="btn-block z-depth-2 aButton"
+                        >
+                          Log in
+                        </Button>
+                      )}
                       <p>Username: user@test.com</p>
                       <p>Password: test</p>
                       {this.props.location.state && (
@@ -151,6 +206,33 @@ class Login extends React.Component {
                           {this.props.location.state.msg}
                           {(this.props.location.state = null)}
                         </p>
+                      )}
+                      {this.state.showEmailInput && (
+                        <div>
+                          <Input
+                            onChange={this.onChange}
+                            onKeyPress={this.handleKeyPress}
+                            name="resetEmail"
+                            label="Your email"
+                            group
+                            type="text"
+                          />
+                          <Button
+                            disabled={this.state.loading}
+                            onClick={this.resetEmailSubmit}
+                            onKeyPress={this.handleKeyPress}
+                            className="btn-block z-depth-2"
+                          >
+                            {this.state.loading ? (
+                              <i className="fa fa-spinner fa-spin" />
+                            ) : (
+                              'Reset Password'
+                            )}
+                          </Button>
+                          {this.state.resetSuccess && (
+                            <p className="mt-2">{this.state.resetSuccess}</p>
+                          )}
+                        </div>
                       )}
                     </div>
                   </CardBody>

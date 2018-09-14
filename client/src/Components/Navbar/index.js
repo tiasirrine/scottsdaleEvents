@@ -52,7 +52,11 @@ export default class Nav extends Component {
 
   render() {
     const { href } = window.location;
-    if (href.includes('/admin') || href.includes('/dashboard')) {
+    if (
+      href.includes('/admin') ||
+      href.includes('/dashboard') ||
+      href.includes('/reset')
+    ) {
       return null;
     }
     return (

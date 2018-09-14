@@ -224,7 +224,11 @@ module.exports = {
   updateAdmin: function(userObj) {
     return new Promise((resolve, reject) => {
       // first find the admin to update based on id
-      db.Admin.findOne({ where: { id: userObj.id } })
+      db.Admin.findOne({
+        where: {
+          id: userObj.id
+        }
+      })
         .then(result => {
           if (result) {
             // since the user may update their password here, the password needs to be hashed
@@ -317,10 +321,20 @@ module.exports = {
       })
         .then(result => {
           if (result) {
-            result
-              .update(user)
-              .then(() => resolve('Success'))
-              .catch(err => reject(err));
+            if (user.password) {
+              this.hashPassword(user.password).then(hashedPassword => {
+                user.password = hashedPassword;
+                result
+                  .update(user)
+                  .then(() => resolve('Success'))
+                  .catch(err => reject(err));
+              });
+            } else {
+              result
+                .update(user)
+                .then(() => resolve('Success'))
+                .catch(err => reject(err));
+            }
           }
         })
         .catch(err => reject(err));
@@ -350,6 +364,71 @@ module.exports = {
           resolve(result);
         })
         .catch(err => reject(err));
+    });
+  },
+
+  resetPasswordFindUser: function(email, route) {
+    return new Promise((resolve, reject) => {
+      if (route === '/login') {
+        db.Customer.findOne({
+          where: { email: email }
+        })
+          .then(result => {
+            if (!result) reject({ message: 'User not found', status: 404 });
+            result.password = null;
+            result.dataValues.isAdmin = false;
+            resolve(result);
+          })
+          .catch(reject);
+      } else if (route === '/admin') {
+        db.Admin.findOne({
+          where: { email: email }
+        })
+          .then(result => {
+            if (!result) reject({ message: 'User not found', status: 404 });
+            result.dataValues.isAdmin = true;
+            resolve(result);
+          })
+          .catch(reject);
+      }
+    });
+  },
+
+  resetPassword: function(id, isAdmin, password) {
+    return new Promise((resolve, reject) => {
+      if (!isAdmin) {
+        db.Customer.findOne({
+          where: { id: id }
+        })
+          .then(result => {
+            if (!result) reject({ message: 'User not found', status: 404 });
+            else {
+              this.hashPassword(password).then(hashedPassword => {
+                result
+                  .update({ password: hashedPassword })
+                  .then(() => resolve('success'))
+                  .catch(err => reject(err));
+              });
+            }
+          })
+          .catch(reject);
+      } else {
+        db.Admin.findOne({
+          where: { id: id }
+        })
+          .then(result => {
+            if (!result) reject({ message: 'User not found', status: 404 });
+            else {
+              this.hashPassword(password).then(hashedPassword => {
+                result
+                  .update({ password: hashedPassword })
+                  .then(() => resolve('success'))
+                  .catch(err => reject(err));
+              });
+            }
+          })
+          .catch(reject);
+      }
     });
   }
 };

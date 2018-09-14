@@ -115,38 +115,6 @@ router.post(
   }
 );
 
-// contact form email
-router.post('/create/email', (req, res, next) => {
-  const m = req.body;
-  mailer(
-    m.email,
-    'Information Request',
-    'confirmationEmail',
-    m,
-    (error, success) => {
-      if (error) {
-        next(error);
-      }
-      if (success) {
-        mailer(
-          m.email,
-          'Scottsdale Event Decor Confirmation Email',
-          'contactEmailForSED',
-          m,
-          (error, success) => {
-            if (error) {
-              next(error);
-            }
-            if (success) {
-              res.send({ success: true });
-            }
-          }
-        );
-      }
-    }
-  );
-});
-
 router.post(
   '/update/admin',
   passport.authenticate('jwt', { session: false }),
@@ -462,5 +430,107 @@ router.get(
     res.status(200).json({ isAdmin: req.user.isAdmin });
   }
 );
+
+router.post('/auth/reset', (req, res, next) => {
+  const { token } = req.body;
+  jwt.verify(token, 'secretkey', (err, decoded) => {
+    if (err) {
+      next({ message: 'Unauthorized', status: 401 });
+    } else {
+      if (decoded.resetToken) {
+        res.send({ success: decoded.result.email });
+      } else {
+        next({ message: 'Unauthorized', status: 401 });
+      }
+    }
+  });
+});
+
+// contact form email
+router.post('/send/info', (req, res, next) => {
+  const m = req.body;
+  mailer(
+    m.email,
+    'Information Request',
+    'confirmationEmail',
+    m,
+    (error, success) => {
+      if (error) {
+        next(error);
+      }
+      if (success) {
+        mailer(
+          m.email,
+          'Scottsdale Event Decor Confirmation Email',
+          'contactEmailForSED',
+          m,
+          (error, success) => {
+            if (error) {
+              next(error);
+            }
+            if (success) {
+              res.send({ success: true });
+            }
+          }
+        );
+      }
+    }
+  );
+});
+
+router.post('/send/reset', (req, res, next) => {
+  const { email, route } = req.body;
+  user
+    .resetPasswordFindUser(email, route)
+    .then(result => {
+      jwt.sign(
+        { result, resetToken: true },
+        'secretkey',
+        { expiresIn: '1h' },
+        (err, token) => {
+          if (err) next(err);
+          mailer(
+            'johnsontrevor55@gmail.com',
+            'Reset Password',
+            'resetEmail',
+            { token, firstName: result.firstName },
+            (error, success) => {
+              if (error) {
+                next(error);
+              }
+              if (success) {
+                res.send({
+                  success: 'We have sent an email to reset your password'
+                });
+              }
+            }
+          );
+        }
+      );
+    })
+    .catch(next);
+});
+
+router.post('/reset/password', (req, res, next) => {
+  const { token, password } = req.body;
+  jwt.verify(token, 'secretkey', (err, decoded) => {
+    if (err) {
+      next({ message: 'Unauthorized', status: 401 });
+    } else {
+      if (decoded.resetToken) {
+        console.log(decoded);
+        const { id, isAdmin } = decoded.result;
+        user
+          .resetPassword(id, isAdmin, password)
+          .then(result => {
+            res.send({ success: true, isAdmin });
+          })
+          .catch(next);
+      } else {
+        next({ message: 'Unauthorized', status: 401 });
+      }
+    }
+  });
+});
 
 module.exports = router;

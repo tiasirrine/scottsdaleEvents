@@ -141,11 +141,23 @@ export default {
     return axios.post('/create/customer', customer, setOptions());
   },
 
-  contactEmail: function(content) {
-    return axios.post('/create/email', content, timeout);
-  },
-
   deleteCart: function(cartId) {
     return axios.post('/delete/cart', { cartId }, setOptions());
+  },
+
+  contactEmail: function(content) {
+    return axios.post('/send/info', content, timeout);
+  },
+
+  sendResetEmail: function(email, route) {
+    return axios.post('/send/reset', { email, route }, setOptions());
+  },
+
+  validateResetToken: function(token) {
+    return axios.post('/auth/reset', { token }, timeout);
+  },
+
+  resetPassword: function(token, password) {
+    return axios.post('/reset/password', { token, password }, timeout);
   }
 };
