@@ -8,7 +8,7 @@ module.exports = function(passport) {
   opts.secretOrKey = 'secretkey';
   passport.use(
     new JwtStrategy(opts, (jwt_payload, done) => {
-      console.log(jwt_payload);
+      // console.log(jwt_payload);
       // checksif a user is an admin
       if (jwt_payload.result.isAdmin) {
         User.getAdminById(jwt_payload.result.id)
