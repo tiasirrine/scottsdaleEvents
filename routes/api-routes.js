@@ -92,11 +92,10 @@ router.post(
         try {
           const parser = new Json2csvParser({ fields, quote: '' });
           const csv = parser.parse(merged);
-
           dbx
             .filesUpload({
               contents: csv,
-              path: `/${estimateId}-${date()}-${eventProps.customerName}.csv`
+              path: `/${date()}-${eventProps.groupName}-${estimateId}.csv`
             })
             .then(() => {
               user
@@ -246,7 +245,6 @@ router.post(
   '/delete/cart',
   passport.authenticate('jwt', { session: false }),
   (req, res, next) => {
-    console.log(req.body.cartId);
     db.Cart.destroy({ where: { id: req.body.cartId } })
       .then(result => {
         if (result) res.send({ succes: 'Product removed' });
@@ -518,7 +516,6 @@ router.post('/reset/password', (req, res, next) => {
       next({ message: 'Unauthorized', status: 401 });
     } else {
       if (decoded.resetToken) {
-        console.log(decoded);
         const { id, isAdmin } = decoded.result;
         user
           .resetPassword(id, isAdmin, password)
