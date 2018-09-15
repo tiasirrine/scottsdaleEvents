@@ -131,9 +131,10 @@ class Summary extends React.Component {
             </Button>
             <Collapse isOpen={this.state.collapse}>
               <p>
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson
-                cred nesciunt sapiente ea proident.
+                In the event of damage to the equipment, client agrees to pay any & all reasonable
+                cost to return equipment to its original condition. Overtime fee: $35.00 per staff
+                per hour (or any part thereof) will be charged in addition to client if set and/or
+                strike can not take place at time indicated on contract.
               </p>
             </Collapse>
             <form className="needs-validation" onSubmit={this.submitHandler} noValidate>

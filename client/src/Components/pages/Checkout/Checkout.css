@@ -29,6 +29,10 @@ tr:nth-child(even) {
 #browse-btn:hover {
   color: rgb(0, 29, 126);
 }
+table {
+  width: 100%;
+  table-layout: fixed;
+}
 
 @media (min-width: 34em) {
   .card-columns {

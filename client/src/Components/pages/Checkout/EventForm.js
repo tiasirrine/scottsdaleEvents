@@ -17,7 +17,7 @@ class EventForm extends Component {
       operationsManager: this.eventProps ? this.eventProps.operationsManager : '',
       eventStartTime: this.eventProps ? this.eventProps.eventStartTime : '',
       eventEndTime: this.eventProps ? this.eventProps.eventEndTime : '',
-      room: this.eventProps ? this.eventProps.location : '',
+      room: this.eventProps ? this.eventProps.room : '',
       commentsOnEvent: this.eventProps ? this.eventProps.commentsOnEvent : '',
       loadIn: this.eventProps ? this.eventProps.loadIn : '',
       setByTime: this.eventProps ? this.eventProps.setByTime : '',
@@ -108,7 +108,6 @@ class EventForm extends Component {
 
                             <Input
                               value={this.state.operationsManager}
-                              disabled
                               label="Operation's Manager"
                               name="operationsManager"
                               icon="user-circle"
