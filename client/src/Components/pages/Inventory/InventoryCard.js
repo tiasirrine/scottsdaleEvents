@@ -43,19 +43,12 @@ class InventoryCard extends Component {
     });
   };
 
-  reset = () =>
-    setTimeout(
-      () => this.setState({ success: null, error: null, quantity: 0 }),
-      3000
-    );
+  reset = () => setTimeout(() => this.setState({ success: null, error: null, quantity: 0 }), 3000);
 
   // saves the product to the users cart.
   handleFormSubmit = event => {
     // prevents adding 0 items of something or too many
-    if (
-      this.state.quantity > 0 &&
-      this.state.quantity <= parseInt(this.props.cardQuantity)
-    ) {
+    if (this.state.quantity > 0 && this.state.quantity <= parseInt(this.props.cardQuantity)) {
       event.preventDefault();
       // grabs the values needed for the product to save to the cart
       const obj = {};
@@ -126,12 +119,8 @@ class InventoryCard extends Component {
                 <p>${this.props.cardPrice}</p>
                 <p>{this.props.cardQuantity} units in inventory</p>
 
-                {this.state.success && (
-                  <p className="my-2 text-success">{this.state.success}</p>
-                )}
-                {this.state.error && (
-                  <p className="my-2 text-danger">{this.state.error}</p>
-                )}
+                {this.state.success && <p className="my-2 text-success">{this.state.success}</p>}
+                {this.state.error && <p className="my-2 text-danger">{this.state.error}</p>}
 
                 <label>Quantity</label>
                 <select
@@ -157,6 +146,14 @@ class InventoryCard extends Component {
                 </Button>
               </Fragment>
             )}
+          <Link
+            to={{
+              pathname: `${window.location.pathname}/${this.props.cardTitle}`,
+              state: { inventoryProps: this.props }
+            }}
+          >
+            <Button className="aButton"> More Info</Button>
+          </Link>
         </div>
       </div>
     );
