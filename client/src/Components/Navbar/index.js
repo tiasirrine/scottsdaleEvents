@@ -1,10 +1,9 @@
 import './navbar.css';
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   Navbar,
   NavbarNav,
   Container,
-  Fa,
   NavItem,
   NavLink,
   Dropdown,
@@ -18,7 +17,6 @@ export default class Nav extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // collapse: false,
       isWideEnough: false,
       dropdownOpen: false,
       active: window.location.pathname
@@ -33,17 +31,7 @@ export default class Nav extends Component {
         active: window.location.pathname
       });
     }
-
-    // this.props.collapse is true when a user clicks the main content area,
-    // and the navbar is small, and expanded
-    // calls the function to close the navbar
-    // if (this.props.collapse && this.state.collapse) {
-    //   this.navbarToggler();
-    // }
   }
-
-  // sets the active class to the clicked nav button
-  // onNavItemClick = e => this.setState({ active: e.target.name });
 
   // clears sessions storage and logs a user out
   logout = () => sessionStorage.clear();
@@ -53,7 +41,11 @@ export default class Nav extends Component {
 
   render() {
     const { href } = window.location;
-    if (href.includes('/admin') || href.includes('/dashboard') || href.includes('/reset')) {
+    if (
+      href.includes('/admin') ||
+      href.includes('/dashboard') ||
+      href.includes('/reset')
+    ) {
       return null;
     }
     return (
@@ -64,26 +56,21 @@ export default class Nav extends Component {
               Scottsdale Event Dècor
             </Link>
           </div>
-          <div>
-            <NavbarNav center>
-              <NavItem>
-                <NavLink to="/checkout/cart">
-                  {' '}
-                  {this.checkLogIn() && <Fa icon="shopping-cart" size="2x" />}
-                </NavLink>
-              </NavItem>
-            </NavbarNav>
-          </div>
+
           <div>
             <NavbarNav right>
               <NavItem>
-                <NavLink className={`${this.state.active === '/' && 'activeTab'}`} to="/">
+                <NavLink
+                  className={`${this.state.active === '/' && 'activeTab'}`}
+                  to="/"
+                >
                   <span>Home</span>
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink
-                  className={`${this.state.active.includes('inventory') && 'activeTab'}`}
+                  className={`${this.state.active.includes('inventory') &&
+                    'activeTab'}`}
                   to="/inventory"
                 >
                   <span>Inventory</span>
@@ -106,7 +93,10 @@ export default class Nav extends Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink className={`${this.state.active === '/about' && 'activeTab'}`} to="/about">
+                <NavLink
+                  className={`${this.state.active === '/about' && 'activeTab'}`}
+                  to="/about"
+                >
                   <span>About</span>
                 </NavLink>
               </NavItem>
@@ -121,33 +111,35 @@ export default class Nav extends Component {
                 </NavItem>
               )}
               {this.checkLogIn() && (
-                <NavItem>
-                  <Dropdown toggle={this.toggle}>
-                    <DropdownToggle nav caret>
-                      Hello, {sessionStorage.getItem('firstName')}
-                    </DropdownToggle>
-                    <DropdownMenu>
-                      <DropdownItem>
-                        <Link to="/profile">Profile</Link>
-                      </DropdownItem>
-                      <DropdownItem>
-                        <Link to="/carts">My Carts</Link>
-                      </DropdownItem>
-                      <DropdownItem>
-                        <Link to="/estimates">Past Estimates</Link>
-                      </DropdownItem>
-                      <DropdownItem>
-                        <Link to="/checkout/cart">Checkout</Link>
-                      </DropdownItem>
-                      <div className="dropdown-divider" />
-                      <DropdownItem>
-                        <Link to="/" onClick={this.logout}>
-                          Logout
-                        </Link>
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
-                </NavItem>
+                <Fragment>
+                  <NavItem>
+                    <Dropdown toggle={this.toggle}>
+                      <DropdownToggle nav caret>
+                        Hello, {sessionStorage.getItem('firstName')}
+                      </DropdownToggle>
+                      <DropdownMenu>
+                        <DropdownItem>
+                          <Link to="/profile">Profile</Link>
+                        </DropdownItem>
+                        <DropdownItem>
+                          <Link to="/carts">My Carts</Link>
+                        </DropdownItem>
+                        <DropdownItem>
+                          <Link to="/estimates">Past Estimates</Link>
+                        </DropdownItem>
+                        <DropdownItem>
+                          <Link to="/checkout/cart">Checkout</Link>
+                        </DropdownItem>
+                        <div className="dropdown-divider" />
+                        <DropdownItem>
+                          <Link to="/" onClick={this.logout}>
+                            Logout
+                          </Link>
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                  </NavItem>
+                </Fragment>
               )}
             </NavbarNav>
           </div>

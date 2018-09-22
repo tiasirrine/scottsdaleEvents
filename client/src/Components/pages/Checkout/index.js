@@ -11,7 +11,7 @@ import Summary from './Summary';
 class Checkout extends Component {
   render() {
     return (
-      <Fragment>
+      <div className="margintop-100">
         <Switch>
           <Route
             exact
@@ -25,7 +25,7 @@ class Checkout extends Component {
             render={props => <Summary {...props} />}
           />
         </Switch>
-      </Fragment>
+      </div>
     );
   }
 }

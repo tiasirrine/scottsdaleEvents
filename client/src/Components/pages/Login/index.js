@@ -137,7 +137,7 @@ class Login extends React.Component {
           <section className="form-simple">
             <Row>
               <Col lg="8" className="offset-lg-2">
-                <Card>
+                <Card className="mx-0">
                   <div className="header pt-3 grey lighten-2">
                     <Row className="d-flex justify-content-start">
                       <h3 className="deep-grey-text mt-3 mb-4 pb-1 mx-5">

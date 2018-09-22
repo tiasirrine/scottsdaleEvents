@@ -68,10 +68,10 @@ export default class ViewEstimate extends React.Component {
           Summary
         </h3>
         <Row>
-          <Col md="5">
+          <Col lg="5">
             <EstimateCart cart={this.state.cart} />
           </Col>
-          <Col md="7">
+          <Col lg="7">
             <EstimateDetails
               detailsCol1={this.state.detailsFirst}
               detailsCol2={this.state.detailsSecond}

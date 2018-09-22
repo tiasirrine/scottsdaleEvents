@@ -184,7 +184,6 @@ class Cart extends Component {
 
   render() {
     const { activeCart } = this.state;
-    console.log(activeCart);
 
     Array.prototype.sum = function(prop) {
       var totalPrice = 0;

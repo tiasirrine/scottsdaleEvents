@@ -53,8 +53,7 @@ class photoGallery extends React.Component {
   }
   render() {
     return (
-      <div>
-        <br />
+      <div className="margintop-100">
         <Gallery photos={photos} onClick={this.openLightbox} />
         <Lightbox
           images={photos}
@@ -64,7 +63,6 @@ class photoGallery extends React.Component {
           currentImage={this.state.currentImage}
           isOpen={this.state.lightboxIsOpen}
         />
-        <br />
       </div>
     );
   }

@@ -60,7 +60,7 @@ export default class Profile extends Component {
       <Container>
         <Row>
           <div className="col-lg-8 offset-lg-2">
-            <Card>
+            <Card className="mx-0">
               <CardBody>
                 <CardTitle>{this.name}</CardTitle>
                 <p>Company: {this.company}</p>
