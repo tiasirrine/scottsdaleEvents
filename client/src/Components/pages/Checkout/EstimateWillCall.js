@@ -14,12 +14,8 @@ export default class EstimateWillCall extends React.Component {
               <Table>
                 <thead className="blue-grey lighten-4">
                   <tr>
-                    <th className="text-center">
-                      <b>Event Details</b>
-                    </th>
-                    <th className="text-center">
-                      <b>Your Event</b>
-                    </th>
+                    <th className="text-center">Event Details</th>
+                    <th className="text-center">Your Event</th>
                   </tr>
                 </thead>
 
