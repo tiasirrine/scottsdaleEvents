@@ -19,6 +19,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "analyze": "source-map-explorer build/static/js/main.e853599a.js",
+    "purecss": "purifycss build/static/css/*.css build/static/js/*.js --min --out build/static/css/build.css"
   }
 }

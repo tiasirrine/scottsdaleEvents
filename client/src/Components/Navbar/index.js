@@ -18,7 +18,7 @@ export default class Nav extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      collapse: false,
+      // collapse: false,
       isWideEnough: false,
       dropdownOpen: false,
       active: window.location.pathname
@@ -37,13 +37,13 @@ export default class Nav extends Component {
     // this.props.collapse is true when a user clicks the main content area,
     // and the navbar is small, and expanded
     // calls the function to close the navbar
-    if (this.props.collapse && this.state.collapse) {
-      this.navbarToggler();
-    }
+    // if (this.props.collapse && this.state.collapse) {
+    //   this.navbarToggler();
+    // }
   }
 
   // sets the active class to the clicked nav button
-  onNavItemClick = e => this.setState({ active: e.target.name });
+  // onNavItemClick = e => this.setState({ active: e.target.name });
 
   // clears sessions storage and logs a user out
   logout = () => sessionStorage.clear();
