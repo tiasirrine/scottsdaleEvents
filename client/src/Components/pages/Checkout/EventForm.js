@@ -110,7 +110,7 @@ class EventForm extends Component {
                               value={this.state.operationsManager}
                               label="Operation's Manager"
                               name="operationsManager"
-                              icon="user-circle"
+                              icon="user-plus"
                               onChange={this.handleChange}
                               group
                               type="text"
@@ -143,7 +143,7 @@ class EventForm extends Component {
                               value={this.state.eventStartTime}
                               label="Start Time of Event"
                               name="eventStartTime"
-                              icon="lock"
+                              icon="clock-o"
                               onChange={this.handleChange}
                               group
                               type="time"
@@ -156,7 +156,7 @@ class EventForm extends Component {
                               value={this.state.eventEndTime}
                               label="End Time of Event"
                               name="eventEndTime"
-                              icon="lock"
+                              icon="clock-o"
                               onChange={this.handleChange}
                               group
                               type="time"
@@ -169,7 +169,7 @@ class EventForm extends Component {
                               value={this.state.room}
                               label="Site/Room"
                               name="room"
-                              icon="group"
+                              icon="building-o"
                               onChange={this.handleChange}
                               group
                               type="text"
@@ -184,6 +184,7 @@ class EventForm extends Component {
                               <textarea
                                 value={this.state.commentsOnEvent}
                                 name="commentsOnEvent"
+                                icon="comment"
                                 onChange={this.handleChange}
                                 type="text"
                                 id="form10"
@@ -204,7 +205,7 @@ class EventForm extends Component {
                           value={this.state.loadIn}
                           label="Load-in Time"
                           name="loadIn"
-                          icon="clock"
+                          icon="clock-o"
                           onChange={this.handleChange}
                           group
                           type="time"
@@ -217,7 +218,7 @@ class EventForm extends Component {
                           value={this.state.setByTime}
                           label="Set-by Time"
                           name="setByTime"
-                          icon="clock"
+                          icon="clock-o"
                           onChange={this.handleChange}
                           group
                           type="time"
@@ -230,7 +231,7 @@ class EventForm extends Component {
                           value={this.state.strikeTime}
                           label="Strike Time"
                           name="strikeTime"
-                          icon="clock"
+                          icon="clock-o"
                           onChange={this.handleChange}
                           group
                           type="time"
@@ -244,6 +245,7 @@ class EventForm extends Component {
                           <textarea
                             value={this.state.commentsOnSetup}
                             name="commentsOnSetup"
+                            icon="comment"
                             onChange={this.handleChange}
                             type="text"
                             id="form10"
@@ -312,6 +314,8 @@ class EventForm extends Component {
                               success="right"
                             />
                           </Col>
+                        </Row>
+                        <Row className="justify-content-center">
                           <Col md="2">
                             <Input
                               value={this.state.willCallReturnDate}

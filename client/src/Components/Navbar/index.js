@@ -4,6 +4,7 @@ import {
   Navbar,
   NavbarNav,
   Container,
+  Fa,
   NavItem,
   NavLink,
   Dropdown,
@@ -52,11 +53,7 @@ export default class Nav extends Component {
 
   render() {
     const { href } = window.location;
-    if (
-      href.includes('/admin') ||
-      href.includes('/dashboard') ||
-      href.includes('/reset')
-    ) {
+    if (href.includes('/admin') || href.includes('/dashboard') || href.includes('/reset')) {
       return null;
     }
     return (
@@ -68,19 +65,25 @@ export default class Nav extends Component {
             </Link>
           </div>
           <div>
+            <NavbarNav center>
+              <NavItem>
+                <NavLink to="/checkout/cart">
+                  {' '}
+                  {this.checkLogIn() && <Fa icon="shopping-cart" size="2x" />}
+                </NavLink>
+              </NavItem>
+            </NavbarNav>
+          </div>
+          <div>
             <NavbarNav right>
               <NavItem>
-                <NavLink
-                  className={`${this.state.active === '/' && 'activeTab'}`}
-                  to="/"
-                >
+                <NavLink className={`${this.state.active === '/' && 'activeTab'}`} to="/">
                   <span>Home</span>
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink
-                  className={`${this.state.active.includes('inventory') &&
-                    'activeTab'}`}
+                  className={`${this.state.active.includes('inventory') && 'activeTab'}`}
                   to="/inventory"
                 >
                   <span>Inventory</span>
@@ -103,10 +106,7 @@ export default class Nav extends Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink
-                  className={`${this.state.active === '/about' && 'activeTab'}`}
-                  to="/about"
-                >
+                <NavLink className={`${this.state.active === '/about' && 'activeTab'}`} to="/about">
                   <span>About</span>
                 </NavLink>
               </NavItem>
