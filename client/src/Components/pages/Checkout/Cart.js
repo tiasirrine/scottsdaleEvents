@@ -1,7 +1,15 @@
 /* eslint-disable */
 import './Checkout.css';
 import React, { Component } from 'react';
-import { Container, Table, Input, Button, Popover, PopoverBody, PopoverHeader } from 'mdbreact';
+import {
+  Container,
+  Table,
+  Input,
+  Button,
+  Popover,
+  PopoverBody,
+  PopoverHeader
+} from 'mdbreact';
 import API from '../../../api/API';
 import { Link } from 'react-router-dom';
 
@@ -298,39 +306,49 @@ class Cart extends Component {
                 })}
             </tbody>
           </Table>
-          <div className="text-right est-sub">
-            Est Subtotal: {'   '}$
-            {parseFloat(Math.round(activeCart.sum('total') * 100) / 100).toFixed(2)}
+          <div>
+            <div className="text-right est-sub">
+              Est Subtotal: {'   '}$
+              {parseFloat(Math.round(activeCart.sum('total') * 100) / 100).toFixed(
+                2
+              )}
+            </div>
+            <div className="text-right est-sub">
+              Labor(15%): {'   '}$
+              {parseFloat(
+                Math.round(activeCart.sum('total') * 0.15 * 100) / 100
+              ).toFixed(2)}
+            </div>
+            <div className="text-right est-sub">
+              Taxes(8.5%): {'   '}$
+              {parseFloat(
+                Math.round(activeCart.sum('total') * 0.085 * 100) / 100
+              ).toFixed(2)}
+            </div>
+            <div className="text-right est-sub">
+              {' '}
+              Shipping: {'   '}${parseFloat(Math.round(285 * 100) / 100).toFixed(2)}
+            </div>
+            <div className="text-right est-sub2">______________________________</div>
+            <div className="text-right est-sub2">
+              Est Total: {'         '}$
+              {parseFloat(
+                Math.round(
+                  (activeCart.sum('total') +
+                    activeCart.sum('total') * 0.15 +
+                    activeCart.sum('total') * 0.085 +
+                    285) *
+                    100
+                ) / 100
+              ).toFixed(2)}
+            </div>
           </div>
-          <div className="text-right est-sub">
-            Labor(15%): {'   '}$
-            {parseFloat(Math.round(activeCart.sum('total') * 0.15 * 100) / 100).toFixed(2)}
-          </div>
-          <div className="text-right est-sub">
-            Taxes(8.5%): {'   '}$
-            {parseFloat(Math.round(activeCart.sum('total') * 0.085 * 100) / 100).toFixed(2)}
-          </div>
-          <div className="text-right est-sub">
-            {' '}
-            Shipping: {'   '}${parseFloat(Math.round(285 * 100) / 100).toFixed(2)}
-          </div>
-          <div className="text-right est-sub2">______________________________</div>
-          <div className="text-right est-sub2">
-            Est Total: {'         '}$
-            {parseFloat(
-              Math.round(
-                (activeCart.sum('total') +
-                  activeCart.sum('total') * 0.15 +
-                  activeCart.sum('total') * 0.085 +
-                  285) *
-                  100
-              ) / 100
-            ).toFixed(2)}
-          </div>
-
           <Link
             className="text-white"
-            to={{ pathname: '/checkout/event', state: { cartProps: this.state.activeCart } }}
+            to={{
+              pathname: '/checkout/event',
+              state: { cartProps: this.state.activeCart }
+            }}
           >
             <Button color="success" className="aButton text-white">
               Next

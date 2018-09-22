@@ -62,7 +62,6 @@ export default class ViewEstimate extends React.Component {
   };
 
   render() {
-    console.log(this.state);
     return (
       <Container className="mt-5">
         <h3 style={{ marginTop: '80px' }} className="text-center mb-3">

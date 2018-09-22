@@ -14,12 +14,8 @@ export default class EstimateDetails extends React.Component {
               <Table>
                 <thead className="blue-grey lighten-4">
                   <tr>
-                    <th className="text-center">
-                      <b>Event Details</b>
-                    </th>
-                    <th className="text-center">
-                      <b>Your Event</b>
-                    </th>
+                    <th className="text-center">Event Details</th>
+                    <th className="text-center">Your Event</th>
                   </tr>
                 </thead>
 
@@ -32,7 +28,9 @@ export default class EstimateDetails extends React.Component {
                       return (
                         <tr key={index}>
                           <td className="text-center">{camelCase}</td>
-                          <td className="text-center">{this.props.realValues[obj]}</td>
+                          <td className="text-center">
+                            {this.props.realValues[obj]}
+                          </td>
                         </tr>
                       );
                     })}
@@ -44,12 +42,8 @@ export default class EstimateDetails extends React.Component {
               <Table>
                 <thead className="blue-grey lighten-4">
                   <tr>
-                    <th className="text-center">
-                      <b>Event Details</b>
-                    </th>
-                    <th className="text-center">
-                      <b>Your Event</b>
-                    </th>
+                    <th className="text-center">Event Details</th>
+                    <th className="text-center">Your Event</th>
                   </tr>
                 </thead>
 
@@ -62,7 +56,9 @@ export default class EstimateDetails extends React.Component {
                       return (
                         <tr key={index}>
                           <td className="text-center">{camelCase}</td>
-                          <td className="text-center">{this.props.realValues[obj]}</td>
+                          <td className="text-center">
+                            {this.props.realValues[obj]}
+                          </td>
                         </tr>
                       );
                     })}
