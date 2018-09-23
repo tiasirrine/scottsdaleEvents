@@ -98,7 +98,7 @@ class Cart extends Component {
       value = value.replace(/[^0-9]+/g, '');
     }
 
-    API.updateQty({ ProductId, qty: Number(value) })
+    API.updateQty({ ProductId, qty: Number(value), CartId: this.getCartId() })
       .then(result => {
         // updates the appropriate object with the new quantity and price
         // loops through the active cart array
@@ -190,6 +190,7 @@ class Cart extends Component {
       for (var i = 0, _len = this.length; i < _len; i++) {
         totalPrice += parseInt(this[i][prop]);
       }
+      sessionStorage.setItem('cartTotal', totalPrice);
       return totalPrice;
     };
 

@@ -11,7 +11,7 @@ import Summary from './Summary';
 class Checkout extends Component {
   render() {
     return (
-      <div className="margintop-100">
+      <div style={{ marginTop: '120px' }}>
         <Switch>
           <Route
             exact

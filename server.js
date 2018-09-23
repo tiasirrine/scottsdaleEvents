@@ -30,6 +30,8 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use(routes);
 
+app.get('*/favicon.ico', (req, res) => res.status(204));
+
 app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, '/client/build/index.html'), function(err) {
     if (err) {
@@ -46,6 +48,8 @@ app.use(function(error, req, res, next) {
   debugRoute('Error occured at: ' + req.originalUrl);
   res.status(status).json({ message: message });
 });
+
+console.log(process.env.NODE_ENV);
 
 db.sequelize.sync().then(() => {
   app.listen(PORT, () =>

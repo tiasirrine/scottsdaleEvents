@@ -4,6 +4,7 @@ import { Button, Card, CardImage, Input, Row, View } from 'mdbreact';
 import './InventoryPage.css';
 import API from '../../../api/API';
 import { Link } from 'react-router-dom';
+import { CartValueContext } from './index';
 
 class InventoryCard extends Component {
   constructor(props) {
@@ -43,12 +44,19 @@ class InventoryCard extends Component {
     });
   };
 
-  reset = () => setTimeout(() => this.setState({ success: null, error: null, quantity: 0 }), 3000);
+  reset = () =>
+    setTimeout(
+      () => this.setState({ success: null, error: null, quantity: 0 }),
+      3000
+    );
 
   // saves the product to the users cart.
-  handleFormSubmit = event => {
+  handleFormSubmit = (event, func) => {
     // prevents adding 0 items of something or too many
-    if (this.state.quantity > 0 && this.state.quantity <= parseInt(this.props.cardQuantity)) {
+    if (
+      this.state.quantity > 0 &&
+      this.state.quantity <= parseInt(this.props.cardQuantity)
+    ) {
       event.preventDefault();
       // grabs the values needed for the product to save to the cart
       const obj = {};
@@ -56,10 +64,13 @@ class InventoryCard extends Component {
       obj.qty = this.state.quantity;
       obj.CartId = sessionStorage.getItem('activeCart');
       obj.maxQty = event.target.getAttribute('data-maxqty');
+      obj.userId = sessionStorage.getItem('userId');
 
       API.saveProduct(obj)
         .then(result => {
-          this.setState({ success: result.data.success });
+          console.log(result.data);
+          func(result.data);
+          this.setState({ success: 'Success' });
           this.reset();
         })
         .catch(error => {
@@ -119,8 +130,12 @@ class InventoryCard extends Component {
                 <p>${this.props.cardPrice}</p>
                 <p>{this.props.cardQuantity} units in inventory</p>
 
-                {this.state.success && <p className="my-2 text-success">{this.state.success}</p>}
-                {this.state.error && <p className="my-2 text-danger">{this.state.error}</p>}
+                {this.state.success && (
+                  <p className="my-2 text-success">{this.state.success}</p>
+                )}
+                {this.state.error && (
+                  <p className="my-2 text-danger">{this.state.error}</p>
+                )}
 
                 <label>Quantity</label>
                 <select
@@ -133,17 +148,23 @@ class InventoryCard extends Component {
                   <option>0</option>
                   {this.createSelectItems(this.props.cardQuantity)}
                 </select>
-                <Button
-                  type="submit"
-                  value="Submit"
-                  onClick={this.handleFormSubmit}
-                  data-id={this.props.id}
-                  data-maxqty={this.props.cardQuantity}
-                  className="aButton"
-                >
-                  {' '}
-                  Add To Cart
-                </Button>
+                <CartValueContext.Consumer>
+                  {func => (
+                    <Button
+                      type="submit"
+                      value="Submit"
+                      onClick={e => {
+                        this.handleFormSubmit(e, func);
+                      }}
+                      data-id={this.props.id}
+                      data-maxqty={this.props.cardQuantity}
+                      className="aButton"
+                    >
+                      {' '}
+                      Add To Cart
+                    </Button>
+                  )}
+                </CartValueContext.Consumer>
               </Fragment>
             )}
           <Link

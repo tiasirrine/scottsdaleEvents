@@ -76,6 +76,7 @@ class Summary extends React.Component {
     API.getEstimate(this.props.location.state)
       .then(result => {
         sessionStorage.setItem('activeCart', result.data.activeCart);
+        sessionStorage.setItem('cartTotal', 0);
         this.toggle(true, result.data.estimateId);
       })
       .catch(error => {

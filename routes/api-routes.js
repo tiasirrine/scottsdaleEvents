@@ -140,7 +140,7 @@ router.post(
       { qty: qty },
       { where: { ProductId: ProductId, CartId: CartId } }
     )
-      .then(() => {
+      .then(result => {
         res.json({ success: 'success' });
       })
       .catch(next);
@@ -381,11 +381,33 @@ router.post(
           req.body.qty = bodyQty + qty;
           result
             .update(req.body)
-            .then(() => res.json(sm))
+            .then(() => {
+              user
+                .getCarts(req.body.userId)
+                .then(cart => {
+                  let cartTotal = 0;
+                  cart[0].CartProducts.forEach(item => {
+                    cartTotal += item.Product.price * item.qty;
+                  });
+                  res.json(cartTotal);
+                })
+                .catch(next);
+            })
             .catch(next);
         } else {
           db.CartProduct.create(req.body)
-            .then(() => res.json(sm))
+            .then(() => {
+              user
+                .getCarts(req.body.userId)
+                .then(cart => {
+                  let cartTotal = 0;
+                  cart[0].CartProducts.forEach(item => {
+                    cartTotal += item.Product.price * item.qty;
+                  });
+                  res.json(cartTotal);
+                })
+                .catch(next);
+            })
             .catch(next);
         }
       })
@@ -401,7 +423,22 @@ router.post('/auth/customer', (req, res, next) => {
     .then(result => {
       jwt.sign({ result }, 'secretkey', { expiresIn: '1w' }, (err, token) => {
         if (err) next(err);
-        res.send({ token, user: result });
+        const userId = result.id;
+        user
+          .getCarts(userId)
+          .then(() => {
+            user
+              .getCarts(result.id)
+              .then(cart => {
+                result.cartTotal = 0;
+                cart[0].CartProducts.forEach(item => {
+                  result.cartTotal += item.Product.price * item.qty;
+                });
+                res.send({ token, user: result });
+              })
+              .catch(next);
+          })
+          .catch(next);
       });
     })
     .catch(next);
