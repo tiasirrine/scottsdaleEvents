@@ -15,10 +15,16 @@ import ShowPageComponentWrapper from './ShowPageComponentWrapper';
 // gets the screen size from the window object
 const mql = window.matchMedia(`(min-width: 992px)`);
 
+export const CartValueContext = React.createContext();
+
 class InventoryPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { sidebarOpen: false, docked: false };
+    this.state = {
+      sidebarOpen: false,
+      docked: false,
+      totalCost: sessionStorage.getItem('cartTotal')
+    };
   }
 
   componentDidMount() {
@@ -82,40 +88,53 @@ class InventoryPage extends Component {
             />
           </div>
           <div className="inv-wrapper">
-            <Switch>
-              <Route
-                exact
-                path={this.props.match.path}
-                render={props => (
-                  <CategoryComponentWrapper
-                    {...props}
-                    categories={categories}
-                    images={categoryImgs}
-                  />
-                )}
-              />
-              <Route
-                exact
-                path={`${this.props.match.path}/:category`}
-                render={props => (
-                  <SubCategoryComponentWrapper {...props} inventory={inventoryObj} />
-                )}
-              />
-              <Route
-                exact
-                path={`${this.props.match.path}/:category/:subcategory`}
-                render={props => (
-                  <InventoryComponentWrapper {...props} inventory={inventoryObj} />
-                )}
-              />
-              <Route
-                exact
-                path={`${this.props.match.path}/:category/:subcategory/:name`}
-                render={props => (
-                  <ShowPageComponentWrapper {...props} inventory={inventoryObj} />
-                )}
-              />
-            </Switch>
+            <CartValueContext.Provider
+              value={total => {
+                sessionStorage.setItem('cartTotal', total);
+                this.setState({ totalCost: total });
+              }}
+            >
+              <h4 className="text-center">
+                {sessionStorage.getItem('cartTotal') && '$' + this.state.totalCost}
+              </h4>
+              <Switch>
+                <Route
+                  exact
+                  path={this.props.match.path}
+                  render={props => (
+                    <CategoryComponentWrapper
+                      {...props}
+                      categories={categories}
+                      images={categoryImgs}
+                    />
+                  )}
+                />
+                <Route
+                  exact
+                  path={`${this.props.match.path}/:category`}
+                  render={props => (
+                    <SubCategoryComponentWrapper
+                      {...props}
+                      inventory={inventoryObj}
+                    />
+                  )}
+                />
+                <Route
+                  exact
+                  path={`${this.props.match.path}/:category/:subcategory`}
+                  render={props => (
+                    <InventoryComponentWrapper {...props} inventory={inventoryObj} />
+                  )}
+                />
+                <Route
+                  exact
+                  path={`${this.props.match.path}/:category/:subcategory/:name`}
+                  render={props => (
+                    <ShowPageComponentWrapper {...props} inventory={inventoryObj} />
+                  )}
+                />
+              </Switch>
+            </CartValueContext.Provider>
           </div>
         </Container>
       </div>

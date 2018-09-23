@@ -104,6 +104,7 @@ class Login extends React.Component {
           sessionStorage.setItem('firstName', res.data.user.firstName);
           sessionStorage.setItem('lastName', res.data.user.lastName);
           sessionStorage.setItem('company', res.data.user.company);
+          sessionStorage.setItem('cartTotal', res.data.user.cartTotal);
           this.setState({ isAuthed: true, isAdmin });
         } else {
           this.setState({ error: 'error' });
