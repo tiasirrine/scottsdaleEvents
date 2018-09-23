@@ -195,6 +195,7 @@ class Cart extends Component {
     };
 
     if (activeCart && !activeCart.length) {
+      sessionStorage.setItem('cartTotal', 0);
       return (
         <div
           style={{
