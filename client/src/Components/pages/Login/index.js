@@ -127,6 +127,19 @@ class Login extends React.Component {
     }
   };
 
+  formInputs = [
+    {
+      name: 'email',
+      label: 'Your email',
+      type: 'text'
+    },
+    {
+      name: 'password',
+      label: 'Your password',
+      type: 'password'
+    }
+  ];
+
   render() {
     if (this.state.isAdmin === false && sessionStorage.getItem('token')) {
       return <Redirect to="/" />;
@@ -147,25 +160,15 @@ class Login extends React.Component {
                     </Row>
                   </div>
                   <CardBody className="mx-4 mt-4">
-                    <Input
-                      onChange={this.onChange}
-                      onKeyPress={this.handleKeyPress}
-                      name="email"
-                      label="Your email"
-                      group
-                      type="text"
-                      validate
-                    />
-                    <Input
-                      onChange={this.onChange}
-                      onKeyPress={this.handleKeyPress}
-                      name="password"
-                      label="Your password"
-                      group
-                      type="password"
-                      validate
-                      containerClass="mb-0"
-                    />
+                    {this.formInputs.map(input => (
+                      <Input
+                        onChange={this.onChange}
+                        onKeyPress={this.handleKeyPress}
+                        name={input.name}
+                        label={input.label}
+                        type={input.type}
+                      />
+                    ))}
                     <p className="font-small grey-text d-flex justify-content-end">
                       Forgot{' '}
                       <span
@@ -215,7 +218,6 @@ class Login extends React.Component {
                             onKeyPress={this.handleKeyPress}
                             name="resetEmail"
                             label="Your email"
-                            group
                             type="text"
                           />
                           <Button

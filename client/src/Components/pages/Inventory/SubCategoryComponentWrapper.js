@@ -16,14 +16,15 @@ const SubCategoryComponentWrapper = props => {
   const subImgs = [];
 
   // grabs the sub categories. Even though this "isn't being used", its needed for getInvItems
-  const getSubCategories = inventory
-    ? inventory[param].map(a => {
-        if (!subCategories.includes(a.subcategory)) {
-          subImgs.push(a.url);
-          subCategories.push(a.subcategory);
-        }
-      })
-    : null;
+  const getSubCategories =
+    inventory && inventory[param]
+      ? inventory[param].map(a => {
+          if (!subCategories.includes(a.subcategory)) {
+            subImgs.push(a.url);
+            subCategories.push(a.subcategory);
+          }
+        })
+      : null;
 
   // checks if there are no sub categories. if not, gets the inventory items.
   const getInvItems = subCategories.includes('')

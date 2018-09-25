@@ -78,9 +78,7 @@ class EventForm extends Component {
                           name="customerName"
                           icon="user-circle"
                           onChange={this.handleChange}
-                          group
                           type="text"
-                          validate
                           error="wrong"
                           success="right"
                           className="h-25"
@@ -91,9 +89,7 @@ class EventForm extends Component {
                           name="groupName"
                           icon="group"
                           onChange={this.handleChange}
-                          group
                           type="text"
-                          validate
                           error="wrong"
                           success="right"
                           required
@@ -105,10 +101,7 @@ class EventForm extends Component {
                           name="eventDate"
                           icon="calendar"
                           onChange={this.handleChange}
-                          group
                           type="date"
-                          placeholder=""
-                          validate
                           error="wrong"
                           success="right"
                           required
@@ -121,9 +114,7 @@ class EventForm extends Component {
                           name="operationsManager"
                           icon="user-plus"
                           onChange={this.handleChange}
-                          group
                           type="text"
-                          validate
                           error="wrong"
                           success="right"
                           className="h-25"
@@ -135,9 +126,7 @@ class EventForm extends Component {
                           name="venue"
                           icon="building"
                           onChange={this.handleChange}
-                          group
                           type="text"
-                          validate
                           error="wrong"
                           success="right"
                           required
@@ -154,9 +143,7 @@ class EventForm extends Component {
                           name="eventStartTime"
                           icon="clock-o"
                           onChange={this.handleChange}
-                          group
                           type="time"
-                          validate
                           error="wrong"
                           success="right"
                           className="h-25"
@@ -167,9 +154,7 @@ class EventForm extends Component {
                           name="eventEndTime"
                           icon="clock-o"
                           onChange={this.handleChange}
-                          group
                           type="time"
-                          validate
                           error="wrong"
                           success="right"
                           className="h-25"
@@ -180,9 +165,7 @@ class EventForm extends Component {
                           name="room"
                           icon="building-o"
                           onChange={this.handleChange}
-                          group
                           type="text"
-                          validate
                           error="wrong"
                           success="right"
                           className="h-25"
@@ -216,9 +199,7 @@ class EventForm extends Component {
                       name="loadIn"
                       icon="clock-o"
                       onChange={this.handleChange}
-                      group
                       type="time"
-                      validate
                       error="wrong"
                       success="right"
                       className="h-25"
@@ -229,9 +210,7 @@ class EventForm extends Component {
                       name="setByTime"
                       icon="clock-o"
                       onChange={this.handleChange}
-                      group
                       type="time"
-                      validate
                       error="wrong"
                       success="right"
                       className="h-25"
@@ -242,9 +221,7 @@ class EventForm extends Component {
                       name="strikeTime"
                       icon="clock-o"
                       onChange={this.handleChange}
-                      group
                       type="time"
-                      validate
                       error="wrong"
                       success="right"
                       className="h-25"
@@ -273,7 +250,6 @@ class EventForm extends Component {
                   className="aButton"
                   size="md"
                   onClick={this.toggle}
-                  // style={{ marginBottom: '1rem' }}
                 >
                   Will Call Order
                 </Button>
@@ -287,9 +263,7 @@ class EventForm extends Component {
                           name="willCallCustomerName"
                           icon="clock"
                           onChange={this.handleChange}
-                          group
                           type="text"
-                          validate
                           error="wrong"
                           success="right"
                         />
@@ -302,9 +276,7 @@ class EventForm extends Component {
                           name="willCallPickupDate"
                           icon="clock"
                           onChange={this.handleChange}
-                          group
                           type="date"
-                          validate
                           error="wrong"
                           success="right"
                         />
@@ -316,9 +288,7 @@ class EventForm extends Component {
                           name="willCallPickupTime"
                           icon="clock"
                           onChange={this.handleChange}
-                          group
                           type="time"
-                          validate
                           error="wrong"
                           success="right"
                         />
@@ -332,9 +302,7 @@ class EventForm extends Component {
                           name="willCallReturnDate"
                           icon="clock"
                           onChange={this.handleChange}
-                          group
                           type="date"
-                          validate
                           error="wrong"
                           success="right"
                         />
@@ -346,9 +314,7 @@ class EventForm extends Component {
                           name="willCallReturnTime"
                           icon="clock"
                           onChange={this.handleChange}
-                          group
                           type="time"
-                          validate
                           error="wrong"
                           success="right"
                         />

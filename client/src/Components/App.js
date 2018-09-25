@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import InventoryPage from './pages/Inventory';
 import API from '../api/API';
 import Gallery from './pages/Gallery';
-import ContactPage from './pages/Contact/Form/index';
+import ContactPage from './pages/Contact';
 import Login from './pages/Login';
 import Admin from './pages/Admin';
 import Footer from './Footer/Footer';

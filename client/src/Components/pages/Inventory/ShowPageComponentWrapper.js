@@ -3,6 +3,7 @@ import React, { Component, Fragment } from 'react';
 import { Button, Col, Container, Row, CardBody } from 'mdbreact';
 import API from '../../../api/API';
 import { timeout, handleInputChange } from '../../../api/validate';
+import InventoryCard, { checkToken } from './InventoryCard';
 
 class ShowPageComponentWrapper extends Component {
   constructor(props) {
@@ -17,16 +18,13 @@ class ShowPageComponentWrapper extends Component {
     };
     this.timeout = timeout.bind(this);
     this.handleInputChange = handleInputChange.bind(this);
+    this.checkToken = checkToken.bind(this);
   }
 
   // checks if a user is authed. If so, displays cart and qty.
   componentDidMount() {
     window.scrollTo(0, 0);
-    API.checkToken()
-      .then(res => this.setState({ isAuthed: true, isAdmin: res.data.isAdmin }))
-      .catch(err => {
-        console.log(err);
-      });
+    this.checkToken();
     const inventoryItem = this.props.location.state.inventoryProps;
     const allImages = [];
     if (inventoryItem.extra) {
@@ -51,39 +49,6 @@ class ShowPageComponentWrapper extends Component {
         />
       </div>
     );
-  };
-
-  // saves the product to the users cart.
-  handleFormSubmit = event => {
-    // prevents adding 0 items of something or too many
-    if (
-      this.state.quantity > 0 &&
-      this.state.quantity <=
-        parseInt(this.props.location.state.inventoryProps.cardQuantity)
-    ) {
-      event.preventDefault();
-      // grabs the values needed for the product to save to the cart
-      const obj = {};
-      obj.ProductId = event.target.getAttribute('data-id');
-      obj.qty = this.state.quantity;
-      obj.CartId = sessionStorage.activeCart;
-      obj.maxQty = event.target.getAttribute('data-maxqty');
-
-      API.saveProduct(obj)
-        .then(result => {
-          this.timeout({ result: result.data.success });
-        })
-        .catch(error => {
-          console.log(error);
-          const err =
-            error.message && error.message.includes('timeout')
-              ? 'Connection timed out'
-              : error.response.data.message;
-          this.timeout({ error: err });
-        });
-    } else {
-      this.timeout({ error: 'Please choose a valid quantity' });
-    }
   };
 
   createSelectItems(value) {
@@ -184,7 +149,7 @@ class ShowPageComponentWrapper extends Component {
                       <Button
                         type="submit"
                         value="Submit"
-                        onClick={this.handleFormSubmit}
+                        onClick={InventoryCard.handleFormSubmit}
                         data-id={inventoryItem.id}
                         data-maxqty={inventoryItem.cardQuantity}
                         className="aButton"

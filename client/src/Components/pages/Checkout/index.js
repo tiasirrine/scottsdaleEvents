@@ -1,5 +1,5 @@
 import './Checkout.css';
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import EventForm from './EventForm';
 import Cart from './Cart';

@@ -96,4 +96,3 @@ export default class EstimateCart extends React.Component {
     );
   }
 }
-// parseFloat(Math.round(this.props.cart.reduce((a, b) => a + parseInt(b.total), 0) * 100) / 100).toFixed(2);

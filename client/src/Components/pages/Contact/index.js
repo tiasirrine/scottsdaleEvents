@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { handleInputChange } from '../../../../api/validate';
-import API from '../../../../api/API';
+import { handleInputChange } from '../../../api/validate';
+import API from '../../../api/API';
 
 import {
   Container,
@@ -60,6 +60,49 @@ class ContactPage extends Component {
       });
   };
 
+  inputValues = [
+    {
+      type: 'text',
+      label: 'Your Name',
+      name: 'name'
+    },
+    {
+      type: 'text',
+      label: 'Your Email',
+      name: 'email'
+    },
+    {
+      type: 'text',
+      label: 'Your Company',
+      name: 'company'
+    },
+    {
+      type: 'text',
+      label: 'Contact Number',
+      name: 'number'
+    },
+    {
+      type: 'textarea',
+      label: 'Your message',
+      name: 'message'
+    }
+  ];
+
+  sideDetails = [
+    {
+      text: 'Scottsdale, Arizona',
+      icon: 'map-marker'
+    },
+    {
+      text: '(480) 699-9381',
+      icon: 'phone'
+    },
+    {
+      text: 'cristina@scottsdaleme.com',
+      icon: 'envelope'
+    }
+  ];
+
   render() {
     return (
       <Container className="m120">
@@ -73,66 +116,19 @@ class ContactPage extends Component {
             <Col md="9" className="md-0 mb-5">
               <form>
                 <Row>
-                  <Col md="12">
-                    <div className="md-form mb-0">
-                      <Input
-                        type="text"
-                        label="Your name"
-                        name="name"
-                        onChange={this.handleChange}
-                        value={this.state.name}
-                      />
-                    </div>
-                  </Col>
-                  <Col md="12">
-                    <div className="md-form mb-0">
-                      <Input
-                        type="text"
-                        label="Company name"
-                        name="company"
-                        onChange={this.handleChange}
-                        required
-                        value={this.state.company}
-                      />
-                    </div>
-                  </Col>
-                  <Col md="12">
-                    <div className="md-form mb-0">
-                      <Input
-                        type="text"
-                        label="Your email"
-                        name="email"
-                        onChange={this.handleChange}
-                        value={this.state.email}
-                      />
-                    </div>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md="12">
-                    <div className="md-form mb-0">
-                      <Input
-                        type="text"
-                        label="Contact Number"
-                        name="number"
-                        onChange={this.handleChange}
-                        value={this.state.number}
-                      />
-                    </div>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md="12">
-                    <div className="md-form mb-0">
-                      <Input
-                        type="textarea"
-                        label="Your message"
-                        name="message"
-                        onChange={this.handleChange}
-                        value={this.state.message}
-                      />
-                    </div>
-                  </Col>
+                  {this.inputValues.map(val => (
+                    <Col md="12">
+                      <div className="md-form mb-0">
+                        <Input
+                          type={val.text}
+                          label={val.label}
+                          name={val.name}
+                          onChange={this.handleChange}
+                          value={this.state.name}
+                        />
+                      </div>
+                    </Col>
+                  ))}
                 </Row>
               </form>
               <div className="text-center text-md-left">
@@ -156,18 +152,12 @@ class ContactPage extends Component {
             </Col>
             <Col md="3" className="text-center">
               <ul className="list-unstyled mb-0">
-                <li>
-                  <Fa icon="map-marker" size="2x" className="grey-text" />
-                  <p>Scottsdale, Arizona</p>
-                </li>
-                <li>
-                  <Fa icon="phone" size="2x" className="grey-text mt-4" />
-                  <p>(480) 699-9381</p>
-                </li>
-                <li>
-                  <Fa icon="envelope" size="2x" className="grey-text mt-4" />
-                  <p> cristina@scottsdaleme.com</p>
-                </li>
+                {this.sideDetails.map(detail => (
+                  <li>
+                    <Fa icon={detail.icon} size="2x" className="grey-text" />
+                    <p>{detail.text}</p>
+                  </li>
+                ))}
               </ul>
             </Col>
           </Row>
