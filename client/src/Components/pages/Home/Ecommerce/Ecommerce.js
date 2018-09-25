@@ -25,7 +25,7 @@ const EcommercePage = () => {
         </p>
         <Row>
           {images.map((image, i) => (
-            <Col xs="12" lg="3" md="6" className="mb-lg-0 mb-4">
+            <Col key={i} xs="12" lg="3" md="6" className="mb-lg-0 mb-4">
               <Card
                 style={style}
                 collection

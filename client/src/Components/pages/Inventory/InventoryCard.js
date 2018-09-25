@@ -6,6 +6,14 @@ import API from '../../../api/API';
 import { Link } from 'react-router-dom';
 import { CartValueContext } from './index';
 
+export const checkToken = function() {
+  API.checkToken()
+    .then(res => this.setState({ isAuthed: true, isAdmin: res.data.isAdmin }))
+    .catch(err => {
+      console.log(err);
+    });
+};
+
 class InventoryCard extends Component {
   constructor(props) {
     super(props);
@@ -16,15 +24,13 @@ class InventoryCard extends Component {
       error: null,
       isAdmin: null
     };
+    this.checkToken = checkToken.bind(this);
   }
 
   // checks if a user is authed. If so, displays cart and qty.
   componentDidMount() {
-    API.checkToken()
-      .then(res => this.setState({ isAuthed: true, isAdmin: res.data.isAdmin }))
-      .catch(err => {
-        console.log(err);
-      });
+    console.log(checkToken);
+    this.checkToken();
   }
 
   componentWillUnmount() {
@@ -51,7 +57,7 @@ class InventoryCard extends Component {
     );
 
   // saves the product to the users cart.
-  handleFormSubmit = (event, func) => {
+  static handleFormSubmit(event, func) {
     // prevents adding 0 items of something or too many
     if (
       this.state.quantity > 0 &&
@@ -86,7 +92,7 @@ class InventoryCard extends Component {
       this.setState({ error: 'Please choose a valid quantity' });
       this.reset();
     }
-  };
+  }
 
   createSelectItems(value) {
     let items = [];
@@ -154,7 +160,7 @@ class InventoryCard extends Component {
                       type="submit"
                       value="Submit"
                       onClick={e => {
-                        this.handleFormSubmit(e, func);
+                        InventoryCard.handleFormSubmit(e, func);
                       }}
                       data-id={this.props.id}
                       data-maxqty={this.props.cardQuantity}
