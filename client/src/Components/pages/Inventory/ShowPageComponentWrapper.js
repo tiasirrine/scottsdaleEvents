@@ -1,9 +1,6 @@
 /* eslint-disable */
 import React, { Component, Fragment } from 'react';
 import { Button, Col, Container, Row, CardBody } from 'mdbreact';
-import Gallery from 'react-photo-gallery';
-import Lightbox from 'react-images';
-import { Link } from 'react-router-dom';
 import API from '../../../api/API';
 import { timeout, handleInputChange } from '../../../api/validate';
 
@@ -41,6 +38,20 @@ class ShowPageComponentWrapper extends Component {
       this.setState({ inventoryImages: allImages });
     }
   }
+
+  // used to display images on the side column on lg screens, and on the bottom on sm screens
+  displayExtraImages = (img, i) => {
+    return (
+      <div className="mb-3 mx-auto">
+        <img
+          src={img}
+          alt={i}
+          className="img-thumbnail img-fluid z-depth-1 extra-pointer"
+          onClick={event => this.pictureMover(event, i)}
+        />
+      </div>
+    );
+  };
 
   // saves the product to the users cart.
   handleFormSubmit = event => {
@@ -95,65 +106,73 @@ class ShowPageComponentWrapper extends Component {
     this.setState({ inventoryImages: newImagesArray });
   };
 
+  // css styles for the extra images
+  respClasses = (leftCol, btmRow) => {
+    const { inventoryImages } = this.state;
+    const display = (offset = '') =>
+      `col-12 ${
+        inventoryImages.length > 1 ? 'col-lg-10' + offset : 'col-lg-12'
+      } text-center`;
+
+    if (leftCol) {
+      return display();
+    }
+
+    if (btmRow) {
+      return display('offset-lg-2');
+    }
+  };
+
   render() {
+    const {
+      inventoryImages,
+      isAuthed,
+      isAdmin,
+      result,
+      error,
+      quantity
+    } = this.state;
     const inventoryItem = this.props.location.state.inventoryProps;
 
     return (
       <Container className="animated fadeInUpBig">
-        <br />
-
         <Row>
-          <Col className="col-3 thumb-images">
-            {this.state.inventoryImages.map((a, i) => {
-              if (i != 0) {
-                return (
-                  <Row key={i}>
-                    <div className="col-md-6 mb-3 d-block img-fluid">
-                      <img
-                        src={a}
-                        alt={i}
-                        className="img-thumbnail mx-auto d-block img-fluid z-depth-1 extra-pointer"
-                        onClick={event => this.pictureMover(event, i)}
-                      />
-                    </div>
-                  </Row>
-                );
-              }
-            })}
-          </Col>
-          <Col className="col-9">
-            <Col className="col-8 text-center">
-              <h3>{inventoryItem.cardTitle}</h3>
-              <img
-                src={this.state.inventoryImages[0]}
-                className="d-block img-fluid z-depth-1 main-show"
-                alt={inventoryItem.cardTitle}
-              />{' '}
-              <p>{inventoryItem.cardDesc}</p>
+          {inventoryImages.length > 1 && (
+            <Col className="col-lg-2 thumb-images d-none d-lg-block">
+              {inventoryImages.map((a, i) => {
+                if (i != 0) {
+                  return <div key={i}>{this.displayExtraImages(a, i)}</div>;
+                }
+              })}
             </Col>
+          )}
+          <Col className={this.respClasses(true, false)}>
+            <h2 className="mt-5">{inventoryItem.cardTitle}</h2>
+            <img
+              src={inventoryImages[0]}
+              className="d-block img-fluid mx-auto my-5 z-depth-1 main-show"
+              alt={inventoryItem.cardTitle}
+            />{' '}
+            <p style={{ fontSize: '20px' }}>{inventoryItem.cardDesc}</p>
           </Col>
         </Row>
         <Row>
           <CardBody className="text-center col-12">
             {' '}
             <div className="col-md-12 border-bottom pb-3 pb-sm-3">
-              {this.state.isAuthed &&
+              {isAuthed &&
                 inventoryItem.cardPrice > 0 &&
-                !this.state.isAdmin && (
+                !isAdmin && (
                   <Fragment>
-                    <Col className="col-12">
+                    <Col className={this.respClasses(false, true)}>
                       <p>${inventoryItem.cardPrice}</p>
                       <p>{inventoryItem.cardQuantity} units in inventory</p>
 
-                      {this.state.result && (
-                        <p className="text-success my-2">{this.state.result}</p>
-                      )}
-                      {this.state.error && (
-                        <p className="text-danger">{this.state.error}</p>
-                      )}
+                      {result && <p className="text-success my-2">{result}</p>}
+                      {error && <p className="text-danger">{error}</p>}
                       <label>Quantity</label>
                       <select
-                        value={this.state.quantity.toString()}
+                        value={quantity.toString()}
                         data-id={inventoryItem.id}
                         className="browser-default mx-2"
                         onChange={this.handleInputChange}
@@ -178,6 +197,16 @@ class ShowPageComponentWrapper extends Component {
                 )}
             </div>
           </CardBody>
+          {inventoryImages.length > 1 &&
+            inventoryImages.map((a, i) => {
+              if (i != 0) {
+                return (
+                  <div key={i} className="col-3 px-2 d-lg-none">
+                    {this.displayExtraImages(a, i)}
+                  </div>
+                );
+              }
+            })}
         </Row>
       </Container>
     );
