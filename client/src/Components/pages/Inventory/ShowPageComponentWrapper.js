@@ -47,7 +47,8 @@ class ShowPageComponentWrapper extends Component {
     // prevents adding 0 items of something or too many
     if (
       this.state.quantity > 0 &&
-      this.state.quantity <= parseInt(this.props.location.state.inventoryProps.cardQuantity)
+      this.state.quantity <=
+        parseInt(this.props.location.state.inventoryProps.cardQuantity)
     ) {
       event.preventDefault();
       // grabs the values needed for the product to save to the cart
@@ -102,12 +103,12 @@ class ShowPageComponentWrapper extends Component {
         <br />
 
         <Row>
-          <Col className="col-sm-3 col-xs-3 col-md-3 thumb-images">
+          <Col className="col-3 thumb-images">
             {this.state.inventoryImages.map((a, i) => {
               if (i != 0) {
                 return (
                   <Row key={i}>
-                    <div className="col-xl-6 col-md-6 mb-3 d-block img-fluid">
+                    <div className="col-md-6 mb-3 d-block img-fluid">
                       <img
                         src={a}
                         alt={i}
@@ -147,7 +148,9 @@ class ShowPageComponentWrapper extends Component {
                       {this.state.result && (
                         <p className="text-success my-2">{this.state.result}</p>
                       )}
-                      {this.state.error && <p className="text-danger">{this.state.error}</p>}
+                      {this.state.error && (
+                        <p className="text-danger">{this.state.error}</p>
+                      )}
                       <label>Quantity</label>
                       <select
                         value={this.state.quantity.toString()}
