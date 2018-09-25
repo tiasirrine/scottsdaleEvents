@@ -38,8 +38,8 @@ const SubCategoryComponentWrapper = props => {
         {itemsToRender &&
           !getInvItems &&
           itemsToRender.map((a, i) => (
-            <Col md="6" lg="4" xl="3" key={a}>
-              <Card className="card card-cascade wider reverse mt-4 mb-2 animated fadeInUpBig w-300">
+            <Col md="6" xl="4" key={a}>
+              <Card className="card card-cascade wider reverse mt-4 mb-2 animated fadeInUpBig img-width">
                 <Link to={`${props.match.url}/${a}`}>
                   <div className="view view-cascade overlay">
                     <View zoom>
