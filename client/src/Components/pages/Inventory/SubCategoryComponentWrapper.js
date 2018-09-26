@@ -48,7 +48,7 @@ const SubCategoryComponentWrapper = props => {
                         cascade
                         src={subImgs[i]}
                         className="card-image"
-                        alt={a}
+                        alt="Category Image"
                       />
                       <div className="mask flex-center waves-effect waves-light cat-names text-justify" />
                     </View>

@@ -1,34 +1,39 @@
-import React from 'react';
+import React, { Component } from 'react';
 import images from './Images';
 import { Carousel, CarouselInner, CarouselItem, View, Container } from 'mdbreact';
 
-const CarouselPage = () => (
-  <Container>
-    <br />
-    <Carousel
-      activeItem={1}
-      length={images.length}
-      showControls={true}
-      showIndicators={false}
-      className="z-depth-1"
-    >
-      <CarouselInner>
-        {images.length &&
-          images.map((image, index) => (
-            <CarouselItem key={index} itemId={index + 1}>
+class CarouselPage extends Component {
+  render() {
+    return (
+      <Container>
+        <br />
+        <Carousel activeItem={1} length={4} showControls={true} showIndicators={false} className="z-depth-1">
+          <CarouselInner>
+            <CarouselItem itemId="1">
               <View>
-                <img
-                  style={{ maxHeight: '628px' }}
-                  className="d-block w-100"
-                  src={image}
-                  alt="First slide"
-                />
+                <img className="d-block w-100" src={images[0]} alt="First slide" />
               </View>
             </CarouselItem>
-          ))}
-      </CarouselInner>
-    </Carousel>
-  </Container>
-);
+            <CarouselItem itemId="2">
+              <View>
+                <img className="d-block w-100" src={images[1]} alt="Second slide" />
+              </View>
+            </CarouselItem>
+            <CarouselItem itemId="3">
+              <View>
+                <img className="d-block w-100" src={images[2]} alt="Third slide" />
+              </View>
+            </CarouselItem>
+            <CarouselItem itemId="4">
+              <View>
+                <img className="d-block w-100" src={images[3]} alt="Mattonit's item" />
+              </View>
+            </CarouselItem>
+          </CarouselInner>
+        </Carousel>
+      </Container>
+    );
+  }
+}
 
 export default CarouselPage;

@@ -19,7 +19,7 @@ const CategoryComponentWrapper = props => {
                       cascade
                       src={images[i]}
                       className="ind-card-image card-image"
-                      alt={a}
+                      alt="Category Image"
                     />
                     <div className="mask flex-center waves-effect waves-light cat-names text-justify" />
                   </View>
