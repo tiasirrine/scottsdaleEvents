@@ -1,41 +1,44 @@
 /* eslint-disable */
-import React, { Component, Fragment } from 'react';
-import { Button, Col, Container, Row, CardBody } from 'mdbreact';
-import API from '../../../api/API';
+import React, { Fragment } from 'react';
+import { Col, Container, Row, CardBody } from 'mdbreact';
 import { timeout, handleInputChange } from '../../../api/validate';
-import InventoryCard, { checkToken } from './InventoryCard';
+import { CartValueContext } from './index';
+import InventoryCard from './InventoryCard';
 
-class ShowPageComponentWrapper extends Component {
+class ShowPageComponentWrapper extends InventoryCard {
   constructor(props) {
     super(props);
     this.state = {
       quantity: 0,
       isAuthed: false,
-      result: null,
+      success: null,
       isAdmin: null,
       inventoryImages: [],
       error: null
     };
     this.timeout = timeout.bind(this);
     this.handleInputChange = handleInputChange.bind(this);
-    this.checkToken = checkToken.bind(this);
+    this.product = this.props.location.state.inventoryProps;
   }
 
   // checks if a user is authed. If so, displays cart and qty.
   componentDidMount() {
     window.scrollTo(0, 0);
     this.checkToken();
-    const inventoryItem = this.props.location.state.inventoryProps;
+    this.setImages();
+  }
+
+  setImages = () => {
     const allImages = [];
-    if (inventoryItem.extra) {
-      allImages.push(inventoryItem.url);
-      allImages.push(...inventoryItem.extra.trim().split(' '));
+    if (this.product.extra) {
+      allImages.push(this.product.url);
+      allImages.push(...this.product.extra.trim().split(' '));
       this.setState({ inventoryImages: allImages });
     } else {
-      allImages.push(inventoryItem.url);
+      allImages.push(this.product.url);
       this.setState({ inventoryImages: allImages });
     }
-  }
+  };
 
   // used to display images on the side column on lg screens, and on the bottom on sm screens
   displayExtraImages = (img, i) => {
@@ -51,20 +54,7 @@ class ShowPageComponentWrapper extends Component {
     );
   };
 
-  createSelectItems(value) {
-    let items = [];
-
-    for (let i = 1; i <= value; i++) {
-      items.push(
-        <option key={i} value={i}>
-          {i}
-        </option>
-      );
-    }
-    return items;
-  }
-
-  pictureMover = (event, i) => {
+  pictureMover = i => {
     const newImagesArray = [...this.state.inventoryImages];
     const newVariable = newImagesArray.splice(i, 1);
     newImagesArray.unshift(newVariable);
@@ -89,15 +79,15 @@ class ShowPageComponentWrapper extends Component {
   };
 
   render() {
+    const { product } = this;
     const {
       inventoryImages,
       isAuthed,
       isAdmin,
-      result,
+      success,
       error,
       quantity
     } = this.state;
-    const inventoryItem = this.props.location.state.inventoryProps;
 
     return (
       <Container className="animated fadeInUpBig">
@@ -112,13 +102,13 @@ class ShowPageComponentWrapper extends Component {
             </Col>
           )}
           <Col className={this.respClasses(true, false)}>
-            <h2 className="mt-5">{inventoryItem.cardTitle}</h2>
+            <h2 className="mt-5">{product.cardTitle}</h2>
             <img
               src={inventoryImages[0]}
               className="d-block img-fluid mx-auto my-5 z-depth-1 main-show"
-              alt={inventoryItem.cardTitle}
+              alt={product.cardTitle}
             />{' '}
-            <p style={{ fontSize: '20px' }}>{inventoryItem.cardDesc}</p>
+            <p style={{ fontSize: '20px' }}>{product.cardDesc}</p>
           </Col>
         </Row>
         <Row>
@@ -126,37 +116,22 @@ class ShowPageComponentWrapper extends Component {
             {' '}
             <div className="col-md-12 border-bottom pb-3 pb-sm-3">
               {isAuthed &&
-                inventoryItem.cardPrice > 0 &&
+                product.cardPrice > 0 &&
                 !isAdmin && (
                   <Fragment>
                     <Col className={this.respClasses(false, true)}>
-                      <p>${inventoryItem.cardPrice}</p>
-                      <p>{inventoryItem.cardQuantity} units in inventory</p>
-
-                      {result && <p className="text-success my-2">{result}</p>}
-                      {error && <p className="text-danger">{error}</p>}
-                      <label>Quantity</label>
-                      <select
-                        value={quantity.toString()}
-                        data-id={inventoryItem.id}
-                        className="browser-default mx-2"
-                        onChange={this.handleInputChange}
-                        name="quantity"
-                      >
-                        <option>0</option>
-                        {this.createSelectItems(inventoryItem.cardQuantity)}
-                      </select>
-                      <Button
-                        type="submit"
-                        value="Submit"
-                        onClick={InventoryCard.handleFormSubmit}
-                        data-id={inventoryItem.id}
-                        data-maxqty={inventoryItem.cardQuantity}
-                        className="aButton"
-                      >
-                        {' '}
-                        Add To Cart
-                      </Button>
+                      {this.selectElem(
+                        quantity,
+                        product.id,
+                        product.cardQuantity,
+                        product.cardPrice
+                      )}
+                      {this.resultMsg(success, error)}
+                      <CartValueContext.Consumer>
+                        {func =>
+                          this.submitBtn(product.id, product.cardQuantity, func)
+                        }
+                      </CartValueContext.Consumer>
                     </Col>
                   </Fragment>
                 )}

@@ -5,14 +5,7 @@ import './InventoryPage.css';
 import API from '../../../api/API';
 import { Link } from 'react-router-dom';
 import { CartValueContext } from './index';
-
-export const checkToken = function() {
-  API.checkToken()
-    .then(res => this.setState({ isAuthed: true, isAdmin: res.data.isAdmin }))
-    .catch(err => {
-      console.log(err);
-    });
-};
+import { timeout, handleInputChange } from '../../../api/validate';
 
 class InventoryCard extends Component {
   constructor(props) {
@@ -24,45 +17,27 @@ class InventoryCard extends Component {
       error: null,
       isAdmin: null
     };
-    this.checkToken = checkToken.bind(this);
+    this.timeout = timeout.bind(this);
+    this.handleInputChange = handleInputChange.bind(this);
+    this.product = this.props;
   }
 
   // checks if a user is authed. If so, displays cart and qty.
   componentDidMount() {
-    console.log(checkToken);
+    window.scrollTo(0, 0);
     this.checkToken();
   }
 
-  componentWillUnmount() {
-    clearTimeout(this.reset);
-  }
-
-  // updates qty for a product
-  handleInputChange = event => {
-    const { name } = event.target;
-    let { value } = event.target;
-    // ensures only numbers are passed in
-    if (isNaN(value.slice(-1))) {
-      value = value.replace(/[^0-9]+/g, '');
-    }
-    this.setState({
-      [name]: value
-    });
+  checkToken = () => {
+    API.checkToken().then(res =>
+      this.setState({ isAuthed: true, isAdmin: res.data.isAdmin })
+    );
   };
 
-  reset = () =>
-    setTimeout(
-      () => this.setState({ success: null, error: null, quantity: 0 }),
-      3000
-    );
-
   // saves the product to the users cart.
-  static handleFormSubmit(event, func) {
+  handleFormSubmit = (event, qty, func) => {
     // prevents adding 0 items of something or too many
-    if (
-      this.state.quantity > 0 &&
-      this.state.quantity <= parseInt(this.props.cardQuantity)
-    ) {
+    if (this.state.quantity > 0 && this.state.quantity <= parseInt(qty)) {
       event.preventDefault();
       // grabs the values needed for the product to save to the cart
       const obj = {};
@@ -74,10 +49,8 @@ class InventoryCard extends Component {
 
       API.saveProduct(obj)
         .then(result => {
-          console.log(result.data);
           func(result.data);
-          this.setState({ success: 'Success' });
-          this.reset();
+          this.timeout({ success: 'Success' });
         })
         .catch(error => {
           console.log(error);
@@ -85,98 +58,106 @@ class InventoryCard extends Component {
             error.message && error.message.includes('timeout')
               ? 'Connection timed out'
               : error.response.data.message;
-          this.setState({ error: err });
-          this.reset();
+          this.timeout({ error: err });
         });
     } else {
-      this.setState({ error: 'Please choose a valid quantity' });
-      this.reset();
+      this.timeout({ error: 'Please choose a valid quantity' });
     }
-  }
+  };
 
   createSelectItems(value) {
     let items = [];
-
-    for (let i = 1; i <= value; i++) {
+    let i = 0;
+    while (i <= value) {
       items.push(
         <option key={i} value={i}>
           {i}
         </option>
       );
+      i++;
     }
-
     return items;
   }
 
+  submitBtn = (dataId, maxQty, func) => (
+    <Button
+      type="submit"
+      value="Submit"
+      onClick={e => this.handleFormSubmit(e, maxQty, func)}
+      data-id={dataId}
+      data-maxqty={maxQty}
+      className="aButton"
+    >
+      {' '}
+      Add To Cart
+    </Button>
+  );
+
+  resultMsg = (success, error) => {
+    const style = success ? 'text-success' : 'text-danger';
+    return <p className={`my-2 ${style}`}>{success || error}</p>;
+  };
+
+  selectElem = (qty, productId, totalQty, price) => {
+    return (
+      <Fragment>
+        <p>${price}</p>
+        <p>{totalQty} units in inventory</p>
+        <label>Quantity</label>
+        <select
+          value={qty.toString()}
+          data-id={productId}
+          className="browser-default mx-2"
+          onChange={this.handleInputChange}
+          name="quantity"
+        >
+          {this.createSelectItems(totalQty)}
+        </select>
+      </Fragment>
+    );
+  };
+
   render() {
+    const { product } = this;
     return (
       <div className="row my-5 pb-4 text-center text-md-left animated fadeInUpBig">
         <div className="col-md-5 mb-3 mb-sm-3">
           <Link
             to={{
-              pathname: `${window.location.pathname}/${this.props.cardTitle}`,
-              state: { inventoryProps: this.props }
+              pathname: `${window.location.pathname}/${product.cardTitle}`,
+              state: { inventoryProps: product }
             }}
           >
             <img
               className="img-fluid product-img"
-              src={this.props.url}
-              alt={this.props.cardTitle}
+              src={product.url}
+              alt={product.cardTitle}
             />
           </Link>
         </div>
 
         <div className="col-md-7 border-bottom pb-3 pb-sm-3">
-          <h3 className="mb-2">{this.props.cardTitle}</h3>
-          {/* <p className="mb-2">{this.props.cardDesc}</p> */}
+          <h3 className="mb-2">{product.cardTitle}</h3>
           {this.state.isAuthed &&
-            this.props.cardPrice > 0 &&
+            product.cardPrice > 0 &&
             !this.state.isAdmin && (
               <Fragment>
-                <p>${this.props.cardPrice}</p>
-                <p>{this.props.cardQuantity} units in inventory</p>
-
-                {this.state.success && (
-                  <p className="my-2 text-success">{this.state.success}</p>
+                {this.selectElem(
+                  this.state.quantity,
+                  product.id,
+                  product.cardQuantity,
+                  product.cardPrice
                 )}
-                {this.state.error && (
-                  <p className="my-2 text-danger">{this.state.error}</p>
-                )}
-
-                <label>Quantity</label>
-                <select
-                  value={this.state.quantity.toString()}
-                  data-id={this.props.id}
-                  className="browser-default mx-2"
-                  onChange={this.handleInputChange}
-                  name="quantity"
-                >
-                  <option>0</option>
-                  {this.createSelectItems(this.props.cardQuantity)}
-                </select>
+                {this.resultMsg(this.state.success, this.state.error)}
                 <CartValueContext.Consumer>
-                  {func => (
-                    <Button
-                      type="submit"
-                      value="Submit"
-                      onClick={e => {
-                        InventoryCard.handleFormSubmit(e, func);
-                      }}
-                      data-id={this.props.id}
-                      data-maxqty={this.props.cardQuantity}
-                      className="aButton"
-                    >
-                      {' '}
-                      Add To Cart
-                    </Button>
-                  )}
+                  {func => this.submitBtn(product.id, product.cardQuantity, func)}
                 </CartValueContext.Consumer>
               </Fragment>
             )}
           <Link
             to={{
-              pathname: `${window.location.pathname}/${this.props.cardTitle}`,
-              state: { inventoryProps: this.props }
+              pathname: `${window.location.pathname}/${product.cardTitle}`,
+              state: { inventoryProps: product }
             }}
           >
             <Button className="aButton"> More Info</Button>
