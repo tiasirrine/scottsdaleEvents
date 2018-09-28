@@ -54,7 +54,7 @@ class ShowPageComponentWrapper extends InventoryCard {
     );
   };
 
-  pictureMover = i => {
+  pictureMover = (event, i) => {
     const newImagesArray = [...this.state.inventoryImages];
     const newVariable = newImagesArray.splice(i, 1);
     newImagesArray.unshift(newVariable);
@@ -74,7 +74,7 @@ class ShowPageComponentWrapper extends InventoryCard {
     }
 
     if (btmRow) {
-      return display('offset-lg-2');
+      return display(' offset-lg-2');
     }
   };
 

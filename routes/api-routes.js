@@ -6,8 +6,6 @@ const db = require('../models');
 const Json2csvParser = require('json2csv').Parser;
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const debug = require('debug');
-const dCheck = debug('express:log');
 const Dropbox = require('dropbox').Dropbox;
 const dbx = new Dropbox({ accessToken: process.env.DROPBOX });
 const date = require('../util/getDate');
@@ -30,7 +28,29 @@ router.post(
       .createCustomer(req.body)
       .then(result => {
         delete result.dataValues.password;
-        res.json({ success: 'New customer created successfully' });
+        jwt.sign(
+          { result, resetToken: true },
+          'secretkey',
+          { expiresIn: '1h' },
+          (err, token) => {
+            if (err) next(err);
+            mailer(
+              // set to req.body.email
+              'johnsontrevor55@gmail.com',
+              'Scottsdale Event Decor Login',
+              'welcomeEmail',
+              { token, result: req.body },
+              (error, success) => {
+                if (error) next(error);
+                if (success) {
+                  res.send({
+                    success: 'New customer created successfully'
+                  });
+                }
+              }
+            );
+          }
+        );
       })
       .catch(next);
   }
@@ -556,7 +576,7 @@ router.post('/reset/password', (req, res, next) => {
         const { id, isAdmin } = decoded.result;
         user
           .resetPassword(id, isAdmin, password)
-          .then(result => {
+          .then(() => {
             res.send({ success: true, isAdmin });
           })
           .catch(next);
