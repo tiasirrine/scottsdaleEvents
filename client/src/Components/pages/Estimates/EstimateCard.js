@@ -21,8 +21,8 @@ export default class EstimateCard extends Component {
             <CardTitle style={{ paddingLeft: '1.25rem' }}>
               {this.state.estimate.Cart.cartName}
             </CardTitle>
-
             <div className="mt-2" style={{ paddingLeft: '1.25rem' }}>
+              <p className="mb-1">Group Name: {this.state.estimate.groupName}</p>
               <p className="mb-1">Checkout Date: {this.state.estimate.Cart.date}</p>
               <p className="mb-1">Estimate ID: {this.state.estimate.id}</p>
               <Link
