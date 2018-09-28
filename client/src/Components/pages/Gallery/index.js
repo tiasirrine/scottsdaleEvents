@@ -1,18 +1,263 @@
 import React from 'react';
 import Gallery from 'react-photo-gallery';
 import Lightbox from 'react-images';
-import images from './Images';
 
 const photos = [
-  { src: images[0], width: 4, height: 3 },
-  { src: images[1], width: 1, height: 1 },
-  { src: images[2], width: 3, height: 4 },
-  { src: images[3], width: 3, height: 4 },
-  { src: images[4], width: 3, height: 4 },
-  { src: images[5], width: 4, height: 3 },
-  { src: images[6], width: 3, height: 4 },
-  { src: images[7], width: 4, height: 3 },
-  { src: images[8], width: 4, height: 3 }
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/0.JPG',
+    width: 3,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/1.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/2.JPG',
+    width: 2,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/3.JPG',
+    width: 3,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/4.JPG',
+    width: 2,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/5.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/6.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/7.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/8.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/9.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/10.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/11.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/12.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/13.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/14.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/15.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/16.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/17.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/18.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/19.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/20.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/21.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/22.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/23.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/24.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/25.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/26.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/27.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/28.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/29.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/30.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/31.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/32.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/33.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/34.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/35.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/36.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/37.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/38.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/39.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/40.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/41.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/42.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/43.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/44.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/45.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/46.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/47.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/48.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/49.JPG',
+    width: 4,
+    height: 3
+  },
+  {
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/50.JPG',
+    width: 4,
+    height: 3
+  }
 ];
 
 class photoGallery extends React.Component {

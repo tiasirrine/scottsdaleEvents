@@ -44,7 +44,6 @@ class ContactPage extends Component {
   toggle = () => this.setState({ modal: !this.state.modal, loading: false });
 
   sendEmail = () => {
-    console.log(this.state);
     if (!this.state.name) {
       this.timeout({ error: 'Please enter your name' });
       return;
@@ -61,7 +60,6 @@ class ContactPage extends Component {
     }
 
     const reg = /^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})$/;
-    console.log(reg.test(this.state.number));
     if (!reg.test(this.state.number)) {
       this.timeout({ error: 'Please enter a valid phone number' });
       return;
