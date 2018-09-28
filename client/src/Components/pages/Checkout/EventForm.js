@@ -28,9 +28,11 @@ class EventForm extends Component {
       willCallPickupTime: this.eventProps ? this.eventProps.willCallPickupTime : '',
       willCallReturnDate: this.eventProps ? this.eventProps.willCallReturnDate : '',
       willCallReturnTime: this.eventProps ? this.eventProps.willCallReturnTime : '',
-      collapse: false
+      collapse: false,
+      errors: {}
     };
     this.handleChange = handleInputChange.bind(this);
+    this.submitHandler = this.submitHandler.bind(this);
     this.toggle = this.toggle.bind(this);
   }
 
@@ -40,11 +42,35 @@ class EventForm extends Component {
 
   submitHandler = event => {
     event.preventDefault();
-    event.target.className += ' was-validated';
+    if (this.validateForm()) {
+      return;
+    }
   };
 
   toggle() {
     this.setState({ collapse: !this.state.collapse });
+  }
+
+  validateForm() {
+    let errors = {};
+    let formIsValid = true;
+
+    if (!this.state.groupName) {
+      formIsValid = false;
+      errors['groupName'] = '*Please enter the Group Name.';
+    }
+
+    if (typeof this.state.groupName !== 'undefined') {
+      if (!this.state.groupName.match(/^[a-zA-Z ]*$/)) {
+        formIsValid = false;
+        errors['groupName'] = '*Please enter alphabet characters only.';
+      }
+    }
+
+    this.setState({
+      errors: errors
+    });
+    return formIsValid;
   }
 
   render() {
@@ -72,6 +98,7 @@ class EventForm extends Component {
                           success="right"
                           className="h-25"
                         />
+                        <div className="errorMsg">{this.state.errors.groupName}</div>
                         <Input
                           value={this.state.groupName}
                           label="Group Name"
@@ -79,8 +106,6 @@ class EventForm extends Component {
                           icon="group"
                           onChange={this.handleChange}
                           type="text"
-                          error="wrong"
-                          success="right"
                           required
                           className="h-25"
                         />
@@ -108,7 +133,7 @@ class EventForm extends Component {
                           success="right"
                           className="h-25"
                         />
-                        {<p>{this.state.groupNameresult}</p>}
+
                         <Input
                           value={this.state.venue}
                           label="Venue"
@@ -125,7 +150,6 @@ class EventForm extends Component {
                     </Col>
                     <Col md="6">
                       <div className="grey-text">
-                        {<p>{this.state.groupNameresult}</p>}
                         <Input
                           value={this.state.eventStartTime}
                           label="Start Time of Event"
@@ -322,6 +346,7 @@ class EventForm extends Component {
                       eventProps: stateEventProps
                     }
                   }}
+                  onClick={this.submitHandler}
                 >
                   <Button color="success" className="aButton" size="md" name="event-form-submit">
                     Go to Summary
@@ -329,6 +354,7 @@ class EventForm extends Component {
                     <i className="fa fa-arrow-right" aria-hidden="true" />
                   </Button>
                 </Link>
+                <div className="errorMsg">{this.state.errors.groupName}</div>
               </div>
             </form>
           </CardBody>
