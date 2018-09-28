@@ -28,7 +28,8 @@ export default class CreateCustomer extends Component {
       password2: '',
       result: null,
       unauthorized: false,
-      error: null
+      error: null,
+      loading: false
     };
     this.timeout = timeout.bind(this);
   }
@@ -38,7 +39,7 @@ export default class CreateCustomer extends Component {
   }
 
   onSubmit = () => {
-    const { result, unauthorized, error, ...customer } = this.state;
+    const { result, unauthorized, error, loading, ...customer } = this.state;
 
     if (!checkNull(customer)) {
       this.timeout({ error: 'All fields must be completed' });
@@ -60,10 +61,21 @@ export default class CreateCustomer extends Component {
       return;
     }
 
+    this.setState({ loading: true });
+
     // this.props.checkAuth will update the state of index.js to re-direct to /admin if there is a 401
     API.createCustomer(customer)
       .then(res => {
-        this.timeout({ result: res.data.success });
+        this.timeout({
+          result: res.data.success,
+          loading: false,
+          firstName: '',
+          lastName: '',
+          company: '',
+          email: '',
+          password: '',
+          password2: ''
+        });
       })
       .catch(error => {
         console.log(error);
@@ -75,7 +87,7 @@ export default class CreateCustomer extends Component {
             error.message && error.message.includes('timeout')
               ? 'Connection timed out'
               : error.response.data.message;
-          this.timeout({ error: err });
+          this.timeout({ error: err, loading: false });
         }
       });
   };
@@ -154,8 +166,13 @@ export default class CreateCustomer extends Component {
                     color="primary"
                     name="update-profile"
                     onClick={this.onSubmit}
+                    disabled={this.state.loading}
                   >
-                    Create Customer
+                    {this.state.loading ? (
+                      <i className="fa fa-spinner fa-spin" />
+                    ) : (
+                      'Create Customer'
+                    )}
                   </Button>
                   {this.state.result && (
                     <p className="text-success">{this.state.result}</p>

@@ -160,8 +160,9 @@ class Login extends React.Component {
                     </Row>
                   </div>
                   <CardBody className="mx-4 mt-4">
-                    {this.formInputs.map(input => (
+                    {this.formInputs.map((input, index) => (
                       <Input
+                        key={index}
                         onChange={this.onChange}
                         onKeyPress={this.handleKeyPress}
                         name={input.name}
