@@ -114,12 +114,14 @@ export default class Carts extends Component {
           <Row>
             <div className="col-lg-6 text-center text-lg-left">
               <h2>My Carts</h2>
-              <p className="text-center text-danger">
-                {this.state.error && this.state.error}
-              </p>
+              <p className="text-center text-danger">{this.state.error && this.state.error}</p>
             </div>
             <div className="col-lg-6 text-center text-lg-right">
-              <Button onClick={this.createCart}>Create Cart</Button>
+              <Button onClick={this.createCart}>
+                Create Cart
+                {'  '}
+                <i className="fa fa-wrench" aria-hidden="true" />
+              </Button>
             </div>
           </Row>
           <Row>

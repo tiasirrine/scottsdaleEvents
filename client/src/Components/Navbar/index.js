@@ -9,7 +9,8 @@ import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
+  Fa
 } from 'mdbreact';
 import { Link } from 'react-router-dom';
 
@@ -41,11 +42,7 @@ export default class Nav extends Component {
 
   render() {
     const { href } = window.location;
-    if (
-      href.includes('/admin') ||
-      href.includes('/dashboard') ||
-      href.includes('/reset')
-    ) {
+    if (href.includes('/admin') || href.includes('/dashboard') || href.includes('/reset')) {
       return null;
     }
     return (
@@ -60,17 +57,13 @@ export default class Nav extends Component {
           <div>
             <NavbarNav right>
               <NavItem>
-                <NavLink
-                  className={`${this.state.active === '/' && 'activeTab'}`}
-                  to="/"
-                >
+                <NavLink className={`${this.state.active === '/' && 'activeTab'}`} to="/">
                   <span>Home</span>
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink
-                  className={`${this.state.active.includes('inventory') &&
-                    'activeTab'}`}
+                  className={`${this.state.active.includes('inventory') && 'activeTab'}`}
                   to="/inventory"
                 >
                   <span>Inventory</span>
@@ -93,10 +86,7 @@ export default class Nav extends Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink
-                  className={`${this.state.active === '/about' && 'activeTab'}`}
-                  to="/about"
-                >
+                <NavLink className={`${this.state.active === '/about' && 'activeTab'}`} to="/about">
                   <span>About</span>
                 </NavLink>
               </NavItem>
@@ -119,20 +109,42 @@ export default class Nav extends Component {
                       </DropdownToggle>
                       <DropdownMenu>
                         <DropdownItem>
-                          <Link to="/profile">Profile</Link>
+                          <Link to="/profile">
+                            <i class="fa fa-dashboard" aria-hidden="true" />
+                            {'  '}
+                            Profile
+                          </Link>
                         </DropdownItem>
                         <DropdownItem>
-                          <Link to="/carts">My Carts</Link>
+                          <Link to="/carts">
+                            {' '}
+                            <i class="fa fa-shopping-cart" aria-hidden="true" />
+                            {'  '}
+                            My Carts
+                          </Link>
                         </DropdownItem>
                         <DropdownItem>
-                          <Link to="/estimates">Past Estimates</Link>
+                          <Link to="/estimates">
+                            {' '}
+                            <i class="fa fa-pencil-square" aria-hidden="true" />
+                            {'  '}
+                            Past Estimates
+                          </Link>
                         </DropdownItem>
                         <DropdownItem>
-                          <Link to="/checkout/cart">Checkout</Link>
+                          <Link to="/checkout/cart">
+                            {' '}
+                            <i class="fa fa-shopping-basket" aria-hidden="true" />
+                            {'  '}
+                            Checkout
+                          </Link>
                         </DropdownItem>
                         <div className="dropdown-divider" />
                         <DropdownItem>
                           <Link to="/" onClick={this.logout}>
+                            {' '}
+                            <i class="fa fa-sign-out" aria-hidden="true" />
+                            {'  '}
                             Logout
                           </Link>
                         </DropdownItem>
