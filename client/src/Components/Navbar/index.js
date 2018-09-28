@@ -42,7 +42,11 @@ export default class Nav extends Component {
 
   render() {
     const { href } = window.location;
-    if (href.includes('/admin') || href.includes('/dashboard') || href.includes('/reset')) {
+    if (
+      href.includes('/admin') ||
+      href.includes('/dashboard') ||
+      href.includes('/reset')
+    ) {
       return null;
     }
     return (
@@ -57,13 +61,17 @@ export default class Nav extends Component {
           <div>
             <NavbarNav right>
               <NavItem>
-                <NavLink className={`${this.state.active === '/' && 'activeTab'}`} to="/">
+                <NavLink
+                  className={`${this.state.active === '/' && 'activeTab'}`}
+                  to="/"
+                >
                   <span>Home</span>
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink
-                  className={`${this.state.active.includes('inventory') && 'activeTab'}`}
+                  className={`${this.state.active.includes('inventory') &&
+                    'activeTab'}`}
                   to="/inventory"
                 >
                   <span>Inventory</span>
@@ -86,7 +94,10 @@ export default class Nav extends Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink className={`${this.state.active === '/about' && 'activeTab'}`} to="/about">
+                <NavLink
+                  className={`${this.state.active === '/about' && 'activeTab'}`}
+                  to="/about"
+                >
                   <span>About</span>
                 </NavLink>
               </NavItem>
@@ -110,7 +121,7 @@ export default class Nav extends Component {
                       <DropdownMenu>
                         <DropdownItem>
                           <Link to="/profile">
-                            <i class="fa fa-dashboard" aria-hidden="true" />
+                            <i className="fa fa-dashboard" aria-hidden="true" />
                             {'  '}
                             Profile
                           </Link>
@@ -118,7 +129,7 @@ export default class Nav extends Component {
                         <DropdownItem>
                           <Link to="/carts">
                             {' '}
-                            <i class="fa fa-shopping-cart" aria-hidden="true" />
+                            <i className="fa fa-shopping-cart" aria-hidden="true" />
                             {'  '}
                             My Carts
                           </Link>
@@ -126,7 +137,7 @@ export default class Nav extends Component {
                         <DropdownItem>
                           <Link to="/estimates">
                             {' '}
-                            <i class="fa fa-pencil-square" aria-hidden="true" />
+                            <i className="fa fa-pencil-square" aria-hidden="true" />
                             {'  '}
                             Past Estimates
                           </Link>
@@ -134,7 +145,10 @@ export default class Nav extends Component {
                         <DropdownItem>
                           <Link to="/checkout/cart">
                             {' '}
-                            <i class="fa fa-shopping-basket" aria-hidden="true" />
+                            <i
+                              className="fa fa-shopping-basket"
+                              aria-hidden="true"
+                            />
                             {'  '}
                             Checkout
                           </Link>
@@ -143,7 +157,7 @@ export default class Nav extends Component {
                         <DropdownItem>
                           <Link to="/" onClick={this.logout}>
                             {' '}
-                            <i class="fa fa-sign-out" aria-hidden="true" />
+                            <i className="fa fa-sign-out" aria-hidden="true" />
                             {'  '}
                             Logout
                           </Link>

@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import { handleInputChange } from '../../../api/validate';
+import {
+  checkEmail,
+  checkNull,
+  handleInputChange,
+  timeout
+} from '../../../api/validate';
 import API from '../../../api/API';
-
 import {
   Container,
   Row,
@@ -19,7 +23,6 @@ import './Form.css';
 class ContactPage extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       error: null,
       loading: false,
@@ -31,6 +34,7 @@ class ContactPage extends Component {
       number: ''
     };
     this.handleChange = handleInputChange.bind(this);
+    this.timeout = timeout.bind(this);
   }
 
   componentDidMount() {
@@ -39,16 +43,39 @@ class ContactPage extends Component {
 
   toggle = () => this.setState({ modal: !this.state.modal, loading: false });
 
-  setErr = msg => {
-    this.setState({ loading: false, error: msg });
-    setTimeout(() => this.setState({ error: null }), 3000);
-  };
-
   sendEmail = () => {
+    console.log(this.state);
+    if (!this.state.name) {
+      this.timeout({ error: 'Please enter your name' });
+      return;
+    }
+
+    if (!this.state.company) {
+      this.timeout({ error: 'Please the name of your company' });
+      return;
+    }
+
+    if (!checkEmail(this.state.email)) {
+      this.timeout({ error: 'Please enter a valid email address' });
+      return;
+    }
+
+    const reg = /^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})$/;
+    console.log(reg.test(this.state.number));
+    if (!reg.test(this.state.number)) {
+      this.timeout({ error: 'Please enter a valid phone number' });
+      return;
+    }
+
+    if (!this.state.message) {
+      this.timeout({ error: 'Please include a message' });
+      return;
+    }
+
     const { error, modal, loading, ...info } = this.state;
     this.setState({ loading: true });
     API.contactEmail(info)
-      .then(result => {
+      .then(() => {
         this.toggle();
       })
       .catch(error => {
@@ -56,42 +83,9 @@ class ContactPage extends Component {
           error.message && error.message.includes('timeout')
             ? 'Connection timed out'
             : error.response.data.message;
-        this.setErr(err);
+        this.timeout({ error: err, loading: false });
       });
   };
-
-  inputValues = [
-    {
-      type: 'text',
-      label: 'Your Name',
-      name: 'name',
-      icon: 'user'
-    },
-    {
-      type: 'text',
-      label: 'Your Email',
-      name: 'email',
-      icon: 'envelope'
-    },
-    {
-      type: 'text',
-      label: 'Your Company',
-      name: 'company',
-      icon: 'building'
-    },
-    {
-      type: 'text',
-      label: 'Contact Number',
-      name: 'number',
-      icon: 'phone'
-    },
-    {
-      type: 'textarea',
-      label: 'Your message',
-      name: 'message',
-      icon: 'comment'
-    }
-  ];
 
   sideDetails = [
     {
@@ -114,26 +108,78 @@ class ContactPage extends Component {
         <section className="my-5">
           <h2 className="h1-responsive font-weight-bold text-center">Contact us</h2>
           <p className="text-center w-responsive mx-auto pb-5">
-            Please fill out the form below and we will get back to you as quickly as possible!
+            Please fill out the form below and we will get back to you as quickly as
+            possible!
           </p>
           <Row>
             <Col md="9" className="md-0 mb-5">
               <form>
                 <Row>
-                  {this.inputValues.map(val => (
-                    <Col md="12">
-                      <div className="md-form mb-0">
-                        <Input
-                          type={val.text}
-                          label={val.label}
-                          name={val.name}
-                          icon={val.icon}
-                          onChange={this.handleChange}
-                          value={this.state.name}
-                        />
-                      </div>
-                    </Col>
-                  ))}
+                  <Col md="12">
+                    <div className="md-form mb-0">
+                      <Input
+                        type="text"
+                        label="Your name"
+                        name="name"
+                        icon="user"
+                        onChange={this.handleChange}
+                        value={this.state.name}
+                      />
+                    </div>
+                  </Col>
+                  <Col md="12">
+                    <div className="md-form mb-0">
+                      <Input
+                        type="text"
+                        label="Company name"
+                        name="company"
+                        icon="building"
+                        onChange={this.handleChange}
+                        required
+                        value={this.state.company}
+                      />
+                    </div>
+                  </Col>
+                  <Col md="12">
+                    <div className="md-form mb-0">
+                      <Input
+                        type="text"
+                        label="Your email"
+                        name="email"
+                        icon="envelope"
+                        onChange={this.handleChange}
+                        value={this.state.email}
+                      />
+                    </div>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md="12">
+                    <div className="md-form mb-0">
+                      <Input
+                        type="text"
+                        label="Contact Number"
+                        name="number"
+                        icon="phone"
+                        onChange={this.handleChange}
+                        value={this.state.number}
+                      />
+                    </div>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md="12">
+                    <div className="md-form mb-0">
+                      <Input
+                        type="textarea"
+                        label="Your message"
+                        name="message"
+                        onChange={this.handleChange}
+                        icon="comment"
+                        value={this.state.message}
+                      />
+                    </div>
+                  </Col>
                 </Row>
               </form>
               <div className="text-center text-md-left">
@@ -144,18 +190,22 @@ class ContactPage extends Component {
                   type="send"
                   disabled={this.state.loading}
                 >
-                  {this.state.loading ? <i className="fa fa-spinner fa-spin" /> : 'Send'}{' '}
+                  {this.state.loading ? (
+                    <i className="fa fa-spinner fa-spin" />
+                  ) : (
+                    'Send'
+                  )}{' '}
                   <i className="fa fa-rocket" aria-hidden="true" />
                 </Button>
                 {this.state.error && (
-                  <p className="text-danger">An error occured: {this.state.error}</p>
+                  <p className="text-danger">{this.state.error}</p>
                 )}
               </div>
             </Col>
             <Col md="3" className="text-center">
               <ul className="list-unstyled mb-0">
                 {this.sideDetails.map(detail => (
-                  <li>
+                  <li key={detail.text}>
                     <Fa icon={detail.icon} size="2x" className="grey-text" />
                     <p>{detail.text}</p>
                   </li>

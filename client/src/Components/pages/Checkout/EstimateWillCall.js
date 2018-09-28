@@ -11,7 +11,7 @@ export default class EstimateWillCall extends EstimateDetails {
         <Card className="mb-3">
           <CardBody>
             <h3 className="text-center mb-3">Will Call Details</h3>{' '}
-            <Row>{this.theBody(this.props.details, 12)}</Row>
+            <Row>{this.theBody(this.props.details, '12')}</Row>
           </CardBody>
         </Card>
       </div>

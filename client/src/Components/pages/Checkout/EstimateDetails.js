@@ -42,8 +42,8 @@ export default class EstimateDetails extends React.Component {
         <CardBody>
           <h3 className="text-center mb-3">Event Details</h3>{' '}
           <Row>
-            {this.theBody(this.props.detailsCol1, 6)}
-            {this.theBody(this.props.detailsCol2, 6)}
+            {this.theBody(this.props.detailsCol1, '6')}
+            {this.theBody(this.props.detailsCol2, '6')}
           </Row>
         </CardBody>
       </Card>
