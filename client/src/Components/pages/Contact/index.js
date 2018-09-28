@@ -64,27 +64,32 @@ class ContactPage extends Component {
     {
       type: 'text',
       label: 'Your Name',
-      name: 'name'
+      name: 'name',
+      icon: 'user'
     },
     {
       type: 'text',
       label: 'Your Email',
-      name: 'email'
+      name: 'email',
+      icon: 'envelope'
     },
     {
       type: 'text',
       label: 'Your Company',
-      name: 'company'
+      name: 'company',
+      icon: 'building'
     },
     {
       type: 'text',
       label: 'Contact Number',
-      name: 'number'
+      name: 'number',
+      icon: 'phone'
     },
     {
       type: 'textarea',
       label: 'Your message',
-      name: 'message'
+      name: 'message',
+      icon: 'comment'
     }
   ];
 
@@ -109,8 +114,7 @@ class ContactPage extends Component {
         <section className="my-5">
           <h2 className="h1-responsive font-weight-bold text-center">Contact us</h2>
           <p className="text-center w-responsive mx-auto pb-5">
-            Please fill out the form below and we will get back to you as quickly as
-            possible!
+            Please fill out the form below and we will get back to you as quickly as possible!
           </p>
           <Row>
             <Col md="9" className="md-0 mb-5">
@@ -123,6 +127,7 @@ class ContactPage extends Component {
                           type={val.text}
                           label={val.label}
                           name={val.name}
+                          icon={val.icon}
                           onChange={this.handleChange}
                           value={this.state.name}
                         />
@@ -139,11 +144,8 @@ class ContactPage extends Component {
                   type="send"
                   disabled={this.state.loading}
                 >
-                  {this.state.loading ? (
-                    <i className="fa fa-spinner fa-spin" />
-                  ) : (
-                    'Send'
-                  )}
+                  {this.state.loading ? <i className="fa fa-spinner fa-spin" /> : 'Send'}{' '}
+                  <i className="fa fa-rocket" aria-hidden="true" />
                 </Button>
                 {this.state.error && (
                   <p className="text-danger">An error occured: {this.state.error}</p>

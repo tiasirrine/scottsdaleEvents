@@ -1,7 +1,7 @@
 /* eslint-disable */
 import './index.css';
 import React, { Component, Fragment } from 'react';
-import { Input, Container, Row, Button, Card, CardBody, CardTitle } from 'mdbreact';
+import { Input, Container, Row, Button, Card, CardBody, CardTitle, Fa } from 'mdbreact';
 import API from '../../../api/API';
 import { checkNull, handleInputChange, timeout } from '../../../api/validate';
 
@@ -15,8 +15,7 @@ export default class Profile extends Component {
       //TODO: handle errors
       error: null
     };
-    this.name =
-      sessionStorage.getItem('firstName') + ' ' + sessionStorage.getItem('lastName');
+    this.name = sessionStorage.getItem('firstName') + ' ' + sessionStorage.getItem('lastName');
     this.company = sessionStorage.getItem('company');
     this.email = sessionStorage.getItem('email');
     this.id = sessionStorage.getItem('userId');
@@ -73,6 +72,7 @@ export default class Profile extends Component {
                   type="password"
                   value={this.state.password}
                   onChange={this.handleInputChange}
+                  icon="key"
                 />
                 <Input
                   name="password2"
@@ -81,14 +81,15 @@ export default class Profile extends Component {
                   type="password"
                   value={this.state.password2}
                   onChange={this.handleInputChange}
+                  icon="key"
                 />
-                <Button onClick={this.updatePassword}>Submit</Button>
-                {this.state.error && (
-                  <p className="text-danger">{this.state.error}</p>
-                )}
-                {this.state.result && (
-                  <p className="text-success">{this.state.result}</p>
-                )}
+                <Button onClick={this.updatePassword}>
+                  Submit
+                  {'  '}
+                  <i className="fa fa-rocket" aria-hidden="true" />
+                </Button>
+                {this.state.error && <p className="text-danger">{this.state.error}</p>}
+                {this.state.result && <p className="text-success">{this.state.result}</p>}
               </CardBody>
             </Card>
           </div>

@@ -65,9 +65,7 @@ export default class UserCart extends Component {
         <Card style={this.setHeight()}>
           <CardBody style={{ paddingLeft: '0px' }}>
             {!this.state.changeName ? (
-              <CardTitle style={{ paddingLeft: '1.25rem' }}>
-                {this.state.cartName}
-              </CardTitle>
+              <CardTitle style={{ paddingLeft: '1.25rem' }}>{this.state.cartName}</CardTitle>
             ) : (
               <div style={{ margin: '0 1.25rem' }}>
                 <Input
@@ -93,10 +91,7 @@ export default class UserCart extends Component {
               <p className="mb-1">Last Modified: {this.cart().date}</p>
               <Link
                 className="text-white"
-                to={{
-                  pathname: '/checkout/cart',
-                  state: { viewCart: [this.cart()] }
-                }}
+                to={{ pathname: '/checkout/cart', state: { viewCart: [this.cart()] } }}
               >
                 <Button size="md" className="text-white w-100 mx-0">
                   View
@@ -109,11 +104,7 @@ export default class UserCart extends Component {
               >
                 Set Active Cart
               </Button>
-              <Button
-                onClick={this.nameBtnClick}
-                size="md"
-                className="text-white w-100 mx-0"
-              >
+              <Button onClick={this.nameBtnClick} size="md" className="text-white w-100 mx-0">
                 {this.state.changeName ? 'Save' : 'Change Name'}
               </Button>
               {!this.props.cart.isActive && (
@@ -122,6 +113,9 @@ export default class UserCart extends Component {
                   className="text-white w-100 mx-0"
                   size="md"
                 >
+                  {' '}
+                  <i className="fa fa-trash" aria-hidden="true" />
+                  {'  '}
                   Delete
                 </Button>
               )}

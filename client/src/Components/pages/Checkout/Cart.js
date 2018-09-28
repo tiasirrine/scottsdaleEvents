@@ -1,15 +1,7 @@
 /* eslint-disable */
 import './Checkout.css';
 import React, { Component } from 'react';
-import {
-  Container,
-  Table,
-  Input,
-  Button,
-  Popover,
-  PopoverBody,
-  PopoverHeader
-} from 'mdbreact';
+import { Container, Table, Input, Button, Popover, PopoverBody, PopoverHeader } from 'mdbreact';
 import API from '../../../api/API';
 import { Link } from 'react-router-dom';
 
@@ -310,21 +302,15 @@ class Cart extends Component {
           <div>
             <div className="text-right est-sub">
               Est Subtotal: {'   '}$
-              {parseFloat(Math.round(activeCart.sum('total') * 100) / 100).toFixed(
-                2
-              )}
+              {parseFloat(Math.round(activeCart.sum('total') * 100) / 100).toFixed(2)}
             </div>
             <div className="text-right est-sub">
               Labor(15%): {'   '}$
-              {parseFloat(
-                Math.round(activeCart.sum('total') * 0.15 * 100) / 100
-              ).toFixed(2)}
+              {parseFloat(Math.round(activeCart.sum('total') * 0.15 * 100) / 100).toFixed(2)}
             </div>
             <div className="text-right est-sub">
               Taxes(8.5%): {'   '}$
-              {parseFloat(
-                Math.round(activeCart.sum('total') * 0.085 * 100) / 100
-              ).toFixed(2)}
+              {parseFloat(Math.round(activeCart.sum('total') * 0.085 * 100) / 100).toFixed(2)}
             </div>
             <div className="text-right est-sub">
               {' '}
@@ -353,6 +339,8 @@ class Cart extends Component {
           >
             <Button color="success" className="aButton text-white">
               Next
+              {'     '}
+              <i className="fa fa-arrow-right" aria-hidden="true" />
             </Button>
           </Link>
         </Container>

@@ -137,10 +137,7 @@ class Summary extends React.Component {
           </Col>
         </Row>
         {this.viewWillCall(this.detailsWill, this.eventDetails.eventProps) && (
-          <EstimateWillCall
-            details={this.detailsWill}
-            realValues={this.eventDetails.eventProps}
-          />
+          <EstimateWillCall details={this.detailsWill} realValues={this.eventDetails.eventProps} />
         )}
 
         <Row className="mt-6 text-center">
@@ -155,18 +152,13 @@ class Summary extends React.Component {
             </Button>
             <Collapse isOpen={this.state.collapse}>
               <p>
-                In the event of damage to the equipment, client agrees to pay any &
-                all reasonable cost to return equipment to its original condition.
-                Overtime fee: $35.00 per staff per hour (or any part thereof) will be
-                charged in addition to client if set and/or strike can not take place
-                at time indicated on contract.
+                In the event of damage to the equipment, client agrees to pay any & all reasonable
+                cost to return equipment to its original condition. Overtime fee: $35.00 per staff
+                per hour (or any part thereof) will be charged in addition to client if set and/or
+                strike can not take place at time indicated on contract.
               </p>
             </Collapse>
-            <form
-              className="needs-validation"
-              onSubmit={this.submitHandler}
-              noValidate
-            >
+            <form className="needs-validation" onSubmit={this.submitHandler} noValidate>
               <div className="custom-control custom-checkbox animated jello mb-3">
                 <input
                   type="checkbox"
@@ -175,15 +167,10 @@ class Summary extends React.Component {
                   onChange={event => this.handleCheck(event)}
                   required
                 />
-                <label
-                  className="custom-control-label"
-                  htmlFor="customControlValidation1"
-                >
+                <label className="custom-control-label" htmlFor="customControlValidation1">
                   Agree To Terms and Conditions
                 </label>
-                <div className="invalid-feedback">
-                  You must agree before submitting.
-                </div>
+                <div className="invalid-feedback">You must agree before submitting.</div>
               </div>
               <Link
                 to={{
@@ -195,6 +182,9 @@ class Summary extends React.Component {
                 }}
               >
                 <Button color="success" className="aButton" size="md">
+                  <i className="fa fa-arrow-left" aria-hidden="true" />
+                  {'  '}
+                  {'  '}
                   Back
                 </Button>
               </Link>
@@ -203,11 +193,10 @@ class Summary extends React.Component {
                 disabled={!this.state.isActive || this.state.loading}
                 onClick={this.submitButton}
               >
-                {this.state.loading ? (
-                  <i className="fa fa-spinner fa-spin" />
-                ) : (
-                  'Submit Order'
-                )}
+                {' '}
+                {this.state.loading ? <i className="fa fa-spinner fa-spin" /> : 'Submit Order'}
+                {'  '}
+                <i className="fa fa-rocket" aria-hidden="true" />
               </button>
             </form>
           </Col>
@@ -221,9 +210,7 @@ class Summary extends React.Component {
           </Link>
           <ModalBody>
             {this.state.success
-              ? `We will be contacting you soon. Your estimate ID is: ${
-                  this.state.estimateId
-                }`
+              ? `We will be contacting you soon. Your estimate ID is: ${this.state.estimateId}`
               : this.state.errorMsg}
           </ModalBody>
           <ModalFooter>
