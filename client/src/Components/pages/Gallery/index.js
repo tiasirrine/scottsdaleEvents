@@ -9,7 +9,7 @@ const photos = [
     height: 3
   },
   {
-    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/1.JPG',
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/6.JPG',
     width: 4,
     height: 3
   },
@@ -34,8 +34,8 @@ const photos = [
     height: 3
   },
   {
-    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/6.JPG',
-    width: 4,
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/1.JPG',
+    width: 3,
     height: 3
   },
   {
@@ -154,7 +154,7 @@ const photos = [
     height: 3
   },
   {
-    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/30.JPG',
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/50.JPG',
     width: 4,
     height: 3
   },
@@ -209,7 +209,7 @@ const photos = [
     height: 3
   },
   {
-    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/41.JPG',
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/49.JPG',
     width: 4,
     height: 3
   },
@@ -249,12 +249,12 @@ const photos = [
     height: 3
   },
   {
-    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/49.JPG',
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/41.JPG',
     width: 4,
     height: 3
   },
   {
-    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/50.JPG',
+    src: 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/gallery_photos/30.JPG',
     width: 4,
     height: 3
   }

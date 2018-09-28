@@ -159,5 +159,9 @@ export default {
 
   resetPassword: function(token, password) {
     return axios.post('/reset/password', { token, password }, timeout);
+  },
+
+  copyCart: function(cartId, activeCartId) {
+    return axios.post('/copy/cart', { cartId, activeCartId });
   }
 };

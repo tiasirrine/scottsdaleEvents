@@ -4,7 +4,9 @@ import { Container, Row, Col } from 'mdbreact';
 import EstimateCart from '../Checkout/EstimateCart';
 import EstimateDetails from '../Checkout/EstimateDetails';
 import EstimateWillCall from '../Checkout/EstimateWillCall';
+import { timeout } from '../../../api/validate';
 import API from '../../../api/API';
+import CopyCartBtn from './CopyCartBtn';
 
 export default class ViewEstimate extends React.Component {
   constructor(props) {
@@ -12,19 +14,27 @@ export default class ViewEstimate extends React.Component {
     this.state = { cart: null, error: null, viewWillCall: false };
     this.cartId = this.props.location.state.cart.id;
     this.event = this.props.location.state.event;
+    this.timeout = timeout.bind(this);
   }
 
   componentDidMount() {
     API.getCart(this.cartId)
       .then(result => {
         const { CartProducts } = result.data.success;
+        console.log(CartProducts);
         this.setState({
           cart: this.sortCart(CartProducts),
-          ...this.sortDetails(this.event)
+          ...this.sortDetails(this.event),
+          cartId: CartProducts[0].CartId
         });
       })
       .catch(error => {
-        console.log(error);
+        console.log(error.message);
+        const err =
+          error.message && error.message.includes('timeout')
+            ? 'Connection timed out'
+            : error.response.data.message;
+        this.timeout({ error: err });
       });
   }
 
@@ -64,14 +74,18 @@ export default class ViewEstimate extends React.Component {
   render() {
     return (
       <Container className="mt-5">
-        <h3 style={{ marginTop: '80px' }} className="text-center mb-3">
-          Summary
-        </h3>
+        <div className="text-center">
+          <h3 style={{ marginTop: '80px' }} className="mb-3">
+            Summary
+          </h3>
+          <CopyCartBtn cartId={this.state.cartId} />
+          {this.state.error && <p>{this.state.error}</p>}
+        </div>
         <Row>
-          <Col lg="5">
+          <Col lg="6">
             <EstimateCart cart={this.state.cart} />
           </Col>
-          <Col lg="7">
+          <Col lg="6">
             <EstimateDetails
               detailsCol1={this.state.detailsFirst}
               detailsCol2={this.state.detailsSecond}

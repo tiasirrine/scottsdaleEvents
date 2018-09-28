@@ -587,4 +587,26 @@ router.post('/reset/password', (req, res, next) => {
   });
 });
 
+router.post('/copy/cart', (req, res, next) => {
+  db.CartProduct.findAll({
+    where: {
+      CartId: req.body.cartId
+    }
+  })
+    .then(result => {
+      const json = JSON.parse(JSON.stringify(result));
+      const copiedCart = json.map(item => {
+        delete item.id;
+        item.CartId = parseInt(req.body.activeCartId);
+        return item;
+      });
+      db.CartProduct.bulkCreate(copiedCart)
+        .then(() => {
+          res.send({ success: 'Success' });
+        })
+        .catch(next);
+    })
+    .catch(next);
+});
+
 module.exports = router;
