@@ -9,8 +9,7 @@ import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem,
-  Fa
+  DropdownItem
 } from 'mdbreact';
 import { Link } from 'react-router-dom';
 
