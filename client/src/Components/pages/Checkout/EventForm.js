@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Card, CardBody, Button, Collapse, Input } from 'mdbreact';
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  CardBody,
+  Button,
+  Collapse,
+  Input
+} from 'mdbreact';
 import './Checkout.css';
 import { Link } from 'react-router-dom';
 import { handleInputChange } from '../../../api/validate';
@@ -23,7 +32,9 @@ class EventForm extends Component {
       setByTime: this.eventProps ? this.eventProps.setByTime : '',
       strikeTime: this.eventProps ? this.eventProps.strikeTime : '',
       commentsOnSetup: this.eventProps ? this.eventProps.commentsOnSetup : '',
-      willCallCustomerName: this.eventProps ? this.eventProps.willCallCustomerName : '',
+      willCallCustomerName: this.eventProps
+        ? this.eventProps.willCallCustomerName
+        : '',
       willCallPickupDate: this.eventProps ? this.eventProps.willCallPickupDate : '',
       willCallPickupTime: this.eventProps ? this.eventProps.willCallPickupTime : '',
       willCallReturnDate: this.eventProps ? this.eventProps.willCallReturnDate : '',
@@ -42,8 +53,8 @@ class EventForm extends Component {
 
   submitHandler = event => {
     event.preventDefault();
-    if (this.validateForm()) {
-      return;
+    if (!this.validateForm()) {
+      // return;
     }
   };
 
@@ -70,6 +81,7 @@ class EventForm extends Component {
     this.setState({
       errors: errors
     });
+    console.log(formIsValid);
     return formIsValid;
   }
 
@@ -98,7 +110,9 @@ class EventForm extends Component {
                           success="right"
                           className="h-25"
                         />
-                        <div className="errorMsg">{this.state.errors.groupName}</div>
+                        <div className="errorMsg text-danger">
+                          {this.state.errors.groupName}
+                        </div>
                         <Input
                           value={this.state.groupName}
                           label="Group Name"
@@ -121,7 +135,6 @@ class EventForm extends Component {
                           required
                           className="h-25"
                         />
-
                         <Input
                           value={this.state.operationsManager}
                           label="Operation's Manager"
@@ -258,7 +271,12 @@ class EventForm extends Component {
               </Row>
 
               <div className="text-center py-4 mt-3">
-                <Button color="success" className="aButton" size="md" onClick={this.toggle}>
+                <Button
+                  color="success"
+                  className="aButton"
+                  size="md"
+                  onClick={this.toggle}
+                >
                   Will Call Order
                 </Button>
                 <Collapse isOpen={this.state.collapse}>
@@ -348,13 +366,20 @@ class EventForm extends Component {
                   }}
                   onClick={this.submitHandler}
                 >
-                  <Button color="success" className="aButton" size="md" name="event-form-submit">
+                  <Button
+                    color="success"
+                    className="aButton"
+                    size="md"
+                    name="event-form-submit"
+                  >
                     Go to Summary
                     {'  '}
                     <i className="fa fa-arrow-right" aria-hidden="true" />
                   </Button>
                 </Link>
-                <div className="errorMsg">{this.state.errors.groupName}</div>
+                <div className="errorMsg text-danger">
+                  {this.state.errors.groupName}
+                </div>
               </div>
             </form>
           </CardBody>

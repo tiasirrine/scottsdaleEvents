@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   checkEmail,
-  checkNull,
   handleInputChange,
   timeout
 } from '../../../api/validate';

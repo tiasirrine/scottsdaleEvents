@@ -59,12 +59,12 @@ export default class EstimateCart extends React.Component {
                 ).toFixed(2)}{' '}
             </div>
             <div>
-              Taxes(8.5%): $
+              Taxes(8.1%): $
               {this.props.cart &&
                 parseFloat(
                   Math.round(
                     this.props.cart.reduce((a, b) => a + parseInt(b.total), 0) *
-                      0.085 *
+                      0.081 *
                       100
                   ) / 100
                 ).toFixed(2)}{' '}
@@ -83,7 +83,7 @@ export default class EstimateCart extends React.Component {
                       this.props.cart.reduce((a, b) => a + parseInt(b.total), 0) *
                         0.15 +
                       this.props.cart.reduce((a, b) => a + parseInt(b.total), 0) *
-                        0.085 +
+                        0.081 +
                       285) *
                       100
                   ) / 100
