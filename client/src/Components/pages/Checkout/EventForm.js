@@ -1,14 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  CardBody,
-  Button,
-  Collapse,
-  Input
-} from 'mdbreact';
+import { Container, Row, Col, Card, CardBody, Button, Collapse, Input } from 'mdbreact';
 import './Checkout.css';
 import { Link } from 'react-router-dom';
 import { handleInputChange } from '../../../api/validate';
@@ -32,9 +23,7 @@ class EventForm extends Component {
       setByTime: this.eventProps ? this.eventProps.setByTime : '',
       strikeTime: this.eventProps ? this.eventProps.strikeTime : '',
       commentsOnSetup: this.eventProps ? this.eventProps.commentsOnSetup : '',
-      willCallCustomerName: this.eventProps
-        ? this.eventProps.willCallCustomerName
-        : '',
+      willCallCustomerName: this.eventProps ? this.eventProps.willCallCustomerName : '',
       willCallPickupDate: this.eventProps ? this.eventProps.willCallPickupDate : '',
       willCallPickupTime: this.eventProps ? this.eventProps.willCallPickupTime : '',
       willCallReturnDate: this.eventProps ? this.eventProps.willCallReturnDate : '',
@@ -53,8 +42,16 @@ class EventForm extends Component {
 
   submitHandler = event => {
     event.preventDefault();
-    if (!this.validateForm()) {
-      // return;
+    const { collapse, ...stateEventProps } = this.state;
+    if (this.validateForm()) {
+      this.props.history.push({
+        pathname: '/checkout/summary',
+
+        state: {
+          cartProps: this.props.location.state.cartProps,
+          eventProps: stateEventProps
+        }
+      });
     }
   };
 
@@ -71,10 +68,14 @@ class EventForm extends Component {
       errors['groupName'] = '*Please enter the Group Name.';
     }
 
-    if (typeof this.state.groupName !== 'undefined') {
-      if (!this.state.groupName.match(/^[a-zA-Z ]*$/)) {
+    if (!this.state.venue) {
+      formIsValid = false;
+      errors['venue'] = '*Please enter the Venue.';
+    }
+    if (!this.state.eventDate) {
+      if (!this.state.eventDate.match(/^(\d{4})([\/-])(\d{1,2})\2(\d{1,2})$/)) {
         formIsValid = false;
-        errors['groupName'] = '*Please enter alphabet characters only.';
+        errors['eventDate'] = '*Please enter a valid date.';
       }
     }
 
@@ -110,9 +111,7 @@ class EventForm extends Component {
                           success="right"
                           className="h-25"
                         />
-                        <div className="errorMsg text-danger">
-                          {this.state.errors.groupName}
-                        </div>
+                        <div className="errorMsg text-danger">{this.state.errors.groupName}</div>
                         <Input
                           value={this.state.groupName}
                           label="Group Name"
@@ -123,6 +122,7 @@ class EventForm extends Component {
                           required
                           className="h-25"
                         />
+                        <div className="errorMsg text-danger">{this.state.errors.eventDate}</div>
                         <Input
                           value={this.state.eventDate}
                           label="Date of Event"
@@ -146,7 +146,7 @@ class EventForm extends Component {
                           success="right"
                           className="h-25"
                         />
-
+                        <div className="errorMsg text-danger">{this.state.errors.venue}</div>
                         <Input
                           value={this.state.venue}
                           label="Venue"
@@ -271,12 +271,7 @@ class EventForm extends Component {
               </Row>
 
               <div className="text-center py-4 mt-3">
-                <Button
-                  color="success"
-                  className="aButton"
-                  size="md"
-                  onClick={this.toggle}
-                >
+                <Button color="success" className="aButton" size="md" onClick={this.toggle}>
                   Will Call Order
                 </Button>
                 <Collapse isOpen={this.state.collapse}>
@@ -356,29 +351,24 @@ class EventForm extends Component {
                     Back to Cart
                   </Button>
                 </Link>
-                <Link
-                  to={{
-                    pathname: '/checkout/summary',
-                    state: {
-                      cartProps: this.props.location.state.cartProps,
-                      eventProps: stateEventProps
-                    }
-                  }}
+
+                <Button
+                  color="success"
+                  className="aButton"
+                  size="md"
+                  name="event-form-submit"
                   onClick={this.submitHandler}
                 >
-                  <Button
-                    color="success"
-                    className="aButton"
-                    size="md"
-                    name="event-form-submit"
-                  >
-                    Go to Summary
-                    {'  '}
-                    <i className="fa fa-arrow-right" aria-hidden="true" />
-                  </Button>
-                </Link>
+                  Go to Summary
+                  {'  '}
+                  <i className="fa fa-arrow-right" aria-hidden="true" />
+                </Button>
                 <div className="errorMsg text-danger">
                   {this.state.errors.groupName}
+                  {'  '}
+                  {this.state.errors.venue}
+                  {'  '}
+                  {this.state.errors.eventDate}
                 </div>
               </div>
             </form>
