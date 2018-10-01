@@ -114,7 +114,7 @@ class EventForm extends Component {
                         <div className="errorMsg text-danger">{this.state.errors.groupName}</div>
                         <Input
                           value={this.state.groupName}
-                          label="Group Name"
+                          label="Group Name (required)"
                           name="groupName"
                           icon="group"
                           onChange={this.handleChange}
@@ -125,11 +125,24 @@ class EventForm extends Component {
                         <div className="errorMsg text-danger">{this.state.errors.eventDate}</div>
                         <Input
                           value={this.state.eventDate}
-                          label="Date of Event"
+                          label="Date of Event  (required)"
                           name="eventDate"
                           icon="calendar"
                           onChange={this.handleChange}
                           type="date"
+                          error="wrong"
+                          success="right"
+                          required
+                          className="h-25"
+                        />
+                        <div className="errorMsg text-danger">{this.state.errors.venue}</div>
+                        <Input
+                          value={this.state.venue}
+                          label="Venue  (required)"
+                          name="venue"
+                          icon="building"
+                          onChange={this.handleChange}
+                          type="text"
                           error="wrong"
                           success="right"
                           required
@@ -144,19 +157,6 @@ class EventForm extends Component {
                           type="text"
                           error="wrong"
                           success="right"
-                          className="h-25"
-                        />
-                        <div className="errorMsg text-danger">{this.state.errors.venue}</div>
-                        <Input
-                          value={this.state.venue}
-                          label="Venue"
-                          name="venue"
-                          icon="building"
-                          onChange={this.handleChange}
-                          type="text"
-                          error="wrong"
-                          success="right"
-                          required
                           className="h-25"
                         />
                       </div>
