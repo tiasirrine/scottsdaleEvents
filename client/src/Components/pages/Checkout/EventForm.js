@@ -363,13 +363,9 @@ class EventForm extends Component {
                   {'  '}
                   <i className="fa fa-arrow-right" aria-hidden="true" />
                 </Button>
-                <div className="errorMsg text-danger">
-                  {this.state.errors.groupName}
-                  {'  '}
-                  {this.state.errors.venue}
-                  {'  '}
-                  {this.state.errors.eventDate}
-                </div>
+                <div className="errorMsg text-danger">{this.state.errors.groupName}</div>
+                <div className="errorMsg text-danger">{this.state.errors.venue}</div>
+                <div className="errorMsg text-danger">{this.state.errors.eventDate}</div>
               </div>
             </form>
           </CardBody>
