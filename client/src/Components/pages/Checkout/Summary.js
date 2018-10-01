@@ -125,11 +125,12 @@ class Summary extends React.Component {
           Summary
         </h3>
         <Row>
-          <Col lg="6">
+          <Col lg="12">
             <EstimateCart cart={eventDetails.cartProps} />
           </Col>
-
-          <Col lg="6">
+        </Row>
+        <Row>
+          <Col lg="12">
             <EstimateDetails
               detailsCol1={this.detailsFirst}
               detailsCol2={this.detailsSecond}
