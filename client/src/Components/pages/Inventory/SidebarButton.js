@@ -1,9 +1,9 @@
 /* eslint-disable */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Collapse } from 'mdbreact';
 import { Link } from 'react-router-dom';
 
-export default class SideBarButton extends Component {
+export default class SideBarButton extends PureComponent {
   constructor(props) {
     super(props);
     this.state = { collapse: false, active: false };
@@ -13,15 +13,35 @@ export default class SideBarButton extends Component {
   // and instead opens the them up by pressing the image
   componentDidUpdate(prevProps) {
     if (this.props.location.pathname !== prevProps.location.pathname) {
+      // active category
       let activeC;
-      let activeS;
+
+      // active subCategory
+      let activeS = false;
+
+      // category from url
       const lc = this.props.location.pathname.split('/')[2];
+
+      // subCategory from url
       const ls = this.props.location.pathname.split('/')[3];
+
+      // get props
       const { categories, getActiveIndex, subCategories } = this.props;
+
+      // opens up the sidebar when the main category is open, not clicking on sidenav
       categories.forEach((a, i) => (a === lc ? (activeC = i) : null));
+
+      // calls function to open the sidenav category
       getActiveIndex(activeC);
+
+      // opens up the sidebar when the main category is open, not clicking on sidenav
       subCategories.forEach((a, i) => (a === ls ? (activeS = i) : null));
-      this.setState({ active: activeS });
+
+      // only sets state if there was a change to the active value
+      if (activeS !== false) {
+        console.log(activeS);
+        this.setState({ active: activeS });
+      }
     }
   }
 
@@ -73,6 +93,7 @@ export default class SideBarButton extends Component {
 
   render() {
     const { category, subCategories } = this.props;
+    // console.log(category, this.state);
     return (
       <div style={{ width: '250px', marginRight: '0px' }}>
         <Link to={`/inventory/${category}`}>

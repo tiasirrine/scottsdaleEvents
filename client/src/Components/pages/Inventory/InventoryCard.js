@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Button } from 'mdbreact';
 import './InventoryPage.css';
 import API from '../../../api/API';
@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { CartValueContext } from './index';
 import { timeout, handleInputChange } from '../../../api/validate';
 
-class InventoryCard extends Component {
+class InventoryCard extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
