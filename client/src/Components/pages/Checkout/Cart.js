@@ -1,15 +1,7 @@
 /* eslint-disable */
 import './Checkout.css';
 import React, { Component } from 'react';
-import {
-  Container,
-  Table,
-  Input,
-  Button,
-  Popover,
-  PopoverBody,
-  PopoverHeader
-} from 'mdbreact';
+import { Container, Table, Input, Button, Popover, PopoverBody, PopoverHeader } from 'mdbreact';
 import API from '../../../api/API';
 import { Link } from 'react-router-dom';
 
@@ -280,9 +272,9 @@ class Cart extends Component {
                         {' '}
                         <Popover
                           component="div"
-                          placement="right"
+                          placement="top"
                           popoverBody="Remove"
-                          className="text-danger remove-pointer"
+                          className="text-danger remove-pointer text-center"
                         >
                           <PopoverHeader className="text-center remove-pointer text-primary">
                             {' '}
@@ -310,21 +302,15 @@ class Cart extends Component {
           <div>
             <div className="text-right est-sub">
               Rental Subtotal: {'   '}$
-              {parseFloat(Math.round(activeCart.sum('total') * 100) / 100).toFixed(
-                2
-              )}
+              {parseFloat(Math.round(activeCart.sum('total') * 100) / 100).toFixed(2)}
             </div>
             <div className="text-right est-sub">
               Labor(15%): {'   '}$
-              {parseFloat(
-                Math.round(activeCart.sum('total') * 0.15 * 100) / 100
-              ).toFixed(2)}
+              {parseFloat(Math.round(activeCart.sum('total') * 0.15 * 100) / 100).toFixed(2)}
             </div>
             <div className="text-right est-sub">
               Taxes(8.1%): {'   '}$
-              {parseFloat(
-                Math.round(activeCart.sum('total') * 0.081 * 100) / 100
-              ).toFixed(2)}
+              {parseFloat(Math.round(activeCart.sum('total') * 0.081 * 100) / 100).toFixed(2)}
             </div>
             <div className="text-right est-sub">
               {' '}
