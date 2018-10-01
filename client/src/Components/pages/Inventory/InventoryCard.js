@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { Component, Fragment } from 'react';
-import { Button, Card, CardImage, Input, Row, View } from 'mdbreact';
+import { Button } from 'mdbreact';
 import './InventoryPage.css';
 import API from '../../../api/API';
 import { Link } from 'react-router-dom';
@@ -19,7 +19,6 @@ class InventoryCard extends Component {
     };
     this.timeout = timeout.bind(this);
     this.handleInputChange = handleInputChange.bind(this);
-    this.product = this.props;
   }
 
   // checks if a user is authed. If so, displays cart and qty.
@@ -118,7 +117,7 @@ class InventoryCard extends Component {
   };
 
   render() {
-    const { product } = this;
+    const product = this.props;
     return (
       <div className="row my-5 pb-4 text-center text-md-left animated fadeInUpBig">
         <div className="col-md-5 mb-3 mb-sm-3">
