@@ -39,7 +39,6 @@ export default class SideBarButton extends PureComponent {
 
       // only sets state if there was a change to the active value
       if (activeS !== false) {
-        console.log(activeS);
         this.setState({ active: activeS });
       }
     }
