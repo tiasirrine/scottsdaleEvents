@@ -11,8 +11,7 @@ export default class Carts extends Component {
     this.state = {
       carts: null,
       error: null,
-      changeName: false,
-      activeCart: null
+      changeName: false
     };
 
     this.id = sessionStorage.getItem('userId');
@@ -26,9 +25,11 @@ export default class Carts extends Component {
   }
 
   setActiveCart = i => {
+    // copies all the current carts in state
     const carts = [...this.state.carts];
-    let oldCart;
 
+    // finds the old active cart, sets active status to false
+    let oldCart;
     const mapped = carts.map(a => {
       if (a.isActive === true) {
         oldCart = a;
@@ -37,17 +38,34 @@ export default class Carts extends Component {
       return a;
     });
 
+    // active cart is the passed in index value
     mapped[i].isActive = true;
+
+    // sums up the active cart total
+    const total = mapped[i].CartProducts.reduce((totalValue, { qty, Product }) => {
+      return (totalValue += qty * Product.price);
+    }, 0);
+
+    // sets the active cart total
+    sessionStorage.setItem('cartTotal', total);
+
+    // sets the active cart id
     sessionStorage.setItem('activeCart', mapped[i].id);
 
     // oldCart, newCart
-    this.setState({ carts: mapped, activeCart: null });
+    this.setState({ carts: mapped });
 
+    // prevents trying to re-save without a change to the active cart
     if (oldCart.id !== mapped[i].id) {
       API.updateActiveCart(oldCart.id, mapped[i].id)
-        .then(() => {})
+        .then()
         .catch(error => {
-          console.log(error);
+          const err =
+            error.message && error.message.includes('timeout')
+              ? 'Connection timed out'
+              : error.response.data.message;
+          console.log(err);
+          this.setState({ error: err });
         });
     }
   };
@@ -106,6 +124,7 @@ export default class Carts extends Component {
   };
 
   render() {
+    console.log(this.state);
     if (!this.state.carts && !this.state.error) {
       return <div className="loader" />;
     } else {
@@ -114,7 +133,9 @@ export default class Carts extends Component {
           <Row>
             <div className="col-lg-6 text-center text-lg-left">
               <h2>My Carts</h2>
-              <p className="text-center text-danger">{this.state.error && this.state.error}</p>
+              <p className="text-center text-danger">
+                {this.state.error && this.state.error}
+              </p>
             </div>
             <div className="col-lg-6 text-center text-lg-right">
               <Button onClick={this.createCart}>

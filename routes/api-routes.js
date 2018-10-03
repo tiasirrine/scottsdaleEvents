@@ -383,7 +383,7 @@ router.post(
   (req, res, next) => {
     const { ProductId, CartId } = req.body;
     req.body.date = date();
-    const sm = { success: 'Product Saved' };
+
     // this will either create a new product to save to a cart,
     // or it will update an already saved product
     // prevents a cart from having duplicate line items for the same product
