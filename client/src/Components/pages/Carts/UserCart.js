@@ -1,6 +1,6 @@
 /* eslint-disable */
-import React, { Component, Fragment } from 'react';
-import { Container, Row, Button, Card, CardBody, CardTitle, Input } from 'mdbreact';
+import React, { Component } from 'react';
+import { Button, Card, CardBody, CardTitle, Input } from 'mdbreact';
 import API from '../../../api/API';
 import { handleInputChange, timeout } from '../../../api/validate';
 import { Link } from 'react-router-dom';
@@ -65,7 +65,9 @@ export default class UserCart extends Component {
         <Card style={this.setHeight()}>
           <CardBody style={{ paddingLeft: '0px' }}>
             {!this.state.changeName ? (
-              <CardTitle style={{ paddingLeft: '1.25rem' }}>{this.state.cartName}</CardTitle>
+              <CardTitle style={{ paddingLeft: '1.25rem' }}>
+                {this.state.cartName}
+              </CardTitle>
             ) : (
               <div style={{ margin: '0 1.25rem' }}>
                 <Input
@@ -91,7 +93,10 @@ export default class UserCart extends Component {
               <p className="mb-1">Last Modified: {this.cart().date}</p>
               <Link
                 className="text-white"
-                to={{ pathname: '/checkout/cart', state: { viewCart: [this.cart()] } }}
+                to={{
+                  pathname: '/checkout/cart',
+                  state: { viewCart: [this.cart()] }
+                }}
               >
                 <Button size="md" className="text-white w-100 mx-0">
                   View
@@ -104,7 +109,11 @@ export default class UserCart extends Component {
               >
                 Set Active Cart
               </Button>
-              <Button onClick={this.nameBtnClick} size="md" className="text-white w-100 mx-0">
+              <Button
+                onClick={this.nameBtnClick}
+                size="md"
+                className="text-white w-100 mx-0"
+              >
                 {this.state.changeName ? 'Save' : 'Change Name'}
               </Button>
               {!this.props.cart.isActive && (
