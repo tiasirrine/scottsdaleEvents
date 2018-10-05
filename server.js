@@ -5,7 +5,6 @@ const express = require('express');
 const routes = require('./routes/api-routes');
 const db = require('./models');
 const passport = require('passport');
-// const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
 const debug = require('debug');
@@ -14,7 +13,6 @@ const debugRoute = debug('express:route');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// app.use(cors());
 app.use(helmet());
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,7 +25,13 @@ require('./util/passport')(passport);
 
 // Serve up static assets
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'));
+  app.use(
+    express.static('client/build', {
+      setHeaders: (res, path) => {
+        res.set('X-Powered-By', 'nosniff');
+      }
+    })
+  );
 }
 
 app.use(routes);
