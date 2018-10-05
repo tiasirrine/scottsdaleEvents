@@ -5,7 +5,8 @@ const express = require('express');
 const routes = require('./routes/api-routes');
 const db = require('./models');
 const passport = require('passport');
-const cors = require('cors');
+// const cors = require('cors');
+const helmet = require('helmet');
 const compression = require('compression');
 const debug = require('debug');
 const debugError = debug('express:error');
@@ -13,7 +14,8 @@ const debugRoute = debug('express:route');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors());
+// app.use(cors());
+app.use(helmet());
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -48,7 +50,7 @@ app.use(function(error, req, res, next) {
 });
 
 db.sequelize.sync().then(() => {
-  app.listen(PORT, () => 
+  app.listen(PORT, () =>
     console.log(`🌎  ==> API Server now listening on PORT ${PORT}`)
   );
 });

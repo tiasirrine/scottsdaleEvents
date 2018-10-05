@@ -18,12 +18,12 @@ const unAuthedErr = {
 // creates a new customer
 router.post(
   '/create/customer',
-  // passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   (req, res, next) => {
-    // if (!req.user.isAdmin) {
-    //   next(unAuthedErr);
-    //   return;
-    // }
+    if (!req.user.isAdmin) {
+      next(unAuthedErr);
+      return;
+    }
     user
       .createCustomer(req.body)
       .then(result => {
@@ -58,19 +58,23 @@ router.post(
 
 // creates a new admin
 // TODO: secure this route
-router.post('/create/admin', (req, res, next) => {
-  // if (!req.user.isAdmin) {
-  //   next(unAuthedErr);
-  //   return;
-  // }
-  user
-    .createAdmin(req.body)
-    .then(result => {
-      delete result.dataValues.password;
-      res.json({ success: 'New admin created successfully' });
-    })
-    .catch(next);
-});
+router.post(
+  '/create/admin',
+  passport.authenticate('jwt', { session: false }),
+  (req, res, next) => {
+    if (!req.user.isAdmin) {
+      next(unAuthedErr);
+      return;
+    }
+    user
+      .createAdmin(req.body)
+      .then(result => {
+        delete result.dataValues.password;
+        res.json({ success: 'New admin created successfully' });
+      })
+      .catch(next);
+  }
+);
 
 router.post(
   '/create/cart',
@@ -600,11 +604,24 @@ router.post('/copy/cart', (req, res, next) => {
         item.CartId = parseInt(req.body.activeCartId);
         return item;
       });
-      db.CartProduct.bulkCreate(copiedCart)
-        .then(() => {
+
+      let didErrorOccur = false;
+
+      for (let i = 0; i < copiedCart.length; i++) {
+        db.CartProduct.findOrCreate({
+          where: {
+            CartId: copiedCart[i].CartId,
+            ProductId: copiedCart[i].ProductId
+          },
+          defaults: copiedCart[i]
+        }).catch(error => {
+          didErrorOccur = true;
+          next(error);
+        });
+        if (i === copiedCart.length - 1 && !didErrorOccur) {
           res.send({ success: 'Success' });
-        })
-        .catch(next);
+        }
+      }
     })
     .catch(next);
 });
