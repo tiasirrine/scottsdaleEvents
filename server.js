@@ -13,12 +13,11 @@ const debugRoute = debug('express:route');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// middleware
 app.use(helmet());
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-// Passport Middleware
 app.use(passport.initialize());
 app.use(passport.session());
 require('./util/passport')(passport);
@@ -34,8 +33,10 @@ if (process.env.NODE_ENV === 'production') {
   );
 }
 
+// connects all routes
 app.use(routes);
 
+// serves bundled react files in prod
 app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, '/client/build/index.html'), function(err) {
     if (err) {
@@ -53,6 +54,7 @@ app.use(function(error, req, res, next) {
   res.status(status).json({ message: message });
 });
 
+// starts server
 db.sequelize.sync().then(() => {
   app.listen(PORT, () =>
     console.log(`🌎  ==> API Server now listening on PORT ${PORT}`)
