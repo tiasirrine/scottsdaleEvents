@@ -48,7 +48,5 @@ app.use(function(error, req, res, next) {
 });
 
 db.sequelize.sync().then(() => {
-  app.listen(PORT, () => 
-    console.log(`🌎  ==> API Server now listening on PORT ${PORT}`)
-  );
+  app.listen(PORT, () => console.log(`🌎  ==> API Server now listening on PORT ${PORT}`));
 });

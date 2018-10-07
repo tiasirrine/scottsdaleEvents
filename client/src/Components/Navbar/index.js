@@ -31,6 +31,7 @@ export default class Nav extends Component {
         active: window.location.pathname
       });
     }
+    console.log(this.props);
   }
 
   // clears sessions storage and logs a user out
@@ -41,11 +42,7 @@ export default class Nav extends Component {
 
   render() {
     const { href } = window.location;
-    if (
-      href.includes('/admin') ||
-      href.includes('/dashboard') ||
-      href.includes('/reset')
-    ) {
+    if (href.includes('/admin') || href.includes('/dashboard') || href.includes('/reset')) {
       return null;
     }
     return (
@@ -56,21 +53,17 @@ export default class Nav extends Component {
               Scottsdale Event Dècor
             </Link>
           </div>
-
+          <div>{this.props.carttotal}</div>
           <div>
             <NavbarNav right>
               <NavItem>
-                <NavLink
-                  className={`${this.state.active === '/' && 'activeTab'}`}
-                  to="/"
-                >
+                <NavLink className={`${this.state.active === '/' && 'activeTab'}`} to="/">
                   <span>Home</span>
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink
-                  className={`${this.state.active.includes('inventory') &&
-                    'activeTab'}`}
+                  className={`${this.state.active.includes('inventory') && 'activeTab'}`}
                   to="/inventory"
                 >
                   <span>Inventory</span>
@@ -93,10 +86,7 @@ export default class Nav extends Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink
-                  className={`${this.state.active === '/about' && 'activeTab'}`}
-                  to="/about"
-                >
+                <NavLink className={`${this.state.active === '/about' && 'activeTab'}`} to="/about">
                   <span>About</span>
                 </NavLink>
               </NavItem>
@@ -144,10 +134,7 @@ export default class Nav extends Component {
                         <DropdownItem>
                           <Link to="/checkout/cart">
                             {' '}
-                            <i
-                              className="fa fa-shopping-basket"
-                              aria-hidden="true"
-                            />
+                            <i className="fa fa-shopping-basket" aria-hidden="true" />
                             {'  '}
                             Checkout
                           </Link>

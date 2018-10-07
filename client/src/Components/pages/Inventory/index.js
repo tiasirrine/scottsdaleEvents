@@ -6,6 +6,7 @@ import CategoryComponentWrapper from './CategoryComponentWrapper';
 import SubCategoryComponentWrapper from './SubCategoryComponentWrapper';
 import InventoryComponentWrapper from './InventoryComponentWrapper';
 import Sidebar from './Sidebar';
+import Navbar from '../../Navbar';
 import { Container, Card, Fa } from 'mdbreact';
 import { Link } from 'react-router-dom';
 import ShowPageComponentWrapper from './ShowPageComponentWrapper';
@@ -66,13 +67,26 @@ class InventoryPage extends Component {
     }
   };
 
+  createCart = () => {
+    return (
+      <div className="d-flex justify-content-center">
+        <Link className="text-center" to={{ pathname: '/checkout/cart' }}>
+          {sessionStorage.getItem('cartTotal') && (
+            <Fa icon="shopping-cart" size="2x" className="text-center inv-cart-sub">
+              {'          '}
+              {sessionStorage.getItem('cartTotal') && '$' + this.state.totalCost}
+            </Fa>
+          )}
+        </Link>
+      </div>
+    );
+  };
+
   render() {
     const { categories, inventoryObj, subCategories } = this.props;
 
     const categoryImgs =
-      categories && inventoryObj
-        ? categories.map(a => inventoryObj[a][0].url)
-        : null;
+      categories && inventoryObj ? categories.map(a => inventoryObj[a][0].url) : null;
     return (
       <div className="d-lg-flex">
         <Sidebar
@@ -95,19 +109,8 @@ class InventoryPage extends Component {
                 this.setState({ totalCost: total });
               }}
             >
-              <div className="d-flex justify-content-center">
-                <Link className="text-center" to={{ pathname: '/checkout/cart' }}>
-                  {sessionStorage.getItem('cartTotal') && (
-                    <Fa icon="shopping-cart" size="2x" className="text-center">
-                      {' '}
-                      <h4 className="text-center">
-                        {sessionStorage.getItem('cartTotal') &&
-                          '$' + this.state.totalCost}
-                      </h4>
-                    </Fa>
-                  )}
-                </Link>
-              </div>
+              <Navbar carttotal={this.createCart()} />
+
               <Switch>
                 <Route
                   exact
@@ -124,10 +127,7 @@ class InventoryPage extends Component {
                   exact
                   path={`${this.props.match.path}/:category`}
                   render={props => (
-                    <SubCategoryComponentWrapper
-                      {...props}
-                      inventory={inventoryObj}
-                    />
+                    <SubCategoryComponentWrapper {...props} inventory={inventoryObj} />
                   )}
                 />
                 <Route
@@ -140,9 +140,7 @@ class InventoryPage extends Component {
                 <Route
                   exact
                   path={`${this.props.match.path}/:category/:subcategory/:name`}
-                  render={props => (
-                    <ShowPageComponentWrapper {...props} inventory={inventoryObj} />
-                  )}
+                  render={props => <ShowPageComponentWrapper {...props} inventory={inventoryObj} />}
                 />
               </Switch>
             </CartValueContext.Provider>
