@@ -10,14 +10,19 @@ class FooterPage extends React.Component {
       return null;
     }
     return (
-      <Footer className={`font-small ${href.includes('/inventory') && 'mv-footer'} pt-4 footer-z`}>
+      <Footer
+        className={`font-small ${href.includes('/inventory') &&
+          'mv-footer'} pt-4 footer-z`}
+      >
         <Container fluid className="text-center text-md-left">
           <Row>
             <Col md="4" lg="4">
-              <h5 className="text-uppercase mb-4 font-weight-bold">Scottsdale Event Dècor</h5>
+              <h5 className="text-uppercase mb-4 font-weight-bold">
+                Scottsdale Event Dècor
+              </h5>
               <p>
-                Handcrafted, handselected, premier event rental company based in Scottsdale,
-                Arizona.
+                Handcrafted, handselected, premier event rental company based in
+                Scottsdale, Arizona.
               </p>
             </Col>
             <hr className="clearfix w-100 d-md-none" />
@@ -50,7 +55,8 @@ class FooterPage extends React.Component {
                 <i className="fa fa-home mr-3" /> Scottsdale, Arizona
               </p>
               <p className="mb-1">
-                <i className="fa fa-envelope mr-3" /> cristina@scottsdaleme.com
+                <i className="fa fa-envelope mr-3" />{' '}
+                bob.omeara@scottsdaleeventdecor.com
               </p>
               <p className="mb-1">
                 <i className="fa fa-phone mr-3" /> (480)-699-9381
@@ -62,7 +68,8 @@ class FooterPage extends React.Component {
         </Container>
         <div className="footer-copyright text-center py-3">
           <Container fluid>
-            &copy; {new Date().getFullYear()} Copyright: <Link to="/"> Scottsdale Event Dècor</Link>
+            &copy; {new Date().getFullYear()} Copyright:{' '}
+            <Link to="/"> Scottsdale Event Dècor</Link>
           </Container>
         </div>
       </Footer>

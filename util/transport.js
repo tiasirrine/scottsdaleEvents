@@ -8,8 +8,8 @@ const transport = mailer.createTransport({
   secure: false,
   service: 'gmail',
   auth: {
-    user: 'johnsontrevor55@gmail.com',
-    pass: process.env.MAILPASS
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
   }
 });
 

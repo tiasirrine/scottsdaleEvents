@@ -30,13 +30,13 @@ router.post(
         delete result.dataValues.password;
         jwt.sign(
           { result, resetToken: true },
-          'secretkey',
+          process.env.TOKEN_KEY,
           { expiresIn: '1h' },
           (err, token) => {
             if (err) next(err);
             mailer(
               // set to req.body.email
-              'johnsontrevor55@gmail.com',
+              req.body.email,
               'Scottsdale Event Decor Login',
               'welcomeEmail',
               { token, result: req.body },
@@ -445,25 +445,30 @@ router.post('/auth/customer', (req, res, next) => {
   user
     .getCustomer(email, password)
     .then(result => {
-      jwt.sign({ result }, 'secretkey', { expiresIn: '1w' }, (err, token) => {
-        if (err) next(err);
-        const userId = result.id;
-        user
-          .getCarts(userId)
-          .then(() => {
-            user
-              .getCarts(result.id)
-              .then(cart => {
-                result.cartTotal = 0;
-                cart[0].CartProducts.forEach(item => {
-                  result.cartTotal += item.Product.price * item.qty;
-                });
-                res.send({ token, user: result });
-              })
-              .catch(next);
-          })
-          .catch(next);
-      });
+      jwt.sign(
+        { result },
+        process.env.TOKEN_KEY,
+        { expiresIn: '1w' },
+        (err, token) => {
+          if (err) next(err);
+          const userId = result.id;
+          user
+            .getCarts(userId)
+            .then(() => {
+              user
+                .getCarts(result.id)
+                .then(cart => {
+                  result.cartTotal = 0;
+                  cart[0].CartProducts.forEach(item => {
+                    result.cartTotal += item.Product.price * item.qty;
+                  });
+                  res.send({ token, user: result });
+                })
+                .catch(next);
+            })
+            .catch(next);
+        }
+      );
     })
     .catch(next);
 });
@@ -474,10 +479,15 @@ router.post('/auth/admin', (req, res, next) => {
   user
     .getAdmin(email, password)
     .then(result => {
-      jwt.sign({ result }, 'secretkey', { expiresIn: '1w' }, (err, token) => {
-        if (err) next(err);
-        res.send({ token, user: result });
-      });
+      jwt.sign(
+        { result },
+        process.env.TOKEN_KEY,
+        { expiresIn: '1w' },
+        (err, token) => {
+          if (err) next(err);
+          res.send({ token, user: result });
+        }
+      );
     })
     .catch(next);
 });
@@ -492,7 +502,7 @@ router.get(
 
 router.post('/auth/reset', (req, res, next) => {
   const { token } = req.body;
-  jwt.verify(token, 'secretkey', (err, decoded) => {
+  jwt.verify(token, process.env.TOKEN_KEY, (err, decoded) => {
     if (err) {
       next({ message: 'Unauthorized', status: 401 });
     } else {
@@ -519,7 +529,7 @@ router.post('/send/info', (req, res, next) => {
       }
       if (success) {
         mailer(
-          m.email,
+          'bob.omeara@scottsdaleeventdecor.com',
           'Scottsdale Event Decor Confirmation Email',
           'contactEmailForSED',
           m,
@@ -544,7 +554,7 @@ router.post('/send/reset', (req, res, next) => {
     .then(result => {
       jwt.sign(
         { result, resetToken: true },
-        'secretkey',
+        process.env.TOKEN_KEY,
         { expiresIn: '1h' },
         (err, token) => {
           if (err) next(err);
@@ -572,7 +582,7 @@ router.post('/send/reset', (req, res, next) => {
 
 router.post('/reset/password', (req, res, next) => {
   const { token, password } = req.body;
-  jwt.verify(token, 'secretkey', (err, decoded) => {
+  jwt.verify(token, process.env.TOKEN_KEY, (err, decoded) => {
     if (err) {
       next({ message: 'Unauthorized', status: 401 });
     } else {
