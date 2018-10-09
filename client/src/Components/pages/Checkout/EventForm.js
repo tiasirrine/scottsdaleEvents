@@ -1,5 +1,15 @@
+/* eslint-disable */
 import React, { Component } from 'react';
-import { Container, Row, Col, Card, CardBody, Button, Collapse, Input } from 'mdbreact';
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  CardBody,
+  Button,
+  Collapse,
+  Input
+} from 'mdbreact';
 import './Checkout.css';
 import { Link } from 'react-router-dom';
 import { handleInputChange } from '../../../api/validate';
@@ -23,7 +33,9 @@ class EventForm extends Component {
       setByTime: this.eventProps ? this.eventProps.setByTime : '',
       strikeTime: this.eventProps ? this.eventProps.strikeTime : '',
       commentsOnSetup: this.eventProps ? this.eventProps.commentsOnSetup : '',
-      willCallCustomerName: this.eventProps ? this.eventProps.willCallCustomerName : '',
+      willCallCustomerName: this.eventProps
+        ? this.eventProps.willCallCustomerName
+        : '',
       willCallPickupDate: this.eventProps ? this.eventProps.willCallPickupDate : '',
       willCallPickupTime: this.eventProps ? this.eventProps.willCallPickupTime : '',
       willCallReturnDate: this.eventProps ? this.eventProps.willCallReturnDate : '',
@@ -111,7 +123,9 @@ class EventForm extends Component {
                           success="right"
                           className="h-25"
                         />
-                        <div className="errorMsg text-danger">{this.state.errors.groupName}</div>
+                        <div className="errorMsg text-danger">
+                          {this.state.errors.groupName}
+                        </div>
                         <Input
                           value={this.state.groupName}
                           label="Group Name (required)"
@@ -122,7 +136,9 @@ class EventForm extends Component {
                           required
                           className="h-25"
                         />
-                        <div className="errorMsg text-danger">{this.state.errors.eventDate}</div>
+                        <div className="errorMsg text-danger">
+                          {this.state.errors.eventDate}
+                        </div>
                         <Input
                           value={this.state.eventDate}
                           label="Date of Event  (required)"
@@ -135,7 +151,9 @@ class EventForm extends Component {
                           required
                           className="h-25"
                         />
-                        <div className="errorMsg text-danger">{this.state.errors.venue}</div>
+                        <div className="errorMsg text-danger">
+                          {this.state.errors.venue}
+                        </div>
                         <Input
                           value={this.state.venue}
                           label="Venue  (required)"
@@ -271,7 +289,12 @@ class EventForm extends Component {
               </Row>
 
               <div className="text-center py-4 mt-3">
-                <Button color="success" className="aButton" size="md" onClick={this.toggle}>
+                <Button
+                  color="success"
+                  className="aButton"
+                  size="md"
+                  onClick={this.toggle}
+                >
                   Will Call Order
                 </Button>
                 <Collapse isOpen={this.state.collapse}>
@@ -363,9 +386,13 @@ class EventForm extends Component {
                   {'  '}
                   <i className="fa fa-arrow-right" aria-hidden="true" />
                 </Button>
-                <div className="errorMsg text-danger">{this.state.errors.groupName}</div>
+                <div className="errorMsg text-danger">
+                  {this.state.errors.groupName}
+                </div>
                 <div className="errorMsg text-danger">{this.state.errors.venue}</div>
-                <div className="errorMsg text-danger">{this.state.errors.eventDate}</div>
+                <div className="errorMsg text-danger">
+                  {this.state.errors.eventDate}
+                </div>
               </div>
             </form>
           </CardBody>

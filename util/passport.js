@@ -5,7 +5,7 @@ const User = require('../controllers/userController');
 module.exports = function(passport) {
   let opts = {};
   opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken('bearer');
-  opts.secretOrKey = 'secretkey';
+  opts.secretOrKey = process.env.TOKEN_KEY;
   passport.use(
     new JwtStrategy(opts, (jwt_payload, done) => {
       // console.log(jwt_payload);
