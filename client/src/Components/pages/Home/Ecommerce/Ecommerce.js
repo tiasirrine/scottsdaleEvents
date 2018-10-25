@@ -2,13 +2,18 @@ import React from 'react';
 import { Container, Row, Col, Card } from 'mdbreact';
 
 const images = [
-  'https://s3-us-west-2.amazonaws.com/scottsdaleevents/home/DSC_9405.jpg',
-  'https://s3-us-west-2.amazonaws.com/scottsdaleevents/home/IMG_2288.JPG',
-  'https://s3-us-west-2.amazonaws.com/scottsdaleevents/home/Ladder+barback+1.jpg',
-  'https://s3-us-west-2.amazonaws.com/scottsdaleevents/home/ND4_5548.jpg'
+  'https://s3-us-west-2.amazonaws.com/scottsdaleevents/home/10011012.jpg',
+  'https://s3-us-west-2.amazonaws.com/scottsdaleevents/home/10011004.jpg',
+  'https://s3-us-west-2.amazonaws.com/scottsdaleevents/home/10041013+(1).jpg',
+  'https://s3-us-west-2.amazonaws.com/scottsdaleevents/home/10011008A.jpg'
+
+  // 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/home/DSC_9405.jpg',
+  // 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/home/IMG_2288.JPG',
+  // 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/home/Ladder+barback+1.jpg',
+  // 'https://s3-us-west-2.amazonaws.com/scottsdaleevents/home/ND4_5548.jpg'
 ];
 
-const descriptions = ['Bistro Lighting', 'Wood Tables', 'Bar Tables', 'Premium Seating'];
+const descriptions = ['Special Request', 'Premium Display Shelving', 'Wood Tables', 'Custom Bars'];
 
 const style = { maxWidth: '320px', maxHeight: '510px' };
 
