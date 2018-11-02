@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import {
-  checkEmail,
-  handleInputChange,
-  timeout
-} from '../../../api/validate';
+import { checkEmail, handleInputChange, timeout } from '../../../api/validate';
 import API from '../../../api/API';
 import {
   Container,
@@ -94,7 +90,7 @@ class ContactPage extends Component {
       icon: 'phone'
     },
     {
-      text: 'cristina@scottsdaleme.com',
+      text: ' bob.omeara@scottsdaleeventdecor.com',
       icon: 'envelope'
     }
   ];
@@ -105,8 +101,7 @@ class ContactPage extends Component {
         <section className="my-5">
           <h2 className="h1-responsive font-weight-bold text-center">Contact us</h2>
           <p className="text-center w-responsive mx-auto pb-5">
-            Please fill out the form below and we will get back to you as quickly as
-            possible!
+            Please fill out the form below and we will get back to you as quickly as possible!
           </p>
           <Row>
             <Col md="9" className="md-0 mb-5">
@@ -187,16 +182,10 @@ class ContactPage extends Component {
                   type="send"
                   disabled={this.state.loading}
                 >
-                  {this.state.loading ? (
-                    <i className="fa fa-spinner fa-spin" />
-                  ) : (
-                    'Send'
-                  )}{' '}
+                  {this.state.loading ? <i className="fa fa-spinner fa-spin" /> : 'Send'}{' '}
                   <i className="fa fa-rocket" aria-hidden="true" />
                 </Button>
-                {this.state.error && (
-                  <p className="text-danger">{this.state.error}</p>
-                )}
+                {this.state.error && <p className="text-danger">{this.state.error}</p>}
               </div>
             </Col>
             <Col md="3" className="text-center">
