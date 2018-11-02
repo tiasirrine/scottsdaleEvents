@@ -15,50 +15,48 @@ const unAuthedErr = {
   status: 401
 };
 
+const authenticate = () => passport.authenticate('jwt', { session: false });
+
 // creates a new customer
-router.post(
-  '/create/customer',
-  passport.authenticate('jwt', { session: false }),
-  (req, res, next) => {
-    if (!req.user.isAdmin) {
-      next(unAuthedErr);
-      return;
-    }
-    user
-      .createCustomer(req.body)
-      .then(result => {
-        delete result.dataValues.password;
-        jwt.sign(
-          { result, resetToken: true },
-          process.env.TOKEN_KEY,
-          { expiresIn: '1h' },
-          (err, token) => {
-            if (err) next(err);
-            mailer(
-              // set to req.body.email
-              req.body.email,
-              'Scottsdale Event Decor Login',
-              'welcomeEmail',
-              { token, result: req.body },
-              (error, success) => {
-                if (error) next(error);
-                if (success) {
-                  res.send({
-                    success: 'New customer created successfully'
-                  });
-                }
-              }
-            );
-          }
-        );
-      })
-      .catch(next);
+router.post('/create/customer', authenticate(), (req, res, next) => {
+  if (!req.user.isAdmin) {
+    next(unAuthedErr);
+    return;
   }
-);
+  user
+    .createCustomer(req.body)
+    .then(result => {
+      delete result.dataValues.password;
+      jwt.sign(
+        { result, resetToken: true },
+        process.env.TOKEN_KEY,
+        { expiresIn: '1h' },
+        (err, token) => {
+          if (err) next(err);
+          mailer(
+            // set to req.body.email
+            req.body.email,
+            'Scottsdale Event Decor Login',
+            'welcomeEmail',
+            { token, result: req.body },
+            (error, success) => {
+              if (error) next(error);
+              if (success) {
+                res.send({
+                  success: 'New customer created successfully'
+                });
+              }
+            }
+          );
+        }
+      );
+    })
+    .catch(next);
+});
 
 // creates a new admin
 // TODO: secure this route
-router.post('/create/admin', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+router.post('/create/admin', authenticate(), (req, res, next) => {
   if (!req.user.isAdmin) {
     next(unAuthedErr);
     return;
@@ -72,7 +70,7 @@ router.post('/create/admin', passport.authenticate('jwt', { session: false }), (
     .catch(next);
 });
 
-router.post('/create/cart', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+router.post('/create/cart', authenticate(), (req, res, next) => {
   const { id: CustomerId } = req.body;
   db.Cart.create({ CustomerId, isActive: false })
     .then(result => {
@@ -82,55 +80,51 @@ router.post('/create/cart', passport.authenticate('jwt', { session: false }), (r
 });
 
 // creates a csv file for a customers estimate
-router.post(
-  '/create/estimate',
-  passport.authenticate('jwt', { session: false }),
-  (req, res, next) => {
-    let estimateId;
-    const fields = ['estimateId', 'id', 'qty'];
-    const { eventProps, cartProps } = req.body;
-    const { CartId } = cartProps[0];
-    const { id: CustomerId } = req.user;
+router.post('/create/estimate', authenticate(), (req, res, next) => {
+  let estimateId;
+  const fields = ['estimateId', 'id', 'qty'];
+  const { eventProps, cartProps } = req.body;
+  const { CartId } = cartProps[0];
+  const { id: CustomerId } = req.user;
 
-    // adds each event info field into a field for the csv file
-    Object.keys(eventProps).forEach(a => fields.push(a));
+  // adds each event info field into a field for the csv file
+  Object.keys(eventProps).forEach(a => fields.push(a));
 
-    db.Estimate.create({ CartId, CustomerId, ...eventProps })
-      .then(result => {
-        estimateId = result.dataValues.id;
-        const merged = cartProps.map(product => {
-          for (let info in eventProps) {
-            product[info] = eventProps[info];
-            product['estimateId'] = result.dataValues.id;
-          }
-          return product;
-        });
-        try {
-          const parser = new Json2csvParser({ fields, quote: '' });
-          const csv = parser.parse(merged);
-          dbx
-            .filesUpload({
-              contents: csv,
-              path: `/${date()}-${eventProps.groupName}-${estimateId}.csv`
-            })
-            .then(() => {
-              user
-                .createCart(CustomerId)
-                .then(result => {
-                  res.json({ activeCart: result.dataValues.id, estimateId });
-                })
-                .catch(next);
-            })
-            .catch(next);
-        } catch (err) {
-          next(err);
+  db.Estimate.create({ CartId, CustomerId, ...eventProps })
+    .then(result => {
+      estimateId = result.dataValues.id;
+      const merged = cartProps.map(product => {
+        for (let info in eventProps) {
+          product[info] = eventProps[info];
+          product['estimateId'] = result.dataValues.id;
         }
-      })
-      .catch(next);
-  }
-);
+        return product;
+      });
+      try {
+        const parser = new Json2csvParser({ fields, quote: '' });
+        const csv = parser.parse(merged);
+        dbx
+          .filesUpload({
+            contents: csv,
+            path: `/${date()}-${eventProps.groupName}-${estimateId}.csv`
+          })
+          .then(() => {
+            user
+              .createCart(CustomerId)
+              .then(result => {
+                res.json({ activeCart: result.dataValues.id, estimateId });
+              })
+              .catch(next);
+          })
+          .catch(next);
+      } catch (err) {
+        next(err);
+      }
+    })
+    .catch(next);
+});
 
-router.post('/update/admin', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+router.post('/update/admin', authenticate(), (req, res, next) => {
   if (!req.user.isAdmin) {
     next(unAuthedErr);
     return;
@@ -143,7 +137,7 @@ router.post('/update/admin', passport.authenticate('jwt', { session: false }), (
     .catch(next);
 });
 
-router.post('/update/qty', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+router.post('/update/qty', authenticate(), (req, res, next) => {
   const { ProductId, qty, CartId } = req.body;
   db.CartProduct.update({ qty: qty }, { where: { ProductId: ProductId, CartId: CartId } })
     .then(result => {
@@ -153,20 +147,16 @@ router.post('/update/qty', passport.authenticate('jwt', { session: false }), (re
 });
 
 // updates any customer
-router.post(
-  '/update/customer',
-  passport.authenticate('jwt', { session: false }),
-  (req, res, next) => {
-    user
-      .updateCustomer(req.body)
-      .then(() => {
-        res.json({ success: 'Success' });
-      })
-      .catch(next);
-  }
-);
+router.post('/update/customer', authenticate(), (req, res, next) => {
+  user
+    .updateCustomer(req.body)
+    .then(() => {
+      res.json({ success: 'Success' });
+    })
+    .catch(next);
+});
 
-router.post('/update/cart', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+router.post('/update/cart', authenticate(), (req, res, next) => {
   const { name, id } = req.body;
   db.Cart.update({ cartName: name, date: date() }, { where: { id: id } })
     .then(result => {
@@ -176,42 +166,34 @@ router.post('/update/cart', passport.authenticate('jwt', { session: false }), (r
 });
 
 // sets new active cart. sets old active cart to inactive
-router.post(
-  '/update/active-cart',
-  passport.authenticate('jwt', { session: false }),
-  (req, res, next) => {
-    const { oldCartId, newCartId } = req.body;
+router.post('/update/active-cart', authenticate(), (req, res, next) => {
+  const { oldCartId, newCartId } = req.body;
 
-    db.Cart.update({ isActive: true, date: date() }, { where: { id: newCartId } })
-      .then(() => {
-        db.Cart.update({ isActive: false }, { where: { id: oldCartId } })
-          .then(result => {
-            res.json({ success: result });
-          })
-          .catch(next);
-      })
-      .catch(next);
-  }
-);
+  db.Cart.update({ isActive: true, date: date() }, { where: { id: newCartId } })
+    .then(() => {
+      db.Cart.update({ isActive: false }, { where: { id: oldCartId } })
+        .then(result => {
+          res.json({ success: result });
+        })
+        .catch(next);
+    })
+    .catch(next);
+});
 
 // deletes a customer
-router.post(
-  '/delete/customer',
-  passport.authenticate('jwt', { session: false }),
-  (req, res, next) => {
-    const { id } = req.body;
-    if (!req.user.isAdmin) {
-      next(unAuthedErr);
-      return;
-    }
-    user
-      .deleteCustomer(id)
-      .then(() => res.send({ success: 'Success' }))
-      .catch(next);
+router.post('/delete/customer', authenticate(), (req, res, next) => {
+  const { id } = req.body;
+  if (!req.user.isAdmin) {
+    next(unAuthedErr);
+    return;
   }
-);
+  user
+    .deleteCustomer(id)
+    .then(() => res.send({ success: 'Success' }))
+    .catch(next);
+});
 
-router.post('/delete/admin', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+router.post('/delete/admin', authenticate(), (req, res, next) => {
   const { id } = req.body;
   if (!req.user.isAdmin) {
     next(unAuthedErr);
@@ -223,22 +205,18 @@ router.post('/delete/admin', passport.authenticate('jwt', { session: false }), (
     .catch(next);
 });
 
-router.post(
-  '/delete/product',
-  passport.authenticate('jwt', { session: false }),
-  (req, res, next) => {
-    const { cartProductId } = req.body;
-    db.CartProduct.destroy({ where: { id: cartProductId } })
-      // res is either 1 or 0. 1 is a success, 0 is a fail.
-      .then(result => {
-        if (result) res.status(200).send('Product removed');
-        else next({ message: 'Failed to remove product' });
-      })
-      .catch(next);
-  }
-);
+router.post('/delete/product', authenticate(), (req, res, next) => {
+  const { cartProductId } = req.body;
+  db.CartProduct.destroy({ where: { id: cartProductId } })
+    // res is either 1 or 0. 1 is a success, 0 is a fail.
+    .then(result => {
+      if (result) res.status(200).send('Product removed');
+      else next({ message: 'Failed to remove product' });
+    })
+    .catch(next);
+});
 
-router.post('/delete/cart', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+router.post('/delete/cart', authenticate(), (req, res, next) => {
   db.Cart.destroy({ where: { id: req.body.cartId } })
     .then(result => {
       if (result) res.send({ succes: 'Product removed' });
@@ -247,26 +225,22 @@ router.post('/delete/cart', passport.authenticate('jwt', { session: false }), (r
     .catch(next);
 });
 
-router.post(
-  '/get/estimates',
-  passport.authenticate('jwt', { session: false }),
-  (req, res, next) => {
-    const { CustomerId } = req.body;
-    db.Estimate.findAll({
-      where: {
-        CustomerId: CustomerId
-      },
-      include: [{ model: db.Cart }]
+router.post('/get/estimates', authenticate(), (req, res, next) => {
+  const { CustomerId } = req.body;
+  db.Estimate.findAll({
+    where: {
+      CustomerId: CustomerId
+    },
+    include: [{ model: db.Cart }]
+  })
+    .then(result => {
+      res.send({ success: result });
     })
-      .then(result => {
-        res.send({ success: result });
-      })
-      .catch(next);
-  }
-);
+    .catch(next);
+});
 
 // loads all customers
-router.get('/get/customers', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+router.get('/get/customers', authenticate(), (req, res, next) => {
   if (!req.user.isAdmin) {
     next(unAuthedErr);
     return;
@@ -278,7 +252,7 @@ router.get('/get/customers', passport.authenticate('jwt', { session: false }), (
 });
 
 // loads all customers
-router.get('/get/admins', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+router.get('/get/admins', authenticate(), (req, res, next) => {
   if (!req.user.isAdmin) {
     next(unAuthedErr);
     return;
@@ -302,7 +276,7 @@ router.get('/get/products', (req, res, next) => {
     .catch(next);
 });
 
-router.get('/get/carts', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+router.get('/get/carts', authenticate(), (req, res, next) => {
   user
     .getCarts(req.user.id)
     .then(result => {
@@ -316,7 +290,7 @@ router.get('/get/carts', passport.authenticate('jwt', { session: false }), (req,
     .catch(next);
 });
 
-router.post('/get/cart', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+router.post('/get/cart', authenticate(), (req, res, next) => {
   const { cartId } = req.body;
   db.Cart.findOne({
     where: { id: cartId },
@@ -334,7 +308,7 @@ router.post('/get/cart', passport.authenticate('jwt', { session: false }), (req,
 });
 
 // saves a product to a customers cart
-router.post('/save/product', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+router.post('/save/product', authenticate(), (req, res, next) => {
   const { ProductId, CartId } = req.body;
   req.body.date = date();
 
@@ -431,7 +405,7 @@ router.post('/auth/admin', (req, res, next) => {
     .catch(next);
 });
 
-router.get('/auth/token', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/auth/token', authenticate(), (req, res) => {
   res.status(200).json({ isAdmin: req.user.isAdmin });
 });
 
