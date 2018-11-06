@@ -1,4 +1,4 @@
-SKU,CATEGORY,SUBCATEGORY,NAME,DESCRIPTION,PRICE,QUANTITY,URL,EXTRAURL
+﻿SKU,CATEGORY,SUBCATEGORY,NAME,DESCRIPTION,PRICE,QUANTITY,URL,EXTRAURL
 1001-1001,BARS,Bar Front,Mahogany Wooden Bar Front no Columns,"16"" x 73” x 45"". Does not include columns ",175,8,https://s3-us-west-2.amazonaws.com/scottsdaleevents/inventory_images/BARS/10011001.JPG,
 1001-1002,BARS,Bar Front,Mahogany Wooden Bar Front with two Columns,"16"" x 120"" x 45"". Includes two columns",225,8,https://s3-us-west-2.amazonaws.com/scottsdaleevents/inventory_images/BARS/10011002.JPG,
 1001-1003,BARS,Bar Front,Sonoma Faux Reclaimed Wood Bar Front,"33"" x 73"" x 50"" Sonoma faux reclaim wood bar front, bar back sold seperately ",290,5,https://s3-us-west-2.amazonaws.com/scottsdaleevents/inventory_images/BARS/10011003.JPG,
@@ -14,7 +14,7 @@ SKU,CATEGORY,SUBCATEGORY,NAME,DESCRIPTION,PRICE,QUANTITY,URL,EXTRAURL
 1001-1013,BARS,Big Mahogany Center Bar,Big Mahogany Center Bar Package with 24 Stools (Package Five),"Includes eight mahogany bar fronts, eight columns, and twenty four metal stools",1775,1,https://s3-us-west-2.amazonaws.com/scottsdaleevents/inventory_images/BARS/10011013.JPG,
 1001-1014,BARS,Bar Sign,"""BAR"" Marquee Red Letters","Décor marquee red ""BAR"" sign lettering that complements the bar, or bar back. ( letter dimensions are 3"" x 17"" x 20"")",200,1,https://s3-us-west-2.amazonaws.com/scottsdaleevents/inventory_images/BARS/10011014.JPG,
 1001-1015,BARS,Bar Column,Mahogany Wooden Bar Column,Columns used in addition to certain bar front layouts,,,https://dummyimage.com/350x350/20232a/bababa.png&text=Product+Image+Coming+Soon,
-1001-1016,BARS,Big Mahogany Center Bar,Big Mahogany Center Bar Package with 24 Stools (Package Six),"Includes eight mahogany bar fronts, eight columns, and twenty four wood stools",,,,
+1001-1016,BARS,Big Mahogany Center Bar,Big Mahogany Center Bar Package with 24 Stools (Package Six),"Includes eight mahogany bar fronts, eight columns, and twenty four wood stools",1775,1,https://s3-us-west-2.amazonaws.com/scottsdaleevents/inventory_images/BARS/10011013.JPG,
 1002-1002,CACTI,Rope Lit Cacti,Sahuaro 12' Rope Lit Cactus,Sahuaro 12' Rope Lit Cactus,175,8,https://s3-us-west-2.amazonaws.com/scottsdaleevents/inventory_images/CACTI/10021002.JPG,https://s3-us-west-2.amazonaws.com/scottsdaleevents/inventory_images/CACTI/10021002A.JPG
 1002-1003,CACTI,Rope Lit Cacti,Sahuaro 9' Rope Lit Cactus. Short,Sahuaro 8' Rope Lit Cactus. Short,150,1,https://s3-us-west-2.amazonaws.com/scottsdaleevents/inventory_images/CACTI/10021003.JPG,
 1002-1004,CACTI,Rope Lit Cacti,Ocotillo 8' Rope Lit Cactus,Ocotillo 8' Rope Lit Cactus,125,6,https://s3-us-west-2.amazonaws.com/scottsdaleevents/inventory_images/CACTI/10021004.JPG,

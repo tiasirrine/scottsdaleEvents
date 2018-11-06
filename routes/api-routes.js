@@ -82,7 +82,7 @@ router.post('/create/cart', authenticate(), (req, res, next) => {
 // creates a csv file for a customers estimate
 router.post('/create/estimate', authenticate(), (req, res, next) => {
 	let estimateId;
-	const fields = ['estimateId', 'id', 'qty'];
+	const fields = ['estimateId', 'id', 'qty', 'price'];
 	const { eventProps, cartProps } = req.body;
 	const { CartId } = cartProps[0];
 	const { id: CustomerId } = req.user;
