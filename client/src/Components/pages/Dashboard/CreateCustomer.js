@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Container, Row, Col, Input, Button } from 'mdbreact';
+
 import API from '../../../api/API';
 import {
   checkEmail,

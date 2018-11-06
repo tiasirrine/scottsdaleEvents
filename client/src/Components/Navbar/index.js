@@ -1,4 +1,3 @@
-import './navbar.css';
 import React, { Component, Fragment } from 'react';
 import {
   Navbar,
@@ -12,6 +11,8 @@ import {
   DropdownItem
 } from 'mdbreact';
 import { Link } from 'react-router-dom';
+
+import './navbar.css';
 
 export default class Nav extends Component {
   constructor(props) {

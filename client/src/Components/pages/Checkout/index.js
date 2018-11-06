@@ -9,25 +9,29 @@ import Summary from './Summary';
 // Similiar to App.js. It routes requests to the appropriate component, and serves as a parent component
 
 class Checkout extends Component {
-  render() {
-    return (
-      <div style={{ marginTop: '120px' }}>
-        <Switch>
-          <Route
-            exact
-            path="/checkout/event"
-            render={props => <EventForm {...props} />}
-          />
-          <Route exact path="/checkout/cart" render={props => <Cart {...props} />} />
-          <Route
-            exact
-            path="/checkout/summary"
-            render={props => <Summary {...props} />}
-          />
-        </Switch>
-      </div>
-    );
-  }
+	render() {
+		return (
+			<div style={{ marginTop: '120px' }}>
+				<Switch>
+					<Route
+						exact
+						path="/checkout/event"
+						render={props => <EventForm {...props} />}
+					/>
+					<Route
+						exact
+						path="/checkout/cart"
+						render={props => <Cart {...props} />}
+					/>
+					<Route
+						exact
+						path="/checkout/summary"
+						render={props => <Summary {...props} />}
+					/>
+				</Switch>
+			</div>
+		);
+	}
 }
 
 export default Checkout;

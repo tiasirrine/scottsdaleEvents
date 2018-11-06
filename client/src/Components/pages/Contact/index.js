@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { checkEmail, handleInputChange, timeout } from '../../../api/validate';
-import API from '../../../api/API';
 import {
   Container,
   Row,
@@ -13,6 +12,8 @@ import {
   ModalHeader,
   ModalFooter
 } from 'mdbreact';
+
+import API from '../../../api/API';
 import './Form.css';
 
 class ContactPage extends Component {

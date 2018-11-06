@@ -1,70 +1,70 @@
 .cart-top {
-  margin-top: 80px;
+	margin-top: 80px;
 }
 thead {
-  background: #ccc;
+	background: #ccc;
 }
 
 tr:nth-child(even) {
-  background: #ccc;
+	background: #ccc;
 }
 .est-sub {
-  font-weight: 300;
+	font-weight: 300;
 }
 .est-sub2 {
-  font-weight: 600;
+	font-weight: 600;
 }
 
 .md-form .prefix ~ label {
-  transform: translateY(-120%);
+	transform: translateY(-120%);
 }
 
 .remove-pointer {
-  cursor: pointer;
+	cursor: pointer;
 }
 #browse-btn {
-  font-size: 16px;
+	font-size: 16px;
 }
 
 #browse-btn:hover {
-  color: rgb(0, 29, 126);
+	color: rgb(0, 29, 126);
 }
 table {
-  width: 100%;
-  table-layout: fixed;
+	width: 100%;
+	table-layout: fixed;
 }
 
 input {
-  cursor: text;
+	cursor: text;
 }
 @media (min-width: 34em) {
-  .card-columns {
-    -webkit-column-count: 2;
-    -moz-column-count: 2;
-    column-count: 2;
-  }
+	.card-columns {
+		-webkit-column-count: 2;
+		-moz-column-count: 2;
+		column-count: 2;
+	}
 }
 
 @media (min-width: 48em) {
-  .card-columns {
-    -webkit-column-count: 3;
-    -moz-column-count: 3;
-    column-count: 3;
-  }
+	.card-columns {
+		-webkit-column-count: 3;
+		-moz-column-count: 3;
+		column-count: 3;
+	}
 }
 
 @media (min-width: 62em) {
-  .card-columns {
-    -webkit-column-count: 4;
-    -moz-column-count: 4;
-    column-count: 4;
-  }
+	.card-columns {
+		-webkit-column-count: 4;
+		-moz-column-count: 4;
+		column-count: 4;
+	}
 }
 
 @media (min-width: 75em) {
-  .card-columns {
-    -webkit-column-count: 5;
-    -moz-column-count: 5;
-    column-count: 5;
-  }
+	.card-columns {
+		-webkit-column-count: 5;
+		-moz-column-count: 5;
+		column-count: 5;
+	}
 }

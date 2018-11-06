@@ -24,13 +24,13 @@ require('./util/passport')(passport);
 
 // Serve up static assets
 if (process.env.NODE_ENV === 'production') {
-  app.use(
-    express.static('client/build', {
-      setHeaders: (res, path) => {
-        res.set('X-Powered-By', 'nosniff');
-      }
-    })
-  );
+	app.use(
+		express.static('client/build', {
+			setHeaders: (res, path) => {
+				res.set('X-Powered-By', 'nosniff');
+			}
+		})
+	);
 }
 
 // connects all routes
@@ -38,27 +38,25 @@ app.use(routes);
 
 // serves bundled react files in prod
 app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname, '/client/build/index.html'), function(err) {
-    if (err) {
-      res.status(500).send(err);
-    }
-  });
+	res.sendFile(path.join(__dirname, '/client/build/index.html'), function(err) {
+		if (err) {
+			res.status(500).send(err);
+		}
+	});
 });
 
 // error handling middleware for all routes
 app.use(function(error, req, res, next) {
-  const status = error.status || 500;
-  const message = error.message || 'An unknown error occured';
-  debugError(error);
-  debugRoute('Error occured at: ' + req.originalUrl);
-  res.status(status).json({ message: message });
+	const status = error.status || 500;
+	const message = error.message || 'An unknown error occured';
+	debugError(error);
+	debugRoute('Error occured at: ' + req.originalUrl);
+	res.status(status).json({ message: message });
 });
 
 // starts server
 db.sequelize.sync().then(() => {
-
-  app.listen(PORT, () =>
-    console.log(`🌎  ==> API Server now listening on PORT ${PORT}`)
-  );
-
+	app.listen(PORT, () =>
+		console.log(`🌎  ==> API Server now listening on PORT ${PORT}`)
+	);
 });
