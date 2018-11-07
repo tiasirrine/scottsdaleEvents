@@ -23,7 +23,7 @@ app.use(passport.session());
 require('./util/passport')(passport);
 
 // Serve up static assets
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production || staging') {
 	app.use(
 		express.static('client/build', {
 			setHeaders: (res, path) => {
