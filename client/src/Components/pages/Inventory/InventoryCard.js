@@ -7,7 +7,7 @@ import { CartValueContext } from './index';
 import { timeout, handleInputChange } from '../../../api/validate';
 import './InventoryPage.css';
 
-class InventoryCard extends PureComponent {
+class InventoryCard extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -33,6 +33,8 @@ class InventoryCard extends PureComponent {
 		);
 	};
 
+	resetQty = () => setTimeout(() => this.setState({ quantity: 0 }), 3000);
+
 	// saves the product to the users cart.
 	handleFormSubmit = (event, qty, func) => {
 		// prevents adding 0 items of something or too many
@@ -50,6 +52,7 @@ class InventoryCard extends PureComponent {
 				.then(result => {
 					func(result.data);
 					this.timeout({ success: 'Success' });
+					this.resetQty();
 				})
 				.catch(error => {
 					console.log(error);
@@ -58,9 +61,11 @@ class InventoryCard extends PureComponent {
 							? 'Connection timed out'
 							: error.response.data.message;
 					this.timeout({ error: err });
+					this.resetQty();
 				});
 		} else {
 			this.timeout({ error: 'Please choose a valid quantity' });
+			this.resetQty();
 		}
 	};
 
