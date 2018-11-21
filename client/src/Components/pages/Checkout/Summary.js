@@ -159,6 +159,9 @@ class Summary extends React.Component {
 								condition. Overtime fee: $35.00 per staff per hour (or any part
 								thereof) will be charged in addition to client if set and/or
 								strike can not take place at time indicated on contract.
+								Additionally, a $100.00 minimum service charge will be assessed
+								on any orders of $650.00 or less (Not including taxes and
+								trucking).
 							</p>
 						</Collapse>
 						<form
