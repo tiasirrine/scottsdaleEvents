@@ -24,8 +24,7 @@
 	},
 	"prettier": {
 		"printWIdth": 100,
-		"tabWidth": 2,
-		"useTabs": true,
+
 		"singleQuote": true,
 		"semi": true,
 		"bracketSpacing": true
