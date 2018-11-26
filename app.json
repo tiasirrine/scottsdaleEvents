@@ -1,0 +1,50 @@
+{
+	"name": "scottsdale-events",
+	"scripts": {},
+	"env": {
+		"DEBUG": {
+			"required": true
+		},
+		"DROPBOX": {
+			"required": true
+		},
+		"EMAIL_PASS": {
+			"required": true
+		},
+		"EMAIL_USER": {
+			"required": true
+		},
+		"JAWSDB_DB": {
+			"required": true
+		},
+		"JAWSDB_HOST": {
+			"required": true
+		},
+		"JAWSDB_PASS": {
+			"required": true
+		},
+		"JAWSDB_URL": {
+			"required": true
+		},
+		"JAWSDB_USER": {
+			"required": true
+		},
+		"NODE_ENV": {
+			"required": true
+		},
+		"TOKEN_KEY": {
+			"required": true
+		}
+	},
+	"formation": {
+		"web": {
+			"quantity": 1
+		}
+	},
+	"addons": ["jawsdb"],
+	"buildpacks": [
+		{
+			"url": "heroku/nodejs"
+		}
+	]
+}
