@@ -40,8 +40,8 @@ if (
 app.use(routes);
 
 // serves bundled react files in prod
-app.get('/*', function(req, res) {
-	res.sendFile(path.join(__dirname, '/client/build/index.html'), function(err) {
+app.get('/*', (req, res) => {
+	res.sendFile(path.join(__dirname, '/client/build/index.html'), err => {
 		if (err) {
 			res.status(500).send(err);
 		}
@@ -49,9 +49,8 @@ app.get('/*', function(req, res) {
 });
 
 // error handling middleware for all routes
-app.use(function(error, req, res, next) {
-	const status = error.status || 500;
-	const message = error.message || 'An unknown error occured';
+app.use((error, req, res, next) => {
+	const { status = 500, message = 'An error occured' } = error;
 	debugError(error);
 	debugRoute('Error occured at: ' + req.originalUrl);
 	res.status(status).json({ message: message });

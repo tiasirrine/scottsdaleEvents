@@ -32,7 +32,6 @@ class Summary extends React.Component {
 			loading: false,
 			errorMsg: null
 		};
-		console.log(this.props.location.state);
 		this.toggleCollapse = this.toggleCollapse.bind(this);
 		this.eventDetails = this.props.location.state;
 		this.detailsFirst = Object.keys(this.eventDetails.eventProps).slice(0, 6);

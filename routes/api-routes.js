@@ -10,19 +10,19 @@ const Dropbox = require('dropbox').Dropbox;
 const dbx = new Dropbox({ accessToken: process.env.DROPBOX });
 const date = require('../util/getDate');
 
-const unAuthedErr = {
-	message: 'Unauthorized',
-	status: 401
-};
+// secures admin routes
+const authAdmin = () => passport.authenticate('auth-admin', { session: false });
 
-const authenticate = () => passport.authenticate('jwt', { session: false });
+// secures customer routes
+const authCustomer = () =>
+	passport.authenticate('auth-customer', { session: false });
+
+// secures admin and customer routes
+const generalAuth = () =>
+	passport.authenticate('general-auth', { session: false });
 
 // creates a new customer
-router.post('/create/customer', authenticate(), (req, res, next) => {
-	if (!req.user.isAdmin) {
-		next(unAuthedErr);
-		return;
-	}
+router.post('/create/customer', authAdmin(), (req, res, next) => {
 	user
 		.createCustomer(req.body)
 		.then(result => {
@@ -56,11 +56,7 @@ router.post('/create/customer', authenticate(), (req, res, next) => {
 
 // creates a new admin
 // TODO: secure this route
-router.post('/create/admin', authenticate(), (req, res, next) => {
-	if (!req.user.isAdmin) {
-		next(unAuthedErr);
-		return;
-	}
+router.post('/create/admin', authAdmin(), (req, res, next) => {
 	user
 		.createAdmin(req.body)
 		.then(result => {
@@ -70,7 +66,7 @@ router.post('/create/admin', authenticate(), (req, res, next) => {
 		.catch(next);
 });
 
-router.post('/create/cart', authenticate(), (req, res, next) => {
+router.post('/create/cart', authCustomer(), (req, res, next) => {
 	const { id: CustomerId } = req.body;
 	db.Cart.create({ CustomerId, isActive: false })
 		.then(result => {
@@ -80,7 +76,7 @@ router.post('/create/cart', authenticate(), (req, res, next) => {
 });
 
 // creates a csv file for a customers estimate
-router.post('/create/estimate', authenticate(), (req, res, next) => {
+router.post('/create/estimate', authCustomer(), (req, res, next) => {
 	let estimateId;
 	const fields = ['estimateId', 'id', 'qty', 'price'];
 	const { eventProps, cartProps } = req.body;
@@ -124,11 +120,7 @@ router.post('/create/estimate', authenticate(), (req, res, next) => {
 		.catch(next);
 });
 
-router.post('/update/admin', authenticate(), (req, res, next) => {
-	if (!req.user.isAdmin) {
-		next(unAuthedErr);
-		return;
-	}
+router.post('/update/admin', authAdmin(), (req, res, next) => {
 	user
 		.updateAdmin(req.body)
 		.then(() => {
@@ -137,7 +129,7 @@ router.post('/update/admin', authenticate(), (req, res, next) => {
 		.catch(next);
 });
 
-router.post('/update/qty', authenticate(), (req, res, next) => {
+router.post('/update/qty', authCustomer(), (req, res, next) => {
 	const { ProductId, qty, CartId } = req.body;
 	db.CartProduct.update(
 		{ qty: qty },
@@ -150,7 +142,7 @@ router.post('/update/qty', authenticate(), (req, res, next) => {
 });
 
 // updates any customer
-router.post('/update/customer', authenticate(), (req, res, next) => {
+router.post('/update/customer', authCustomer(), (req, res, next) => {
 	user
 		.updateCustomer(req.body)
 		.then(() => {
@@ -159,7 +151,7 @@ router.post('/update/customer', authenticate(), (req, res, next) => {
 		.catch(next);
 });
 
-router.post('/update/cart', authenticate(), (req, res, next) => {
+router.post('/update/cart', authCustomer(), (req, res, next) => {
 	const { name, id } = req.body;
 	db.Cart.update({ cartName: name, date: date() }, { where: { id: id } })
 		.then(result => {
@@ -169,7 +161,7 @@ router.post('/update/cart', authenticate(), (req, res, next) => {
 });
 
 // sets new active cart. sets old active cart to inactive
-router.post('/update/active-cart', authenticate(), (req, res, next) => {
+router.post('/update/active-cart', authCustomer(), (req, res, next) => {
 	const { oldCartId, newCartId } = req.body;
 
 	db.Cart.update({ isActive: true, date: date() }, { where: { id: newCartId } })
@@ -184,31 +176,23 @@ router.post('/update/active-cart', authenticate(), (req, res, next) => {
 });
 
 // deletes a customer
-router.post('/delete/customer', authenticate(), (req, res, next) => {
+router.post('/delete/customer', authAdmin(), (req, res, next) => {
 	const { id } = req.body;
-	if (!req.user.isAdmin) {
-		next(unAuthedErr);
-		return;
-	}
 	user
 		.deleteCustomer(id)
 		.then(() => res.send({ success: 'Success' }))
 		.catch(next);
 });
 
-router.post('/delete/admin', authenticate(), (req, res, next) => {
+router.post('/delete/admin', authAdmin(), (req, res, next) => {
 	const { id } = req.body;
-	if (!req.user.isAdmin) {
-		next(unAuthedErr);
-		return;
-	}
 	user
 		.deleteAdmin(id)
 		.then(() => res.send({ success: 'Success' }))
 		.catch(next);
 });
 
-router.post('/delete/product', authenticate(), (req, res, next) => {
+router.post('/delete/product', authCustomer(), (req, res, next) => {
 	const { cartProductId } = req.body;
 	db.CartProduct.destroy({ where: { id: cartProductId } })
 		// res is either 1 or 0. 1 is a success, 0 is a fail.
@@ -219,7 +203,7 @@ router.post('/delete/product', authenticate(), (req, res, next) => {
 		.catch(next);
 });
 
-router.post('/delete/cart', authenticate(), (req, res, next) => {
+router.post('/delete/cart', authCustomer(), (req, res, next) => {
 	db.Cart.destroy({ where: { id: req.body.cartId } })
 		.then(result => {
 			if (result) res.send({ succes: 'Product removed' });
@@ -228,7 +212,7 @@ router.post('/delete/cart', authenticate(), (req, res, next) => {
 		.catch(next);
 });
 
-router.post('/get/estimates', authenticate(), (req, res, next) => {
+router.post('/get/estimates', authCustomer(), (req, res, next) => {
 	const { CustomerId } = req.body;
 	db.Estimate.findAll({
 		where: {
@@ -243,11 +227,7 @@ router.post('/get/estimates', authenticate(), (req, res, next) => {
 });
 
 // loads all customers
-router.get('/get/customers', authenticate(), (req, res, next) => {
-	if (!req.user.isAdmin) {
-		next(unAuthedErr);
-		return;
-	}
+router.get('/get/customers', authAdmin(), (req, res, next) => {
 	user
 		.getAllCustomers()
 		.then(result => res.status(200).send({ success: result }))
@@ -255,11 +235,7 @@ router.get('/get/customers', authenticate(), (req, res, next) => {
 });
 
 // loads all customers
-router.get('/get/admins', authenticate(), (req, res, next) => {
-	if (!req.user.isAdmin) {
-		next(unAuthedErr);
-		return;
-	}
+router.get('/get/admins', authAdmin(), (req, res, next) => {
 	user
 		.getAllAdmins()
 		.then(result => res.status(200).send({ success: result }))
@@ -279,7 +255,7 @@ router.get('/get/products', (req, res, next) => {
 		.catch(next);
 });
 
-router.get('/get/carts', authenticate(), (req, res, next) => {
+router.get('/get/carts', authCustomer(), (req, res, next) => {
 	user
 		.getCarts(req.user.id)
 		.then(result => {
@@ -293,7 +269,7 @@ router.get('/get/carts', authenticate(), (req, res, next) => {
 		.catch(next);
 });
 
-router.post('/get/cart', authenticate(), (req, res, next) => {
+router.post('/get/cart', authCustomer(), (req, res, next) => {
 	const { cartId } = req.body;
 	db.Cart.findOne({
 		where: { id: cartId },
@@ -311,7 +287,7 @@ router.post('/get/cart', authenticate(), (req, res, next) => {
 });
 
 // saves a product to a customers cart
-router.post('/save/product', authenticate(), (req, res, next) => {
+router.post('/save/product', authCustomer(), (req, res, next) => {
 	const { ProductId, CartId } = req.body;
 	req.body.date = date();
 
@@ -418,7 +394,7 @@ router.post('/auth/admin', (req, res, next) => {
 		.catch(next);
 });
 
-router.get('/auth/token', authenticate(), (req, res) => {
+router.get('/auth/token', generalAuth(), (req, res) => {
 	res.status(200).json({ isAdmin: req.user.isAdmin });
 });
 
