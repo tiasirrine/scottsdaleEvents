@@ -47,7 +47,6 @@ export default class UserCard extends Component {
 				this.props.deleteUser(id);
 			})
 			.catch(error => {
-				console.log(error);
 				if (error.response && error.response.status === 401) {
 					this.props.checkAuth(true);
 				} else {

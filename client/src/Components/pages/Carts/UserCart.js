@@ -3,6 +3,7 @@ import { Button, Card, CardBody, CardTitle, Input } from 'mdbreact';
 import { Link } from 'react-router-dom';
 
 import API from '../../../api/API';
+import errorMsg from '../../../api/errorMsg';
 import { handleInputChange, timeout } from '../../../api/validate';
 
 export default class UserCart extends Component {
@@ -21,6 +22,7 @@ export default class UserCart extends Component {
 		this.cart = () => this.props.cart;
 		this.index = this.props.index;
 		this.cartId = () => this.props.cart.id;
+		this.errorMsg = errorMsg.bind(this);
 	}
 
 	componentDidMount() {
@@ -42,14 +44,7 @@ export default class UserCart extends Component {
 		this.setState({ changeName: false });
 		API.updateCartName(this.cart().id, this.state.cartName)
 			.then(() => this.props.changeName(this.props.index, this.state.cartName))
-			.catch(error => {
-				console.log(error);
-				const err =
-					error.message && error.message.includes('timeout')
-						? 'Connection timed out'
-						: error.response.data.message;
-				this.setState({ error: err });
-			});
+			.catch(this.errorMsg);
 	};
 
 	setHeight = () => {

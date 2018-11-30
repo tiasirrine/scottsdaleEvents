@@ -11,6 +11,7 @@ import {
 import { Link } from 'react-router-dom';
 
 import API from '../../../api/API';
+import errorMsg from '../../../api/errorMsg';
 import './Checkout.css';
 
 class Cart extends Component {
@@ -22,6 +23,7 @@ class Cart extends Component {
 			cartName: ''
 		};
 		this.getCartId = () => this.state.activeCart[0].CartId;
+		this.errorMsg = errorMsg.bind(this);
 	}
 
 	// gets active cart for a customer
@@ -36,13 +38,7 @@ class Cart extends Component {
 						cartName: res.data[0].cartName
 					});
 				})
-				.catch(error => {
-					const err =
-						error.message && error.message.includes('timeout')
-							? 'Connection timed out'
-							: error.response.data.message;
-					this.setState({ error: err });
-				});
+				.catch(this.errorMsg);
 		} else {
 			this.setState({
 				activeCart: this.sortCart(this.props.location.state.viewCart),
@@ -74,14 +70,7 @@ class Cart extends Component {
 		this.setState({ [name]: value });
 		API.updateCartName(id, e.target.value)
 			.then()
-			.catch(error => {
-				console.log(error);
-				const err =
-					error.message && error.message.includes('timeout')
-						? 'Connection timed out'
-						: error.response.data.message;
-				this.setState({ error: err });
-			});
+			.catch(this.errorMsg);
 	};
 
 	// used to update the quantity to checkout
@@ -117,14 +106,7 @@ class Cart extends Component {
 
 				this.setState({ products: updated, error: null });
 			})
-			.catch(error => {
-				console.log(error);
-				const err =
-					error.message && error.message.includes('timeout')
-						? 'Connection timed out'
-						: error.response.data.message;
-				this.setState({ error: err });
-			});
+			.catch(this.errorMsg);
 	};
 
 	// deletes a product from the cart.
@@ -154,13 +136,7 @@ class Cart extends Component {
 					.filter(a => a !== undefined);
 				this.setState({ activeCart: updated });
 			})
-			.catch(error => {
-				const err =
-					error.message && error.message.includes('timeout')
-						? 'Connection timed out'
-						: error.response.data.message;
-				this.setState({ error: err });
-			});
+			.catch(this.errorMsg);
 	};
 
 	// allows the form to submit on enter.

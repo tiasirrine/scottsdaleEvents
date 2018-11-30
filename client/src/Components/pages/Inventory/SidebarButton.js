@@ -91,7 +91,6 @@ export default class SideBarButton extends PureComponent {
 
 	render() {
 		const { category, subCategories } = this.props;
-		// console.log(category, this.state);
 		return (
 			<div style={{ width: '250px', marginRight: '0px' }}>
 				<Link to={`/inventory/${category}`}>

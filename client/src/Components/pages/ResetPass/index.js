@@ -27,14 +27,12 @@ class ResetPass extends Component {
 	reset = (token, password) => {
 		API.resetPassword(token, password)
 			.then(result => {
-				console.log(result.data);
 				this.setState({
 					success: 'Your password has been updated',
 					isAdmin: result.data.isAdmin
 				});
 			})
 			.catch(error => {
-				console.log(error);
 				const err =
 					error.message && error.message.includes('timeout')
 						? 'Connection timed out'

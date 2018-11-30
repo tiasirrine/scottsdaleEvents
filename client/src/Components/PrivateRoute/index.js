@@ -23,7 +23,6 @@ class PrivateRoute extends Component {
 				this.setState({ isAuthed: true, isAdmin: res.data.isAdmin });
 			})
 			.catch(err => {
-				console.log(err);
 				this.setState({ isAuthed: false });
 			});
 	};

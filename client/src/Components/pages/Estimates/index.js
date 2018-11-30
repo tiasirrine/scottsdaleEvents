@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Container, Row } from 'mdbreact';
+
 import API from '../../../api/API';
+import errorMsg from '../../../api/errorMsg';
 import EstimateCard from './EstimateCard';
 
 export default class Estimates extends Component {
@@ -8,6 +10,7 @@ export default class Estimates extends Component {
 		super(props);
 		this.state = { estimates: null, error: null };
 		this.customerId = sessionStorage.getItem('userId');
+		this.errorMsg = errorMsg.bind(this);
 	}
 
 	componentDidMount() {
@@ -18,17 +21,9 @@ export default class Estimates extends Component {
 	getEstimates = () => {
 		API.getEstimates(this.customerId)
 			.then(result => {
-				console.log(result);
 				this.setState({ estimates: result.data.success });
 			})
-			.catch(error => {
-				const err =
-					error.message && error.message.includes('timeout')
-						? 'Connection timed out'
-						: error.response.data.message;
-				console.log(err);
-				this.setState({ error: err });
-			});
+			.catch(this.errorMsg);
 	};
 
 	render() {

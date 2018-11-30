@@ -103,7 +103,6 @@ class EventForm extends Component {
 		this.setState({
 			errors: errors
 		});
-		console.log(formIsValid);
 		return formIsValid;
 	}
 

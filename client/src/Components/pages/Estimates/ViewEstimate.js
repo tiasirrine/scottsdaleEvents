@@ -21,7 +21,6 @@ export default class ViewEstimate extends React.Component {
 		API.getCart(this.cartId)
 			.then(result => {
 				const { CartProducts } = result.data.success;
-				console.log(CartProducts);
 				this.setState({
 					cart: this.sortCart(CartProducts),
 					...this.sortDetails(this.event),
@@ -29,7 +28,6 @@ export default class ViewEstimate extends React.Component {
 				});
 			})
 			.catch(error => {
-				console.log(error.message);
 				const err =
 					error.message && error.message.includes('timeout')
 						? 'Connection timed out'

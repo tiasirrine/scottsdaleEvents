@@ -55,7 +55,6 @@ class InventoryCard extends React.Component {
 					this.resetQty();
 				})
 				.catch(error => {
-					console.log(error);
 					const err =
 						error.message && error.message.includes('timeout')
 							? 'Connection timed out'
@@ -142,24 +141,20 @@ class InventoryCard extends React.Component {
 
 				<div className="col-md-7 border-bottom pb-3 pb-sm-3">
 					<h3 className="mb-2">{product.cardTitle}</h3>
-					{this.state.isAuthed &&
-						product.cardPrice > 0 &&
-						!this.state.isAdmin && (
-							<Fragment>
-								{this.selectElem(
-									this.state.quantity,
-									product.id,
-									product.cardQuantity,
-									product.cardPrice
-								)}
-								{this.resultMsg(this.state.success, this.state.error)}
-								<CartValueContext.Consumer>
-									{func =>
-										this.submitBtn(product.id, product.cardQuantity, func)
-									}
-								</CartValueContext.Consumer>
-							</Fragment>
-						)}
+					{this.state.isAuthed && product.cardPrice > 0 && !this.state.isAdmin && (
+						<Fragment>
+							{this.selectElem(
+								this.state.quantity,
+								product.id,
+								product.cardQuantity,
+								product.cardPrice
+							)}
+							{this.resultMsg(this.state.success, this.state.error)}
+							<CartValueContext.Consumer>
+								{func => this.submitBtn(product.id, product.cardQuantity, func)}
+							</CartValueContext.Consumer>
+						</Fragment>
+					)}
 					<Link
 						to={{
 							pathname: `${window.location.pathname}/${product.cardTitle}`,

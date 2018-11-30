@@ -4,6 +4,7 @@ import { Container, Row, Col, Input, Button, Card, CardBody } from 'mdbreact';
 import { Link } from 'react-router-dom';
 
 import API from '../../../api/API';
+import errorMsg from '../../../api/errorMsg';
 import { checkEmail, checkNull, timeout } from '../../../api/validate';
 import './index.css';
 
@@ -19,6 +20,7 @@ class Login extends React.Component {
 			loading: false
 		};
 		this.timeout = timeout.bind(this);
+		this.errorMsg = errorMsg.bind(this);
 	}
 
 	componentDidMount() {
@@ -115,14 +117,7 @@ class Login extends React.Component {
 					this.setState({ error: 'error' });
 				}
 			})
-			.catch(error => {
-				console.log(error.message);
-				const err =
-					error.message && !error.message.includes('401')
-						? 'Connection timed out'
-						: error.response.data.message;
-				this.setState({ error: err });
-			});
+			.catch(this.errorMsg);
 	};
 
 	// allows the form to submit on enter.

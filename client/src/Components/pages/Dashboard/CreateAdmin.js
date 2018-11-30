@@ -76,7 +76,6 @@ export default class CreateCustomer extends Component {
 				this.timeout({ result: res.data.success });
 			})
 			.catch(error => {
-				console.log(error);
 				if (error.response && error.response.status === 401) {
 					this.props.checkAuth(true);
 				} else {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const wait = 15000;
+const wait = 1000;
 const timeout = { timeout: wait };
 
 const setOptions = () => {

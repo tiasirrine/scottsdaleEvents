@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import Home from './pages/Home';
 import InventoryPage from './pages/Inventory';
 import API from '../api/API';
+import errorMsg from '../api/errorMsg';
 import Gallery from './pages/Gallery';
 import ContactPage from './pages/Contact';
 import Login from './pages/Login';
@@ -27,6 +28,7 @@ class App extends Component {
 			inventoryObj: null,
 			subCategories: null
 		};
+		this.errorMsg = errorMsg.bind(this);
 	}
 
 	componentDidMount() {
@@ -82,14 +84,7 @@ class App extends Component {
 
 				return this.setState({ inventoryObj, subCategories, categories });
 			})
-			.catch(error => {
-				console.log(error);
-				const err =
-					error.message && error.message.includes('timeout')
-						? 'Connection timed out'
-						: error.response.data.message;
-				this.setState({ error: err });
-			});
+			.catch(this.errorMsg);
 	};
 
 	render() {

@@ -21,7 +21,6 @@ export default class CopyCartBtn extends React.Component {
 				);
 			})
 			.catch(error => {
-				console.log(error.message);
 				const err =
 					error.message && error.message.includes('timeout')
 						? 'Connection timed out'

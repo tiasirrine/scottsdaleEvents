@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Container, Row, Button } from 'mdbreact';
+
 import API from '../../../api/API';
 import { handleInputChange, timeout } from '../../../api/validate';
+import errorMsg from '../../../api/errorMsg';
 import UserCart from './UserCart';
 
 export default class Carts extends Component {
@@ -16,6 +18,7 @@ export default class Carts extends Component {
 		this.id = sessionStorage.getItem('userId');
 		this.handleInputChange = handleInputChange.bind(this);
 		this.timeout = timeout.bind(this);
+		this.errorMsg = errorMsg.bind(this);
 	}
 
 	componentDidMount() {
@@ -61,14 +64,7 @@ export default class Carts extends Component {
 		if (oldCart.id !== mapped[i].id) {
 			API.updateActiveCart(oldCart.id, mapped[i].id)
 				.then()
-				.catch(error => {
-					const err =
-						error.message && error.message.includes('timeout')
-							? 'Connection timed out'
-							: error.response.data.message;
-					console.log(err);
-					this.setState({ error: err });
-				});
+				.catch(this.errorMsg);
 		}
 	};
 
@@ -77,14 +73,7 @@ export default class Carts extends Component {
 			.then(result => {
 				this.setState({ carts: result.data });
 			})
-			.catch(error => {
-				const err =
-					error.message && error.message.includes('timeout')
-						? 'Connection timed out'
-						: error.response.data.message;
-				console.log(err);
-				this.setState({ error: err });
-			});
+			.catch(this.errorMsg);
 	};
 
 	createCart = () => {
@@ -92,14 +81,7 @@ export default class Carts extends Component {
 			.then(() => {
 				this.getCarts();
 			})
-			.catch(error => {
-				const err =
-					error.message && error.message.includes('timeout')
-						? 'Connection timed out'
-						: error.response.data.message;
-				console.log(err);
-				this.setState({ error: err });
-			});
+			.catch(this.errorMsg);
 	};
 
 	deleteCart = (cartId, index) => {
@@ -109,14 +91,7 @@ export default class Carts extends Component {
 			.then(() => {
 				this.setState({ carts });
 			})
-			.catch(error => {
-				const err =
-					error.message && error.message.includes('timeout')
-						? 'Connection timed out'
-						: error.response.data.message;
-				console.log(err);
-				this.setState({ error: err });
-			});
+			.catch(this.errorMsg);
 	};
 
 	changeName = (index, newName) => {
@@ -126,7 +101,6 @@ export default class Carts extends Component {
 	};
 
 	render() {
-		console.log(this.state);
 		if (!this.state.carts && !this.state.error) {
 			return <div className="loader" />;
 		} else {
