@@ -1,64 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
+		<meta name="theme-color" content="#000000" />
+		<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+		<link
+			rel="preconnect"
+			href="https://s3-us-west-2.amazonaws.com/scottsdaleevents"
+		/>
+		<link
+			rel="dns-prefetch"
+			href="https://s3-us-west-2.amazonaws.com/scottsdaleevents"
+		/>
+		<link rel="icon" href="./favicon.ico" />
+		<meta
+			name="Description"
+			content="Luxury Event Rentals serving the finest resorts in Scottsdale Arizona"
+		/>
+		<title>Scottsdale Event Décor</title>
+		<style>
+			.loader {
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				z-index: 1;
+				width: 150px;
+				height: 150px;
+				margin: -75px 0 0 -75px;
+				border: 16px solid #f3f3f3;
+				border-radius: 50%;
+				border-top: 16px solid #20232a;
+				width: 120px;
+				height: 120px;
+				-webkit-animation: spin 2s linear infinite;
+				animation: spin 2s linear infinite;
+			}
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="theme-color" content="#000000">
-  <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-  <link rel="preconnect" href="https://s3-us-west-2.amazonaws.com/scottsdaleevents">
-  <link rel="dns-prefetch" href="https://s3-us-west-2.amazonaws.com/scottsdaleevents">
-  <link rel="icon" href="./favicon.ico">
-  <meta name="Description" content="Luxury Event Rentals serving the finest resorts in Scottsdale Arizona">
-  <title>Scottsdale Event Décor</title>
-  <style>
-    .loader {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      z-index: 1;
-      width: 150px;
-      height: 150px;
-      margin: -75px 0 0 -75px;
-      border: 16px solid #f3f3f3;
-      border-radius: 50%;
-      border-top: 16px solid #20232a;
-      width: 120px;
-      height: 120px;
-      -webkit-animation: spin 2s linear infinite;
-      animation: spin 2s linear infinite;
-    }
+			@-webkit-keyframes spin {
+				0% {
+					-webkit-transform: rotate(0deg);
+				}
 
-    @-webkit-keyframes spin {
-      0% {
-        -webkit-transform: rotate(0deg);
-      }
+				100% {
+					-webkit-transform: rotate(360deg);
+				}
+			}
 
-      100% {
-        -webkit-transform: rotate(360deg);
-      }
-    }
+			@keyframes spin {
+				0% {
+					transform: rotate(0deg);
+				}
 
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
+				100% {
+					transform: rotate(360deg);
+				}
+			}
+		</style>
+	</head>
 
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <noscript>
-    You need to enable JavaScript to run this app.
-  </noscript>
-  <div id="root">
-    <div class="loader" style="text-align: center"></div>
-  </div>
-  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Array.prototype.includes"></script>
-</body>
-
+	<body>
+		<noscript> You need to enable JavaScript to run this app. </noscript>
+		<div id="root"><div class="loader" style="text-align: center"></div></div>
+		<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Array.prototype.includes"></script>
+	</body>
 </html>
