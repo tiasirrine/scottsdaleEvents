@@ -110,7 +110,7 @@ class ResetPass extends Component {
 											type="submit"
 											value="Submit"
 											id="onSubmit-button"
-											className="btn-block z-depth-2 aButton"
+											className="btn-block z-depth-2"
 										>
 											Set Password
 										</Button>

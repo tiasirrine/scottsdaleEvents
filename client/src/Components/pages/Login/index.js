@@ -197,11 +197,10 @@ class Login extends React.Component {
 												<Button
 													onClick={this.onSubmit}
 													onKeyPress={this.handleKeyPress}
-													color="danger"
 													type="submit"
 													value="Submit"
 													id="onSubmit-button"
-													className="btn-block z-depth-2 aButton"
+													className="btn-block z-depth-2"
 												>
 													Log in
 												</Button>

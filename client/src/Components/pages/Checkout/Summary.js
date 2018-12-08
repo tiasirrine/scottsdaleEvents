@@ -194,15 +194,15 @@ class Summary extends React.Component {
 									}
 								}}
 							>
-								<Button color="success" className="aButton" size="md">
+								<Button>
 									<i className="fa fa-arrow-left" aria-hidden="true" />
 									{'  '}
 									{'  '}
 									Back
 								</Button>
 							</Link>
-							<button
-								className="btn btn-unique"
+							<Button
+								color="unique"
 								disabled={!this.state.isActive || this.state.loading}
 								onClick={this.submitButton}
 							>
@@ -214,7 +214,7 @@ class Summary extends React.Component {
 								)}
 								{'  '}
 								<i className="fa fa-rocket" aria-hidden="true" />
-							</button>
+							</Button>
 						</form>
 					</Col>
 				</Row>
@@ -234,9 +234,7 @@ class Summary extends React.Component {
 					</ModalBody>
 					<ModalFooter>
 						<Link to={`/`}>
-							<Button className="aButton" onClick={this.toggle}>
-								Close
-							</Button>
+							<Button onClick={this.toggle}>Close</Button>
 						</Link>
 					</ModalFooter>
 				</Modal>

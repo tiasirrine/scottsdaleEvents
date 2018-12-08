@@ -71,56 +71,56 @@ class InventoryPage extends Component {
     }
   };
 
-  createCart = () => {
-    return (
-      <div className="d-flex justify-content-center">
-        <Link className="text-center" to={{ pathname: '/checkout/cart' }}>
-          {sessionStorage.getItem('cartTotal') && (
-            <Fa
-              icon="shopping-cart"
-              size="2x"
-              className="text-center inv-cart-sub"
-            >
-              {'          '}
-              {sessionStorage.getItem('cartTotal') &&
-                '$' + this.state.totalCost}
-            </Fa>
-          )}
-        </Link>
-      </div>
-    );
-  };
+	createCart = () => {
+		return (
+			<div className="d-flex justify-content-center">
+				<Link className="text-center" to={{ pathname: '/checkout/cart' }}>
+					{sessionStorage.getItem('cartTotal') && (
+						<Fa
+							icon="shopping-cart"
+							className="text-white text-center inv-cart-sub"
+						>
+							{'          '}
+							{sessionStorage.getItem('cartTotal') &&
+								'$' + this.state.totalCost}
+						</Fa>
+					)}
+				</Link>
+			</div>
+		);
+	};
 
   render() {
     const { categories, inventoryObj, subCategories } = this.props;
 
-    const categoryImgs =
-      categories && inventoryObj
-        ? categories.map(a => inventoryObj[a][0].url)
-        : null;
-    return (
-      <div className="d-lg-flex">
-        <Sidebar
-          {...this.props}
-          sidebarOpen={this.state.sidebarOpen}
-          subCategories={subCategories}
-        />
-        <Container fluid className="ml-270">
-          <div className="open-sidebar">
-            <i
-              onClick={this.openSidebarOverlay}
-              className="fa fa-bars"
-              style={{ fontSize: '24px', cursor: 'pointer' }}
-            />
-          </div>
-          <div className="inv-wrapper">
-            <CartValueContext.Provider
-              value={total => {
-                sessionStorage.setItem('cartTotal', total);
-                this.setState({ totalCost: total });
-              }}
-            >
-              <Navbar cartTotal={this.createCart()} />
+
+		const categoryImgs =
+			categories && inventoryObj
+				? categories.map(a => inventoryObj[a][0].url)
+				: null;
+		return (
+			<div className="d-lg-flex">
+				<Sidebar
+					{...this.props}
+					sidebarOpen={this.state.sidebarOpen}
+					subCategories={subCategories}
+				/>
+				<Container fluid className="ml-270">
+					<div className="open-sidebar">
+						<i
+							onClick={this.openSidebarOverlay}
+							className="fa fa-bars"
+							style={{ fontSize: '24px', cursor: 'pointer' }}
+						/>
+					</div>
+					<div className="inv-wrapper">
+						<CartValueContext.Provider
+							value={total => {
+								sessionStorage.setItem('cartTotal', total);
+								this.setState({ totalCost: total });
+							}}
+						>
+							<Navbar cartTotal={this.createCart()} />
 
               <Switch>
                 <Route

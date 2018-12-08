@@ -128,15 +128,8 @@ ul {
 	margin: 0 auto;
 }
 
-/* @media (max-width: 768px) {
-  .w-300 {
-    max-width: 285px;
-    margin: 0 auto;
-  }
-} */
-
 .inv-cart-sub {
-	color: whitesmoke;
+	font-size: 22px;
 }
 
 @media (min-width: 768px) {

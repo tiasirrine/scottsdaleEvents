@@ -330,7 +330,7 @@ class Cart extends Component {
 							state: { cartProps: this.state.activeCart }
 						}}
 					>
-						<Button color="success" className="aButton text-white">
+						<Button className="text-white">
 							Next
 							{'     '}
 							<i className="fa fa-arrow-right" aria-hidden="true" />
