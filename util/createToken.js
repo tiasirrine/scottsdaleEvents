@@ -9,4 +9,16 @@ const createToken = (data, expiresIn) => {
 	});
 };
 
-module.exports = createToken;
+const validateToken = token => {
+	return new Promise((resolve, reject) => {
+		jwt.verify(token, process.env.TOKEN_KEY, (err, { result }) => {
+			if (err) reject({ message: 'Unauthorized', status: 401 });
+			else {
+				if (result) resolve({ success: result.email });
+				else reject({ message: 'Unauthorized', status: 401 });
+			}
+		});
+	});
+};
+
+module.exports = { createToken, validateToken };

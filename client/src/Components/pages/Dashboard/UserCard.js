@@ -98,7 +98,7 @@ export default class UserCard extends Component {
 					error.message && error.message.includes('timeout')
 						? 'Connection timed out'
 						: error.response.data.message;
-				if (err.response.status === 401) {
+				if (err && err.response && err.response.status === 401) {
 					this.props.checkAuth(true);
 				} else {
 					this.timeout({ error: err });

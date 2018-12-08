@@ -1,32 +1,32 @@
 {
-	"name": "mern",
-	"version": "0.1.0",
-	"private": true,
-	"proxy": "http://localhost:3001/",
-	"dependencies": {
-		"axios": "^0.16.2",
-		"bootstrap": "^4.1.1",
-		"mdbreact": "^4.6.0",
-		"react": "^16.0.0",
-		"react-dom": "^16.0.0",
-		"react-images": "^0.5.19",
-		"react-photo-gallery": "^6.0.29",
-		"react-router-dom": "^4.3.1",
-		"react-scripts": "1.0.14",
-		"react-sidebar": "^3.0.2"
-	},
-	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test --env=jsdom",
-		"eject": "react-scripts eject",
-		"purecss": "purifycss build/static/css/*.css build/static/js/*.js --min --out build/static/css/build.css"
-	},
-	"prettier": {
-		"printWIdth": 100,
-
-		"singleQuote": true,
-		"semi": true,
-		"bracketSpacing": true
-	}
+  "name": "mern",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://localhost:3001/",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "bootstrap": "^4.1.1",
+    "mdbreact": "^4.6.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-images": "^0.5.19",
+    "react-photo-gallery": "^6.0.29",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "1.0.14",
+    "react-sidebar": "^3.0.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "purecss": "purifycss build/static/css/*.css build/static/js/*.js --min --out build/static/css/build.css"
+  },
+  "prettier": {
+    "printWIdth": 100,
+    "useTabs": true,
+    "singleQuote": true,
+    "semi": true,
+    "bracketSpacing": true
+  }
 }

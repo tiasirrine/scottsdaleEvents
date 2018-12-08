@@ -9,6 +9,7 @@ const passport = require('passport');
 const Dropbox = require('dropbox').Dropbox;
 const dbx = new Dropbox({ accessToken: process.env.DROPBOX });
 const date = require('../util/getDate');
+const { createToken, validateToken } = require('../util/createToken');
 
 // secures admin routes
 const authAdmin = () => passport.authenticate('auth-admin', { session: false });
@@ -22,36 +23,19 @@ const generalAuth = () =>
 	passport.authenticate('general-auth', { session: false });
 
 // creates a new customer
-router.post('/create/customer', authAdmin(), (req, res, next) => {
-	user
-		.createCustomer(req.body)
-		.then(result => {
-			delete result.dataValues.password;
-			jwt.sign(
-				{ result, resetToken: true },
-				process.env.TOKEN_KEY,
-				{ expiresIn: '1h' },
-				(err, token) => {
-					if (err) next(err);
-					mailer(
-						// set to req.body.email
-						req.body.email,
-						'Scottsdale Event Decor Login',
-						'welcomeEmail',
-						{ token, result: req.body },
-						(error, success) => {
-							if (error) next(error);
-							if (success) {
-								res.send({
-									success: 'New customer created successfully'
-								});
-							}
-						}
-					);
-				}
-			);
-		})
-		.catch(next);
+router.post('/create/customer', authAdmin(), async ({ body }, res, next) => {
+	try {
+		const result = await user.createCustomer(body);
+		delete result.dataValues.password;
+		const token = await createToken({ result, resetToken: true }, '1h');
+		await mailer(body.email, 'Scottsdale Event Decor Login', 'welcomeEmail', {
+			token,
+			result: body
+		});
+		res.send({ success: 'New customer created successfully' });
+	} catch (e) {
+		next(e);
+	}
 });
 
 // creates a new admin
@@ -142,7 +126,7 @@ router.post('/update/qty', authCustomer(), (req, res, next) => {
 });
 
 // updates any customer
-router.post('/update/customer', authCustomer(), (req, res, next) => {
+router.post('/update/customer', generalAuth(), (req, res, next) => {
 	user
 		.updateCustomer(req.body)
 		.then(() => {
@@ -342,161 +326,92 @@ router.post('/save/product', authCustomer(), (req, res, next) => {
 });
 
 // authentictes a customer and sets a token
-router.post('/auth/customer', (req, res, next) => {
+router.post('/auth/customer', async (req, res, next) => {
 	const { email, password } = req.body;
-	user
-		.getCustomer(email, password)
-		.then(result => {
-			jwt.sign(
-				{ result },
-				process.env.TOKEN_KEY,
-				{ expiresIn: '1w' },
-				(err, token) => {
-					if (err) next(err);
-					const userId = result.id;
-					user
-						.getCarts(userId)
-						.then(() => {
-							user
-								.getCarts(result.id)
-								.then(cart => {
-									result.cartTotal = 0;
-									cart[0].CartProducts.forEach(item => {
-										result.cartTotal += item.Product.price * item.qty;
-									});
-									res.send({ token, user: result });
-								})
-								.catch(next);
-						})
-						.catch(next);
-				}
-			);
-		})
-		.catch(next);
+
+	try {
+		const result = await user.getCustomer(email, password);
+		const token = await createToken({ result }, '1w');
+		const carts = await user.getCarts(result.id);
+		result.cartTotal = 0;
+		carts[0].CartProducts.forEach(({ Product, qty }) => {
+			result.cartTotal += Product.price * qty;
+		});
+		res.send({ token, user: result });
+	} catch (e) {
+		next(e);
+	}
 });
 
 // authentictes an admin and sets a token
-router.post('/auth/admin', (req, res, next) => {
+router.post('/auth/admin', async (req, res, next) => {
 	const { email, password } = req.body;
-	user
-		.getAdmin(email, password)
-		.then(result => {
-			jwt.sign(
-				{ result },
-				process.env.TOKEN_KEY,
-				{ expiresIn: '1w' },
-				(err, token) => {
-					if (err) next(err);
-					res.send({ token, user: result });
-				}
-			);
-		})
-		.catch(next);
+	try {
+		const result = await user.getAdmin(email, password);
+		const token = await createToken({ result }, '1w');
+		res.send({ token, user: result });
+	} catch (e) {
+		next(e);
+	}
 });
 
 router.get('/auth/token', generalAuth(), (req, res) => {
 	res.status(200).json({ isAdmin: req.user.isAdmin });
 });
 
-router.post('/auth/reset', (req, res, next) => {
+router.post('/auth/reset', async (req, res, next) => {
 	const { token } = req.body;
-	jwt.verify(token, process.env.TOKEN_KEY, (err, decoded) => {
-		if (err) {
-			next({ message: 'Unauthorized', status: 401 });
-		} else {
-			if (decoded.resetToken) {
-				res.send({ success: decoded.result.email });
-			} else {
-				next({ message: 'Unauthorized', status: 401 });
-			}
-		}
-	});
+	try {
+		const decoded = await validateToken(token);
+		res.send(decoded);
+	} catch (e) {
+		next(e);
+	}
 });
 
 // contact form email
-router.post('/send/info', (req, res, next) => {
-	const m = req.body;
-	mailer(
-		m.email,
-		'Information Request',
-		'confirmationEmail',
-		m,
-		(error, success) => {
-			if (error) {
-				next(error);
-			}
-			if (success) {
-				mailer(
-					'bob.omeara@scottsdaleeventdecor.com',
-					'Scottsdale Event Decor Confirmation Email',
-					'contactEmailForSED',
-					m,
-					(error, success) => {
-						if (error) {
-							next(error);
-						}
-						if (success) {
-							res.send({ success: true });
-						}
-					}
-				);
-			}
-		}
-	);
+router.post('/send/info', async ({ body }, res, next) => {
+	const { email } = body;
+	try {
+		await mailer(email, 'Information Request', 'confirmationEmail', body);
+		await mailer(
+			'bob.omeara@scottsdaleeventdecor.com',
+			'Scottsdale Event Decor Confirmation Email',
+			'contactEmailForSED',
+			body
+		);
+		res.send({ success: true });
+	} catch (e) {
+		next(e);
+	}
 });
 
-router.post('/send/reset', (req, res, next) => {
+router.post('/send/reset', async (req, res, next) => {
 	const { email, route } = req.body;
-	user
-		.resetPasswordFindUser(email, route)
-		.then(result => {
-			jwt.sign(
-				{ result, resetToken: true },
-				process.env.TOKEN_KEY,
-				{ expiresIn: '1h' },
-				(err, token) => {
-					if (err) next(err);
-					mailer(
-						email,
-						'Reset Password',
-						'resetEmail',
-						{ token, firstName: result.firstName },
-						(error, success) => {
-							if (error) {
-								next(error);
-							}
-							if (success) {
-								res.send({
-									success: 'We have sent an email to reset your password'
-								});
-							}
-						}
-					);
-				}
-			);
-		})
-		.catch(next);
+	try {
+		const result = await user.resetPasswordFindUser(email, route);
+		const token = await createToken({ result }, '1h');
+		await mailer(email, 'Reset Password', 'resetEmail', {
+			token,
+			firstName: result.firstName
+		});
+		res.send({
+			success: 'We have sent an email to reset your password'
+		});
+	} catch (e) {
+		next(e);
+	}
 });
 
-router.post('/reset/password', (req, res, next) => {
+router.post('/reset/password', async (req, res, next) => {
 	const { token, password } = req.body;
-	jwt.verify(token, process.env.TOKEN_KEY, (err, decoded) => {
-		if (err) {
-			next({ message: 'Unauthorized', status: 401 });
-		} else {
-			if (decoded.resetToken) {
-				const { id, isAdmin } = decoded.result;
-				user
-					.resetPassword(id, isAdmin, password)
-					.then(() => {
-						res.send({ success: true, isAdmin });
-					})
-					.catch(next);
-			} else {
-				next({ message: 'Unauthorized', status: 401 });
-			}
-		}
-	});
+	try {
+		const { id, isAdmin } = await validateToken(token);
+		await user.resetPassword(id, isAdmin, password);
+		res.send({ success: true, isAdmin });
+	} catch (e) {
+		next({ message: 'Unauthorized', status: 401 });
+	}
 });
 
 router.post('/copy/cart', (req, res, next) => {

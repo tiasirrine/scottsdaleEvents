@@ -41,6 +41,7 @@ export default class Nav extends Component {
   checkLogIn = () => (sessionStorage.getItem('token') ? true : false);
 
   render() {
+    console.log('PROPS:', this.props);
     const { href } = window.location;
     if (
       href.includes('/admin') ||
@@ -57,7 +58,7 @@ export default class Nav extends Component {
               Scottsdale Event Dècor
             </Link>
           </div>
-          <div>{this.props.carttotal}</div>
+          <div>{this.props.cartTotal}</div>
           <div>
             <NavbarNav right>
               <NavItem>
@@ -79,7 +80,8 @@ export default class Nav extends Component {
               </NavItem>
               <NavItem>
                 <NavLink
-                  className={`${this.state.active === '/gallery' && 'activeTab'}`}
+                  className={`${this.state.active === '/gallery' &&
+                    'activeTab'}`}
                   to="/gallery"
                 >
                   <span>Gallery</span>
@@ -87,7 +89,8 @@ export default class Nav extends Component {
               </NavItem>
               <NavItem>
                 <NavLink
-                  className={`${this.state.active === '/contact' && 'activeTab'}`}
+                  className={`${this.state.active === '/contact' &&
+                    'activeTab'}`}
                   to="/contact"
                 >
                   <span>Contact Us</span>
@@ -104,7 +107,8 @@ export default class Nav extends Component {
               {!this.checkLogIn() && (
                 <NavItem>
                   <NavLink
-                    className={`${this.state.active === '/login' && 'activeTab'}`}
+                    className={`${this.state.active === '/login' &&
+                      'activeTab'}`}
                     to="/login"
                   >
                     <span>Login</span>
@@ -129,7 +133,10 @@ export default class Nav extends Component {
                         <DropdownItem>
                           <Link to="/carts">
                             {' '}
-                            <i className="fa fa-shopping-cart" aria-hidden="true" />
+                            <i
+                              className="fa fa-shopping-cart"
+                              aria-hidden="true"
+                            />
                             {'  '}
                             My Carts
                           </Link>
@@ -137,7 +144,10 @@ export default class Nav extends Component {
                         <DropdownItem>
                           <Link to="/estimates">
                             {' '}
-                            <i className="fa fa-pencil-square" aria-hidden="true" />
+                            <i
+                              className="fa fa-pencil-square"
+                              aria-hidden="true"
+                            />
                             {'  '}
                             Past Estimates
                           </Link>
