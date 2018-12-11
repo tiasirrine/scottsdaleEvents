@@ -123,12 +123,7 @@ class App extends Component {
 							<PrivateRoute path="/dashboard" component={Dashboard} />
 							<PrivateRoute path="/profile" component={Profile} />
 							<PrivateRoute path="/carts" component={Carts} />
-							<PrivateRoute exact path="/estimates" component={Estimates} />
-							<PrivateRoute
-								exact
-								path="/estimates/:id"
-								component={ViewEstimate}
-							/>
+							<PrivateRoute path="/estimates" component={Estimates} />
 							<PrivateReset exact path="/reset/:token" />
 							<Route component={Home} />
 						</Switch>
