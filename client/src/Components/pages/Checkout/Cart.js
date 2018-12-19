@@ -297,15 +297,21 @@ class Cart extends Component {
 							).toFixed(2)}
 						</div>
 						<div className="text-right est-sub">
-							Taxes(8.1%): {'   '}$
-							{parseFloat(
-								Math.round(activeCart.sum('total') * 0.081 * 100) / 100
-							).toFixed(2)}
-						</div>
-						<div className="text-right est-sub">
 							{' '}
 							Trucking: {'   '}$
 							{parseFloat(Math.round(285 * 100) / 100).toFixed(2)}
+						</div>
+						<div className="text-right est-sub">
+							Taxes(8.1%): {'   '}$
+							{parseFloat(
+								Math.round(
+									(activeCart.sum('total') +
+										activeCart.sum('total') * 0.15 +
+										285) *
+										0.081 *
+										100
+								) / 100
+							).toFixed(2)}
 						</div>
 						<div className="text-right est-sub2">
 							______________________________
@@ -316,7 +322,10 @@ class Cart extends Component {
 								Math.round(
 									(activeCart.sum('total') +
 										activeCart.sum('total') * 0.15 +
-										activeCart.sum('total') * 0.081 +
+										(activeCart.sum('total') +
+											activeCart.sum('total') * 0.15 +
+											285) *
+											0.081 +
 										285) *
 										100
 								) / 100
@@ -330,7 +339,7 @@ class Cart extends Component {
 							state: { cartProps: this.state.activeCart }
 						}}
 					>
-						<Button className="text-white">
+						<Button className="text-white button-color">
 							Next
 							{'     '}
 							<i className="fa fa-arrow-right" aria-hidden="true" />

@@ -89,6 +89,7 @@ class InventoryCard extends React.Component {
 			onClick={e => this.handleFormSubmit(e, maxQty, func)}
 			data-id={dataId}
 			data-maxqty={maxQty}
+			className="button-color"
 		>
 			{' '}
 			Add To Cart
@@ -160,7 +161,7 @@ class InventoryCard extends React.Component {
 							state: { inventoryProps: product }
 						}}
 					>
-						<Button> More Info</Button>
+						<Button className="button-color"> More Info</Button>
 					</Link>
 				</div>
 			</div>

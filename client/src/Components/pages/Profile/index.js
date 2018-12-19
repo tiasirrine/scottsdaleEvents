@@ -94,7 +94,7 @@ export default class Profile extends Component {
 									onChange={this.handleInputChange}
 									icon="key"
 								/>
-								<Button onClick={this.updatePassword}>
+								<Button onClick={this.updatePassword} className="button-color">
 									Submit
 									{'  '}
 									<i className="fa fa-rocket" aria-hidden="true" />

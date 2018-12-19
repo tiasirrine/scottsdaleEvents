@@ -164,7 +164,7 @@ class EventForm extends Component {
 												</div>
 												<Input
 													value={this.state.venue}
-													label="Venue  (required)"
+													label="Resort  (required)"
 													name="venue"
 													icon="building"
 													onChange={this.handleChange}
@@ -297,7 +297,11 @@ class EventForm extends Component {
 							</Row>
 
 							<div className="text-center py-4 mt-3">
-								<Button size="md" onClick={this.toggle}>
+								<Button
+									size="md"
+									onClick={this.toggle}
+									className="button-color"
+								>
 									Will Call Order
 								</Button>
 								<Collapse isOpen={this.state.collapse}>
@@ -370,7 +374,7 @@ class EventForm extends Component {
 									</div>
 								</Collapse>
 								<Link to="/checkout/cart">
-									<Button size="md">
+									<Button size="md" className="button-color">
 										{' '}
 										<i className="fa fa-arrow-left" aria-hidden="true" />
 										{'  '}
@@ -382,6 +386,7 @@ class EventForm extends Component {
 									size="md"
 									name="event-form-submit"
 									onClick={this.submitHandler}
+									className="button-color"
 								>
 									Go to Summary
 									{'  '}

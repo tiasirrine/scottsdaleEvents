@@ -213,7 +213,9 @@ class ContactPage extends Component {
 					<ModalHeader toggle={this.toggle}>Thank you!</ModalHeader>
 					<ModalBody>Thank you! We will be contacting you soon.</ModalBody>
 					<ModalFooter>
-						<Button onClick={this.toggle}>Close</Button>
+						<Button onClick={this.toggle} className="button-color">
+							Close
+						</Button>
 					</ModalFooter>
 				</Modal>
 			</Container>

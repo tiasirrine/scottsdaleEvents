@@ -94,21 +94,24 @@ export default class UserCart extends Component {
 									state: { viewCart: [this.cart()] }
 								}}
 							>
-								<Button size="md" className="text-white w-100 mx-0">
+								<Button
+									size="md"
+									className="text-white w-100 mx-0 button-color"
+								>
 									View
 								</Button>
 							</Link>
 							<Button
 								onClick={() => this.props.setActiveCart(this.props.index)}
 								size="md"
-								className="text-white w-100 mx-0"
+								className="text-white w-100 mx-0 button-color"
 							>
 								Set Active Cart
 							</Button>
 							<Button
 								onClick={this.nameBtnClick}
 								size="md"
-								className="text-white w-100 mx-0"
+								className="text-white w-100 mx-0 button-color"
 							>
 								{this.state.changeName ? 'Save' : 'Change Name'}
 							</Button>
@@ -117,7 +120,7 @@ export default class UserCart extends Component {
 									onClick={() =>
 										this.props.deleteCart(this.cartId(), this.index)
 									}
-									className="text-white w-100 mx-0"
+									className="text-white w-100 mx-0 button-color"
 									size="md"
 								>
 									{' '}

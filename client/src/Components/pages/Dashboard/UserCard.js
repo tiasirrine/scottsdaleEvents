@@ -126,7 +126,9 @@ export default class UserCard extends Component {
 						<Button onClick={this.modifyClick}>
 							{!this.state.modify ? 'Modify' : 'Hide'}
 						</Button>
-						<Button onClick={this.firstDeleteClick}>Delete</Button>
+						<Button onClick={this.firstDeleteClick} className="button-color">
+							Delete
+						</Button>
 						{this.state.confirmDelete && (
 							<p>
 								Are you sure?{' '}

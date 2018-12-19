@@ -7,6 +7,10 @@ body {
 	background-color: white;
 }
 
+.button-color {
+	background-color: #3e4551 !important;
+}
+
 a {
 	color: black;
 }

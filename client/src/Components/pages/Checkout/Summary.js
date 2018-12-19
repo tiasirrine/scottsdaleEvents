@@ -194,7 +194,7 @@ class Summary extends React.Component {
 									}
 								}}
 							>
-								<Button>
+								<Button className=" button-color">
 									<i className="fa fa-arrow-left" aria-hidden="true" />
 									{'  '}
 									{'  '}
@@ -234,7 +234,9 @@ class Summary extends React.Component {
 					</ModalBody>
 					<ModalFooter>
 						<Link to={`/`}>
-							<Button onClick={this.toggle}>Close</Button>
+							<Button onClick={this.toggle} className="button-color">
+								Close
+							</Button>
 						</Link>
 					</ModalFooter>
 				</Modal>

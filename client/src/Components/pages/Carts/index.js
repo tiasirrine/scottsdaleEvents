@@ -114,7 +114,7 @@ export default class Carts extends Component {
 							</p>
 						</div>
 						<div className="col-lg-6 text-center text-lg-right">
-							<Button onClick={this.createCart}>
+							<Button onClick={this.createCart} className="button-color">
 								Create Cart
 								{'  '}
 								<i className="fa fa-wrench" aria-hidden="true" />

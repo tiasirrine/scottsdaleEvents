@@ -36,7 +36,10 @@ export default class EstimateCard extends Component {
 									}
 								}}
 							>
-								<Button size="md" className="text-white w-100 mx-0">
+								<Button
+									size="md"
+									className="text-white w-100 mx-0 button-color"
+								>
 									View
 								</Button>
 							</Link>
