@@ -5,7 +5,7 @@
 	"proxy": "http://localhost:3001/",
 	"dependencies": {
 		"axios": "^0.18.0",
-		"mdbreact": "^4.8.4",
+		"mdbreact": "^4.6.0",
 		"prop-types": "^15.6.2",
 		"react": "^16.6.3",
 		"react-dom": "^16.6.3",
