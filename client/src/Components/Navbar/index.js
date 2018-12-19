@@ -51,14 +51,7 @@ export default class Nav extends Component {
 		}
 
 		return (
-			<Navbar
-				className="nav-flex"
-				color="stylish-color"
-				dark
-				expand="xs"
-				fixed="top"
-				scrolling
-			>
+			<Navbar color="stylish-color" dark expand="xs" fixed="top" scrolling>
 				<Container className="nav-flex">
 					<div>
 						<Link className="text-white navbar-brand" to="/">
